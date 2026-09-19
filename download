@@ -1,8 +1,5 @@
-.git
-.github
 .env
-node_modules
-data/db.json.tmp
 data/uploads/*
 !data/uploads/.gitkeep
-*.zip
+.DS_Store
+npm-debug.log*
