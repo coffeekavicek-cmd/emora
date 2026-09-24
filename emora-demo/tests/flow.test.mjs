@@ -36,3 +36,16 @@ test('editor, uploads, three story routes and recipient choices',async()=>{
   }
  }finally{server.kill();await rm(data,{recursive:true,force:true})}
 });
+
+test('public Railway demo redirects safely and rejects private writes',async()=>{
+ const data=await mkdtemp(path.join(tmpdir(),'emora-demo-test-')),port=await openPort(),origin=`http://127.0.0.1:${port}`;
+ const server=spawn(process.execPath,['server.mjs'],{cwd:process.cwd(),env:{...process.env,PORT:String(port),DATA_DIR:data,EMORA_DEMO_ONLY:'1',NODE_ENV:'production'},stdio:'ignore'});
+ try{
+  for(let i=0;i<70;i++){try{if((await fetch(origin+'/health')).ok)break}catch{}await new Promise(r=>setTimeout(r,40))}
+  const root=await fetch(origin+'/',{redirect:'manual'});assert.equal(root.status,302);assert.equal(root.headers.get('location'),'/demo/');
+  assert.equal((await fetch(origin+'/demo/')).status,200);
+  assert.equal((await fetch(origin+'/demo/demo.js')).status,200);
+  assert.equal((await fetch(origin+'/demo/video/proposal.mp4')).status,200);
+  const blocked=await fetch(origin+'/api/stories',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});assert.equal(blocked.status,403);
+ }finally{server.kill();await rm(data,{recursive:true,force:true})}
+});

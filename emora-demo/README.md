@@ -47,3 +47,7 @@ Sirli so‘z boshqa odamdan himoyalovchi login emas: URL va laqabni bilgan kishi
 - `tests/`: API sinovi.
 
 Shaxsiy media faqat sizning serveringizdagi `data` ga yoziladi. Bir hikoya media faylini 64 MB gacha qabul qiladi, surat 8 MB va audio 20 MB gacha. Disk joyi va zaxira nusxasini hostingda sozlang.
+
+## Railway demo
+
+Railway servisi uchun GitHub repo `coffeekavicek-cmd/emora`, branch `emora-interactive-demo`, root directory `/emora-demo`. Start command `npm start`, healthcheck `/health`. `EMORA_DEMO_ONLY=1` o‘rnating: `/` demoga o‘tadi va foto yuklash, hikoya yaratish hamda javob yozish API'lari yopiladi. Demo namunaviy mediadan foydalanadi va doimiy disk talab qilmaydi.
