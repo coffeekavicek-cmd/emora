@@ -1,5 +1,6 @@
-**
-!Dockerfile
-!v4-release/
-!v4-release/chunks/
-!v4-release/chunks/**
+node_modules
+.git
+*.zip
+*.br
+*.mp3
+*.mp4
