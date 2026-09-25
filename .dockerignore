@@ -1,6 +1,6 @@
-node_modules
-.git
-*.zip
-*.br
-*.mp3
-*.mp4
+**
+!Dockerfile
+!v4-live/
+!v4-live/package.json
+!v4-live/server.mjs
+!v4-live/index.html
