@@ -1,6 +1,6 @@
 **
 !Dockerfile
-!v4-live/
-!v4-live/package.json
-!v4-live/server.mjs
-!v4-live/index.html
+!v5-live/
+!v5-live/package.json
+!v5-live/server.mjs
+!v5-live/index.html
