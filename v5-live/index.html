@@ -17,6 +17,29 @@
 .dashboard{padding:70px 0}.project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}.project-card{border:1px solid var(--line);border-radius:20px;background:#fff;padding:18px}.project-card h4{font:400 24px var(--serif);margin:6px 0}.project-card small{color:var(--rose);font-size:9px;letter-spacing:.14em}.project-card p{font-size:12px;color:var(--sage)}.project-card button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 12px;font-size:11px}
 .account-modal,.template-modal{position:fixed;inset:0;background:#2d221f88;z-index:100;display:grid;place-items:center;padding:18px}.account-box{width:min(470px,100%);background:var(--paper);border-radius:28px;padding:28px;box-shadow:0 30px 100px #261a1744}.account-box h3{font:400 38px var(--serif);margin:0 0 8px}.account-box p{color:var(--sage);font-size:13px;line-height:1.6}.modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.auth-tabs{display:flex;gap:7px;margin:16px 0}.auth-tabs button{flex:1;border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px}.auth-tabs button.active{background:var(--ink);color:#fff}.template-box{width:min(1050px,96vw);height:min(780px,92vh);background:#fff;border-radius:32px;overflow:hidden;display:grid;grid-template-columns:1.1fr .9fr;box-shadow:0 30px 100px #24191755}.template-visual{position:relative;background:#ddd center/cover}.template-visual:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 25%,#1e121477)}.template-info{padding:38px;display:flex;flex-direction:column}.template-info h3{font:400 50px/.96 var(--serif);margin:12px 0}.template-info p{color:var(--sage);line-height:1.7}.template-features{display:grid;gap:9px;margin:22px 0}.template-features div{padding:11px 13px;border-radius:12px;background:var(--ivory);font-size:12px}.template-info .spacer{flex:1}.public-wrap{min-height:100svh;display:grid;place-items:center;padding:28px;background:linear-gradient(#fffaf7,#fffefb)}.public-card{width:min(440px,100%);min-height:760px;border:1px solid var(--line);border-radius:42px;background:#fff;box-shadow:0 35px 100px #715d5120;overflow:hidden}.public-cover{height:310px;background:#ddd center/cover}.public-inner{padding:28px;text-align:center}.public-brand{font:400 36px var(--serif);margin-bottom:20px}.public-inner h1{font:400 54px/.95 var(--serif);margin:30px 0 18px}.public-inner h1 em{color:var(--rose);font-weight:400}.rsvp-box{margin-top:30px;border-top:1px solid var(--line);padding-top:24px;text-align:left}.rsvp-box h3{font:400 28px var(--serif);margin:0 0 8px}.rsvp-actions{display:flex;gap:8px;flex-wrap:wrap}.rsvp-actions button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 15px}.rsvp-actions button.active{background:var(--ink);color:#fff}.footer{padding:46px 0 60px;color:var(--sage);font-size:12px}.footer .shell{display:flex;justify-content:space-between;gap:25px}
 @media(max-width:1050px){.nav{display:none}.hero{grid-template-columns:1fr}.hero-art{height:520px}.cards{grid-template-columns:1fr 1fr}.studio-grid{grid-template-columns:1fr}.project-grid{grid-template-columns:1fr 1fr}.template-box{grid-template-columns:1fr;height:auto;max-height:94vh;overflow:auto}.template-visual{height:420px}.preview-zone{min-height:650px}.phone{transform:scale(.86)}}@media(max-width:640px){.shell{width:min(100% - 28px,1360px)}.top{height:72px}.brand{font-size:42px}.user-chip{display:none}.top .pill{display:none}.hero h1{font-size:58px}.hero-copy{font-size:16px}.actions{flex-direction:column}.hero-art{height:430px}.note{width:220px;right:-2%;padding:17px}.metrics{flex-wrap:wrap}.cards,.project-grid{grid-template-columns:1fr}.section{padding:62px 0}.panel{padding:20px}.phone{transform:scale(.8)}.toolbar,.panel-row,.modal-actions{grid-template-columns:1fr}.footer .shell{flex-direction:column}.template-visual{height:310px}.template-info{padding:25px}.template-info h3{font-size:40px}}
+
+/* V7 — complete cinematic previews, self-contained story engines */
+.card{overflow:hidden}.card .card-art{height:242px;background-size:cover;background-position:center}
+.template-box.live-template{width:min(1280px,calc(100vw - 26px));height:min(890px,calc(100svh - 24px));max-height:none;grid-template-columns:minmax(0,1fr) 334px}
+.live-stage{min-width:0;min-height:0;background:radial-gradient(circle at 50% 24%,#fff,#f1ebe4);display:flex;flex-direction:column;align-items:center;padding:18px;gap:12px}
+.live-controls{width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:11px;color:var(--sage)}
+.live-controls button,.live-controls a{font-size:11px;padding:9px 12px;border:1px solid #d9cec3;background:#fff;border-radius:999px;color:var(--ink);text-decoration:none}
+.live-view{height:calc(100% - 50px);min-height:0;width:100%;max-width:930px;transition:width .45s cubic-bezier(.2,.9,.2,1);background:white;border:1px solid #e0d5ca;box-shadow:0 25px 65px #5c443c25;border-radius:24px;overflow:hidden}
+.live-view.mobile{width:min(100%,410px);border:7px solid #25201f;border-radius:39px;box-shadow:0 30px 70px #54413b35}
+.live-view iframe,.phone iframe,.published-shell>iframe{width:100%;height:100%;border:0;background:#fff}
+.live-view.mobile iframe{border-radius:30px}
+#studioIframe{border-radius:32px;display:block}
+.studio-iframe-hint{color:var(--sage);font-size:12px;text-align:center;margin-top:-8px;max-width:510px;line-height:1.6}
+.published-shell{position:fixed;inset:0;overflow:hidden;background:#fff}
+.published-shell>iframe{display:block}
+.public-guest-float{position:fixed;bottom:24px;right:24px;z-index:99;width:min(370px,calc(100vw - 24px));max-height:min(600px,85svh);overflow:auto;background:var(--paper);padding:22px;border:1px solid var(--line);border-radius:24px;box-shadow:0 24px 90px #2117174c}
+.public-guest-float .rsvp-box{margin:0;padding:0;border:0}
+.public-guest-float .field{margin:8px 0}
+.story-mode{padding:8px 18px;margin-bottom:12px;border-radius:14px;background:var(--ivory);font-size:11px;color:var(--sage);line-height:1.5}
+#previewLabel{font-size:10px;color:var(--rose);letter-spacing:.13em;font-weight:800;margin-bottom:8px}
+@media(max-width:980px){.template-box.live-template{grid-template-columns:minmax(0,1fr) 290px}}
+@media(max-width:740px){.template-box.live-template{display:flex;flex-direction:column;height:min(96svh,940px);overflow-y:auto}.live-stage{min-height:560px;height:65svh;flex:0 0 auto}.live-view{width:min(100%,410px)}.template-box.live-template .template-info{padding:22px;flex:0 0 auto}.template-box.live-template .template-info h3{font-size:34px}.published-shell .public-guest-float{bottom:10px;right:10px}}
+@media(prefers-reduced-motion:reduce){.live-view,.card{transition:none!important}}
 </style>
 </head>
 <body>
@@ -31,27 +54,55 @@
 <div class="field"><label>SHABLON</label><select id="type"></select></div>
 <div class="panel-row"><div class="field"><label>BIRINCHI ISM</label><input id="name1" value="Aziza"></div><div class="field" id="name2Field"><label>IKKINCHI ISM</label><input id="name2" value="Jasur"></div></div>
 <div class="field"><label>ASOSIY MATN</label><input id="headline" value="Senga aytolmagan bir gapim bor."></div>
+<div class="field"><label>MAKTUB / ASOSIY HIKOYA</label><textarea id="letter" rows="4" placeholder="Yuragingizdagi eng muhim gapni yozing..."></textarea></div>
+<div id="weddingExtra" class="hidden"><div class="field"><label>TO‘Y MANZILI</label><input id="venue" value="The Garden, Toshkent" placeholder="To‘yxona nomi"></div>
+<div class="field"><label>GOOGLE MAPS HAVOLA</label><input id="venueMap" placeholder="https://maps.google.com/..."></div></div>
 <div class="field" id="dateField"><label>SANA</label><input id="date" type="date" value="2027-06-25"></div>
 <div class="field"><label>PUBLIC LINK NOMI</label><input id="slug" placeholder="aziza-va-jasur"></div>
 <div class="toolbar"><button class="save" id="saveBtn">Draftni saqlash</button><button class="publish" id="publishBtn">Publish ↗</button></div>
 <div class="status" id="status"></div>
 <div class="guest-box hidden" id="guestBox"><div class="eyebrow">WEDDING GUEST LINKS</div><div class="panel-row"><div class="field"><label>MEHMON ISMI</label><input id="guestName" placeholder="Dilshod"></div><div class="field"><label>ODAMLAR SONI</label><input id="guestParty" type="number" min="1" max="20" value="1"></div></div><button class="outline" style="width:100%" id="guestBtn">Mehmon havolasini yaratish</button><div class="guest-list" id="guestList"></div></div>
 </div>
-<div class="preview-zone"><div class="phone"><div class="screen love-screen" id="screen"><div class="screen-head"><b>emora</b><small id="edition">LOVE CINEMA</small></div><div class="scene" id="scene"></div></div></div></div></div></section>
+<div class="preview-zone"><div id="previewLabel">FULL INTERACTIVE EXPERIENCE / 6 SAHNA</div>
+ <div class="phone"><iframe id="studioIframe" title="Tahrirlanayotgan premium shablon" src="/templates/love-rose.html?editor=1" allow="autoplay"></iframe></div>
+ <div class="studio-iframe-hint">Ism, sana yoki matnni o‘zgartiring. Animatsiyalar va sahnalar telefon ichida to‘liq ishlaydi. Musiqa faqat bosilganda boshlanadi.</div>
+ </div></div></section>
 
 <section id="dashboard" class="dashboard"><div class="shell"><div class="section-head"><h2>Loyihalarim.</h2><p>Akkauntga kirgandan keyin draft va nashr qilingan hikoyalaringiz shu yerda ko‘rinadi.</p></div><div id="projectGrid" class="project-grid"><div class="project-card"><small>ACCOUNT REQUIRED</small><h4>Hali kirmagansiz</h4><p>Kirish tugmasi orqali akkauntga kiring.</p></div></div></div></section>
 </main>
 <footer class="footer"><div class="shell"><strong>emora · Signature Studio</strong><span>Photo sources: Wikimedia Commons / CC0 Unsplash archives · Click/Payme keyin</span></div></footer>
 </div>
 
-<div id="publicApp" class="public-wrap hidden"><div class="public-card"><div id="publicCover" class="public-cover"></div><div class="public-inner"><div class="public-brand">emora</div><div class="eyebrow" id="publicEdition">PERSONAL EXPERIENCE</div><h1 id="publicTitle"></h1><p id="publicCopy"></p><div id="publicMeta"></div><div class="rsvp-box hidden" id="rsvpBox"><h3 id="guestGreeting">Siz kelasizmi?</h3><p>Javobingiz mezbonlarga darhol yetib boradi.</p><div class="rsvp-actions"><button data-answer="yes">Ha</button><button data-answer="maybe">Balki</button><button data-answer="no">Yo‘q</button></div><div class="field"><label>NECHA KISHI</label><input id="rsvpCount" type="number" min="0" max="20" value="1"></div><div class="field"><label>TILAK</label><textarea id="rsvpMessage" placeholder="Qisqa tilak yozing..."></textarea></div><button class="pill" id="rsvpSubmit">Javobni yuborish</button><div class="status" id="rsvpStatus"></div></div></div></div></div>
+<div id="publicApp" class="published-shell hidden">
+ <iframe id="publicIframe" title="EMORA — shaxsiy hikoya" allow="autoplay"></iframe>
+ <aside id="publicGuestFloat" class="public-guest-float hidden">
+ <div class="story-mode">EMORA · Ismingiz bilan taklifnoma</div>
+ <div class="rsvp-box hidden" id="rsvpBox"><h3 id="guestGreeting">Siz kelasizmi?</h3><p>Javobingiz mezbonlarga yetib boradi.</p>
+ <div class="rsvp-actions"><button data-answer="yes">Ha</button><button data-answer="maybe">Balki</button><button data-answer="no">Yo‘q</button></div>
+ <div class="field"><label>NECHA KISHI</label><input id="rsvpCount" type="number" min="0" max="20" value="1"></div>
+ <div class="field"><label>TILAK</label><textarea id="rsvpMessage" placeholder="Qisqa tilak yozing..."></textarea></div>
+ <button class="pill" id="rsvpSubmit">Javobni yuborish</button><div class="status" id="rsvpStatus"></div></div>
+ </aside><div class="hidden"><span id="publicEdition"></span><h1 id="publicTitle"></h1><p id="publicCopy"></p><div id="publicMeta"></div><div id="publicCover"></div></div>
+ </div>
 
 <div class="account-modal hidden" id="accountModal"><div class="account-box"><div class="eyebrow">EMORA ACCOUNT</div><h3>Kirish / ro‘yxatdan o‘tish</h3><p id="authHelp">Email tasdiqlash yoqilgan. Ro‘yxatdan o‘tgandan keyin kelgan xatdagi linkni bir marta bosing, so‘ng shu saytga qaytib kiring.</p><div class="auth-tabs"><button class="active" data-tab="password">Parol bilan</button><button data-tab="magic">Magic link</button></div>
 <div id="passwordPane"><div class="field"><label>EMAIL</label><input id="authEmail" type="email" placeholder="email@example.com"></div><div class="field"><label>PAROL</label><input id="authPassword" type="password" minlength="6" placeholder="Kamida 6 belgi"></div><div class="modal-actions"><button class="pill" id="loginBtn">Kirish</button><button class="outline" id="signupBtn">Ro‘yxatdan o‘tish</button></div><button class="soft" style="width:100%;margin-top:10px" id="resendBtn">Tasdiqlash xatini qayta yuborish</button></div>
 <div id="magicPane" class="hidden"><div class="field"><label>EMAIL</label><input id="magicEmail" type="email" placeholder="email@example.com"></div><button class="pill" style="width:100%" id="magicBtn">Kirish linkini emailga yuborish</button><p>Magic link ham email orqali ishlaydi. Linkni ochgach sessiya avtomatik tiklanadi.</p></div>
 <button class="outline" style="width:100%;margin-top:10px" id="closeAuth">Yopish</button><div class="status" id="authStatus"></div></div></div>
 
-<div class="template-modal hidden" id="templateModal"><div class="template-box"><div class="template-visual" id="templateVisual"></div><div class="template-info"><div class="eyebrow" id="templateCategory"></div><h3 id="templateName"></h3><p id="templateDescription"></p><div class="template-features" id="templateFeatures"></div><div class="spacer"></div><div class="modal-actions"><button class="pill" id="templateUse">Shu shablonda yaratish ↗</button><button class="outline" id="templateClose">Yopish</button></div></div></div></div>
+<div class="template-modal hidden" id="templateModal"><div class="template-box live-template">
+ <div class="live-stage">
+ <div class="live-controls"><span>EMORA / FULL LIVE EXPERIENCE</span><div>
+ <button type="button" id="deviceToggle">Telefon ↔ Desktop</button>
+ <a id="templateFullscreen" target="_blank" rel="noopener noreferrer" href="/templates/love-rose.html">Butun ekranda ↗</a>
+ </div></div>
+ <div class="live-view mobile" id="liveView"><iframe id="templateIframe" loading="lazy" title="To‘liq animatsiyali shablon" allow="autoplay"></iframe></div>
+ </div>
+ <div class="template-info"><div class="eyebrow" id="templateCategory"></div><h3 id="templateName"></h3>
+ <p id="templateDescription"></p><div class="template-features" id="templateFeatures"></div>
+ <p style="font-size:11px;color:var(--sage);line-height:1.6">Boshlash, keyingi sahna, maktub va finale tugmalarini shu oynada sinab ko‘ring.</p>
+ <div class="spacer"></div><div class="modal-actions"><button class="pill" id="templateUse">Shu shablonda yaratish ↗</button><button class="outline" id="templateClose">Yopish</button></div>
+ </div></div></div>
 
 <script type="module">
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/+esm';
@@ -60,6 +111,7 @@ const SUPABASE_KEY='sb_publishable_7ylqOOjt3k79ORiWlx1a4Q_NhMYJfS7';
 const supabase=createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const $=s=>document.querySelector(s);
 const state={user:null,projectId:null,publishedSlug:null,rsvpAnswer:null,template:null};
+const experiencePath={"love-rose-theatre":"/templates/love-rose.html","love-pearl-linen":"/templates/love-pearl.html","wedding-silk-heritage":"/templates/wedding-silk.html","wedding-night-garden":"/templates/wedding-garden.html","birthday-aurora-paper":"/templates/birthday-aurora.html","apology-after-rain":"/templates/apology-rain.html","proposal-pearl-promise":"/templates/proposal-pearl.html"};
 const templates=[
 {slug:'love-rose-theatre',category:'01 / LOVE CINEMA',name:'Rose Theatre',desc:'Qoramtir romantik kino ritmi, foto, savol-javob va sahnali hikoya.',photo:'photo-love',screen:'love-screen',features:['6 sahnali hikoya','Foto + musiqa + video uchun joy','Interaktiv savol va finale']},
 {slug:'love-pearl-linen',category:'02 / LOVE CINEMA',name:'Pearl Linen',desc:'Oq, ivory va marvarid ranglarda yorug‘, sokin sevgi hikoyasi.',photo:'photo-pearl',screen:'pearl-screen',features:['Yorug‘ minimal art-direction','Editorial foto galereya','Nozik scroll motion']},
@@ -73,7 +125,7 @@ const currentTemplate=()=>templates.find(t=>t.slug===$('#type').value)||template
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
 function slugify(s){return String(s||'').toLowerCase().normalize('NFKD').replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-').replace(/-+/g,'-').slice(0,60)}
 function fmtDate(v){if(!v)return '';const [y,m,d]=v.split('-');return [d,m,y].join(' · ')}
-function content(){return {template:$('#type').value,name1:$('#name1').value.trim(),name2:$('#name2').value.trim(),headline:$('#headline').value.trim(),date:$('#date').value}}
+function content(){return {template:$('#type').value,name1:$('#name1').value.trim(),name2:$('#name2').value.trim(),headline:$('#headline').value.trim(),letter:$('#letter').value.trim(),venue:$('#venue').value.trim(),venueMap:$('#venueMap').value.trim(),date:$('#date').value}}
 function isWedding(){return $('#type').value.startsWith('wedding-')}
 function showStatus(msg,bad=false){$('#status').textContent=msg;$('#status').style.color=bad?'#a33':'var(--sage)'}
 function buildCatalog(){
@@ -82,17 +134,27 @@ function buildCatalog(){
  document.querySelectorAll('[data-preview]').forEach(b=>b.onclick=()=>openTemplate(b.dataset.preview));
  document.querySelectorAll('[data-use]').forEach(b=>b.onclick=()=>useTemplate(b.dataset.use));
 }
-function openTemplate(slug){const t=templates.find(x=>x.slug===slug);state.template=t;$('#templateVisual').className='template-visual '+t.photo;$('#templateCategory').textContent=t.category;$('#templateName').textContent=t.name;$('#templateDescription').textContent=t.desc;$('#templateFeatures').innerHTML=t.features.map(x=>'<div>✦ '+esc(x)+'</div>').join('');$('#templateModal').classList.remove('hidden')}
+function openTemplate(slug){const t=templates.find(x=>x.slug===slug);if(!t)return;state.template=t;$('#templateCategory').textContent=t.category;$('#templateName').textContent=t.name;$('#templateDescription').textContent=t.desc;$('#templateFeatures').innerHTML=t.features.map(x=>'<div>✦ '+esc(x)+'</div>').join('');$('#templateIframe').src=experiencePath[slug]+'?editor=1';$('#templateFullscreen').href=experiencePath[slug]+'?editor=1';$('#liveView').classList.add('mobile');$('#templateModal').classList.remove('hidden')}
 function useTemplate(slug){$('#type').value=slug;render();$('#templateModal').classList.add('hidden');$('#studio').scrollIntoView({behavior:'smooth'})}
+function configFor(c,override){
+ const t=c.template||'love-rose-theatre',imgs=["https://commons.wikimedia.org/wiki/Special:FilePath/Rose_Bouquet_(Unsplash).jpg?width=1100","https://commons.wikimedia.org/wiki/Special:FilePath/Pink_rose_bouquet_(Unsplash).jpg?width=1100","https://commons.wikimedia.org/wiki/Special:FilePath/Pastel_rose_bouquet_(Unsplash).jpg?width=1100"];
+ const dateIso=c.date?c.date+'T18:00:00+05:00':'2027-06-25T18:00:00+05:00';
+ if(t.startsWith('love-'))return {template:'love-confession-cinema-01',recipient:c.name1||'Sevgilim',sender:c.name2||'Seni sevuvchi inson',intro:c.headline||'Senga aytolmagan bir gapim bor…',question:'Eshitishga tayyormisan?',metAt:dateIso,mood:t==='love-pearl-linen'?'nocturne':'cinema',photos:imgs,letter:c.letter||'Sen bilan o‘tgan har bir lahza men uchun qadrli. Hayotimdagi eng go‘zal sahifalar sen bilan davom etishini xohlayman.',finalHeading:'Hammasining javobi — sen.',finalLine:c.headline||'Sen bilan hammasi go‘zal.'};
+ if(t.startsWith('wedding-'))return {template:'wedding-silk-01',bride:c.name1||'Malika',groom:c.name2||'Aziz',eventAt:dateIso,venue:c.venue||'The Garden, Toshkent',venueMap:c.venueMap||'',invitation:c.letter||'Sizni biz uchun eng qadrli kunning bir qismi bo‘lishga taklif qilamiz.',cover:imgs[2],style:t==='wedding-night-garden'?'night-garden':'silk',allowRsvp:!override};
+ const id=t.startsWith('birthday-')?'birthday-aurora-01':t.startsWith('apology-')?'apology-rain-01':'proposal-eternal-01';
+ const who=c.name1||'Azizam';return {template:id,recipient:who,sender:c.name2||'Seni qadrlovchi inson',intro:c.headline||(id.startsWith('birthday')?'Bugun sening kuning!':'Sen uchun alohida bir gapim bor.'),eventAt:dateIso,metAt:dateIso,letter:c.letter||'Bu hikoya sen uchun. Oldinda eng chiroyli lahzalar borligiga ishonaman.',final:c.headline||(id.startsWith('proposal')?'Menga turmushga chiqasanmi?':'Baxtli bo‘l!'),memoryTitle:'Yuragimizdagi xotiralar',photos:imgs,compliments:['Har bir kun unutilmas.','Sening kulging quvonch olib keladi.','Oldinda chiroyli xotiralar bor.'],video:'',music:'',mistake:c.letter||'Seni tinglamaganim uchun uzr.',repair:'Sening qaroringni hurmat qilaman.'};
+}
+function sendToExperience(frame,c,override=false){if(!frame?.contentWindow)return;const t=c.template||'love-rose-theatre';const type=t.startsWith('love-')?'emora:preview':t.startsWith('wedding-')?'emora:wedding-preview':'emora:moment-preview';frame.contentWindow.postMessage({type,config:configFor(c,override)},location.origin)}
 function render(){
- const c=content(), t=currentTemplate();$('#screen').className='screen '+t.screen;$('#edition').textContent=t.name.toUpperCase();$('#guestBox').classList.toggle('hidden',!isWedding());$('#name2Field').classList.toggle('hidden',!isWedding()&&!c.template.includes('proposal'));$('#dateField').classList.toggle('hidden',c.template.startsWith('apology-'));
- let title='',copy='',tag=t.category;
- if(c.template.startsWith('wedding-')){title=(c.name1||'Aziza')+'<br><em>&</em><br>'+(c.name2||'Jasur');copy='Sizni biz uchun eng qadrli kunning bir qismi bo‘lishga taklif qilamiz.<br><br>'+esc(fmtDate(c.date))}
- else if(c.template.startsWith('birthday-')){title='Bugun<br><em>'+(esc(c.name1||'sizning'))+' kuningiz.</em>';copy=esc(c.headline||'Eng chiroyli xotiralar hali oldinda.')}
- else if(c.template.startsWith('apology-')){title='Kechir.<br><em>Bu gap yurakdan.</em>';copy=esc(c.headline||'Ba’zi so‘zlar kechiksa ham aytilishi kerak.')}
- else if(c.template.startsWith('proposal-')){title=(esc(c.name2||c.name1||'Sen'))+',<br><em>men bilan abadiy qolasanmi?</em>';copy=esc(c.headline||'Bitta savol. Butun umrga yetadigan javob.')}
- else{const h=c.headline||'Senga aytolmagan bir gapim bor.';title=esc(h.split(' ').slice(0,2).join(' '))+'<br><em>'+esc(h.split(' ').slice(2).join(' '))+'</em>';copy='Ba’zi hislar faqat chiroyli tarzda aytilishga loyiq.'}
- $('#scene').innerHTML='<div class="tag">'+esc(tag)+'</div><h4>'+title+'</h4><p>'+copy+'</p><button class="scene-btn">'+(isWedding()?'Taklifnomani ochish ↗':'Hikoyani boshlash ↗')+'</button>';
+ const c=content(),t=currentTemplate(),frame=$('#studioIframe');
+ $('#guestBox').classList.toggle('hidden',!isWedding());
+ $('#weddingExtra').classList.toggle('hidden',!isWedding());
+ $('#name2Field').classList.toggle('hidden',!isWedding()&&!c.template.includes('proposal'));
+ $('#dateField').classList.toggle('hidden',c.template.startsWith('apology-'));
+ $('#previewLabel').textContent=t.category+' / '+t.name.toUpperCase()+' / FULL EXPERIENCE';
+ const src=experiencePath[t.slug]+'?editor=1';
+ if(frame.dataset.template!==t.slug){frame.dataset.template=t.slug;frame.onload=()=>sendToExperience(frame,content());frame.src=src}
+ else sendToExperience(frame,c);
 }
 async function refreshUser(){const {data:{user}}=await supabase.auth.getUser();state.user=user||null;$('#userChip').textContent=user?user.email:'Mehmon rejimi';$('#accountBtn').textContent=user?'Chiqish':'Kirish';await loadProjects()}
 async function requireUser(){if(state.user)return true;$('#accountModal').classList.remove('hidden');$('#authStatus').textContent='Saqlash yoki publish qilish uchun akkauntga kiring.';return false}
@@ -112,13 +174,31 @@ async function publishProject(){
 }
 async function addGuest(){if(!await requireUser())return;if(!state.projectId){showStatus('Avval draftni saqlang.',true);return}if(!isWedding()){showStatus('Guest link faqat Wedding uchun.',true);return}const name=$('#guestName').value.trim();const party=Number($('#guestParty').value||1);if(!name)return;const {data,error}=await supabase.from('guests').insert({project_id:state.projectId,owner_id:state.user.id,display_name:name,party_size:party}).select('display_name,token,party_size').single();if(error){showStatus(error.message,true);return}const base=state.publishedSlug||slugify($('#slug').value);const link=location.origin+'/s/'+base+'?g='+data.token;const div=document.createElement('div');div.className='guest-item';div.innerHTML='<strong>'+esc(data.display_name)+'</strong> · '+data.party_size+' kishi<br><a target="_blank" href="'+esc(link)+'">'+esc(link)+'</a>';$('#guestList').prepend(div);$('#guestName').value=''}
 async function loadProjects(){if(!state.user){$('#projectGrid').innerHTML='<div class="project-card"><small>ACCOUNT REQUIRED</small><h4>Hali kirmagansiz</h4><p>Kirish tugmasi orqali akkauntga kiring.</p></div>';return}const {data,error}=await supabase.from('projects').select('id,title,status,template_slug,slug,content,updated_at').order('updated_at',{ascending:false}).limit(20);if(error){$('#projectGrid').innerHTML='<div class="project-card"><h4>Xatolik</h4><p>'+esc(error.message)+'</p></div>';return}if(!data?.length){$('#projectGrid').innerHTML='<div class="project-card"><small>EMPTY</small><h4>Birinchi loyihangizni yarating</h4><p>Studio’dan shablon tanlang va Save bosing.</p></div>';return}$('#projectGrid').innerHTML=data.map(p=>'<div class="project-card"><small>'+esc(p.status.toUpperCase())+' · '+esc(p.template_slug)+'</small><h4>'+esc(p.title)+'</h4><p>Oxirgi tahrir: '+new Date(p.updated_at).toLocaleString('uz-UZ')+'</p><button data-edit="'+p.id+'">Tahrirlash</button> '+(p.slug?'<button data-open="'+esc(p.slug)+'">Ochish ↗</button>':'')+'</div>').join('');document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>editProject(b.dataset.edit,data));document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>window.open('/s/'+b.dataset.open,'_blank'))}
-function editProject(id,data){const p=data.find(x=>x.id===id);if(!p)return;state.projectId=p.id;state.publishedSlug=p.slug||null;const c=p.content||{};$('#type').value=c.template||p.template_slug;$('#name1').value=c.name1||'';$('#name2').value=c.name2||'';$('#headline').value=c.headline||'';$('#date').value=c.date||'';$('#slug').value=p.slug||'';render();$('#studio').scrollIntoView({behavior:'smooth'});showStatus('Loyiha tahrirlash uchun ochildi.')}
-async function handlePublic(){const match=location.pathname.match(/^\/s\/([^/]+)/);if(!match)return false;$('#siteApp').classList.add('hidden');$('#publicApp').classList.remove('hidden');const slug=decodeURIComponent(match[1]);const {data,error}=await supabase.from('published_sites').select('public_content,template_slug,slug').eq('slug',slug).eq('is_active',true).maybeSingle();if(error||!data){$('#publicTitle').textContent='Havola topilmadi';$('#publicCopy').textContent='Taklifnoma mavjud emas yoki o‘chirilgan.';return true}const c=data.public_content||{},t=templates.find(x=>x.slug===data.template_slug)||templates[0];$('#publicCover').className='public-cover '+t.photo;$('#publicEdition').textContent=t.name.toUpperCase();if(data.template_slug.startsWith('wedding-')){$('#publicTitle').innerHTML=esc(c.name1||'Aziza')+' <em>&</em> '+esc(c.name2||'Jasur');$('#publicCopy').textContent='Sizni biz uchun eng qadrli kunning bir qismi bo‘lishga taklif qilamiz.';$('#publicMeta').innerHTML='<div style="letter-spacing:.15em;color:var(--sage);margin:18px 0">'+esc(fmtDate(c.date))+'</div>'}else{$('#publicTitle').innerHTML=esc(c.headline||t.name);$('#publicCopy').textContent=t.desc}
- const token=new URLSearchParams(location.search).get('g');if(token&&data.template_slug.startsWith('wedding-')){const {data:invite,error:ie}=await supabase.rpc('get_guest_invite',{p_token:token});if(!ie&&invite?.length){const g=invite[0];$('#rsvpBox').classList.remove('hidden');$('#guestGreeting').textContent=g.display_name+', siz kelasizmi?';$('#rsvpCount').max=g.party_size;$('#rsvpCount').value=Math.min(1,g.party_size);$('#rsvpSubmit').dataset.token=token}}return true}
+function editProject(id,data){const p=data.find(x=>x.id===id);if(!p)return;state.projectId=p.id;state.publishedSlug=p.slug||null;const c=p.content||{};$('#type').value=c.template||p.template_slug;$('#name1').value=c.name1||'';$('#name2').value=c.name2||'';$('#headline').value=c.headline||'';$('#letter').value=c.letter||'';$('#venue').value=c.venue||'';$('#venueMap').value=c.venueMap||'';$('#date').value=c.date||'';$('#slug').value=p.slug||'';render();$('#studio').scrollIntoView({behavior:'smooth'});showStatus('Loyiha tahrirlash uchun ochildi.')}
+async function handlePublic(){
+ const match=location.pathname.match(/^\/s\/([^/]+)/);if(!match)return false;
+ $('#siteApp').classList.add('hidden');$('#publicApp').classList.remove('hidden');
+ const slug=decodeURIComponent(match[1]);
+ const {data,error}=await supabase.from('published_sites').select('public_content,template_slug,slug').eq('slug',slug).eq('is_active',true).maybeSingle();
+ if(error||!data){$('#publicApp').innerHTML='<main style="margin:auto;text-align:center"><h1>Havola topilmadi</h1><a href="/">EMORA bosh sahifa</a></main>';return true}
+ const c={...(data.public_content||{}),template:data.template_slug};
+ const frame=$('#publicIframe');frame.onload=()=>sendToExperience(frame,c,true);
+ frame.src=(experiencePath[data.template_slug]||experiencePath['love-rose-theatre'])+'?editor=1';
+ const token=new URLSearchParams(location.search).get('g');
+ if(token&&data.template_slug.startsWith('wedding-')){
+  const {data:invite,error:ie}=await supabase.rpc('get_guest_invite',{p_token:token});
+  if(!ie&&invite?.length&&invite[0].site_slug===slug){
+    const g=invite[0];$('#publicGuestFloat').classList.remove('hidden');$('#rsvpBox').classList.remove('hidden');
+    $('#guestGreeting').textContent=g.display_name+', siz kelasizmi?';
+    $('#rsvpCount').max=g.party_size;$('#rsvpCount').value=Math.min(1,g.party_size);$('#rsvpSubmit').dataset.token=token;
+  }
+ }
+ return true;
+}
 function setAuthMsg(msg,bad=false){$('#authStatus').textContent=msg;$('#authStatus').style.color=bad?'#a33':'var(--sage)'}
 buildCatalog();$('#type').value='love-rose-theatre';render();
 document.querySelectorAll('#type,#name1,#name2,#headline,#date').forEach(el=>el.addEventListener('input',render));
-$('#saveBtn').onclick=saveProject;$('#publishBtn').onclick=publishProject;$('#guestBtn').onclick=addGuest;$('#templateClose').onclick=()=>$('#templateModal').classList.add('hidden');$('#templateUse').onclick=()=>state.template&&useTemplate(state.template.slug);
+$('#saveBtn').onclick=saveProject;$('#publishBtn').onclick=publishProject;$('#guestBtn').onclick=addGuest;$('#templateClose').onclick=()=>{$('#templateModal').classList.add('hidden');$('#templateIframe').src='about:blank'};$('#deviceToggle').onclick=()=>$('#liveView').classList.toggle('mobile');$('#templateUse').onclick=()=>state.template&&useTemplate(state.template.slug);
 $('#accountBtn').onclick=async()=>{if(state.user){await supabase.auth.signOut();state.user=null;state.projectId=null;await refreshUser()}else $('#accountModal').classList.remove('hidden')};$('#closeAuth').onclick=()=>$('#accountModal').classList.add('hidden');
 document.querySelectorAll('.auth-tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.auth-tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('#passwordPane').classList.toggle('hidden',b.dataset.tab!=='password');$('#magicPane').classList.toggle('hidden',b.dataset.tab!=='magic')});
 $('#loginBtn').onclick=async()=>{setAuthMsg('Kirilmoqda...');const {error}=await supabase.auth.signInWithPassword({email:$('#authEmail').value.trim(),password:$('#authPassword').value});if(error){setAuthMsg(error.code==='email_not_confirmed'?'Email hali tasdiqlanmagan. Xatdagi linkni bosing yoki pastdagi “qayta yuborish”ni bosing.':error.message,true);return}setAuthMsg('Kirish muvaffaqiyatli ✓');await refreshUser();setTimeout(()=>$('#accountModal').classList.add('hidden'),450)};
