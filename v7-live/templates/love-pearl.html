@@ -117,9 +117,9 @@ body{background:#fbf5ef;color:#483937}.grain{opacity:.065;filter:invert(1)}.topb
     <section class="scene scene-photos" id="photos" data-chapter="03" aria-labelledby="photosTitle" hidden>
       <div class="photos-masthead"><span class="eyebrow">02 — SENI KO‘RGANIMDA</span><h2 id="photosTitle"><i id="galleryHeading">Senda men sevib qolgan<br>mingta mayda mo‘jiza bor.</i></h2></div>
       <div class="editorial-gallery">
-        <figure class="photo-card main-photo"><img id="photoOne" src="assets/placeholder-1.svg" alt="Gullar bilan unutilmas bir lahza" loading="lazy"><figcaption><span>01 / 03</span><p id="complimentOne">Tabassuming — men qayta-qayta ko‘rishni istaydigan manzara.</p></figcaption></figure>
-        <figure class="photo-card photo-b"><img id="photoTwo" src="assets/placeholder-2.svg" alt="Guldasta bilan yorqin xotira" loading="lazy"><figcaption><span>02 / 03</span><p id="complimentTwo">Sen bor joyda eng oddiy kun ham bir bayramdek tuyuladi.</p></figcaption></figure>
-        <figure class="photo-card photo-c"><img id="photoThree" src="assets/placeholder-3.svg" alt="Birga qoladigan yana bir go‘zal xotira" loading="lazy"><figcaption><span>03 / 03</span><p id="complimentThree">Sening kulgingni eshitsam, butun dunyo bir lahzaga tinchigandek bo‘ladi.</p></figcaption></figure>
+        <figure class="photo-card main-photo"><img id="photoOne" src="https://commons.wikimedia.org/wiki/Special:FilePath/Pastel_rose_bouquet_(Unsplash).jpg?width=1100" alt="Gullar bilan unutilmas bir lahza" loading="lazy"><figcaption><span>01 / 03</span><p id="complimentOne">Tabassuming — men qayta-qayta ko‘rishni istaydigan manzara.</p></figcaption></figure>
+        <figure class="photo-card photo-b"><img id="photoTwo" src="https://commons.wikimedia.org/wiki/Special:FilePath/Rose_Bouquet_(Unsplash).jpg?width=1100" alt="Guldasta bilan yorqin xotira" loading="lazy"><figcaption><span>02 / 03</span><p id="complimentTwo">Sen bor joyda eng oddiy kun ham bir bayramdek tuyuladi.</p></figcaption></figure>
+        <figure class="photo-card photo-c"><img id="photoThree" src="https://commons.wikimedia.org/wiki/Special:FilePath/Pink_rose_bouquet_(Unsplash).jpg?width=1100" alt="Birga qoladigan yana bir go‘zal xotira" loading="lazy"><figcaption><span>03 / 03</span><p id="complimentThree">Sening kulgingni eshitsam, butun dunyo bir lahzaga tinchigandek bo‘ladi.</p></figcaption></figure>
       </div>
       <div class="photos-foot"><span>YOUR PRESENCE IS MY FAVORITE PLACE.</span><button class="button outline next" data-next="film" type="button">Bizning kichkina kinomiz <span>→</span></button></div>
     </section>
@@ -132,7 +132,7 @@ body{background:#fbf5ef;color:#483937}.grain{opacity:.065;filter:invert(1)}.topb
         <h2 id="filmTitle"><i id="videoHeading">Bizning kichkina kinomiz</i></h2>
         <div class="film-shell" id="filmShell">
           <div class="film-topline"><span>EMORA ORIGINAL MEMORY</span><span>▶ 00:00</span></div>
-          <video id="video" controls preload="metadata" playsinline poster="assets/placeholder-2.svg"><source src="" type="video/mp4">Brauzeringiz videoni qo‘llab-quvvatlamaydi.</video>
+          <video id="video" controls preload="metadata" playsinline poster="https://commons.wikimedia.org/wiki/Special:FilePath/Rose_Bouquet_(Unsplash).jpg?width=1100"><source src="" type="video/mp4">Brauzeringiz videoni qo‘llab-quvvatlamaydi.</video>
           <span class="film-corner top-left"></span><span class="film-corner top-right"></span><span class="film-corner bottom-left"></span><span class="film-corner bottom-right"></span>
         </div>
         <p class="film-caption" id="videoCaption">Senga atalgan yana bir xotira.</p>
@@ -231,7 +231,7 @@ window.EMORA_TEMPLATE_DATA = {
     const valid = permittedMedia(src, kind);
     media.querySelector('source')?.setAttribute('src', valid);
     if (kind !== 'image') media.load();
-    else media.src = valid || 'assets/placeholder-1.svg';
+    else media.src = valid || 'https://commons.wikimedia.org/wiki/Special:FilePath/Pastel_rose_bouquet_(Unsplash).jpg?width=1100';
   }
   function firstLineBreak(value) { return String(value || '').replace(/<br\s*\/?\s*>/gi, '\n'); }
   function configure(data = defaults) {
