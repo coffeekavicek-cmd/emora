@@ -29,3 +29,6 @@ main{position:relative}.chapter{min-height:88svh;padding:112px max(24px,calc((10
 @media(prefers-reduced-motion:reduce){
  html{scroll-behavior:auto}.sunray{animation:none}.intro,.curtain,.flap,.seal,.letter,.envelope,.canvas3d,.reveal,.progress i{animation:none!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}.petal{display:none}.intro.opening .curtain.left{transform:translateX(-92%)}.intro.opening .curtain.right{transform:translateX(92%)} 
 }
+
+/* Names are composited above the real 3D card, without rasterized font textures. */
+.stage-names{position:absolute;z-index:7;top:29%;left:21%;width:58%;text-align:center;font:500 clamp(17px,3.5vw,34px)/1.15 var(--serif);letter-spacing:-.04em;color:#746347;opacity:0;transform:translateY(30px);pointer-events:none;transition:opacity .5s,transform 1.25s cubic-bezier(.15,.8,.2,1)}.intro.webgl-ready.opening .stage-names{opacity:1;transform:translateY(-27px);transition-delay:1.05s}@media(max-width:760px){.stage-names{top:32%;font-size:clamp(18px,5.2vw,29px)}}
