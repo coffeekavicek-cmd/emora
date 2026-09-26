@@ -1,10 +1,8 @@
 [
   {
     "device": "desktop",
-    "passed": false,
-    "failures": [
-      "Opening did not dismiss after click"
-    ],
+    "passed": true,
+    "failures": [],
     "intro": {
       "photoLoaded": true,
       "photoWidth": 768,
@@ -47,7 +45,7 @@
       "screenWidth": 1440
     },
     "opened": {
-      "introHidden": false,
+      "introHidden": true,
       "heroVisible": true,
       "scrollWidth": 1440,
       "screenWidth": 1440
@@ -55,10 +53,8 @@
   },
   {
     "device": "mobile",
-    "passed": false,
-    "failures": [
-      "Opening did not dismiss after click"
-    ],
+    "passed": true,
+    "failures": [],
     "intro": {
       "photoLoaded": true,
       "photoWidth": 768,
@@ -73,11 +69,11 @@
       },
       "copyRect": {
         "x": 0,
-        "y": 444,
+        "y": 403,
         "right": 390,
         "bottom": 844,
         "width": 390,
-        "height": 400
+        "height": 441
       },
       "ctaRect": {
         "x": 92,
@@ -89,11 +85,11 @@
       },
       "titleRect": {
         "x": 22,
-        "y": 553,
+        "y": 512,
         "right": 368,
         "bottom": 637,
         "width": 346,
-        "height": 83
+        "height": 125
       },
       "mockCurtains": 0,
       "webglCanvas": 0,
@@ -101,7 +97,7 @@
       "screenWidth": 390
     },
     "opened": {
-      "introHidden": false,
+      "introHidden": true,
       "heroVisible": true,
       "scrollWidth": 390,
       "screenWidth": 390
@@ -109,10 +105,8 @@
   },
   {
     "device": "small-mobile",
-    "passed": false,
-    "failures": [
-      "Opening did not dismiss after click"
-    ],
+    "passed": true,
+    "failures": [],
     "intro": {
       "photoLoaded": true,
       "photoWidth": 768,
@@ -127,11 +121,11 @@
       },
       "copyRect": {
         "x": 0,
-        "y": 344,
+        "y": 304,
         "right": 360,
         "bottom": 740,
         "width": 360,
-        "height": 396
+        "height": 436
       },
       "ctaRect": {
         "x": 77,
@@ -143,11 +137,11 @@
       },
       "titleRect": {
         "x": 22,
-        "y": 453,
+        "y": 413,
         "right": 338,
         "bottom": 534,
         "width": 316,
-        "height": 81
+        "height": 121
       },
       "mockCurtains": 0,
       "webglCanvas": 0,
@@ -155,7 +149,7 @@
       "screenWidth": 360
     },
     "opened": {
-      "introHidden": false,
+      "introHidden": true,
       "heroVisible": true,
       "scrollWidth": 360,
       "screenWidth": 360
