@@ -45,12 +45,18 @@ try{
     if(!isHidden)item.failures.push('Intro did not dismiss after clicking');
    }
    if(key!=='wedding-silk'){
-    await page.evaluate(()=>window.postMessage({type:'emora:preview',config:{recipient:'DILNOZA QA',bride:'MALIKA QA',groom:'JASUR QA',intro:'QA PERSONALIZATION',letter:'Faqat QA uchun xavfsiz xat.',final:'QA FINAL QUESTION',date:'2027-06-25'}},location.origin));
+    await page.evaluate(()=>window.postMessage({type:'emora:preview',config:{recipient:'DILNOZA QA',bride:'MALIKA QA',groom:'JASUR QA',intro:'QA PERSONALIZATION',letter:'Faqat QA uchun xavfsiz xat.',final:'QA FINAL QUESTION',video:'https://example.invalid/emora-qa.mp4',date:'2027-06-25'}},location.origin));
     await page.waitForTimeout(130);
     const personalized=await page.locator('#coverTitle').textContent();
     if(personalized!=='QA PERSONALIZATION')item.failures.push('Live personalization failed: '+personalized);
     const introTitle=await page.locator('#introHeadline').textContent();
     if(introTitle!=='QA PERSONALIZATION')item.failures.push('Intro personalized copy failed');
+    const optionalVideos=await page.locator('.v10-video').count();
+    if(optionalVideos!==1)item.failures.push('Uploaded optional video must appear exactly once; found '+optionalVideos);
+    await page.evaluate(()=>window.postMessage({type:'emora:preview',config:{intro:'QA PERSONALIZATION',letter:'',video:''}},location.origin));
+    await page.waitForTimeout(160);
+    if(await page.locator('.v10-video').count())item.failures.push('Removing optional video in editor must remove preview video');
+
    }
    const innerWidth=await page.evaluate(()=>document.documentElement.scrollWidth);
    if(innerWidth>device.width+4)item.failures.push('Interior horizontal overflow '+innerWidth);
