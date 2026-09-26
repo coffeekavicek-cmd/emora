@@ -91,8 +91,8 @@
 
 <section id="studio" class="section studio"><div class="shell studio-grid"><div class="panel"><div class="eyebrow">EMORA CREATOR / LIVE PREVIEW</div><h3>Shablonni haqiqiy loyihaga aylantiring.</h3><p>Ismlar, matn va sanani o‘zgartiring. Akkauntga kirgach draft Supabase’da saqlanadi, Publish esa public havola yaratadi.</p>
 <div class="field"><label>SHABLON</label><select id="type"></select></div>
-<div class="panel-row"><div class="field"><label>BIRINCHI ISM</label><input id="name1" value="Aziza"></div><div class="field" id="name2Field"><label>IKKINCHI ISM</label><input id="name2" value="Jasur"></div></div>
-<div class="field"><label>ASOSIY MATN · UZ</label><input id="headline" value="Senga aytolmagan bir gapim bor."></div>
+<div class="panel-row"><div class="field"><label>BIRINCHI ISM</label><input id="name1" placeholder="Ismni kiriting"></div><div class="field" id="name2Field"><label>IKKINCHI ISM</label><input id="name2" placeholder="Ikkinchi ism / yuboruvchi"></div></div>
+<div class="field"><label>ASOSIY MATN · UZ</label><input id="headline" placeholder="Tanlangan shablonning original matni"></div>
 <div class="lang-note">Ko‘p tilli tayyor: public sahifada UZ / RU / EN tanlash uchun tarjimalarni ham saqlash mumkin.</div>
 <div class="panel-row"><div class="field"><label>MATN · RU</label><input id="headlineRu" placeholder="Основной текст"></div><div class="field"><label>MATN · EN</label><input id="headlineEn" placeholder="Main text"></div></div>
 <div class="field"><label>MAKTUB / ASOSIY HIKOYA · UZ</label><textarea id="letter" rows="4" placeholder="Yuragingizdagi eng muhim gapni yozing..."></textarea></div>
@@ -203,13 +203,13 @@ function buildCatalog(){
 }
 
 function openTemplate(slug){const t=templates.find(x=>x.slug===slug);if(!t)return;state.template=t;$('#templateCategory').textContent=t.category;$('#templateName').textContent=t.name;$('#templateDescription').textContent=t.desc;$('#templateFeatures').innerHTML=t.features.map(x=>'<div>✦ '+esc(x)+'</div>').join('');$('#templateIframe').src=experiencePath[slug]+'?editor=1';$('#templateFullscreen').href=experiencePath[slug]+'?editor=1';$('#liveView').classList.add('mobile');$('#templateModal').classList.remove('hidden')}
-function useTemplate(slug){const t=templates.find(x=>x.slug===slug);if(!t)return;state.category=t.group;renderTypeOptions(t.group,slug);$('#type').value=slug;if(!$('#headline').dataset.edited)$('#headline').value=t.opening||'';render();$('#templateModal').classList.add('hidden');$('#studio').scrollIntoView({behavior:'smooth'})}
+function useTemplate(slug){const t=templates.find(x=>x.slug===slug);if(!t)return;if(state.projectId){state.projectId=null;state.publishedSlug=null;$('#slug').value='';showStatus('Yangi shablon uchun alohida loyiha boshlandi.')}state.category=t.group;renderTypeOptions(t.group,slug);$('#type').value=slug;if(!$('#headline').dataset.edited)$('#headline').value=t.opening||'';render();$('#templateModal').classList.add('hidden');$('#studio').scrollIntoView({behavior:'smooth'})}
 function configFor(c,override){
  const template=templates.find(t=>t.slug===(c.template||'love-rose-theatre'))||templates[0];
  const t=template.slug, group=template.group, photos=Array.isArray(c.photos)?c.photos.filter(s=>typeof s==='string'&&s.trim()).slice(0,3):[];
  const clock=/^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/.test(c.clock||'')?c.clock:'18:00';
  const dateIso=c.date?c.date+'T'+clock+':00+05:00':'';
- const base={template:t,recipient:c.name1||'Sen uchun',sender:c.name2||'',intro:c.headline||template.opening,letter:c.letter||'',final:c.finalQuestion||'',memoryTitle:c.memoryTitle||'',captions:Array.isArray(c.captions)?c.captions.slice(0,3):[],photos,video:c.video||'',music:c.music||'',eventAt:dateIso,metAt:dateIso,venue:c.venue||'',venueMap:c.venueMap||'',program:Array.isArray(c.program)?c.program:[],mistake:c.mistake||'',repair:c.repair||''};
+ const base={template:t,recipient:c.name1||'',sender:c.name2||'',intro:c.headline||template.opening,letter:c.letter||'',final:c.finalQuestion||'',memoryTitle:c.memoryTitle||'',captions:Array.isArray(c.captions)?c.captions.slice(0,3):[],photos,video:c.video||'',music:c.music||'',eventAt:dateIso,metAt:dateIso,venue:c.venue||'',venueMap:c.venueMap||'',program:Array.isArray(c.program)?c.program:[],mistake:c.mistake||'',repair:c.repair||''};
  if(group==='wedding')return {...base,bride:c.name1||'Malika',groom:c.name2||'Aziz',invitation:c.letter||'',cover:photos[0]||'',allowRsvp:!override,blessing:c.finalQuestion||''};
  if(group==='apology')return {...base,mistake:c.mistake||c.letter||'',repair:c.repair||''};
  return base;
@@ -238,7 +238,7 @@ async function saveProject(){
 }
 function tName(){return currentTemplate().name}
 async function publishProject(){
- const current=content();if(isWedding()&&(!current.date||!current.venue)){showStatus('To‘y taklifnomasini nashr qilish uchun haqiqiy sana va manzilni kiriting.',true);return}
+ const current=content();if(!current.name1.trim()){showStatus('Nashr qilishdan oldin asosiy ismni kiriting.',true);return}if(isWedding()&&(!current.name2.trim()||!current.date||!current.venue.trim())){showStatus('To‘y uchun kelin-kuyov ismlari, haqiqiy sana va manzilni kiriting.',true);return}const links=[...current.photos,current.music,current.video].filter(Boolean);for(const value of links){try{const u=new URL(value,location.origin);if(u.protocol!=='https:'&&!(u.origin===location.origin&&u.pathname.startsWith('/assets/')))throw Error('HTTPS talab qilinadi')}catch{showStatus('Media havolalari HTTPS bo‘lishi kerak. Noto‘g‘ri manzilni tuzating.',true);return}}if(isWedding()&&current.venueMap&&!/^https:\/\//i.test(current.venueMap)){showStatus('Xarita havolasini HTTPS shaklida kiriting.',true);return}
  const id=await saveProject();if(!id)return;const c=content(),sl=slugify($('#slug').value);if(!sl){showStatus('Public link nomini kiriting.',true);return}
  const pub={project_id:id,slug:sl,template_slug:c.template,public_content:c,is_active:true,published_at:new Date().toISOString(),updated_at:new Date().toISOString()};
  const {error}=await supabase.from('published_sites').upsert(pub,{onConflict:'project_id'});if(error){showStatus(error.message,true);return}
