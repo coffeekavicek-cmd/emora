@@ -1,0 +1,952 @@
+[
+  {
+    "template": "love-rose",
+    "device": "mobile",
+    "viewport": "390x844",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 49.123779296875,
+        "y": 70.93608093261719,
+        "right": 340.876220703125,
+        "bottom": 530.6107635498047,
+        "width": 291.75244140625,
+        "height": 459.6746826171875
+      },
+      "button": {
+        "x": 110.515625,
+        "y": 754.203125,
+        "right": 279.484375,
+        "bottom": 803.203125,
+        "width": 168.96875,
+        "height": 49
+      },
+      "headline": {
+        "x": 18,
+        "y": 573.796875,
+        "right": 372,
+        "bottom": 654.796875,
+        "width": 354,
+        "height": 81
+      },
+      "scrollWidth": 390,
+      "screenWidth": 390,
+      "categoryCount": 4
+    }
+  },
+  {
+    "template": "love-pearl",
+    "device": "mobile",
+    "viewport": "390x844",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 49.123779296875,
+        "y": 70.93608093261719,
+        "right": 340.876220703125,
+        "bottom": 530.6107635498047,
+        "width": 291.75244140625,
+        "height": 459.6746826171875
+      },
+      "button": {
+        "x": 115.78125,
+        "y": 754.203125,
+        "right": 274.203125,
+        "bottom": 803.203125,
+        "width": 158.421875,
+        "height": 49
+      },
+      "headline": {
+        "x": 18,
+        "y": 573.796875,
+        "right": 372,
+        "bottom": 654.796875,
+        "width": 354,
+        "height": 81
+      },
+      "scrollWidth": 390,
+      "screenWidth": 390,
+      "categoryCount": 4
+    }
+  },
+  {
+    "template": "love-galaxy",
+    "device": "mobile",
+    "viewport": "390x844",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 49.123779296875,
+        "y": 70.93608093261719,
+        "right": 340.876220703125,
+        "bottom": 530.6107635498047,
+        "width": 291.75244140625,
+        "height": 459.6746826171875
+      },
+      "button": {
+        "x": 111.359375,
+        "y": 754.203125,
+        "right": 278.640625,
+        "bottom": 803.203125,
+        "width": 167.28125,
+        "height": 49
+      },
+      "headline": {
+        "x": 18,
+        "y": 573.796875,
+        "right": 372,
+        "bottom": 654.796875,
+        "width": 354,
+        "height": 81
+      },
+      "scrollWidth": 390,
+      "screenWidth": 390,
+      "categoryCount": 4
+    }
+  },
+  {
+    "template": "wedding-silk",
+    "device": "mobile",
+    "viewport": "390x844",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 49.98356628417969,
+        "y": 77.29766845703125,
+        "right": 340.0164031982422,
+        "bottom": 533.0929565429688,
+        "width": 290.0328369140625,
+        "height": 455.7952880859375
+      },
+      "button": {
+        "x": 92.953125,
+        "y": 753.8125,
+        "right": 297.03125,
+        "bottom": 803.8125,
+        "width": 204.078125,
+        "height": 50
+      },
+      "headline": {
+        "x": 22,
+        "y": 510.78125,
+        "right": 368,
+        "bottom": 635.5625,
+        "width": 346,
+        "height": 124.78125
+      },
+      "scrollWidth": 390,
+      "screenWidth": 390,
+      "categoryCount": 0
+    }
+  },
+  {
+    "template": "wedding-garden",
+    "device": "mobile",
+    "viewport": "390x844",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 49.123779296875,
+        "y": 70.93608093261719,
+        "right": 340.876220703125,
+        "bottom": 530.6107635498047,
+        "width": 291.75244140625,
+        "height": 459.6746826171875
+      },
+      "button": {
+        "x": 118.53125,
+        "y": 754.203125,
+        "right": 271.46875,
+        "bottom": 803.203125,
+        "width": 152.9375,
+        "height": 49
+      },
+      "headline": {
+        "x": 18,
+        "y": 573.796875,
+        "right": 372,
+        "bottom": 654.796875,
+        "width": 354,
+        "height": 81
+      },
+      "scrollWidth": 390,
+      "screenWidth": 390,
+      "categoryCount": 4
+    }
+  },
+  {
+    "template": "wedding-naqsh",
+    "device": "mobile",
+    "viewport": "390x844",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 49.123779296875,
+        "y": 70.93608093261719,
+        "right": 340.876220703125,
+        "bottom": 530.6107635498047,
+        "width": 291.75244140625,
+        "height": 459.6746826171875
+      },
+      "button": {
+        "x": 110.953125,
+        "y": 754.203125,
+        "right": 279.046875,
+        "bottom": 803.203125,
+        "width": 168.09375,
+        "height": 49
+      },
+      "headline": {
+        "x": 18,
+        "y": 573.796875,
+        "right": 372,
+        "bottom": 654.796875,
+        "width": 354,
+        "height": 81
+      },
+      "scrollWidth": 390,
+      "screenWidth": 390,
+      "categoryCount": 4
+    }
+  },
+  {
+    "template": "birthday-aurora",
+    "device": "mobile",
+    "viewport": "390x844",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 49.123779296875,
+        "y": 70.93608093261719,
+        "right": 340.876220703125,
+        "bottom": 530.6107635498047,
+        "width": 291.75244140625,
+        "height": 459.6746826171875
+      },
+      "button": {
+        "x": 110.3125,
+        "y": 754.203125,
+        "right": 279.6875,
+        "bottom": 803.203125,
+        "width": 169.375,
+        "height": 49
+      },
+      "headline": {
+        "x": 18,
+        "y": 573.796875,
+        "right": 372,
+        "bottom": 654.796875,
+        "width": 354,
+        "height": 81
+      },
+      "scrollWidth": 390,
+      "screenWidth": 390,
+      "categoryCount": 4
+    }
+  },
+  {
+    "template": "birthday-balloon",
+    "device": "mobile",
+    "viewport": "390x844",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 49.123779296875,
+        "y": 70.93608093261719,
+        "right": 340.876220703125,
+        "bottom": 530.6107635498047,
+        "width": 291.75244140625,
+        "height": 459.6746826171875
+      },
+      "button": {
+        "x": 104.40625,
+        "y": 754.203125,
+        "right": 285.59375,
+        "bottom": 803.203125,
+        "width": 181.1875,
+        "height": 49
+      },
+      "headline": {
+        "x": 18,
+        "y": 590.84375,
+        "right": 372,
+        "bottom": 671.84375,
+        "width": 354,
+        "height": 81
+      },
+      "scrollWidth": 390,
+      "screenWidth": 390,
+      "categoryCount": 4
+    }
+  },
+  {
+    "template": "birthday-memory",
+    "device": "mobile",
+    "viewport": "390x844",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 49.123779296875,
+        "y": 70.93608093261719,
+        "right": 340.876220703125,
+        "bottom": 530.6107635498047,
+        "width": 291.75244140625,
+        "height": 459.6746826171875
+      },
+      "button": {
+        "x": 95.09375,
+        "y": 754.203125,
+        "right": 294.90625,
+        "bottom": 803.203125,
+        "width": 199.8125,
+        "height": 49
+      },
+      "headline": {
+        "x": 18,
+        "y": 573.796875,
+        "right": 372,
+        "bottom": 654.796875,
+        "width": 354,
+        "height": 81
+      },
+      "scrollWidth": 390,
+      "screenWidth": 390,
+      "categoryCount": 5
+    }
+  },
+  {
+    "template": "apology-rain",
+    "device": "mobile",
+    "viewport": "390x844",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 49.123779296875,
+        "y": 70.93608093261719,
+        "right": 340.876220703125,
+        "bottom": 530.6107635498047,
+        "width": 291.75244140625,
+        "height": 459.6746826171875
+      },
+      "button": {
+        "x": 118.21875,
+        "y": 754.203125,
+        "right": 271.78125,
+        "bottom": 803.203125,
+        "width": 153.5625,
+        "height": 49
+      },
+      "headline": {
+        "x": 18,
+        "y": 573.796875,
+        "right": 372,
+        "bottom": 654.796875,
+        "width": 354,
+        "height": 81
+      },
+      "scrollWidth": 390,
+      "screenWidth": 390,
+      "categoryCount": 4
+    }
+  },
+  {
+    "template": "apology-ink",
+    "device": "mobile",
+    "viewport": "390x844",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 49.123779296875,
+        "y": 70.93608093261719,
+        "right": 340.876220703125,
+        "bottom": 530.6107635498047,
+        "width": 291.75244140625,
+        "height": 459.6746826171875
+      },
+      "button": {
+        "x": 110.625,
+        "y": 754.203125,
+        "right": 279.375,
+        "bottom": 803.203125,
+        "width": 168.75,
+        "height": 49
+      },
+      "headline": {
+        "x": 18,
+        "y": 614.296875,
+        "right": 372,
+        "bottom": 654.796875,
+        "width": 354,
+        "height": 40.5
+      },
+      "scrollWidth": 390,
+      "screenWidth": 390,
+      "categoryCount": 4
+    }
+  },
+  {
+    "template": "apology-quiet",
+    "device": "mobile",
+    "viewport": "390x844",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 49.123779296875,
+        "y": 70.93608093261719,
+        "right": 340.876220703125,
+        "bottom": 530.6107635498047,
+        "width": 291.75244140625,
+        "height": 459.6746826171875
+      },
+      "button": {
+        "x": 110.625,
+        "y": 754.203125,
+        "right": 279.375,
+        "bottom": 803.203125,
+        "width": 168.75,
+        "height": 49
+      },
+      "headline": {
+        "x": 18,
+        "y": 614.296875,
+        "right": 372,
+        "bottom": 654.796875,
+        "width": 354,
+        "height": 40.5
+      },
+      "scrollWidth": 390,
+      "screenWidth": 390,
+      "categoryCount": 4
+    }
+  },
+  {
+    "template": "proposal-pearl",
+    "device": "mobile",
+    "viewport": "390x844",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 49.123779296875,
+        "y": 70.93608093261719,
+        "right": 340.876220703125,
+        "bottom": 530.6107635498047,
+        "width": 291.75244140625,
+        "height": 459.6746826171875
+      },
+      "button": {
+        "x": 110.3125,
+        "y": 754.203125,
+        "right": 279.6875,
+        "bottom": 803.203125,
+        "width": 169.375,
+        "height": 49
+      },
+      "headline": {
+        "x": 18,
+        "y": 573.796875,
+        "right": 372,
+        "bottom": 654.796875,
+        "width": 354,
+        "height": 81
+      },
+      "scrollWidth": 390,
+      "screenWidth": 390,
+      "categoryCount": 4
+    }
+  },
+  {
+    "template": "proposal-cinema",
+    "device": "mobile",
+    "viewport": "390x844",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 49.123779296875,
+        "y": 70.93608093261719,
+        "right": 340.876220703125,
+        "bottom": 530.6107635498047,
+        "width": 291.75244140625,
+        "height": 459.6746826171875
+      },
+      "button": {
+        "x": 102.5625,
+        "y": 754.203125,
+        "right": 287.421875,
+        "bottom": 803.203125,
+        "width": 184.859375,
+        "height": 49
+      },
+      "headline": {
+        "x": 18,
+        "y": 590.84375,
+        "right": 372,
+        "bottom": 671.84375,
+        "width": 354,
+        "height": 81
+      },
+      "scrollWidth": 390,
+      "screenWidth": 390,
+      "categoryCount": 4
+    }
+  },
+  {
+    "template": "proposal-sky",
+    "device": "mobile",
+    "viewport": "390x844",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 49.123779296875,
+        "y": 70.93608093261719,
+        "right": 340.876220703125,
+        "bottom": 530.6107635498047,
+        "width": 291.75244140625,
+        "height": 459.6746826171875
+      },
+      "button": {
+        "x": 108,
+        "y": 754.203125,
+        "right": 282,
+        "bottom": 803.203125,
+        "width": 174,
+        "height": 49
+      },
+      "headline": {
+        "x": 18,
+        "y": 573.796875,
+        "right": 372,
+        "bottom": 654.796875,
+        "width": 354,
+        "height": 81
+      },
+      "scrollWidth": 390,
+      "screenWidth": 390,
+      "categoryCount": 4
+    }
+  },
+  {
+    "template": "love-rose",
+    "device": "small",
+    "viewport": "360x740",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 45.4173583984375,
+        "y": 71.4788818359375,
+        "right": 314.5670166015625,
+        "bottom": 469.7554931640625,
+        "width": 269.149658203125,
+        "height": 398.276611328125
+      },
+      "button": {
+        "x": 95.625,
+        "y": 650.203125,
+        "right": 264.375,
+        "bottom": 699.203125,
+        "width": 168.75,
+        "height": 49
+      },
+      "headline": {
+        "x": 18,
+        "y": 471.109375,
+        "right": 342,
+        "bottom": 552.109375,
+        "width": 324,
+        "height": 81
+      },
+      "scrollWidth": 360,
+      "screenWidth": 360,
+      "categoryCount": 4
+    }
+  },
+  {
+    "template": "wedding-silk",
+    "device": "small",
+    "viewport": "360x740",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 46.210540771484375,
+        "y": 77.65953063964844,
+        "right": 313.7738342285156,
+        "bottom": 472.41856384277344,
+        "width": 267.56329345703125,
+        "height": 394.759033203125
+      },
+      "button": {
+        "x": 77.953125,
+        "y": 649.8125,
+        "right": 282.03125,
+        "bottom": 699.8125,
+        "width": 204.078125,
+        "height": 50
+      },
+      "headline": {
+        "x": 22,
+        "y": 411.78125,
+        "right": 338,
+        "bottom": 532.71875,
+        "width": 316,
+        "height": 120.9375
+      },
+      "scrollWidth": 360,
+      "screenWidth": 360,
+      "categoryCount": 0
+    }
+  },
+  {
+    "template": "birthday-aurora",
+    "device": "small",
+    "viewport": "360x740",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 45.4173583984375,
+        "y": 71.4788818359375,
+        "right": 314.5670166015625,
+        "bottom": 469.7554931640625,
+        "width": 269.149658203125,
+        "height": 398.276611328125
+      },
+      "button": {
+        "x": 95.3125,
+        "y": 650.203125,
+        "right": 264.6875,
+        "bottom": 699.203125,
+        "width": 169.375,
+        "height": 49
+      },
+      "headline": {
+        "x": 18,
+        "y": 471.109375,
+        "right": 342,
+        "bottom": 552.109375,
+        "width": 324,
+        "height": 81
+      },
+      "scrollWidth": 360,
+      "screenWidth": 360,
+      "categoryCount": 4
+    }
+  },
+  {
+    "template": "apology-rain",
+    "device": "small",
+    "viewport": "360x740",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 45.4173583984375,
+        "y": 71.4788818359375,
+        "right": 314.5670166015625,
+        "bottom": 469.7554931640625,
+        "width": 269.149658203125,
+        "height": 398.276611328125
+      },
+      "button": {
+        "x": 103.21875,
+        "y": 650.203125,
+        "right": 256.78125,
+        "bottom": 699.203125,
+        "width": 153.5625,
+        "height": 49
+      },
+      "headline": {
+        "x": 18,
+        "y": 471.109375,
+        "right": 342,
+        "bottom": 552.109375,
+        "width": 324,
+        "height": 81
+      },
+      "scrollWidth": 360,
+      "screenWidth": 360,
+      "categoryCount": 4
+    }
+  },
+  {
+    "template": "proposal-pearl",
+    "device": "small",
+    "viewport": "360x740",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 45.4173583984375,
+        "y": 71.4788818359375,
+        "right": 314.5670166015625,
+        "bottom": 469.7554931640625,
+        "width": 269.149658203125,
+        "height": 398.276611328125
+      },
+      "button": {
+        "x": 95.3125,
+        "y": 650.203125,
+        "right": 264.6875,
+        "bottom": 699.203125,
+        "width": 169.375,
+        "height": 49
+      },
+      "headline": {
+        "x": 18,
+        "y": 471.109375,
+        "right": 342,
+        "bottom": 552.109375,
+        "width": 324,
+        "height": 81
+      },
+      "scrollWidth": 360,
+      "screenWidth": 360,
+      "categoryCount": 4
+    }
+  },
+  {
+    "template": "love-rose",
+    "device": "desktop",
+    "viewport": "1440x900",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 823.7992553710938,
+        "y": 130.60501098632812,
+        "right": 1330.76318359375,
+        "bottom": 797.3950500488281,
+        "width": 506.96392822265625,
+        "height": 666.7900390625
+      },
+      "button": {
+        "x": 72,
+        "y": 616.328125,
+        "right": 247.328125,
+        "bottom": 669.328125,
+        "width": 175.328125,
+        "height": 53
+      },
+      "headline": {
+        "x": 72,
+        "y": 276.484375,
+        "right": 714.59375,
+        "bottom": 449.734375,
+        "width": 642.59375,
+        "height": 173.25
+      },
+      "scrollWidth": 1440,
+      "screenWidth": 1440,
+      "categoryCount": 4
+    }
+  },
+  {
+    "template": "wedding-silk",
+    "device": "desktop",
+    "viewport": "1440x900",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 822.2969970703125,
+        "y": 135.57000732421875,
+        "right": 1341.4530029296875,
+        "bottom": 798.4299926757812,
+        "width": 519.156005859375,
+        "height": 662.8599853515625
+      },
+      "button": {
+        "x": 74.875,
+        "y": 682.015625,
+        "right": 307.6875,
+        "bottom": 738.015625,
+        "width": 232.8125,
+        "height": 56
+      },
+      "headline": {
+        "x": 74.875,
+        "y": 261.078125,
+        "right": 726.625,
+        "bottom": 495.84375,
+        "width": 651.75,
+        "height": 234.765625
+      },
+      "scrollWidth": 1440,
+      "screenWidth": 1440,
+      "categoryCount": 0
+    }
+  },
+  {
+    "template": "birthday-aurora",
+    "device": "desktop",
+    "viewport": "1440x900",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 823.7992553710938,
+        "y": 130.60501098632812,
+        "right": 1330.76318359375,
+        "bottom": 797.3950500488281,
+        "width": 506.96392822265625,
+        "height": 666.7900390625
+      },
+      "button": {
+        "x": 72,
+        "y": 616.328125,
+        "right": 251.671875,
+        "bottom": 669.328125,
+        "width": 179.671875,
+        "height": 53
+      },
+      "headline": {
+        "x": 72,
+        "y": 276.484375,
+        "right": 714.59375,
+        "bottom": 449.734375,
+        "width": 642.59375,
+        "height": 173.25
+      },
+      "scrollWidth": 1440,
+      "screenWidth": 1440,
+      "categoryCount": 4
+    }
+  },
+  {
+    "template": "apology-rain",
+    "device": "desktop",
+    "viewport": "1440x900",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 823.7992553710938,
+        "y": 130.60501098632812,
+        "right": 1330.76318359375,
+        "bottom": 797.3950500488281,
+        "width": 506.96392822265625,
+        "height": 666.7900390625
+      },
+      "button": {
+        "x": 72,
+        "y": 616.328125,
+        "right": 233.40625,
+        "bottom": 669.328125,
+        "width": 161.40625,
+        "height": 53
+      },
+      "headline": {
+        "x": 72,
+        "y": 276.484375,
+        "right": 714.59375,
+        "bottom": 449.734375,
+        "width": 642.59375,
+        "height": 173.25
+      },
+      "scrollWidth": 1440,
+      "screenWidth": 1440,
+      "categoryCount": 4
+    }
+  },
+  {
+    "template": "proposal-pearl",
+    "device": "desktop",
+    "viewport": "1440x900",
+    "passed": true,
+    "failures": [],
+    "exceptions": [],
+    "layout": {
+      "imageLoaded": true,
+      "img": {
+        "x": 823.7992553710938,
+        "y": 130.60501098632812,
+        "right": 1330.76318359375,
+        "bottom": 797.3950500488281,
+        "width": 506.96392822265625,
+        "height": 666.7900390625
+      },
+      "button": {
+        "x": 72,
+        "y": 602.453125,
+        "right": 251.6875,
+        "bottom": 655.453125,
+        "width": 179.6875,
+        "height": 53
+      },
+      "headline": {
+        "x": 72,
+        "y": 290.359375,
+        "right": 714.59375,
+        "bottom": 463.609375,
+        "width": 642.59375,
+        "height": 173.25
+      },
+      "scrollWidth": 1440,
+      "screenWidth": 1440,
+      "categoryCount": 4
+    }
+  }
+]
