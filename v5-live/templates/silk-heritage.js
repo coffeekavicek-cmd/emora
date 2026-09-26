@@ -55,6 +55,7 @@
  function renderSchedule(items){
   const list=$('#timeline');list.replaceChildren();
   const valid=Array.isArray(items)?items.filter(x=>x&&typeof x==='object').slice(0,6):[];
+  if(configured&&!valid.length){$('#schedule').hidden=true;return}$('#schedule').hidden=false;
   const agenda=valid.length?valid:[
    {time:'17:00',title:'Mehmonlarni kutib olish',note:'Kelgan mehmonlar bilan iliq uchrashuv.'},
    {time:'18:00',title:'Nikoh marosimi',note:'Yangi hayotimizning tantanali boshlanishi.'},
