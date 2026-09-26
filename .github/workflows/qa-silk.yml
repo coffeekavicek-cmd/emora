@@ -6,7 +6,7 @@ on:
       - .github/workflows/qa-silk.yml
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 jobs:
   visual-check:
     runs-on: ubuntu-latest
@@ -33,6 +33,22 @@ jobs:
           curl --fail --silent --show-error --head http://127.0.0.1:3000/assets/silk-heritage-original.jpg
       - name: Capture desktop and mobile + test interactions
         run: node v5-live/tests/silk-visual-qa.mjs
+      - name: Preserve review screenshots in V9 QA evidence
+        if: always()
+        run: |
+          mkdir -p v5-live/tests/visual-qa-results
+          for file in desktop-opening.png mobile-opening.png summary.json; do
+            if [ -f "v5-live/qa-silk-artifacts/$file" ]; then
+              cp "v5-live/qa-silk-artifacts/$file" v5-live/tests/visual-qa-results/
+            fi
+          done
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add v5-live/tests/visual-qa-results/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "QA evidence: desktop and mobile Silk opening screenshots"
+          git pull --rebase origin emora-v9-cinematic-templates
+          git push origin HEAD:emora-v9-cinematic-templates
       - uses: actions/upload-artifact@v4
         if: always()
         with:
