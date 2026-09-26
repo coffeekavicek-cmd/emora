@@ -6,6 +6,7 @@ on:
       - .github/workflows/v10-qa.yml
       - v5-live/tests/v10-qa.mjs
       - v5-live/tests/v10-platform-qa.mjs
+      - v5-live/tests/v10-media.test.mjs
       - v5-live/templates/v10-**
       - v5-live/templates/silk-heritage.**
       - v5-live/templates/wedding-silk.html
@@ -43,6 +44,8 @@ jobs:
           cat /tmp/emora-v10-server.log
           curl --fail --silent --show-error http://127.0.0.1:3000/health
           curl --fail --silent --show-error --head http://127.0.0.1:3000/assets/love-galaxy.png
+      - name: Test owner-private draft and published media lifecycle
+        run: node --test v5-live/tests/v10-media.test.mjs
       - name: Test all 15 templates on desktop and mobile
         run: node v5-live/tests/v10-qa.mjs
       - name: Test category-first discovery and the live creator editor
