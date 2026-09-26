@@ -3,8 +3,10 @@
     "template": "love-rose",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -44,14 +46,17 @@
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "love-pearl",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -91,14 +96,17 @@
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "love-galaxy",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -138,7 +146,8 @@
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "wedding-silk",
@@ -184,8 +193,10 @@
     "template": "wedding-garden",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -225,14 +236,17 @@
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "wedding-naqsh",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -272,14 +286,17 @@
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "birthday-aurora",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -319,14 +336,17 @@
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "birthday-balloon",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -366,14 +386,17 @@
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "birthday-memory",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -413,14 +436,17 @@
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 5
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "apology-rain",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -460,14 +486,17 @@
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "apology-ink",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -507,14 +536,17 @@
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "apology-quiet",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -554,14 +586,17 @@
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "proposal-pearl",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -601,14 +636,17 @@
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "proposal-cinema",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -648,14 +686,17 @@
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "proposal-sky",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -695,14 +736,17 @@
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "love-rose",
     "device": "small",
     "viewport": "360x740",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -742,7 +786,8 @@
       "scrollWidth": 360,
       "screenWidth": 360,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "wedding-silk",
@@ -788,8 +833,10 @@
     "template": "birthday-aurora",
     "device": "small",
     "viewport": "360x740",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -829,14 +876,17 @@
       "scrollWidth": 360,
       "screenWidth": 360,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "apology-rain",
     "device": "small",
     "viewport": "360x740",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -876,14 +926,17 @@
       "scrollWidth": 360,
       "screenWidth": 360,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "proposal-pearl",
     "device": "small",
     "viewport": "360x740",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -923,14 +976,17 @@
       "scrollWidth": 360,
       "screenWidth": 360,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "love-rose",
     "device": "desktop",
     "viewport": "1440x900",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -970,7 +1026,8 @@
       "scrollWidth": 1440,
       "screenWidth": 1440,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "wedding-silk",
@@ -1016,8 +1073,10 @@
     "template": "birthday-aurora",
     "device": "desktop",
     "viewport": "1440x900",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -1057,14 +1116,17 @@
       "scrollWidth": 1440,
       "screenWidth": 1440,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "apology-rain",
     "device": "desktop",
     "viewport": "1440x900",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -1104,14 +1166,17 @@
       "scrollWidth": 1440,
       "screenWidth": 1440,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   },
   {
     "template": "proposal-pearl",
     "device": "desktop",
     "viewport": "1440x900",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Removing optional video in editor must remove preview video"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -1151,6 +1216,7 @@
       "scrollWidth": 1440,
       "screenWidth": 1440,
       "categoryCount": 4
-    }
+    },
+    "videoRoundtripChecked": true
   }
 ]
