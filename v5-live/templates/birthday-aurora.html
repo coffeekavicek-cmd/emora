@@ -8,4 +8,38 @@
 <div class="special-grid"><div class="special"><b>PHOTO STORY</b><p>3–8 ta surat sahnalar orasida editorial usulda ochiladi.</p></div><div class="special"><b>MUSIC</b><p>Foydalanuvchi bosgandan keyin boshlanadi va video paytida pasayadi.</p></div><div class="special"><b>VIDEO</b><p>Maxsus video uchun alohida cinematic blok.</p></div><div class="special"><b>PERSONAL RESPONSE</b><p>Yakuniy CTA javobni saqlashga tayyor.</p></div></div>
 </div></section>
 <section class="scene final" id="s6"><div class="scene-inner"><div class="kicker">06 / FINALE</div><h2>Yangi yoshing muborak!</h2><p style="color:var(--muted);line-height:1.7">Bu yakuniy sahna foydalanuvchi uchun eng esda qoladigan interaction bo‘ladi.</p><button class="yes" id="yes">Bayramni boshlash ✦</button><div class="petals" id="petals"></div></div></section>
-<script>const scenes=[...document.querySelectorAll('.scene')],bar=document.getElementById('bar');const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const i=scenes.indexOf(e.target);bar.style.width=((i+1)/scenes.length*100)+'%'}}),{threshold:.55});scenes.forEach(s=>io.observe(s));document.getElementById('yes').onclick=()=>{for(let i=0;i<30;i++){const p=document.createElement('span');p.style.left=Math.random()*100+'vw';p.style.setProperty('--x',(Math.random()*240-120)+'px');p.style.animationDelay=Math.random()*.9+'s';document.getElementById('petals').appendChild(p);setTimeout(()=>p.remove(),7000)}};</script></body></html>
+<script>const scenes=[...document.querySelectorAll('.scene')],bar=document.getElementById('bar');const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const i=scenes.indexOf(e.target);bar.style.width=((i+1)/scenes.length*100)+'%'}}),{threshold:.55});scenes.forEach(s=>io.observe(s));document.getElementById('yes').onclick=()=>{for(let i=0;i<30;i++){const p=document.createElement('span');p.style.left=Math.random()*100+'vw';p.style.setProperty('--x',(Math.random()*240-120)+'px');p.style.animationDelay=Math.random()*.9+'s';document.getElementById('petals').appendChild(p);setTimeout(()=>p.remove(),7000)}};</script><script>
+(function(){
+ const clean=v=>typeof v==='string'?v.trim():'';
+ const apply=cfg=>{
+   if(!cfg||typeof cfg!=='object')return;
+   const hero=document.querySelector('.hero h1');
+   const heroP=document.querySelector('.hero p');
+   const storyTitle=document.querySelector('#s2 .scene-title');
+   const storyLead=document.querySelector('#s2 .lead');
+   const quote=document.querySelector('#s3 .quote');
+   const letterTitle=document.querySelector('#s4 .letter-card h2');
+   const letterPs=document.querySelectorAll('#s4 .letter-card p');
+   const final=document.querySelector('#s6 h2');
+   if(hero&&clean(cfg.intro))hero.textContent=cfg.intro;
+   if(heroP&&clean(cfg.recipient))heroP.textContent='Bu sahifa '+cfg.recipient+' uchun yaratilgan.';
+   if(storyTitle&&clean(cfg.memoryTitle))storyTitle.textContent=cfg.memoryTitle;
+   if(storyLead&&Array.isArray(cfg.compliments)&&cfg.compliments.length)storyLead.textContent=cfg.compliments.join(' · ');
+   if(quote&&clean(cfg.letter))quote.textContent=cfg.letter;
+   if(letterTitle&&clean(cfg.recipient))letterTitle.textContent=cfg.recipient+' uchun';
+   if(letterPs[0]&&clean(cfg.letter))letterPs[0].textContent=cfg.letter;
+   if(final&&clean(cfg.final))final.textContent=cfg.final;
+   if(Array.isArray(cfg.photos)){
+     document.querySelectorAll('.memory').forEach((el,i)=>{const src=cfg.photos[i];if(typeof src==='string'&&src)el.style.backgroundImage='url("'+src.replace(/"/g,'%22')+'")'});
+   }
+   if(clean(cfg.eventAt)){
+     const dt=new Date(cfg.eventAt);if(!Number.isNaN(dt.getTime())){
+       const dateText=dt.toLocaleDateString('uz-UZ',{day:'2-digit',month:'2-digit',year:'numeric'});
+       document.querySelectorAll('.date-live').forEach(el=>el.textContent=dateText);
+     }
+   }
+ };
+ window.addEventListener('message',e=>{if(e.origin!==location.origin)return;if(!e.data||typeof e.data.type!=='string'||!e.data.type.startsWith('emora:'))return;apply(e.data.config)});
+ if(new URLSearchParams(location.search).get('editor')==='1')document.documentElement.dataset.editor='1';
+})();
+</script></body></html>
