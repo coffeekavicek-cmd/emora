@@ -1,0 +1,41 @@
+
+/* EMORA Silk Heritage isolated flagship opening: Three.js with self-contained DOM fallback. */
+.silk #intro{background:radial-gradient(circle at 50% 26%,#fffdf5 0%,#f6f0e4 62%,#e6ddce 100%);color:#435748}
+.silk #intro:before{background:linear-gradient(180deg,#fffaf244,#f6f0e477 64%,#f6f0e4c9);z-index:-2}
+.silk .intro-title{font-size:clamp(35px,5.6vw,74px);max-width:700px;text-shadow:0 8px 22px #fff8eeaa}
+.silk #intro .intro-object{width:min(490px,87vw);height:clamp(245px,40vh,430px);isolation:isolate}
+.silk #intro .intro-center{width:min(820px,96%);padding-top:75px}
+.silk .silk-drape{position:absolute;inset:0 auto 0 0;width:52%;pointer-events:none;z-index:0;
+ background:repeating-linear-gradient(96deg,#cdbb9e44 0,#fffaf5d9 7%,#b3a08140 15%,#fffdf6dd 21%);
+ filter:drop-shadow(9px 0 26px #987e562a);transition:transform 1.68s cubic-bezier(.22,.61,.36,1)}
+.silk .silk-drape.right{inset:0 0 0 auto;transform:scaleX(-1)}
+.silk #intro.playing .silk-drape.left{transform:translateX(-97%)}
+.silk #intro.playing .silk-drape.right{transform:scaleX(-1) translateX(-97%)}
+.silk .silk-arch{position:absolute;z-index:-1;top:3%;bottom:9%;width:78%;left:11%;border:15px solid #fdfaf1;
+ border-radius:48% 48% 9px 9px/33% 33% 5px 5px;box-shadow:0 0 0 2px #d6c6aa,inset 0 0 30px #bb9d6e38,0 23px 90px #665a4733;
+ background:linear-gradient(120deg,#fbf8eecc,#e6dfd285)}
+.silk .silk-light{position:absolute;left:11%;top:0;width:50%;height:100%;pointer-events:none;z-index:0;
+ background:linear-gradient(113deg,#fffefcb0,transparent 43%);clip-path:polygon(0 0,45% 0,100% 100%,40% 100%);opacity:.43}
+.silk .silk-drape-flowers{position:absolute;inset:auto 2% 4% 2%;height:42px;pointer-events:none;z-index:2;
+ background:radial-gradient(ellipse at 11% 60%,#faf6eb 0 5px,transparent 8px),
+ radial-gradient(ellipse at 17% 51%,#fcf8ef 0 9px,transparent 11px),
+ radial-gradient(ellipse at 82% 60%,#fffaf1 0 5px,transparent 8px),
+ radial-gradient(ellipse at 88% 52%,#faf5ec 0 9px,transparent 11px);
+ filter:drop-shadow(0 8px 4px #63523d50)}
+.silk #silk3d{position:absolute;inset:-8% -14%;width:128%;height:116%;z-index:4;pointer-events:none;
+ opacity:0;transition:opacity .7s;filter:drop-shadow(0 14px 24px #6c553a20)}
+.silk.silk-3d-ready #silk3d{opacity:1}
+.silk.silk-3d-ready .intro-object .object-envelope{opacity:0}
+.silk .intro-skip{border-color:#bfad8f;background:#fffbf2c9}
+.silk .intro-footer{font-size:9px;letter-spacing:.14em}
+.silk #startIntro{background:#88714c;color:#fffaf0;border-color:#88714c;min-height:50px}
+.silk .silk-live-caption{position:absolute;inset:auto 0 -29px;z-index:8;color:#8e7752;font:600 9px/1.3 'DM Sans',sans-serif;letter-spacing:.24em;text-align:center}
+@media(max-width:470px){
+ .silk #intro .intro-center{padding:65px 12px 55px}
+ .silk #intro .intro-object{height:min(33svh,310px);margin:8px auto}
+ .silk .silk-arch{border-width:9px}
+ .silk .silk-drape{width:49%}
+}
+@media(prefers-reduced-motion:reduce){
+ .silk #silk3d,.silk .silk-drape,.silk .silk-light{transition:none!important;animation:none!important}
+}
