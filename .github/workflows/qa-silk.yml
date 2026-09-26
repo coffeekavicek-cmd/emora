@@ -1,0 +1,41 @@
+name: Silk Heritage visual QA
+on:
+  push:
+    branches: [emora-v9-cinematic-templates]
+    paths:
+      - .github/workflows/qa-silk.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  visual-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: emora-v9-cinematic-templates
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright and headless Chromium
+        run: |
+          npm install --prefix v5-live --no-save playwright@1.55.0
+          cd v5-live && npx playwright install --with-deps chromium
+      - name: Run EMORA standalone server
+        run: |
+          PORT=3000 node v5-live/server.mjs > /tmp/emora-silk-server.log 2>&1 &
+          for i in $(seq 1 25); do
+            if curl -fsS http://127.0.0.1:3000/health >/dev/null; then break; fi
+            sleep 1
+          done
+          cat /tmp/emora-silk-server.log
+          curl --fail --silent --show-error --head http://127.0.0.1:3000/assets/silk-heritage-original.jpg
+      - name: Capture desktop and mobile + test interactions
+        run: node v5-live/tests/silk-visual-qa.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: emora-silk-visual-qa
+          path: v5-live/qa-silk-artifacts/
+          retention-days: 7
