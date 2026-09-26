@@ -30,7 +30,7 @@
 .live-view.mobile iframe{border-radius:30px}
 #studioIframe{border-radius:32px;display:block}
 .studio-iframe-hint{color:var(--sage);font-size:12px;text-align:center;margin-top:-8px;max-width:510px;line-height:1.6}
-.published-shell{position:fixed;inset:0;overflow:hidden;background:#fff}
+.published-shell{position:fixed;inset:0;overflow:hidden;background:#fff}.public-lang{position:fixed;z-index:100;top:18px;right:18px;display:flex;gap:4px;padding:5px;border-radius:999px;background:#fffef3dd;box-shadow:0 10px 35px #21171725;backdrop-filter:blur(12px)}.public-lang button{border:0;border-radius:999px;background:transparent;padding:8px 10px;font-size:9px;letter-spacing:.08em;color:#59665f}.public-lang button.active{background:#34433c;color:#fff}
 .published-shell>iframe{display:block}
 .public-guest-float{position:fixed;bottom:24px;right:24px;z-index:99;width:min(370px,calc(100vw - 24px));max-height:min(600px,85svh);overflow:auto;background:var(--paper);padding:22px;border:1px solid var(--line);border-radius:24px;box-shadow:0 24px 90px #2117174c}
 .public-guest-float .rsvp-box{margin:0;padding:0;border:0}
@@ -77,7 +77,7 @@
 </div>
 
 <div id="publicApp" class="published-shell hidden">
- <iframe id="publicIframe" title="EMORA — shaxsiy hikoya" allow="autoplay"></iframe>
+ <iframe id="publicIframe" title="EMORA — shaxsiy hikoya" allow="autoplay"></iframe><div class="public-lang" id="publicLang"><button class="active" data-lang="uz">UZ</button><button data-lang="ru">RU</button><button data-lang="en">EN</button></div>
  <aside id="publicGuestFloat" class="public-guest-float hidden">
  <div class="story-mode">EMORA · Ismingiz bilan taklifnoma</div>
  <div class="rsvp-box hidden" id="rsvpBox"><h3 id="guestGreeting">Siz kelasizmi?</h3><p>Javobingiz mezbonlarga yetib boradi.</p>
@@ -114,7 +114,7 @@ const SUPABASE_URL='https://mfbpjlwyjuycfqdokbfp.supabase.co';
 const SUPABASE_KEY='sb_publishable_7ylqOOjt3k79ORiWlx1a4Q_NhMYJfS7';
 const supabase=createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const $=s=>document.querySelector(s);
-const state={user:null,projectId:null,publishedSlug:null,rsvpAnswer:null,template:null};
+const state={user:null,projectId:null,publishedSlug:null,rsvpAnswer:null,template:null,publicContent:null,publicSlug:null,publicLang:'uz'};
 const experiencePath={"love-rose-theatre":"/templates/love-rose.html","love-pearl-linen":"/templates/love-pearl.html","wedding-silk-heritage":"/templates/wedding-silk.html","wedding-night-garden":"/templates/wedding-garden.html","birthday-aurora-paper":"/templates/birthday-aurora.html","apology-after-rain":"/templates/apology-rain.html","proposal-pearl-promise":"/templates/proposal-pearl.html"};
 const templates=[
 {slug:'love-rose-theatre',category:'01 / LOVE CINEMA',name:'Rose Theatre',desc:'Qoramtir romantik kino ritmi, foto, savol-javob va sahnali hikoya.',photo:'photo-love',screen:'love-screen',features:['6 sahnali hikoya','Foto + musiqa + video uchun joy','Interaktiv savol va finale']},
@@ -131,6 +131,7 @@ function slugify(s){return String(s||'').toLowerCase().normalize('NFKD').replace
 function fmtDate(v){if(!v)return '';const [y,m,d]=v.split('-');return [d,m,y].join(' · ')}
 function content(){return {template:$('#type').value,name1:$('#name1').value.trim(),name2:$('#name2').value.trim(),headline:$('#headline').value.trim(),headlineRu:$('#headlineRu').value.trim(),headlineEn:$('#headlineEn').value.trim(),letter:$('#letter').value.trim(),letterRu:$('#letterRu').value.trim(),letterEn:$('#letterEn').value.trim(),venue:$('#venue').value.trim(),venueMap:$('#venueMap').value.trim(),date:$('#date').value}}
 function isWedding(){return $('#type').value.startsWith('wedding-')}
+function localized(c,lang){const out={...c};if(lang==='ru'){out.headline=c.headlineRu||c.headline;out.letter=c.letterRu||c.letter}else if(lang==='en'){out.headline=c.headlineEn||c.headline;out.letter=c.letterEn||c.letter}return out}
 function showStatus(msg,bad=false){$('#status').textContent=msg;$('#status').style.color=bad?'#a33':'var(--sage)'}
 function buildCatalog(){
  $('#type').innerHTML=templates.map(t=>'<option value="'+t.slug+'">'+t.name+' — '+t.category.split('/')[1].trim()+'</option>').join('');
@@ -185,8 +186,8 @@ async function handlePublic(){
  const slug=decodeURIComponent(match[1]);
  const {data,error}=await supabase.from('published_sites').select('public_content,template_slug,slug').eq('slug',slug).eq('is_active',true).maybeSingle();
  if(error||!data){$('#publicApp').innerHTML='<main style="margin:auto;text-align:center"><h1>Havola topilmadi</h1><a href="/">EMORA bosh sahifa</a></main>';return true}
- const c={...(data.public_content||{}),template:data.template_slug};
- const frame=$('#publicIframe');frame.onload=()=>sendToExperience(frame,c,true);
+ const c={...(data.public_content||{}),template:data.template_slug};state.publicContent=c;state.publicSlug=slug;
+ const frame=$('#publicIframe');frame.onload=()=>sendToExperience(frame,localized(c,state.publicLang),true);
  frame.src=(experiencePath[data.template_slug]||experiencePath['love-rose-theatre'])+'?editor=1';
  const token=new URLSearchParams(location.search).get('g');try{await supabase.rpc('record_public_view',{p_slug:slug,p_guest_token:token||null})}catch{}
  if(token&&data.template_slug.startsWith('wedding-')){
@@ -210,6 +211,7 @@ $('#signupBtn').onclick=async()=>{const email=$('#authEmail').value.trim(),passw
 $('#resendBtn').onclick=async()=>{const email=$('#authEmail').value.trim();if(!email){setAuthMsg('Email kiriting.',true);return}const {error}=await supabase.auth.resend({type:'signup',email,options:{emailRedirectTo:location.origin}});setAuthMsg(error?error.message:'Tasdiqlash xati qayta yuborildi ✓',!!error)};
 $('#magicBtn').onclick=async()=>{const email=$('#magicEmail').value.trim();if(!email){setAuthMsg('Email kiriting.',true);return}const {error}=await supabase.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin,shouldCreateUser:true}});setAuthMsg(error?error.message:'Kirish linki emailga yuborildi. Emaildagi linkni oching ✓',!!error)};
 document.querySelectorAll('.rsvp-actions button').forEach(b=>b.onclick=()=>{state.rsvpAnswer=b.dataset.answer;document.querySelectorAll('.rsvp-actions button').forEach(x=>x.classList.remove('active'));b.classList.add('active')});
+document.querySelectorAll('#publicLang button').forEach(b=>b.onclick=()=>{state.publicLang=b.dataset.lang;document.querySelectorAll('#publicLang button').forEach(x=>x.classList.toggle('active',x===b));if(state.publicContent)sendToExperience($('#publicIframe'),localized(state.publicContent,state.publicLang),true)});
 $('#rsvpSubmit').onclick=async()=>{const token=$('#rsvpSubmit').dataset.token;if(!token||!state.rsvpAnswer){$('#rsvpStatus').textContent='Javobni tanlang.';return}const {error}=await supabase.rpc('submit_guest_rsvp',{p_token:token,p_answer:state.rsvpAnswer,p_attendees:Number($('#rsvpCount').value||0),p_message:$('#rsvpMessage').value});$('#rsvpStatus').textContent=error?error.message:'Rahmat, javobingiz saqlandi ✓'};
 await handlePublic();await refreshUser();supabase.auth.onAuthStateChange(()=>refreshUser());
 </script>
