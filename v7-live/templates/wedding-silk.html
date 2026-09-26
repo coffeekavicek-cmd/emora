@@ -90,7 +90,7 @@
   ceremonyTitle:'Ikki qalb. Bir taqdir.', dressCode:'Bayramona libos',
   closing:'Sizning tashrifingiz — biz uchun eng katta sovg‘a.',
   schedule:[{time:'17:00',title:'Mehmonlarni kutib olish',detail:'Samimiy suhbatlar va ilk tabassumlar'},{time:'18:00',title:'Nikoh oqshomi',detail:'Ikki qalbning unutilmas kuni'},{time:'19:00',title:'Bayram dasturxoni',detail:'Musiqa, raqs va unutilmas lahzalar'}],
-  cover:'',music:'',musicLabel:'Bizning kuyimiz',style:'silk',accent:'#ad9267',paper:'#f7f1e6',allowRsvp:true
+  cover:'https://commons.wikimedia.org/wiki/Special:FilePath/Pastel_rose_bouquet_(Unsplash).jpg?width=1100',music:'',musicLabel:'Bizning kuyimiz',style:'silk',accent:'#ad9267',paper:'#f7f1e6',allowRsvp:true
 };
 
 (() => {
@@ -115,7 +115,7 @@ function configure(data={}){
  put('names',`${g} & ${b}`);put('openNames',`${g.charAt(0)||'A'} · ${b.charAt(0)||'M'}`);put('heroDate',good?formatDate(d).toUpperCase():'SANA');put('heroVenue',(config.venue||'').toUpperCase());put('venueName',config.venue);put('address',config.address);put('families',config.families);put('greeting',guestName?`Hurmatli ${guestName}!`:config.greeting);put('greetingSplash',guestName?`${guestName}, sizga atalgan taklifnoma`:'Sizga atalgan taklifnoma');put('ceremonyTitle',config.ceremonyTitle);put('inviteText',config.invitation);put('dressCode',config.dressCode?`DRESS CODE: ${config.dressCode.toUpperCase()}`:'');put('closing',config.closing);put('dateCopy',good?formatDate(d):'');put('eventClock',good?'SOAT '+dateParts(d).hour+':'+dateParts(d).minute:'');
  put('day',good?dateParts(d).day:'--');put('month',good?months[Number(dateParts(d).month)-1].toUpperCase():'');put('year',good?dateParts(d).year:'');
  const a=$('map');if(/^https:\/\//.test(config.venueMap||'')){a.href=config.venueMap;a.hidden=false;}else a.hidden=true;
- const cover=validMedia(config.cover);if(cover){$('cover').src=cover;$('cover').hidden=false;$('portraitEmpty').hidden=true;}else{$('cover').hidden=true;$('portraitEmpty').hidden=false;}
+ const cover=config.cover?.startsWith('https://commons.wikimedia.org/wiki/Special:FilePath/')?config.cover:validMedia(config.cover);if(cover){$('cover').src=cover;$('cover').hidden=false;$('portraitEmpty').hidden=true;$('cover').onerror=()=>{$('cover').hidden=true;$('portraitEmpty').hidden=false;};}else{$('cover').hidden=true;$('portraitEmpty').hidden=false;}
  const tracks=validMedia(config.music);$('backgroundMusic').src=tracks;
  $('rsvp').hidden=config.allowRsvp===false;
  const container=$('schedule');container.replaceChildren();(config.schedule||[]).forEach((step,i)=>{const article=document.createElement('article');article.className='schedule-row reveal';const num=document.createElement('span');num.className='schedule-number';num.textContent=String(i+1).padStart(2,'0');const time=document.createElement('time');time.textContent=step.time||'';const desc=document.createElement('div');const title=document.createElement('h3');title.textContent=step.title||'';const detail=document.createElement('p');detail.textContent=step.detail||'';desc.append(title,detail);article.append(num,time,desc);container.append(article);observer.observe(article);});
