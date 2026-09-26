@@ -10,7 +10,7 @@ const mediaNames=new Set(["site-hero","love-rose","love-pearl","love-galaxy","we
 const legacy={"love-rose":"love-rose","love-pearl":"love-pearl","wedding-garden":"wedding-garden","birthday-aurora":"birthday-aurora","apology-rain":"apology-rain","proposal-pearl":"proposal-pearl"};
 const templateFiles=['wedding-silk.html',...premiumKeys.map(k=>'v10-'+k+'.html')];
 const jsFiles=['silk-heritage.js','v10-data.js','v10-main.js'];
-const cssFiles=['silk-heritage.css','v10-core.css','v10-love.css','v10-wedding.css','v10-birthday.css','v10-apology.css','v10-proposal.css'];
+const cssFiles=['silk-heritage.css','v10-core.css','v10-ritual-layouts.css','v10-love.css','v10-wedding.css','v10-birthday.css','v10-apology.css','v10-proposal.css'];
 await Promise.all([...templateFiles,...jsFiles,...cssFiles].map(f=>fs.access(path.join(ROOT,'templates',f))));
 await Promise.all(['silk-heritage-original.jpg',...mediaNames].map(f=>fs.access(path.join(ROOT,'assets',f.endsWith('.jpg')?f:f+'.png'))));
 for(const name of jsFiles){
