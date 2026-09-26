@@ -52,9 +52,20 @@ try{
    if(!image.includes('/assets/'))failures.push(groups[i]+' catalog visuals are not first-party assets');
   }
  }
+ // Anonymous visitors can preview but must authenticate before uploading private media.
+ const uploads=await page.locator('[data-media-upload]').count();
+ if(uploads!==5)failures.push('Expected five private file upload inputs, got '+uploads);
+ const imagePicker=page.locator('[data-media-upload="photo1"]');
+ if(await imagePicker.count()){
+  await imagePicker.setInputFiles({name:'test-placeholder.jpg',mimeType:'image/jpeg',buffer:Buffer.from([0xff,0xd8,0xff,0xd9])});
+  await page.waitForTimeout(300);
+  const authVisible=await page.locator('#accountModal').evaluate(e=>!e.classList.contains('hidden'));
+  if(!authVisible)failures.push('Anonymous private media upload must prompt for sign-in');
+  await page.locator('#closeAuth').click();
+ }
  if(errors.length)failures.push('Homepage browser exceptions: '+errors.join(' | '));
 }finally{await page.close();await browser.close()}
-const report={passed:failures.length===0,failures,checkedGroups:5,expectedTemplates:15,checks:['category-first','three independent templates per category','editor category selection','live iframe name update','real wedding input','permanent catalog art','browser exceptions']};
+const report={passed:failures.length===0,failures,checkedGroups:5,expectedTemplates:15,checks:['category-first','three independent templates per category','editor category selection','live iframe name update','real wedding input','permanent catalog art','browser exceptions','private upload controls and auth gate']};
 await fs.writeFile(path.join(folder,'platform-summary.json'),JSON.stringify(report,null,2));
 console.log(JSON.stringify(report,null,2));
 if(!report.passed)process.exitCode=1;
