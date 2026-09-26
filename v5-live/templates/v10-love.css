@@ -1,0 +1,24 @@
+
+.v10-love-rose{--base:#211921;--paper:#35232d;--ink:#fff2ea;--soft:#dfc5c4;--accent:#e0aaa9;--gold:#d5b48c;--line:#654754;--contrast:#281f27}
+.v10-love-pearl{--base:#fbf8f1;--paper:#fffdf9;--ink:#405448;--soft:#7b887c;--accent:#ab8e8c;--gold:#b8a27f;--line:#e8dfd2;--contrast:#fffdf8}
+.v10-love-galaxy{--base:#100f25;--paper:#1b1935;--ink:#faf3ff;--soft:#bdb6d5;--accent:#e1c1df;--gold:#d4b5d7;--line:#4c4162;--contrast:#160c28}
+.ritual-theatre .velvet{position:absolute;inset:0 auto 0 0;width:13%;z-index:4;background:repeating-linear-gradient(90deg,#371a28,#5c2b3a 13px,#1a0e1b 28px);opacity:.88;transform-origin:left;box-shadow:9px 0 27px #18071280;transition:transform 1.45s cubic-bezier(.19,.83,.25,1)}
+.ritual-theatre .velvet.right{left:auto;right:0;transform-origin:right}
+.ritual-theatre.opening .velvet.left{transform:translateX(-115%) rotateY(12deg)}.ritual-theatre.opening .velvet.right{transform:translateX(115%) rotateY(-12deg)}
+.ritual-theatre .light-beam{position:absolute;inset:0;background:radial-gradient(ellipse at 52% 24%,#ffe0bb36,transparent 62%);mix-blend-mode:screen;opacity:.6;animation:theatre-beam 5s ease-in-out infinite alternate}
+@keyframes theatre-beam{to{opacity:1;transform:scale(1.08)}}
+.v10-love-rose .v10-story-cover{background:radial-gradient(ellipse at 20% 10%,#883e4c52,transparent 55%),var(--base)}
+.v10-love-rose .scene-subtitles{background:#2e1b29}.v10-love-rose .scene-subtitles .v10-letter-panel{box-shadow:0 9px 65px #0d030c84;border-color:#81646b}
+.v10-love-pearl .ritual-envelope .v10-visual-frame{box-shadow:0 37px 70px #ad9b7e33,0 0 0 10px #fffbec}
+.ritual-envelope .pearl-seal{position:absolute;left:50%;top:49%;display:grid;place-items:center;width:71px;height:71px;transform:translate(-50%,-50%);border:7px double #f5ecd3;border-radius:49% 51% 53% 47%;color:#fff5df;background:radial-gradient(circle at 30% 27%,#e8cbaa,#a78a61);box-shadow:0 6px 28px #47302584;font:400 27px var(--serif);opacity:.93;transition:transform .9s,opacity .7s}
+.ritual-envelope.opening .pearl-seal{transform:translate(-50%,-50%) scale(.4) rotate(65deg);opacity:0}
+.ritual-envelope .pearl-ribbon{position:absolute;width:120%;height:22px;left:-10%;top:58%;transform:rotate(-18deg);background:linear-gradient(#ffffff66,#f9e9e67a,#ffffff52);filter:blur(2px);opacity:.55;transition:transform 1.15s}
+.ritual-envelope.opening .pearl-ribbon{transform:translateY(-200px) rotate(-29deg);opacity:0}
+.v10-love-pearl .v10-memory-layout.layout-polaroid{padding:25px;background:#f8f0e4b0;border:1px solid #e4d7c8}
+.ritual-galaxy .orbit{position:absolute;left:50%;top:50%;border:1px solid #e7ddff8c;border-radius:50%;width:75%;height:38%;transform:translate(-50%,-50%) rotate(-25deg);box-shadow:0 0 25px #ded0f33d,inset 0 0 24px #ece7ff22;animation:orbit-turn 16s linear infinite}
+.ritual-galaxy .orbit-b{width:102%;height:49%;animation-duration:23s}.ritual-galaxy .orbit-c{width:55%;height:32%;animation-duration:12s;animation-direction:reverse}
+@keyframes orbit-turn{to{transform:translate(-50%,-50%) rotate(335deg)}}
+.v10-love-galaxy .v10-intro-headline,.v10-love-galaxy .v10-cover-title{text-shadow:0 0 60px #ddc2e04a}
+.v10-love-galaxy .scene-stars,.v10-love-galaxy .scene-constellation{background:radial-gradient(circle at 48% 40%,#3c2859 0,#1b163a 48%,#100f25 83%)}
+.v10-love-galaxy .v10-interact-layout{background:radial-gradient(ellipse at center,#534075,#111028 75%);box-shadow:inset 0 0 65px #8c65b848}
+.v10-love-galaxy .v10-interact-point{background:#2e284e;border-color:#d8bbdd;box-shadow:0 0 45px #c9aad988}
