@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1300" viewBox="0 0 900 1300" role="img" aria-labelledby="t">
+<title id="t">Silk Heritage — ivory architecture, flowers and soft morning light</title>
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffdf7"/><stop offset=".53" stop-color="#eee6d5"/><stop offset="1" stop-color="#d5c5ad"/></linearGradient>
+ <radialGradient id="light" cx=".30" cy=".14" r=".78"><stop stop-color="#fffdfa" stop-opacity=".94"/><stop offset=".59" stop-color="#ffeecd" stop-opacity=".20"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+ <linearGradient id="column"><stop stop-color="#fbf8ee"/><stop offset=".24" stop-color="#d3bfa3"/><stop offset=".52" stop-color="#fffdf6"/><stop offset=".88" stop-color="#d7c5aa"/><stop offset="1" stop-color="#fbf8ef"/></linearGradient>
+ <linearGradient id="curtain"><stop stop-color="#ded0ba"/><stop offset=".12" stop-color="#fffaf1"/><stop offset=".25" stop-color="#caba9e"/><stop offset=".41" stop-color="#fffdf3"/><stop offset=".67" stop-color="#e0d3bb"/><stop offset=".84" stop-color="#fffaf1"/><stop offset="1" stop-color="#d0bfa6"/></linearGradient>
+ <radialGradient id="flower"><stop stop-color="#fffdf7"/><stop offset=".7" stop-color="#fbf7ed"/><stop offset="1" stop-color="#cbb8a0"/></radialGradient>
+ <radialGradient id="gold"><stop stop-color="#ffebbb"/><stop offset=".42" stop-color="#bba071"/><stop offset="1" stop-color="#8f754d"/></radialGradient>
+ <filter id="blur"><feGaussianBlur stdDeviation="32"/></filter>
+ <filter id="shadow" x="-.4" y="-.4" width="1.8" height="2"><feGaussianBlur stdDeviation="12"/></filter>
+ <pattern id="grain" width="48" height="48" patternUnits="userSpaceOnUse"><circle cx="12" cy="16" r=".6" fill="#907f6a" opacity=".25"/><circle cx="38" cy="31" r=".5" fill="#907f6a" opacity=".2"/></pattern>
+</defs>
+<rect width="900" height="1300" fill="url(#bg)"/>
+<rect width="900" height="1300" fill="url(#light)"/>
+<ellipse cx="450" cy="820" rx="430" ry="600" fill="#fffaf0" opacity=".60" filter="url(#blur)"/>
+<!-- Architectural alcove, quiet editorial depth -->
+<path d="M154 1150V435C154 250 283 132 450 132S746 250 746 435V1150Z" fill="#d0bda6" opacity=".45" filter="url(#shadow)"/>
+<path d="M151 1150V435C151 258 286 133 450 133S749 258 749 435V1150Z" fill="#f7f3e9" stroke="#d8c7ac" stroke-width="5"/>
+<path d="M205 1150V446C205 306 311 198 450 198S695 306 695 446V1150Z" fill="#e6dece" stroke="#eadfcd" stroke-width="11"/>
+<path d="M247 1150V461C247 337 339 243 450 243S653 337 653 461V1150Z" fill="#eee8db" opacity=".92"/>
+<path d="M256 1149V461C256 350 344 252 450 252S644 350 644 461V1149Z" fill="#e8dfcf"/>
+<path d="M256 252L644 1150" stroke="#fffdfa" stroke-width="70" opacity=".27" filter="url(#blur)"/>
+<rect x="144" y="1099" width="612" height="23" fill="url(#column)"/>
+<rect x="115" y="1121" width="670" height="36" fill="#f5f0e6" stroke="#c9b89f"/>
+<!-- Silk curtain folds framing the center -->
+<path d="M0 0H204C188 163 168 344 179 530S219 947 169 1300H0Z" fill="url(#curtain)"/>
+<path d="M0 0H179C162 170 151 383 169 570S194 1040 140 1300H0Z" fill="#fffaf1" opacity=".42"/>
+<path d="M900 0H696C712 163 732 344 721 530S681 947 731 1300H900Z" fill="url(#curtain)"/>
+<path d="M900 0H721C738 170 749 383 731 570S706 1040 760 1300H900Z" fill="#fffaf1" opacity=".38"/>
+<path d="M0 0L208 0 184 205 133 392 198 566" fill="none" stroke="#fffdf7" stroke-width="13" opacity=".54"/>
+<path d="M900 0L692 0 716 205 767 392 702 566" fill="none" stroke="#fffdf7" stroke-width="13" opacity=".54"/>
+<!-- Pale botanicals around lower corners -->
+<g fill="none" stroke="#8a9b7e" stroke-width="7" opacity=".7">
+<path d="M100 1260Q164 1082 225 977M93 1250Q154 1130 290 1050M760 1290Q733 1115 652 982M799 1250Q755 1162 626 1035"/>
+<path d="M165 1160q-90-53-113-21q21 57 113 21M192 1074q-10-82 34-101q45 57-34 101M718 1162q67-68 111-40q-21 58-111 40M689 1083q15-85-26-111q-53 64 26 111" fill="#8d9f83" opacity=".62"/>
+</g>
+<g fill="url(#flower)" stroke="#ede1ce" stroke-width="1.8">
+ <g transform="translate(125 1139)">
+  <ellipse rx="40" ry="70" transform="rotate(0) translate(0 -40)"/><ellipse rx="40" ry="70" transform="rotate(72) translate(0 -40)"/><ellipse rx="40" ry="70" transform="rotate(144) translate(0 -40)"/><ellipse rx="40" ry="70" transform="rotate(216) translate(0 -40)"/><ellipse rx="40" ry="70" transform="rotate(288) translate(0 -40)"/><circle r="22" fill="#e9dbbd"/>
+ </g>
+ <g transform="translate(219 1008) scale(.72)">
+  <ellipse rx="40" ry="70" transform="rotate(0) translate(0 -40)"/><ellipse rx="40" ry="70" transform="rotate(72) translate(0 -40)"/><ellipse rx="40" ry="70" transform="rotate(144) translate(0 -40)"/><ellipse rx="40" ry="70" transform="rotate(216) translate(0 -40)"/><ellipse rx="40" ry="70" transform="rotate(288) translate(0 -40)"/><circle r="22" fill="#e9dbbd"/>
+ </g>
+ <g transform="translate(762 1145)">
+  <ellipse rx="40" ry="70" transform="rotate(0) translate(0 -40)"/><ellipse rx="40" ry="70" transform="rotate(72) translate(0 -40)"/><ellipse rx="40" ry="70" transform="rotate(144) translate(0 -40)"/><ellipse rx="40" ry="70" transform="rotate(216) translate(0 -40)"/><ellipse rx="40" ry="70" transform="rotate(288) translate(0 -40)"/><circle r="22" fill="#e9dbbd"/>
+ </g>
+ <g transform="translate(679 993) scale(.74)">
+  <ellipse rx="40" ry="70" transform="rotate(0) translate(0 -40)"/><ellipse rx="40" ry="70" transform="rotate(72) translate(0 -40)"/><ellipse rx="40" ry="70" transform="rotate(144) translate(0 -40)"/><ellipse rx="40" ry="70" transform="rotate(216) translate(0 -40)"/><ellipse rx="40" ry="70" transform="rotate(288) translate(0 -40)"/><circle r="22" fill="#e9dbbd"/>
+ </g>
+</g>
+<ellipse cx="450" cy="1162" rx="284" ry="42" fill="#a6967c" opacity=".18" filter="url(#blur)"/>
+<rect width="900" height="1300" fill="url(#grain)" opacity=".38"/>
+</svg>
