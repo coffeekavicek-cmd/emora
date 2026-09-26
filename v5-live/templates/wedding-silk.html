@@ -1,23 +1,108 @@
 <!doctype html>
 <html lang="uz" data-template="wedding-silk">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#fbf8f0">
-<meta name="description" content="EMORA Silk Heritage — interaktiv, shaxsiy, cinematic taklifnoma va hikoya.">
-<meta name="robots" content="noindex,nofollow">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fcf9f2"><meta name="robots" content="noindex,nofollow">
+<meta name="description" content="EMORA Silk Heritage — ipak pardasi ortidagi shaxsiy premium to‘y taklifnomasi.">
 <title>EMORA · Silk Heritage</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/templates/cinematic.css?v=9">
-<script defer src="/templates/cinematic.js?v=9"></script>
+<link rel="stylesheet" href="/templates/silk-heritage.css?v=10">
+<script defer src="/templates/silk-heritage.js?v=10"></script>
+<script type="module" src="/templates/silk-3d.js?v=10"></script>
 </head>
 <body>
-<div id="experience" class="site silk">
-<main style="min-height:100svh;display:grid;place-items:center;background:inherit;color:inherit;text-align:center;padding:28px">
-<div><span style="font:italic 48px Georgia,serif">emora</span><p>Silk Heritage · Cinematic Experience</p><p>Hikoya tayyorlanmoqda…</p></div>
-</main>
+<!-- All seven chapters exist in semantic HTML so the invitation stays readable if 3D fails. -->
+<div class="intro" id="silkIntro" role="dialog" aria-modal="true" aria-label="Silk Heritage taklifnomasini ochish">
+ <button type="button" id="skipIntro" class="skip">O‘tkazib yuborish ↗</button>
+ <div class="intro-ornament">EMORA · SILK HERITAGE · WEDDING ATELIER</div>
+ <div class="stage" id="introStage">
+  <div class="arch"></div><div class="sunray"></div>
+  <div class="envelope" aria-hidden="true">
+   <div class="letter"><small>TAKLIFNOMA</small><strong id="introCardNames">Malika &amp; Aziz</strong></div>
+   <div class="ribbon"></div><div class="flap"></div><div class="seal" id="introSeal">MA</div>
+  </div>
+  <canvas class="canvas3d" id="silkCanvas" aria-hidden="true"></canvas>
+  <div class="curtain left" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="curtain right" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="floor-glow"></div>
+ </div>
+ <div class="intro-content">
+  <span class="kicker" id="introGuest">AZIZ MEHMONIMIZ UCHUN</span>
+  <h1>Eng qadrli kun eshigi</h1>
+  <p>Ipak pardani oching. Siz uchun atalgan taklifnoma ichkarida.</p>
+  <button type="button" class="btn" id="openInvite">Taklifnomani ochish ↗</button>
+ </div>
 </div>
-<noscript>Shablonni ko‘rish uchun brauzeringizda JavaScript’ni yoqing.</noscript>
+<header class="nav">
+ <a href="#opening" class="brand" aria-label="EMORA, bosh sahifa">emora</a>
+ <span class="edition">SILK HERITAGE · PRIVATE INVITATION</span>
+ <button id="musicButton" type="button" class="music" aria-pressed="false" hidden>♪ Musiqa</button>
+</header>
+<div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+<main id="silkExperience">
+ <section class="chapter hero" id="opening" aria-labelledby="coupleNames">
+  <div class="inner">
+   <div class="copy">
+    <div class="chapter-label" id="heroGuest">AZIZ MEHMONIMIZGA</div>
+    <div class="ornament">❦</div>
+    <h1 class="display" id="coupleNames">Malika <i style="font-weight:400;color:#b59a70">&amp;</i> Aziz</h1>
+    <p class="lead" id="heroInvitation">Hayotimizning eng qadrli kuni quvonchini siz bilan baham ko‘rishdan baxtiyormiz. To‘yimizga tashrif buyurishingizni kutamiz.</p>
+    <div class="action-row" style="justify-content:flex-start"><button class="btn" id="beginStory" type="button">Taklifnomani ko‘rish ↓</button><button class="btn ghost" id="shareTop" type="button">Ulashish ↗</button></div>
+    <p class="chapter-progress">01 — SHAXSIY TAKLIFNOMA</p>
+   </div>
+   <div class="hero-memento" role="img" aria-label="Ipak va oltin bezakli to‘y monogrami"><div class="medallion" id="heroInitials">MA</div><div class="floral">❧ ❦</div></div>
+  </div>
+ </section>
+ <section class="chapter story" id="story" aria-labelledby="storyTitle">
+  <div class="inner">
+   <div class="story-art"><span id="storyDecor">Bizning<br>hikoyamiz ❧</span></div>
+   <div>
+    <div class="chapter-label">02 — IKKI YURAKNING HIKOYASI</div>
+    <h2 class="heading reveal" id="storyTitle">Muhabbatning yangi bobi</h2>
+    <p class="lead reveal" id="storyLead">Birgalikda boshlangan yo‘lning yangi sahifasini siz bilan ochamiz.</p>
+    <div class="story-points" id="storyPoints"></div>
+   </div>
+  </div>
+ </section>
+ <section class="chapter date" id="date" aria-labelledby="dateHeading">
+  <div class="inner">
+   <div class="chapter-label">03 — BIZNING KUNIMIZ</div><div class="ornament">✦</div>
+   <h2 class="heading reveal" id="dateHeading">Bu kunni eslab qoling</h2>
+   <div class="event-date" id="eventDate">25-iyun, 2027</div>
+   <p class="lead" id="eventTime">Juma · 18:00 · Toshkent vaqti</p>
+   <div class="countdown" id="countdown" aria-label="Marosimgacha qolgan vaqt">
+    <div><strong id="d">00</strong><small>KUN</small></div>
+    <div><strong id="h">00</strong><small>SOAT</small></div>
+    <div><strong id="m">00</strong><small>DAQIQA</small></div>
+    <div><strong id="s">00</strong><small>SONIYA</small></div>
+   </div>
+   <p class="day-status" id="dayStatus" hidden></p>
+   <div class="action-row" style="margin-top:26px"><button class="btn light" id="addCalendar" type="button">Taqvimga qo‘shish +</button></div>
+  </div>
+ </section>
+ <section class="chapter schedule" id="schedule" aria-labelledby="scheduleHeading">
+  <div class="inner">
+   <div class="sticky"><div class="chapter-label">04 — MAROSIM DASTURI</div><h2 class="heading reveal" id="scheduleHeading">Birga o‘tkazadigan lahzalar</h2><p class="lead">Shu kechaning har bir lahzasida siz bilan birga bo‘lish biz uchun sharaf.</p></div>
+   <ol class="timeline" id="timeline"><li><time>17:00</time><strong>Mehmonlarni kutib olish</strong><p>Kelgan mehmonlar bilan iliq uchrashuv.</p></li><li><time>18:00</time><strong>Nikoh marosimi</strong><p>Yangi hayotimizning tantanali boshlanishi.</p></li><li><time>19:00</time><strong>Bayram oqshomi</strong><p>Tabriklar, ziyofat va quvonch.</p></li></ol>
+  </div>
+ </section>
+ <section class="chapter place" id="place" aria-labelledby="placeHeading">
+  <div class="inner">
+   <div class="place-map" aria-hidden="true"><div class="pin"></div></div>
+   <div class="copy"><div class="chapter-label">05 — MANZIL</div><h2 class="heading reveal" id="placeHeading">Qayerda uchrashamiz?</h2><div class="venue-name" id="venueName">The Garden, Toshkent</div><p class="lead" id="venueNote">Sizni belgilangan vaqtda kutib qolamiz.</p><div class="action-row" style="justify-content:flex-start"><a id="mapLink" class="btn" target="_blank" rel="noopener noreferrer" hidden>Xaritada ko‘rish ↗</a></div></div>
+  </div>
+ </section>
+ <section class="chapter rsvp" id="rsvp" aria-labelledby="rsvpHeading">
+  <div class="inner"><div class="chapter-label">06 — SIZNI KUTAMIZ</div><div class="ornament">♡</div><h2 class="heading reveal" id="rsvpHeading">Biz bilan birga bo‘lasizmi?</h2><p class="lead" style="margin:0 auto 30px">Ismingiz yozilgan shaxsiy taklifnoma orqali tashrifingizni tasdiqlashingiz mumkin.</p>
+  <button class="btn" id="rsvpButton" type="button">Javob berish ↗</button>
+  <p id="rsvpHint" class="muted" style="font-size:12px;line-height:1.8"></p></div>
+ </section>
+ <section class="chapter finale" id="finale" aria-labelledby="finalTitle">
+  <div class="inner"><div class="chapter-label">07 — MUHABBAT BILAN</div><div class="monogram" id="finalInitials">MA</div><h2 class="heading reveal" id="finalTitle">Siz bilan bu kun yanada go‘zal.</h2><p class="lead" id="finalBlessing">Baxtimizga sherik bo‘lishingiz biz uchun eng katta sovg‘a. Uchrashguncha!</p><div class="closing" id="finalNames">Malika &amp; Aziz</div><div class="action-row"><button class="btn" id="shareFinal" type="button">Taklifnomani ulashish ↗</button><button class="btn ghost" id="backTop" type="button">Boshiga qaytish ↑</button></div></div>
+ </section>
+</main>
+<audio id="audio" preload="none"></audio>
+<noscript><style>#silkIntro{display:none}.reveal{opacity:1;transform:none}</style></noscript>
 </body>
 </html>
