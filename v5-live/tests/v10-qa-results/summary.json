@@ -32,6 +32,15 @@
         "width": 346,
         "height": 84.4375
       },
+      "frame": {
+        "x": 0,
+        "y": 62,
+        "right": 390,
+        "bottom": 844,
+        "width": 390,
+        "height": 782
+      },
+      "frameRadius": "0px",
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
@@ -55,11 +64,11 @@
         "height": 435.6099548339844
       },
       "button": {
-        "x": 114.390625,
+        "x": 116.28125,
         "y": 747.203125,
-        "right": 276.59375,
+        "right": 274.703125,
         "bottom": 796.203125,
-        "width": 162.203125,
+        "width": 158.421875,
         "height": 49
       },
       "headline": {
@@ -70,6 +79,15 @@
         "width": 347,
         "height": 88.1875
       },
+      "frame": {
+        "x": 30.31884002685547,
+        "y": 76.22180938720703,
+        "right": 359.68114471435547,
+        "bottom": 506.23133087158203,
+        "width": 329.3623046875,
+        "height": 430.009521484375
+      },
+      "frameRadius": "4px",
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
@@ -108,6 +126,15 @@
         "width": 346,
         "height": 84.4375
       },
+      "frame": {
+        "x": 0,
+        "y": 62,
+        "right": 390,
+        "bottom": 844,
+        "width": 390,
+        "height": 782
+      },
+      "frameRadius": "0px",
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
@@ -146,6 +173,8 @@
         "width": 346,
         "height": 124.78125
       },
+      "frame": null,
+      "frameRadius": null,
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 0
@@ -184,6 +213,15 @@
         "width": 346,
         "height": 84.4375
       },
+      "frame": {
+        "x": 0,
+        "y": 62,
+        "right": 390,
+        "bottom": 844,
+        "width": 390,
+        "height": 782
+      },
+      "frameRadius": "0px",
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
@@ -207,11 +245,11 @@
         "height": 388.032958984375
       },
       "button": {
-        "x": 110.953125,
+        "x": 111.96875,
         "y": 751.203125,
-        "right": 279.046875,
+        "right": 278.015625,
         "bottom": 800.203125,
-        "width": 168.09375,
+        "width": 166.046875,
         "height": 49
       },
       "headline": {
@@ -222,6 +260,15 @@
         "width": 352,
         "height": 87.21875
       },
+      "frame": {
+        "x": 42.90625,
+        "y": 84,
+        "right": 347.09375,
+        "bottom": 467.171875,
+        "width": 304.1875,
+        "height": 383.171875
+      },
+      "frameRadius": "50%",
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
@@ -245,11 +292,11 @@
         "height": 416.9891357421875
       },
       "button": {
-        "x": 109.515625,
+        "x": 110.3125,
         "y": 751.203125,
-        "right": 280.484375,
+        "right": 279.6875,
         "bottom": 800.203125,
-        "width": 170.96875,
+        "width": 169.375,
         "height": 49
       },
       "headline": {
@@ -260,6 +307,15 @@
         "width": 350,
         "height": 91.78125
       },
+      "frame": {
+        "x": 34.353031158447266,
+        "y": 83.55555725097656,
+        "right": 355.64697647094727,
+        "bottom": 495.25697326660156,
+        "width": 321.2939453125,
+        "height": 411.701416015625
+      },
+      "frameRadius": "8px",
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
@@ -283,11 +339,11 @@
         "height": 796.075927734375
       },
       "button": {
-        "x": 102.6875,
+        "x": 104.40625,
         "y": 777,
-        "right": 287.296875,
+        "right": 285.59375,
         "bottom": 826,
-        "width": 184.609375,
+        "width": 181.1875,
         "height": 49
       },
       "headline": {
@@ -298,6 +354,15 @@
         "width": 346,
         "height": 84.4375
       },
+      "frame": {
+        "x": 0,
+        "y": 62,
+        "right": 390,
+        "bottom": 844,
+        "width": 390,
+        "height": 782
+      },
+      "frameRadius": "0px",
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
@@ -336,6 +401,15 @@
         "width": 350,
         "height": 88.1875
       },
+      "frame": {
+        "x": 0,
+        "y": 96,
+        "right": 390,
+        "bottom": 471.359375,
+        "width": 390,
+        "height": 375.359375
+      },
+      "frameRadius": "0px",
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 5
@@ -374,6 +448,15 @@
         "width": 346,
         "height": 84.4375
       },
+      "frame": {
+        "x": 0,
+        "y": 62,
+        "right": 390,
+        "bottom": 844,
+        "width": 390,
+        "height": 782
+      },
+      "frameRadius": "0px",
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
@@ -399,19 +482,28 @@
       "button": {
         "x": 27,
         "y": 747.203125,
-        "right": 198.96875,
+        "right": 195.75,
         "bottom": 796.203125,
-        "width": 171.96875,
+        "width": 168.75,
         "height": 49
       },
       "headline": {
         "x": 27,
-        "y": 600.109375,
+        "y": 552.421875,
         "right": 363,
         "bottom": 647.796875,
         "width": 336,
-        "height": 47.6875
+        "height": 95.375
       },
+      "frame": {
+        "x": 93.609375,
+        "y": 87,
+        "right": 366.609375,
+        "bottom": 438.890625,
+        "width": 273,
+        "height": 351.890625
+      },
+      "frameRadius": "0px",
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
@@ -450,6 +542,15 @@
         "width": 346,
         "height": 42.21875
       },
+      "frame": {
+        "x": 0,
+        "y": 62,
+        "right": 390,
+        "bottom": 844,
+        "width": 390,
+        "height": 782
+      },
+      "frameRadius": "0px",
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
@@ -473,11 +574,11 @@
         "height": 796.075927734375
       },
       "button": {
-        "x": 109.515625,
+        "x": 110.3125,
         "y": 774,
-        "right": 280.484375,
+        "right": 279.6875,
         "bottom": 823,
-        "width": 170.96875,
+        "width": 169.375,
         "height": 49
       },
       "headline": {
@@ -488,6 +589,15 @@
         "width": 346,
         "height": 84.4375
       },
+      "frame": {
+        "x": 0,
+        "y": 62,
+        "right": 390,
+        "bottom": 844,
+        "width": 390,
+        "height": 782
+      },
+      "frameRadius": "0px",
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
@@ -511,11 +621,11 @@
         "height": 796.075927734375
       },
       "button": {
-        "x": 100.1875,
+        "x": 102.5625,
         "y": 774,
-        "right": 289.796875,
+        "right": 287.421875,
         "bottom": 823,
-        "width": 189.609375,
+        "width": 184.859375,
         "height": 49
       },
       "headline": {
@@ -526,6 +636,15 @@
         "width": 346,
         "height": 84.4375
       },
+      "frame": {
+        "x": 0,
+        "y": 62,
+        "right": 390,
+        "bottom": 844,
+        "width": 390,
+        "height": 782
+      },
+      "frameRadius": "0px",
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
@@ -564,6 +683,15 @@
         "width": 346,
         "height": 84.4375
       },
+      "frame": {
+        "x": 0,
+        "y": 62,
+        "right": 390,
+        "bottom": 844,
+        "width": 390,
+        "height": 782
+      },
+      "frameRadius": "0px",
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
@@ -602,6 +730,15 @@
         "width": 316,
         "height": 83.71875
       },
+      "frame": {
+        "x": 0,
+        "y": 62,
+        "right": 360,
+        "bottom": 740,
+        "width": 360,
+        "height": 678
+      },
+      "frameRadius": "0px",
       "scrollWidth": 360,
       "screenWidth": 360,
       "categoryCount": 4
@@ -625,21 +762,23 @@
         "height": 394.759033203125
       },
       "button": {
-        "x": 76.71875,
+        "x": 77.953125,
         "y": 649.8125,
-        "right": 283.265625,
+        "right": 282.03125,
         "bottom": 699.8125,
-        "width": 206.546875,
+        "width": 204.078125,
         "height": 50
       },
       "headline": {
         "x": 22,
-        "y": 412.78125,
+        "y": 411.78125,
         "right": 338,
-        "bottom": 533.71875,
+        "bottom": 532.71875,
         "width": 316,
         "height": 120.9375
       },
+      "frame": null,
+      "frameRadius": null,
       "scrollWidth": 360,
       "screenWidth": 360,
       "categoryCount": 0
@@ -663,11 +802,11 @@
         "height": 362.0001525878906
       },
       "button": {
-        "x": 94.515625,
+        "x": 95.3125,
         "y": 647.203125,
-        "right": 265.484375,
+        "right": 264.6875,
         "bottom": 696.203125,
-        "width": 170.96875,
+        "width": 169.375,
         "height": 49
       },
       "headline": {
@@ -678,6 +817,15 @@
         "width": 320,
         "height": 91.78125
       },
+      "frame": {
+        "x": 32.186336517333984,
+        "y": 84.04045104980469,
+        "right": 327.7980308532715,
+        "bottom": 441.7251434326172,
+        "width": 295.6116943359375,
+        "height": 357.6846923828125
+      },
+      "frameRadius": "8px",
       "scrollWidth": 360,
       "screenWidth": 360,
       "categoryCount": 4
@@ -701,11 +849,11 @@
         "height": 690.2039794921875
       },
       "button": {
-        "x": 101.390625,
+        "x": 103.21875,
         "y": 670,
-        "right": 258.59375,
+        "right": 256.78125,
         "bottom": 719,
-        "width": 157.203125,
+        "width": 153.5625,
         "height": 49
       },
       "headline": {
@@ -716,6 +864,15 @@
         "width": 316,
         "height": 83.71875
       },
+      "frame": {
+        "x": 0,
+        "y": 62,
+        "right": 360,
+        "bottom": 740,
+        "width": 360,
+        "height": 678
+      },
+      "frameRadius": "0px",
       "scrollWidth": 360,
       "screenWidth": 360,
       "categoryCount": 4
@@ -754,6 +911,15 @@
         "width": 316,
         "height": 83.71875
       },
+      "frame": {
+        "x": 0,
+        "y": 62,
+        "right": 360,
+        "bottom": 740,
+        "width": 360,
+        "height": 678
+      },
+      "frameRadius": "0px",
       "scrollWidth": 360,
       "screenWidth": 360,
       "categoryCount": 4
@@ -792,6 +958,15 @@
         "width": 670,
         "height": 167.84375
       },
+      "frame": {
+        "x": 489.609375,
+        "y": 81,
+        "right": 1440,
+        "bottom": 851,
+        "width": 950.390625,
+        "height": 770
+      },
+      "frameRadius": "0px",
       "scrollWidth": 1440,
       "screenWidth": 1440,
       "categoryCount": 4
@@ -830,6 +1005,8 @@
         "width": 651.75,
         "height": 233.765625
       },
+      "frame": null,
+      "frameRadius": null,
       "scrollWidth": 1440,
       "screenWidth": 1440,
       "categoryCount": 0
@@ -868,6 +1045,15 @@
         "width": 642.59375,
         "height": 173.25
       },
+      "frame": {
+        "x": 814.2993774414062,
+        "y": 125.731689453125,
+        "right": 1340.26318359375,
+        "bottom": 802.268310546875,
+        "width": 525.9638061523438,
+        "height": 676.53662109375
+      },
+      "frameRadius": "11px",
       "scrollWidth": 1440,
       "screenWidth": 1440,
       "categoryCount": 4
@@ -906,6 +1092,15 @@
         "width": 670,
         "height": 167.84375
       },
+      "frame": {
+        "x": 489.609375,
+        "y": 81,
+        "right": 1440,
+        "bottom": 851,
+        "width": 950.390625,
+        "height": 770
+      },
+      "frameRadius": "0px",
       "scrollWidth": 1440,
       "screenWidth": 1440,
       "categoryCount": 4
@@ -944,6 +1139,15 @@
         "width": 670,
         "height": 167.84375
       },
+      "frame": {
+        "x": 489.609375,
+        "y": 81,
+        "right": 1440,
+        "bottom": 851,
+        "width": 950.390625,
+        "height": 770
+      },
+      "frameRadius": "0px",
       "scrollWidth": 1440,
       "screenWidth": 1440,
       "categoryCount": 4
