@@ -185,7 +185,7 @@ function buildCatalog(){
 function openTemplate(slug){const t=templates.find(x=>x.slug===slug);if(!t)return;state.template=t;$('#templateCategory').textContent=t.category;$('#templateName').textContent=t.name;$('#templateDescription').textContent=t.desc;$('#templateFeatures').innerHTML=t.features.map(x=>'<div>✦ '+esc(x)+'</div>').join('');$('#templateIframe').src=experiencePath[slug]+'?editor=1';$('#templateFullscreen').href=experiencePath[slug]+'?editor=1';$('#liveView').classList.add('mobile');$('#templateModal').classList.remove('hidden')}
 function useTemplate(slug){const t=templates.find(x=>x.slug===slug);if(!t)return;state.category=t.group;renderTypeOptions(t.group,slug);$('#type').value=slug;render();$('#templateModal').classList.add('hidden');$('#studio').scrollIntoView({behavior:'smooth'})}
 function configFor(c,override){
- const t=c.template||'love-rose-theatre',imgs=["https://commons.wikimedia.org/wiki/Special:FilePath/Rose_Bouquet_(Unsplash).jpg?width=1100","https://commons.wikimedia.org/wiki/Special:FilePath/Pink_rose_bouquet_(Unsplash).jpg?width=1100","https://commons.wikimedia.org/wiki/Special:FilePath/Pastel_rose_bouquet_(Unsplash).jpg?width=1100"];
+ const t=c.template||'love-rose-theatre',imgs=Array.isArray(c.photos)?c.photos:[];
  const dateIso=c.date?c.date+'T18:00:00+05:00':'2027-06-25T18:00:00+05:00';
  if(t.startsWith('love-'))return {template:'love-confession-cinema-01',recipient:c.name1||'Sevgilim',sender:c.name2||'Seni sevuvchi inson',intro:c.headline||'Senga aytolmagan bir gapim bor…',question:'Eshitishga tayyormisan?',metAt:dateIso,mood:t==='love-pearl-linen'?'nocturne':'cinema',photos:imgs,letter:c.letter||'Sen bilan o‘tgan har bir lahza men uchun qadrli. Hayotimdagi eng go‘zal sahifalar sen bilan davom etishini xohlayman.',finalHeading:'Hammasining javobi — sen.',finalLine:c.headline||'Sen bilan hammasi go‘zal.'};
  if(t.startsWith('wedding-'))return {template:'wedding-silk-01',bride:c.name1||'Malika',groom:c.name2||'Aziz',eventAt:dateIso,venue:c.venue||'The Garden, Toshkent',venueMap:c.venueMap||'',invitation:c.letter||'Sizni biz uchun eng qadrli kunning bir qismi bo‘lishga taklif qilamiz.',cover:imgs[2],style:t==='wedding-night-garden'?'night-garden':'silk',allowRsvp:!override};
@@ -243,6 +243,7 @@ async function handlePublic(){
  }
  return true;
 }
+window.addEventListener('message',e=>{if(e.origin!==location.origin||e.data?.type!=='emora:open-rsvp')return;const box=$('#rsvpBox');if(!box.classList.contains('hidden')){box.scrollIntoView({behavior:'smooth',block:'center'});box.querySelector('button')?.focus()}else{const guest=$('#publicGuestFloat');if(guest&&!guest.classList.contains('hidden'))guest.scrollIntoView({behavior:'smooth',block:'center'})}});
 function setAuthMsg(msg,bad=false){$('#authStatus').textContent=msg;$('#authStatus').style.color=bad?'#a33':'var(--sage)'}
 buildCatalog();$('#type').value='love-rose-theatre';render();$('#changeCategory').onclick=()=>{state.category=null;$('#templateStage').classList.add('hidden');$('#categoryGrid').classList.remove('hidden');$('#categoryGrid').scrollIntoView({behavior:'smooth',block:'start'})};
 document.querySelectorAll('#type,#name1,#name2,#headline,#headlineRu,#headlineEn,#letter,#letterRu,#letterEn,#venue,#venueMap,#date').forEach(el=>el.addEventListener('input',render));
