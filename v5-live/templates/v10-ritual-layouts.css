@@ -1,0 +1,233 @@
+/* EMORA V10 · Independent opening compositions for fourteen signature rituals.
+   The opening is not one card with fourteen background colors. */
+
+/* A. Immersive cinematic environments: theatre, galaxy, night garden, balloons,
+   rain window, lamplight, pearl ring, celestial sky and cinema premiere. */
+:where(.ritual-theatre,.ritual-galaxy,.ritual-garden,.ritual-balloon,.ritual-rain,.ritual-lamp,.ritual-ring,.ritual-sky,.ritual-cinema) .v10-intro-layout{
+ position:relative;display:flex;align-items:center;justify-content:flex-start;
+ width:100%;max-width:none;padding:0 clamp(36px,7vw,115px);gap:0;
+}
+:where(.ritual-theatre,.ritual-galaxy,.ritual-garden,.ritual-balloon,.ritual-rain,.ritual-lamp,.ritual-ring,.ritual-sky,.ritual-cinema) .v10-intro-art{
+ position:absolute;inset:0 0 0 auto;width:66%;height:100%;display:block;z-index:0;pointer-events:none;
+}
+:where(.ritual-theatre,.ritual-galaxy,.ritual-garden,.ritual-balloon,.ritual-rain,.ritual-lamp,.ritual-ring,.ritual-sky,.ritual-cinema) .v10-visual-frame{
+ width:100%;max-width:none;height:100%;min-height:0;border-radius:0;border:0;
+ box-shadow:none;overflow:hidden;
+}
+:where(.ritual-theatre,.ritual-galaxy,.ritual-garden,.ritual-balloon,.ritual-rain,.ritual-lamp,.ritual-ring,.ritual-sky,.ritual-cinema) .v10-visual-frame:after{
+ content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
+ background:linear-gradient(to right,var(--base) 0%,color-mix(in srgb,var(--base) 80%,transparent) 11%,transparent 46%,transparent 83%,color-mix(in srgb,var(--base) 32%,transparent) 100%);
+}
+:where(.ritual-theatre,.ritual-galaxy,.ritual-garden,.ritual-balloon,.ritual-rain,.ritual-lamp,.ritual-ring,.ritual-sky,.ritual-cinema) .v10-intro-copy{
+ position:relative;z-index:5;max-width:min(670px,56%);margin-left:0;padding:15px 0 40px;
+ transform:translateY(0);
+}
+:where(.ritual-theatre,.ritual-galaxy,.ritual-garden,.ritual-balloon,.ritual-rain,.ritual-lamp,.ritual-ring,.ritual-sky,.ritual-cinema) .v10-intro-headline{
+ font-size:clamp(61px,6.2vw,111px);max-width:680px;text-shadow:0 11px 39px color-mix(in srgb,var(--base) 45%,transparent);
+}
+:where(.ritual-theatre,.ritual-galaxy,.ritual-garden,.ritual-balloon,.ritual-rain,.ritual-lamp,.ritual-ring,.ritual-sky,.ritual-cinema) .v10-image-border{
+ inset:0;border:none;border-radius:0;
+}
+:where(.ritual-theatre,.ritual-galaxy,.ritual-garden,.ritual-balloon,.ritual-rain,.ritual-lamp,.ritual-ring,.ritual-sky,.ritual-cinema) .v10-image-caption{
+ right:21px;left:auto;width:auto;bottom:16px;padding:5px 7px;background:transparent;
+}
+
+/* B. Light editorial printed artifacts — these preserve white space and material. */
+.ritual-envelope .v10-visual-frame{
+ border-radius:6px;transform:rotate(-2.2deg);outline:1px solid color-mix(in srgb,var(--gold) 43%,transparent);
+ box-shadow:0 32px 68px #8b716244,0 0 0 11px #fffdf879;
+}
+.ritual-envelope .v10-intro-copy{border-left:1px solid var(--line);padding-left:clamp(18px,3vw,42px)}
+.ritual-envelope .v10-intro-headline{font-style:italic;color:#526354}
+.ritual-envelope.opening .v10-visual-frame{transform:rotate(0deg) scale(1.06)}
+.ritual-naqsh .v10-visual-frame{
+ border-radius:50% 50% 9px 9px/36% 36% 9px 9px;
+ box-shadow:0 32px 67px #765e392f,0 0 0 13px #ead8bb85,0 0 0 14px #b7976066;
+}
+.ritual-naqsh .v10-intro-copy{max-width:690px}
+.ritual-naqsh .v10-intro-headline{font-size:clamp(64px,6.1vw,110px);color:#27435d}
+.ritual-gift .v10-visual-frame{
+ border-radius:11px;transform:rotate(2.3deg);
+ box-shadow:0 29px 69px #be857638,0 0 0 12px #fffaf39a;
+}
+.ritual-gift .v10-intro-headline{font-style:italic}
+.ritual-gift.opening .v10-visual-frame{transform:rotate(0) scale(1.07)}
+.ritual-ink .v10-visual-frame{
+ border-radius:2px;box-shadow:0 28px 70px #37362b24,0 0 0 12px #fffdf5cc;
+ border:1px solid #d9c9ad;
+}
+.ritual-ink .v10-intro-headline{font-style:italic;color:#313d3d}
+.ritual-ink .v10-intro-copy{padding-right:4vw}
+
+/* C. Memory Reel: analog film strip and credits, unlike the editorial arch. */
+.ritual-reel .v10-visual-frame{
+ border-radius:8px;border:9px solid #14100f;
+ box-shadow:0 0 0 3px #aa8961,0 30px 80px #0009;
+}
+.ritual-reel .v10-intro-headline{
+ font-size:clamp(59px,6.1vw,99px);text-transform:none;
+}
+.ritual-reel .v10-intro-copy{max-width:650px}
+.ritual-reel .v10-visual-frame:after{
+ content:"";position:absolute;z-index:3;inset:0;
+ box-shadow:inset 0 0 68px #0008;pointer-events:none;
+}
+.ritual-cinema .v10-visual-frame{border-radius:0}
+.ritual-cinema .v10-intro-headline{letter-spacing:-.062em}
+
+/* D. Individual lighting, framing and color controls. */
+.ritual-theatre .v10-hero-image{object-position:49% 37%}
+.ritual-galaxy .v10-hero-image{object-position:52% 44%}
+.ritual-galaxy .v10-intro-headline{color:#fff5ff;text-shadow:0 0 55px #e9cdea66}
+.ritual-garden .v10-hero-image{object-position:54% 46%;filter:saturate(.88) contrast(1.09)}
+.ritual-balloon .v10-hero-image{object-position:50% 33%;filter:saturate(.92)}
+.ritual-balloon .v10-intro-copy{background:linear-gradient(90deg,var(--base),transparent);padding:25px}
+.ritual-rain .v10-hero-image{object-position:49% 44%;filter:saturate(.78) brightness(.83)}
+.ritual-rain .glass-mist{opacity:.46;backdrop-filter:blur(2px)}
+.ritual-lamp .v10-hero-image{object-position:57% 49%;filter:brightness(.88)}
+.ritual-ring .v10-hero-image{object-position:54% 50%;filter:saturate(.82) contrast(1.04)}
+.ritual-sky .v10-hero-image{object-position:50% 46%}
+.ritual-cinema .v10-hero-image{object-position:51% 45%;filter:brightness(.80)}
+.ritual-balloon .v10-intro-copy .v10-intro-headline{color:#3e4050}
+
+/* E. Each printed or film experience receives a different mobile spatial rhythm. */
+@media(max-width:700px){
+ :where(.ritual-theatre,.ritual-galaxy,.ritual-garden,.ritual-balloon,.ritual-rain,.ritual-lamp,.ritual-ring,.ritual-sky,.ritual-cinema) .v10-intro-layout{
+  position:relative;display:block;width:100%;padding:0;
+ }
+ :where(.ritual-theatre,.ritual-galaxy,.ritual-garden,.ritual-balloon,.ritual-rain,.ritual-lamp,.ritual-ring,.ritual-sky,.ritual-cinema) .v10-intro-art{
+  position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0;
+ }
+ :where(.ritual-theatre,.ritual-galaxy,.ritual-garden,.ritual-balloon,.ritual-rain,.ritual-lamp,.ritual-ring,.ritual-sky,.ritual-cinema) .v10-visual-frame{
+  position:absolute;inset:0;width:100%;max-width:none;height:100%;min-height:0;
+  border-radius:0;border:0;transform:none;box-shadow:none;
+ }
+ :where(.ritual-theatre,.ritual-galaxy,.ritual-garden,.ritual-balloon,.ritual-rain,.ritual-lamp,.ritual-ring,.ritual-sky,.ritual-cinema) .v10-visual-frame:after{
+  content:"";background:linear-gradient(to bottom,transparent 16%,transparent 36%,color-mix(in srgb,var(--base) 58%,transparent) 59%,var(--base) 86%);
+ }
+ :where(.ritual-theatre,.ritual-galaxy,.ritual-garden,.ritual-balloon,.ritual-rain,.ritual-lamp,.ritual-ring,.ritual-sky,.ritual-cinema) .v10-intro-copy{
+  position:absolute;bottom:0;left:0;right:0;max-width:none;z-index:5;
+  margin:0;padding:115px 22px max(21px,env(safe-area-inset-bottom));
+  background:linear-gradient(to bottom,transparent,color-mix(in srgb,var(--base) 54%,transparent) 34%,var(--base) 68%);
+  text-align:center;transform:translateY(0);
+ }
+ :where(.ritual-theatre,.ritual-galaxy,.ritual-garden,.ritual-balloon,.ritual-rain,.ritual-lamp,.ritual-ring,.ritual-sky,.ritual-cinema) .v10-intro-headline{
+  font-size:clamp(46px,11.9vw,70px);line-height:.91;margin:0 auto 9px;
+  text-shadow:0 6px 24px var(--base);
+ }
+ :where(.ritual-theatre,.ritual-galaxy,.ritual-garden,.ritual-balloon,.ritual-rain,.ritual-lamp,.ritual-ring,.ritual-sky,.ritual-cinema) .v10-image-caption{
+  display:none;
+ }
+ :where(.ritual-theatre,.ritual-galaxy,.ritual-garden,.ritual-balloon,.ritual-rain,.ritual-lamp,.ritual-ring,.ritual-sky,.ritual-cinema) .v10-image-border{display:none}
+ :where(.ritual-theatre,.ritual-galaxy,.ritual-garden,.ritual-balloon,.ritual-rain,.ritual-lamp,.ritual-ring,.ritual-sky,.ritual-cinema) .v10-attribution{display:none}
+ .ritual-theatre .v10-intro-copy{background:linear-gradient(to bottom,transparent,#211921bb 36%,#211921 76%)}
+ .ritual-theatre .v10-hero-image{object-position:50% 30%}
+ .ritual-galaxy .v10-intro-copy{background:linear-gradient(to bottom,transparent,#111025a6 33%,#100f25 80%)}
+ .ritual-galaxy .v10-hero-image{object-position:50% 20%}
+ .ritual-garden .v10-intro-copy{background:linear-gradient(to bottom,transparent,#0d211b96 27%,#0d211b 79%)}
+ .ritual-garden .v10-hero-image{object-position:51% 22%}
+ .ritual-balloon .v10-intro-copy{
+  background:linear-gradient(to bottom,transparent,#f8f6f4b3 31%,#f8f6f4 74%);
+  padding:115px 22px max(18px,env(safe-area-inset-bottom));
+ }
+ .ritual-balloon .v10-visual-frame:after{
+  background:linear-gradient(to bottom,transparent 34%,#f8f6f47e 63%,#f8f6f4 88%);
+ }
+ .ritual-rain .v10-hero-image{object-position:50% 25%}
+ .ritual-rain .v10-intro-copy{background:linear-gradient(to bottom,transparent,#132a35bc 29%,#132a35 79%)}
+ .ritual-lamp .v10-intro-copy{background:linear-gradient(to bottom,transparent,#201b1aaf 36%,#201b1a 83%)}
+ .ritual-lamp .v10-hero-image{object-position:50% 30%}
+ .ritual-ring .v10-intro-copy{background:linear-gradient(to bottom,transparent,#211b24a6 30%,#211b24 82%)}
+ .ritual-ring .v10-hero-image{object-position:50% 33%}
+ .ritual-sky .v10-intro-copy{background:linear-gradient(to bottom,transparent,#17132bb5 35%,#17132b 79%)}
+ .ritual-sky .v10-hero-image{object-position:50% 31%}
+ .ritual-cinema .v10-intro-copy{background:linear-gradient(to bottom,transparent,#141316bb 33%,#141316 81%)}
+ .ritual-cinema .v10-visual-frame:after{background:linear-gradient(to bottom,transparent 18%,transparent 40%,#141316af 69%,#141316 97%)}
+
+ /* Pearl: a tactile angled paper card, not the arch used in the Silk wedding. */
+ .ritual-envelope .v10-intro-art{top:22px;height:53%}
+ .ritual-envelope .v10-visual-frame{
+  width:min(79vw,335px);height:100%;transform:rotate(-3deg);
+  border-radius:4px;box-shadow:0 22px 39px #977e6538,0 0 0 8px #fffaf1;
+ }
+ .ritual-envelope .v10-intro-copy{
+  padding:52px 21px max(22px,env(safe-area-inset-bottom));
+  text-align:center;background:linear-gradient(to bottom,transparent,#fbf8f1ec 18%,#fbf8f1 35%);
+ }
+ .ritual-envelope .v10-intro-headline{font-size:clamp(49px,12.5vw,68px)}
+ .ritual-envelope.opening .v10-visual-frame{transform:rotate(0) scale(1.06)}
+
+ /* Naqsh: the central textile medallion, balanced with ceremonial type. */
+ .ritual-naqsh .v10-intro-art{top:22px;height:49%}
+ .ritual-naqsh .v10-visual-frame{
+  width:min(78vw,355px);height:100%;border-radius:50%;overflow:hidden;
+  box-shadow:0 0 0 8px #faf3e8,0 0 0 10px #c3a574;
+ }
+ .ritual-naqsh .v10-intro-copy{
+  text-align:center;padding:62px 19px max(18px,env(safe-area-inset-bottom));
+  background:linear-gradient(to bottom,transparent,#fcf8eeeb 19%,#fcf8ee 36%);
+ }
+ .ritual-naqsh .v10-intro-headline{font-size:clamp(49px,12vw,65px);line-height:.89}
+
+ /* Birthday gift: a photograph as a real, separate editorial card. */
+ .ritual-gift .v10-intro-art{top:28px;height:51%}
+ .ritual-gift .v10-visual-frame{
+  width:min(78vw,340px);height:100%;transform:rotate(2.5deg);
+  border-radius:8px;box-shadow:0 26px 53px #b2857538,0 0 0 8px #fff9f2;
+ }
+ .ritual-gift .v10-intro-copy{
+  padding:52px 20px max(18px,env(safe-area-inset-bottom));
+  text-align:center;background:linear-gradient(to bottom,transparent,#fff0e4ef 23%,#fff0e4 40%);
+ }
+ .ritual-gift .v10-intro-headline{font-size:clamp(51px,12vw,70px)}
+
+ /* Film reel: a cinematic landscape cell with actual sprocket-track rhythm. */
+ .ritual-reel .v10-intro-art{top:34px;height:48%}
+ .ritual-reel .v10-visual-frame{
+  width:100vw;max-width:none;height:100%;border-radius:0;
+  border-block:11px solid #0b0909;border-inline:7px solid #191411;
+  box-shadow:0 14px 50px #0007;
+ }
+ .ritual-reel .v10-intro-copy{
+  padding:44px 20px max(20px,env(safe-area-inset-bottom));
+  background:linear-gradient(to bottom,transparent,#271d19ef 18%,#271d19 33%);text-align:center;
+ }
+ .ritual-reel .v10-intro-headline{font-size:clamp(49px,11.8vw,66px)}
+
+ /* Ink: a clean cotton-paper letter, softly asymmetric instead of center-stage. */
+ .ritual-ink .v10-intro-art{top:25px;height:45%;justify-content:flex-end;padding-right:6vw}
+ .ritual-ink .v10-visual-frame{
+  width:min(70vw,310px);height:100%;border-radius:0;border:1px solid #ded6c5;
+  box-shadow:0 24px 49px #a59d8a37,0 0 0 8px #fffdf6d9;
+ }
+ .ritual-ink .v10-intro-copy{
+  padding:50px 27px max(22px,env(safe-area-inset-bottom));
+  background:linear-gradient(to bottom,transparent,#f4f1e9ec 18%,#f4f1e9 36%);
+  text-align:left;
+ }
+ .ritual-ink .v10-intro-headline{font-size:clamp(53px,12.8vw,72px);margin-left:0}
+ .ritual-ink .v10-intro-subtitle{margin-left:0}
+}
+@media(max-width:700px) and (max-height:730px){
+ :where(.ritual-theatre,.ritual-galaxy,.ritual-garden,.ritual-balloon,.ritual-rain,.ritual-lamp,.ritual-ring,.ritual-sky,.ritual-cinema) .v10-intro-copy{
+  padding-top:57px;padding-bottom:12px;
+ }
+ :where(.ritual-theatre,.ritual-galaxy,.ritual-garden,.ritual-balloon,.ritual-rain,.ritual-lamp,.ritual-ring,.ritual-sky,.ritual-cinema) .v10-intro-headline{
+  font-size:clamp(41px,10.6vw,59px);
+ }
+ :where(.ritual-theatre,.ritual-galaxy,.ritual-garden,.ritual-balloon,.ritual-rain,.ritual-lamp,.ritual-ring,.ritual-sky,.ritual-cinema) .v10-intro-subtitle{
+  display:none;
+ }
+ .ritual-envelope .v10-intro-art,.ritual-naqsh .v10-intro-art,.ritual-gift .v10-intro-art{height:44%;top:8px}
+ .ritual-ink .v10-intro-art{height:40%;top:5px}
+ .ritual-reel .v10-intro-art{height:43%;top:9px}
+ .ritual-envelope .v10-intro-copy,.ritual-naqsh .v10-intro-copy,.ritual-gift .v10-intro-copy,.ritual-ink .v10-intro-copy,.ritual-reel .v10-intro-copy{
+  padding-top:37px;padding-bottom:10px;
+ }
+ .ritual-envelope .v10-intro-subtitle,.ritual-naqsh .v10-intro-subtitle,.ritual-gift .v10-intro-subtitle,.ritual-ink .v10-intro-subtitle,.ritual-reel .v10-intro-subtitle{
+  display:none;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .v10-intro .v10-ritual-object *{animation:none!important;transition:none!important}
+}
