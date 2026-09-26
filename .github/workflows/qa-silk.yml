@@ -4,6 +4,12 @@ on:
     branches: [emora-v9-cinematic-templates]
     paths:
       - .github/workflows/qa-silk.yml
+      - v5-live/templates/wedding-silk.html
+      - v5-live/templates/silk-heritage.css
+      - v5-live/templates/silk-heritage.js
+      - v5-live/tests/silk-visual-qa.mjs
+      - v5-live/server.mjs
+      - Dockerfile
   workflow_dispatch:
 permissions:
   contents: write
