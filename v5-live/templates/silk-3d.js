@@ -34,7 +34,7 @@
   // Import only in the wedding flagship. Any download or WebGL failure leaves accessible CSS 2.5D.
   let THREE;
   try {THREE=await import('https://cdn.jsdelivr.net/npm/three@0.175.0/build/three.module.js');}catch(e){return}
-  if(intro.classList.contains('dismissed')||!holder.isConnected)return;
+  if(intro.classList.contains('dismissed')||intro.classList.contains('playing')||!holder.isConnected)return;
   let renderer;
   try {
    renderer=new THREE.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});
