@@ -1,0 +1,34 @@
+name: Import EMORA Original Artwork
+on:
+  push:
+    branches: [emora-v9-cinematic-atelier]
+    paths:
+      - 'v5-live/assets/artwork-manifest.json'
+      - 'v5-live/scripts/fetch-art.mjs'
+      - '.github/workflows/emora-artwork.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import-artwork:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: emora-v9-cinematic-atelier
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Fetch original keyframes and verify bytes
+        run: node v5-live/scripts/fetch-art.mjs
+      - name: Commit first-party media to feature branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add v5-live/assets/*.jpg
+          if ! git diff --cached --quiet; then
+            git commit -m "Import eight original EMORA cinematic artworks"
+            git push origin HEAD:emora-v9-cinematic-atelier
+          fi
