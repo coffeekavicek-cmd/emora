@@ -28,7 +28,7 @@ try{
    const layout=await page.evaluate(({key})=>{
     const intro=document.querySelector(key==='wedding-silk'?'#silkIntro':'#intro'),img=intro?.querySelector('img'),btn=intro?.querySelector('button#openInvite,button#openIntro'),title=intro?.querySelector('h1');
     const rect=x=>{if(!x)return null;const b=x.getBoundingClientRect();return{x:b.x,y:b.y,right:b.right,bottom:b.bottom,width:b.width,height:b.height}};
-    return{imageLoaded:!!img?.naturalWidth,img:rect(img),button:rect(btn),headline:rect(title),scrollWidth:document.documentElement.scrollWidth,screenWidth:innerWidth,
+    return{imageLoaded:!!img?.naturalWidth,img:rect(img),button:rect(btn),headline:rect(title),frame:rect(intro?.querySelector('.v10-visual-frame')),frameRadius:intro?.querySelector('.v10-visual-frame')?getComputedStyle(intro.querySelector('.v10-visual-frame')).borderTopLeftRadius:null,scrollWidth:document.documentElement.scrollWidth,screenWidth:innerWidth,
       categoryCount:document.querySelectorAll('.v10-scene').length};
    },{key});
    item.layout=layout;
@@ -37,6 +37,8 @@ try{
    if(!layout.button||layout.button.x<0||layout.button.right>device.width+3||layout.button.bottom>device.height+3)item.failures.push('Intro action outside viewport');
    if(!layout.headline||layout.headline.x<-4||layout.headline.right>device.width+4)item.failures.push('Intro headline horizontal overflow');
    if(key!=='wedding-silk'&&layout.categoryCount<3)item.failures.push('Missing interactive story chapters');
+   const immersive=new Set(['love-rose','love-galaxy','wedding-garden','birthday-balloon','apology-rain','apology-quiet','proposal-pearl','proposal-cinema','proposal-sky']);
+   if(device.width<701&&immersive.has(key)&&(!layout.frame||layout.frame.width<device.width*.93||layout.frame.height<device.height*.67))item.failures.push('Unique full-bleed intro missing (appears to use generic arch)');
    await page.screenshot({path:path.join(folder,device.name+'-'+key+'-intro.png'),fullPage:false});
    const button=page.locator(expectedButton);if(await button.count()){await button.click();await page.waitForTimeout(2400);
     const isHidden=await page.evaluate(key=>{const el=document.querySelector(key==='wedding-silk'?'#silkIntro':'#intro');return el&&getComputedStyle(el).visibility==='hidden'},key);
