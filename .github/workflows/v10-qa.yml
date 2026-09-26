@@ -5,6 +5,7 @@ on:
     paths:
       - .github/workflows/v10-qa.yml
       - v5-live/tests/v10-qa.mjs
+      - v5-live/tests/v10-platform-qa.mjs
       - v5-live/templates/v10-**
       - v5-live/templates/silk-heritage.**
       - v5-live/templates/wedding-silk.html
@@ -41,6 +42,8 @@ jobs:
           curl --fail --silent --show-error --head http://127.0.0.1:3000/assets/love-galaxy.png
       - name: Test all 15 templates on desktop and mobile
         run: node v5-live/tests/v10-qa.mjs
+      - name: Test category-first discovery and the live creator editor
+        run: node v5-live/tests/v10-platform-qa.mjs
       - name: Preserve review evidence
         if: always()
         run: |
@@ -48,6 +51,11 @@ jobs:
           if [ -f v5-live/qa-v10-results/summary.json ]; then
             cp v5-live/qa-v10-results/summary.json v5-live/tests/v10-qa-results/summary.json
           fi
+          for name in platform-summary.json platform-home.png; do
+            if [ -f "v5-live/qa-v10-results/$name" ]; then
+              cp "v5-live/qa-v10-results/$name" v5-live/tests/v10-qa-results/
+            fi
+          done
           for name in love-rose wedding-silk birthday-aurora apology-rain proposal-pearl; do
             if [ -f "v5-live/qa-v10-results/mobile-$name-intro.png" ]; then
               cp "v5-live/qa-v10-results/mobile-$name-intro.png" v5-live/tests/v10-qa-results/
