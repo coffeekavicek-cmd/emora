@@ -27,7 +27,7 @@
  }
  function dismiss(animated){
   if(opened)return;opened=true;
-  if(animated&&!reduced){intro.classList.add('opening');setTimeout(()=>{intro.classList.add('dismissed');intro.setAttribute('aria-hidden','true');$('#coupleNames')?.focus({preventScroll:true});addPetals(14)},2100)}
+  if(animated&&!reduced){intro.classList.add('opening');setTimeout(()=>{intro.classList.add('dismissed');intro.setAttribute('aria-hidden','true');$('#coupleNames')?.focus({preventScroll:true});addPetals(8)},1350)}
   else{intro.classList.add('opening','dismissed');intro.setAttribute('aria-hidden','true');$('#coupleNames')?.focus({preventScroll:true})}
  }
  $('#openInvite').addEventListener('click',()=>dismiss(true));
