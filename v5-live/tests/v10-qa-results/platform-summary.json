@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "failures": [],
+  "checkedGroups": 5,
+  "expectedTemplates": 15,
+  "checks": [
+    "category-first",
+    "three independent templates per category",
+    "editor category selection",
+    "live iframe name update",
+    "real wedding input",
+    "permanent catalog art",
+    "browser exceptions"
+  ]
+}
