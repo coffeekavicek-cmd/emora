@@ -56,6 +56,7 @@ try{
     await page.evaluate(()=>window.postMessage({type:'emora:preview',config:{intro:'QA PERSONALIZATION',letter:'',video:''}},location.origin));
     await page.waitForTimeout(160);
     if(await page.locator('.v10-video').count())item.failures.push('Removing optional video in editor must remove preview video');
+    item.videoRoundtripChecked=true;
 
    }
    const innerWidth=await page.evaluate(()=>document.documentElement.scrollWidth);
