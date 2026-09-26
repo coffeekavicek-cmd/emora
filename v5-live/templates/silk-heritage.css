@@ -109,7 +109,7 @@ main{position:relative}.chapter{min-height:88svh;padding:112px max(24px,calc((10
  .silk-intro-greeting{font-size:8px;margin:0 0 8px;letter-spacing:.16em}
  .silk-intro-ornament{display:none}
  .silk-intro-heading{font-size:clamp(48px,12.7vw,76px);line-height:.84;letter-spacing:-.062em;white-space:normal}
- .silk-intro-heading br:first-of-type{display:none}
+ .silk-intro-heading br:first-of-type{display:initial}
  .silk-intro-separator{margin:13px auto 5px;width:min(275px,78%)}
  .silk-intro-people{font-size:clamp(32px,8.5vw,47px);margin:0 0 5px}
  .silk-intro-description{font-size:11px;line-height:1.55;margin:0 auto 13px;max-width:345px}
@@ -133,3 +133,6 @@ main{position:relative}.chapter{min-height:88svh;padding:112px max(24px,calc((10
 @media(prefers-reduced-motion:reduce){
  .silk-editorial-intro .silk-intro-copy,.silk-editorial-intro .silk-intro-photo,.silk-editorial-intro .silk-intro-photo-frame,.silk-editorial-intro .silk-intro-photo-light,.silk-editorial-intro .skip{animation:none!important;transition-duration:.01ms!important}
 }
+
+/* Fast, coherent handoff: the poster fades when the opening choreography ends. */
+.silk-editorial-intro.dismissed{transition:opacity .52s ease,visibility .52s ease}
