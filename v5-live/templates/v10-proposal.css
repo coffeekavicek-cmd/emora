@@ -1,0 +1,16 @@
+.v10-proposal-pearl{--base:#211b24;--paper:#372b34;--ink:#fff5e7;--soft:#d5c6ce;--accent:#e0c7a7;--gold:#e9d39c;--line:#68515e;--contrast:#221922}
+.v10-proposal-cinema{--base:#141316;--paper:#272328;--ink:#fff4e4;--soft:#ccbbab;--accent:#e3be85;--gold:#d2ac77;--line:#4a3a40;--contrast:#191216}
+.v10-proposal-sky{--base:#17132b;--paper:#282445;--ink:#fff2fb;--soft:#cec6dc;--accent:#efc6d0;--gold:#e4b9cd;--line:#4a4265;--contrast:#1b1630}
+.ritual-ring .ring-glint{position:absolute;left:55%;top:43%;font-size:61px;color:#fff9d6;text-shadow:0 0 25px #fff6dc,0 0 55px #fff6b7;animation:ring-glow 4.5s ease-in-out infinite alternate}
+.ritual-ring .ring-glint.second{left:27%;top:55%;font-size:22px;animation-delay:-2.1s}@keyframes ring-glow{to{transform:rotate(48deg) scale(.57);opacity:.4}}
+.ritual-ring.opening .ring-glint{transform:scale(1.7) rotate(45deg);opacity:0}.v10-proposal-pearl .scene-box .v10-artifact-veil{color:#e8d2a9;text-shadow:0 0 60px #ffe4b4}
+.v10-proposal-pearl .scene-vows{background:radial-gradient(ellipse at 50% 18%,#67485a66,transparent 60%),var(--base)}
+.ritual-cinema .v10-visual-frame{border-radius:12px}.v10-proposal-cinema .v10-story-cover-art{border-radius:12px}
+.ritual-cinema .sprockets{position:absolute;top:0;bottom:0;left:5px;width:24px;background:repeating-linear-gradient(to bottom,#120e0dbd 0 14px,#d8ac73 15px 22px,#120e0dbd 23px 35px);opacity:.76;transition:transform 1.4s}
+.ritual-cinema .sprockets.right{left:auto;right:5px}.ritual-cinema.opening .sprockets.left{transform:translateX(-80px)}.ritual-cinema.opening .sprockets.right{transform:translateX(80px)}
+.v10-proposal-cinema .scene-trailer{background:linear-gradient(135deg,#282124,#0e0c0e)}.v10-proposal-cinema .scene-frames .v10-memory-card{background:#171418}
+.ritual-sky .orbit{position:absolute;left:50%;top:50%;width:120%;height:42%;border:1px solid #fff0f15e;border-radius:50%;transform:translate(-50%,-50%) rotate(-19deg);box-shadow:0 0 35px #ffd6f130;animation:sky-path 14s linear infinite}
+.ritual-sky .orbit-b{width:78%;height:50%;animation-duration:19s;animation-direction:reverse}.ritual-sky .orbit-c{width:52%;height:25%;animation-duration:9s}
+@keyframes sky-path{to{transform:translate(-50%,-50%) rotate(341deg)}}.v10-proposal-sky .scene-dusk{background:linear-gradient(to bottom,#202448,#916b8b 58%,#dbb9a9)}
+.v10-proposal-sky .scene-dusk .v10-scene-title,.v10-proposal-sky .scene-dusk .v10-scene-intro{color:#fff8ef}
+.v10-proposal-sky .scene-dreams .v10-interact-layout{background:radial-gradient(circle at 50% 45%,#6e5f8a,#232044 72%)}
