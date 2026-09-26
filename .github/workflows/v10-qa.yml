@@ -13,6 +13,9 @@ on:
       - v5-live/server.mjs
       - Dockerfile
   workflow_dispatch:
+concurrency:
+  group: emora-v10-browser-qa
+  cancel-in-progress: true
 permissions:
   contents: write
 jobs:
