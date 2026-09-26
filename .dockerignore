@@ -6,3 +6,7 @@
 !v5-live/index.html
 !v5-live/templates/
 !v5-live/templates/*.html
+!v5-live/templates/cinematic.js
+!v5-live/templates/cinematic.css
+!v5-live/tests/
+!v5-live/tests/v9-smoke.test.mjs
