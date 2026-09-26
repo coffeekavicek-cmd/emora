@@ -4,6 +4,5 @@
 !v5-live/package.json
 !v5-live/server.mjs
 !v5-live/index.html
-!v7-live/
-!v7-live/templates/
-!v7-live/templates/*.html
+!v5-live/templates/
+!v5-live/templates/*.html
