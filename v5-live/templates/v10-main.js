@@ -102,7 +102,7 @@ function renderSegment(mode,n){
  };
  const [sec,inner]=sceneShell(mode,n,...(headings[mode]||[T.name,'EMORA MOMENT']));
  const lead=create('p','v10-scene-intro',S.memoryTitle||T.defaultNote);inner.append(lead);
- if(['filmstrip','polaroid','orbit','gallery','eras','frames','memories','milestones'].includes(mode)){inner.append(threeCards(mode));const clip=playVideo();if(clip&&['gallery','memories','frames','filmstrip'].includes(mode))inner.append(clip);return sec}
+ if(['filmstrip','polaroid','orbit','gallery','eras','frames','memories','milestones'].includes(mode)){inner.append(threeCards(mode));return sec}
  if(['stars','wishes','dreams','balloons','constellation'].includes(mode)){
   const sky=create('div','v10-interact-layout interact-'+mode);
   for(let i=0;i<3;i++){const b=create('button','v10-interact-point point-'+i,'✧');b.type='button';b.setAttribute('aria-label','Tilak '+(i+1)+' ni ochish');const captionText=caption(i);b.onclick=()=>{text('interactLabel-'+n,captionText);sky.dataset.active=String(i)};sky.append(b)}
@@ -122,7 +122,7 @@ function renderSegment(mode,n){
   const txt=safe(S.letter)||safe(S.mistake)||T.defaultNote;
   const quote=create('p','v10-letter-body',mode==='repair'?(safe(S.repair)||T.defaultNote):txt);
   note.append(create('span','v10-letter-mark','“'),quote,create('p','v10-letter-sign',safe(S.sender)||'Samimiyat bilan'));
-  inner.append(note);const vid=playVideo();if(vid&&['voices','voice','subtitles'].includes(mode))inner.append(vid);return sec
+  inner.append(note);return sec
  }
  if(mode==='families'){inner.append(create('p','v10-serif-big',safe(S.blessing)||T.defaultNote));return sec}
  if(mode==='schedule'){const list=create('ol','v10-schedule-list');const data=Array.isArray(S.program)?S.program.filter(x=>x&&typeof x==='object').slice(0,6):[];if(data.length){for(const row of data){const li=create('li');li.append(create('time','',safe(row.time)||'—'),create('strong','',safe(row.title)||'Marosim'),create('p','',safe(row.note)||''));list.append(li)}}else list.append(create('li','v10-empty-state','Marosim dasturi tez orada e’lon qilinadi.'));inner.append(list);timeInfo(sec,inner);return sec}
@@ -166,7 +166,13 @@ function build(){
  inner.append(copy,art);hero.append(inner);main.append(hero);
  for(let i=0;i<T.scenes.length;i++){
   const id=T.scenes[i];if(IS_FINAL.has(id)){main.append(finale(i+2));break}
-  main.append(renderSegment(id,i+2))
+  const segment=renderSegment(id,i+2);
+  if(i===0){const clip=playVideo();if(clip)segment.querySelector('.v10-scene-inner')?.append(clip);
+   if(T.group==='birthday'&&!T.scenes.includes('event')&&safe(S.eventAt)&&Number.isFinite(new Date(S.eventAt).getTime())){
+    timeInfo(segment,segment.querySelector('.v10-scene-inner'));
+   }
+  }
+  main.append(segment)
  }
  if(!T.scenes.some(x=>IS_FINAL.has(x)))main.append(finale(T.scenes.length+2));
  const footer=create('footer','v10-footer','EMORA · '+T.name+' · Barcha huquqlar himoyalangan');
@@ -188,16 +194,17 @@ function tick(){
 function patch(cfg){
  if(!cfg||typeof cfg!=='object')return;
  const co=cfg;
- const isWed=T.group==='wedding';
- S.recipient=safe(co.recipient)||safe(co.name1)||S.recipient;
- S.sender=safe(co.sender)||safe(co.name2)||S.sender;
- S.bride=safe(co.bride)||safe(co.name1)||S.bride;S.groom=safe(co.groom)||safe(co.name2)||S.groom;
- S.intro=safe(co.intro)||safe(co.headline)||S.intro;
- S.letter=safe(co.letter)||S.letter;S.final=safe(co.final)||S.final;
- S.eventAt=safe(co.eventAt)||S.eventAt;S.metAt=safe(co.metAt)||S.metAt;
- S.venue=safe(co.venue)||S.venue;S.venueMap=safe(co.venueMap)||S.venueMap;
- S.memoryTitle=safe(co.memoryTitle)||S.memoryTitle;S.mistake=safe(co.mistake)||S.mistake;
- S.repair=safe(co.repair)||S.repair;S.blessing=safe(co.blessing)||S.blessing;
+ const field=(name,previous)=>Object.prototype.hasOwnProperty.call(co,name)?safe(co[name]):previous;
+ S.recipient=Object.prototype.hasOwnProperty.call(co,'recipient')?safe(co.recipient):field('name1',S.recipient);
+ S.sender=Object.prototype.hasOwnProperty.call(co,'sender')?safe(co.sender):field('name2',S.sender);
+ S.bride=Object.prototype.hasOwnProperty.call(co,'bride')?safe(co.bride):field('name1',S.bride);
+ S.groom=Object.prototype.hasOwnProperty.call(co,'groom')?safe(co.groom):field('name2',S.groom);
+ S.intro=Object.prototype.hasOwnProperty.call(co,'intro')?safe(co.intro):field('headline',S.intro);
+ S.letter=field('letter',S.letter);S.final=field('final',S.final);
+ S.eventAt=field('eventAt',S.eventAt);S.metAt=field('metAt',S.metAt);
+ S.venue=field('venue',S.venue);S.venueMap=field('venueMap',S.venueMap);
+ S.memoryTitle=field('memoryTitle',S.memoryTitle);S.mistake=field('mistake',S.mistake);
+ S.repair=field('repair',S.repair);S.blessing=field('blessing',S.blessing);
  S.music=safe(co.music)||'';S.video=safe(co.video)||'';
  if(Array.isArray(co.photos))S.photos=co.photos.slice(0,3);
  if(Array.isArray(co.program))S.program=co.program.slice(0,6);
@@ -205,12 +212,16 @@ function patch(cfg){
  if(safe(co.guestName))guestName=co.guestName;
  text('introName',title());document.querySelector('.v10-cover-name').textContent=title();
  const personalized=safe(S.intro),lead=personalized||T.opening;text('introHeadline',lead);text('coverTitle',lead);
- if(T.group==='wedding'&&safe(co.invitation)){S.letter=co.invitation;document.querySelector('.v10-cover-desc').textContent=S.letter}
+ if(T.group==='wedding'&&Object.prototype.hasOwnProperty.call(co,'invitation')){S.letter=safe(co.invitation);document.querySelector('.v10-cover-desc').textContent=S.letter||T.subtitle}
  if(safe(S.letter)&&T.group!=='wedding')document.querySelector('.v10-cover-desc').textContent=T.subtitle;
  if(guestName)document.querySelector('.v10-guest').textContent=guestName+' · SIZ UCHUN MAXSUS';
  const old=ROOT.querySelectorAll('.v10-scene,.v10-finale');old.forEach(x=>x.remove());
  const main=$('#main');
- for(let i=0;i<T.scenes.length;i++){const id=T.scenes[i];if(IS_FINAL.has(id)){main.append(finale(i+2));break}main.append(renderSegment(id,i+2))}
+ for(let i=0;i<T.scenes.length;i++){const id=T.scenes[i];if(IS_FINAL.has(id)){main.append(finale(i+2));break}
+ const segment=renderSegment(id,i+2);
+ if(i===0){const clip=playVideo();if(clip)segment.querySelector('.v10-scene-inner')?.append(clip);
+  if(T.group==='birthday'&&!T.scenes.includes('event')&&safe(S.eventAt)&&Number.isFinite(new Date(S.eventAt).getTime()))timeInfo(segment,segment.querySelector('.v10-scene-inner'))}
+ main.append(segment)}
  if(!T.scenes.some(x=>IS_FINAL.has(x)))main.append(finale(T.scenes.length+2));
  document.querySelectorAll('.v10-reveal').forEach(e=>e.classList.add('in'));
  const a=$('#audio'),b=$('#soundToggle'),url=publicAsset(S.music);if(url){a.src=url;b.hidden=false}else{a.pause();a.removeAttribute('src');b.hidden=true}
