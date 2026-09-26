@@ -1,0 +1,164 @@
+[
+  {
+    "device": "desktop",
+    "passed": false,
+    "failures": [
+      "Opening did not dismiss after click"
+    ],
+    "intro": {
+      "photoLoaded": true,
+      "photoWidth": 768,
+      "photoHeight": 1376,
+      "photoRect": {
+        "x": 824,
+        "y": 139,
+        "right": 1339,
+        "bottom": 796,
+        "width": 515,
+        "height": 657
+      },
+      "copyRect": {
+        "x": 75,
+        "y": 158,
+        "right": 727,
+        "bottom": 774,
+        "width": 652,
+        "height": 616
+      },
+      "ctaRect": {
+        "x": 75,
+        "y": 683,
+        "right": 305,
+        "bottom": 739,
+        "width": 230,
+        "height": 56
+      },
+      "titleRect": {
+        "x": 75,
+        "y": 263,
+        "right": 727,
+        "bottom": 496,
+        "width": 652,
+        "height": 234
+      },
+      "mockCurtains": 0,
+      "webglCanvas": 0,
+      "bodyScrollWidth": 1440,
+      "screenWidth": 1440
+    },
+    "opened": {
+      "introHidden": false,
+      "heroVisible": true,
+      "scrollWidth": 1440,
+      "screenWidth": 1440
+    }
+  },
+  {
+    "device": "mobile",
+    "passed": false,
+    "failures": [
+      "Opening did not dismiss after click"
+    ],
+    "intro": {
+      "photoLoaded": true,
+      "photoWidth": 768,
+      "photoHeight": 1376,
+      "photoRect": {
+        "x": 51,
+        "y": 79,
+        "right": 339,
+        "bottom": 531,
+        "width": 289,
+        "height": 452
+      },
+      "copyRect": {
+        "x": 0,
+        "y": 444,
+        "right": 390,
+        "bottom": 844,
+        "width": 390,
+        "height": 400
+      },
+      "ctaRect": {
+        "x": 92,
+        "y": 754,
+        "right": 298,
+        "bottom": 804,
+        "width": 207,
+        "height": 50
+      },
+      "titleRect": {
+        "x": 22,
+        "y": 553,
+        "right": 368,
+        "bottom": 637,
+        "width": 346,
+        "height": 83
+      },
+      "mockCurtains": 0,
+      "webglCanvas": 0,
+      "bodyScrollWidth": 390,
+      "screenWidth": 390
+    },
+    "opened": {
+      "introHidden": false,
+      "heroVisible": true,
+      "scrollWidth": 390,
+      "screenWidth": 390
+    }
+  },
+  {
+    "device": "small-mobile",
+    "passed": false,
+    "failures": [
+      "Opening did not dismiss after click"
+    ],
+    "intro": {
+      "photoLoaded": true,
+      "photoWidth": 768,
+      "photoHeight": 1376,
+      "photoRect": {
+        "x": 47,
+        "y": 79,
+        "right": 313,
+        "bottom": 471,
+        "width": 266,
+        "height": 392
+      },
+      "copyRect": {
+        "x": 0,
+        "y": 344,
+        "right": 360,
+        "bottom": 740,
+        "width": 360,
+        "height": 396
+      },
+      "ctaRect": {
+        "x": 77,
+        "y": 650,
+        "right": 283,
+        "bottom": 700,
+        "width": 207,
+        "height": 50
+      },
+      "titleRect": {
+        "x": 22,
+        "y": 453,
+        "right": 338,
+        "bottom": 534,
+        "width": 316,
+        "height": 81
+      },
+      "mockCurtains": 0,
+      "webglCanvas": 0,
+      "bodyScrollWidth": 360,
+      "screenWidth": 360
+    },
+    "opened": {
+      "introHidden": false,
+      "heroVisible": true,
+      "scrollWidth": 360,
+      "screenWidth": 360
+    }
+  }
+]
