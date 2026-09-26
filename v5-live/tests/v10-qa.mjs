@@ -54,8 +54,15 @@ try{
     const optionalVideos=await page.locator('.v10-video').count();
     if(optionalVideos!==1)item.failures.push('Uploaded optional video must appear exactly once; found '+optionalVideos);
     await page.evaluate(()=>window.postMessage({type:'emora:preview',config:{intro:'QA PERSONALIZATION',letter:'',video:''}},location.origin));
-    await page.waitForTimeout(160);
-    if(await page.locator('.v10-video').count())item.failures.push('Removing optional video in editor must remove preview video');
+    try{await page.waitForFunction(()=>document.querySelectorAll('.v10-video').length===0,null,{timeout:3000})}
+    catch{
+     const debug=await page.evaluate(()=>({
+      videoElements:[...document.querySelectorAll('.v10-video')].map(el=>({src:el.getAttribute('src'),section:el.closest('section')?.className,attached:el.isConnected})),
+      scenes:document.querySelectorAll('.v10-scene').length,
+      preview:document.querySelector('#introHeadline')?.textContent
+     }));
+     item.failures.push('Removing optional video in editor must remove preview video: '+JSON.stringify(debug));
+    }
     item.videoRoundtripChecked=true;
 
    }
