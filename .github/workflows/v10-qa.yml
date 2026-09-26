@@ -1,0 +1,68 @@
+name: EMORA V10 — 15 template visual QA
+on:
+  push:
+    branches: [emora-v10-fifteen-experiences]
+    paths:
+      - .github/workflows/v10-qa.yml
+      - v5-live/tests/v10-qa.mjs
+      - v5-live/templates/v10-**
+      - v5-live/templates/silk-heritage.**
+      - v5-live/templates/wedding-silk.html
+      - v5-live/index.html
+      - v5-live/server.mjs
+      - Dockerfile
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  browser-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: emora-v10-fifteen-experiences
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install headless Chrome and Playwright
+        run: |
+          npm install --prefix v5-live --no-save playwright@1.55.0
+          cd v5-live && npx playwright install --with-deps chromium
+      - name: Run startup validation and local website
+        run: |
+          PORT=3000 node v5-live/server.mjs > /tmp/emora-v10-server.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3000/health >/dev/null; then break; fi
+            sleep 1
+          done
+          cat /tmp/emora-v10-server.log
+          curl --fail --silent --show-error http://127.0.0.1:3000/health
+          curl --fail --silent --show-error --head http://127.0.0.1:3000/assets/love-galaxy.png
+      - name: Test all 15 templates on desktop and mobile
+        run: node v5-live/tests/v10-qa.mjs
+      - name: Preserve review evidence
+        if: always()
+        run: |
+          mkdir -p v5-live/tests/v10-qa-results
+          if [ -f v5-live/qa-v10-results/summary.json ]; then
+            cp v5-live/qa-v10-results/summary.json v5-live/tests/v10-qa-results/summary.json
+          fi
+          for name in love-rose wedding-silk birthday-aurora apology-rain proposal-pearl; do
+            if [ -f "v5-live/qa-v10-results/mobile-$name-intro.png" ]; then
+              cp "v5-live/qa-v10-results/mobile-$name-intro.png" v5-live/tests/v10-qa-results/
+            fi
+          done
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add v5-live/tests/v10-qa-results/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Visual QA evidence for 15 EMORA cinematic templates"
+          git pull --rebase origin emora-v10-fifteen-experiences
+          git push origin HEAD:emora-v10-fifteen-experiences
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: emora-v10-all-15-visual-qa
+          path: v5-live/qa-v10-results/
+          retention-days: 7
