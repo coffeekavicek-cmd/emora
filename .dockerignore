@@ -6,3 +6,7 @@
 !v5-live/index.html
 !v5-live/templates/
 !v5-live/templates/*.html
+
+!v5-live/assets/
+!v5-live/assets/*.css
+!v5-live/assets/*.js
