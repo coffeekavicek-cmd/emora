@@ -3,10 +3,8 @@
     "template": "love-rose",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -53,10 +51,8 @@
     "template": "love-pearl",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -69,11 +65,11 @@
         "height": 435.6099548339844
       },
       "button": {
-        "x": 114.390625,
+        "x": 116.28125,
         "y": 747.203125,
-        "right": 276.59375,
+        "right": 274.703125,
         "bottom": 796.203125,
-        "width": 162.203125,
+        "width": 158.421875,
         "height": 49
       },
       "headline": {
@@ -103,10 +99,8 @@
     "template": "love-galaxy",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -193,10 +187,8 @@
     "template": "wedding-garden",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -243,10 +235,8 @@
     "template": "wedding-naqsh",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -259,11 +249,11 @@
         "height": 388.032958984375
       },
       "button": {
-        "x": 110.953125,
+        "x": 111.96875,
         "y": 751.203125,
-        "right": 279.046875,
+        "right": 278.015625,
         "bottom": 800.203125,
-        "width": 168.09375,
+        "width": 166.046875,
         "height": 49
       },
       "headline": {
@@ -293,10 +283,8 @@
     "template": "birthday-aurora",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -309,11 +297,11 @@
         "height": 416.9891357421875
       },
       "button": {
-        "x": 109.515625,
+        "x": 110.3125,
         "y": 751.203125,
-        "right": 280.484375,
+        "right": 279.6875,
         "bottom": 800.203125,
-        "width": 170.96875,
+        "width": 169.375,
         "height": 49
       },
       "headline": {
@@ -343,10 +331,8 @@
     "template": "birthday-balloon",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -393,10 +379,8 @@
     "template": "birthday-memory",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -409,11 +393,11 @@
         "height": 359.7198486328125
       },
       "button": {
-        "x": 92.75,
+        "x": 95.09375,
         "y": 749.203125,
-        "right": 297.234375,
+        "right": 294.90625,
         "bottom": 798.203125,
-        "width": 204.484375,
+        "width": 199.8125,
         "height": 49
       },
       "headline": {
@@ -443,10 +427,8 @@
     "template": "apology-rain",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -459,11 +441,11 @@
         "height": 796.075927734375
       },
       "button": {
-        "x": 116.390625,
+        "x": 118.21875,
         "y": 774,
-        "right": 273.59375,
+        "right": 271.78125,
         "bottom": 823,
-        "width": 157.203125,
+        "width": 153.5625,
         "height": 49
       },
       "headline": {
@@ -493,10 +475,8 @@
     "template": "apology-ink",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -511,18 +491,18 @@
       "button": {
         "x": 27,
         "y": 747.203125,
-        "right": 198.96875,
+        "right": 195.75,
         "bottom": 796.203125,
-        "width": 171.96875,
+        "width": 168.75,
         "height": 49
       },
       "headline": {
         "x": 27,
-        "y": 600.109375,
+        "y": 552.421875,
         "right": 363,
         "bottom": 647.796875,
         "width": 336,
-        "height": 47.6875
+        "height": 95.375
       },
       "frame": {
         "x": 93.609375,
@@ -543,10 +523,8 @@
     "template": "apology-quiet",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -559,20 +537,20 @@
         "height": 796.075927734375
       },
       "button": {
-        "x": 109.015625,
+        "x": 110.625,
         "y": 774,
-        "right": 280.984375,
+        "right": 279.375,
         "bottom": 823,
-        "width": 171.96875,
+        "width": 168.75,
         "height": 49
       },
       "headline": {
         "x": 22,
-        "y": 634.375,
+        "y": 592.15625,
         "right": 368,
         "bottom": 676.59375,
         "width": 346,
-        "height": 42.21875
+        "height": 84.4375
       },
       "frame": {
         "x": 0,
@@ -593,10 +571,8 @@
     "template": "proposal-pearl",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -609,11 +585,11 @@
         "height": 796.075927734375
       },
       "button": {
-        "x": 109.515625,
+        "x": 110.3125,
         "y": 774,
-        "right": 280.484375,
+        "right": 279.6875,
         "bottom": 823,
-        "width": 170.96875,
+        "width": 169.375,
         "height": 49
       },
       "headline": {
@@ -643,10 +619,8 @@
     "template": "proposal-cinema",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -659,11 +633,11 @@
         "height": 796.075927734375
       },
       "button": {
-        "x": 100.1875,
+        "x": 102.5625,
         "y": 774,
-        "right": 289.796875,
+        "right": 287.421875,
         "bottom": 823,
-        "width": 189.609375,
+        "width": 184.859375,
         "height": 49
       },
       "headline": {
@@ -693,10 +667,8 @@
     "template": "proposal-sky",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -709,11 +681,11 @@
         "height": 796.075927734375
       },
       "button": {
-        "x": 106.953125,
+        "x": 108,
         "y": 774,
-        "right": 283.046875,
+        "right": 282,
         "bottom": 823,
-        "width": 176.09375,
+        "width": 174,
         "height": 49
       },
       "headline": {
@@ -743,10 +715,8 @@
     "template": "love-rose",
     "device": "small",
     "viewport": "360x740",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -816,9 +786,9 @@
       },
       "headline": {
         "x": 22,
-        "y": 412.78125,
+        "y": 411.78125,
         "right": 338,
-        "bottom": 533.71875,
+        "bottom": 532.71875,
         "width": 316,
         "height": 120.9375
       },
@@ -833,10 +803,8 @@
     "template": "birthday-aurora",
     "device": "small",
     "viewport": "360x740",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -849,11 +817,11 @@
         "height": 362.0001525878906
       },
       "button": {
-        "x": 94.515625,
+        "x": 95.3125,
         "y": 647.203125,
-        "right": 265.484375,
+        "right": 264.6875,
         "bottom": 696.203125,
-        "width": 170.96875,
+        "width": 169.375,
         "height": 49
       },
       "headline": {
@@ -883,10 +851,8 @@
     "template": "apology-rain",
     "device": "small",
     "viewport": "360x740",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -933,10 +899,8 @@
     "template": "proposal-pearl",
     "device": "small",
     "viewport": "360x740",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -949,11 +913,11 @@
         "height": 690.2039794921875
       },
       "button": {
-        "x": 94.515625,
+        "x": 95.3125,
         "y": 670,
-        "right": 265.484375,
+        "right": 264.6875,
         "bottom": 719,
-        "width": 170.96875,
+        "width": 169.375,
         "height": 49
       },
       "headline": {
@@ -983,10 +947,8 @@
     "template": "love-rose",
     "device": "desktop",
     "viewport": "1440x900",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -1048,17 +1010,17 @@
       },
       "button": {
         "x": 74.875,
-        "y": 682.515625,
-        "right": 304.5625,
-        "bottom": 738.515625,
-        "width": 229.6875,
+        "y": 682.015625,
+        "right": 307.6875,
+        "bottom": 738.015625,
+        "width": 232.8125,
         "height": 56
       },
       "headline": {
         "x": 74.875,
-        "y": 262.578125,
+        "y": 261.078125,
         "right": 726.625,
-        "bottom": 496.34375,
+        "bottom": 494.84375,
         "width": 651.75,
         "height": 233.765625
       },
@@ -1073,10 +1035,8 @@
     "template": "birthday-aurora",
     "device": "desktop",
     "viewport": "1440x900",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -1123,10 +1083,8 @@
     "template": "apology-rain",
     "device": "desktop",
     "viewport": "1440x900",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -1173,10 +1131,8 @@
     "template": "proposal-pearl",
     "device": "desktop",
     "viewport": "1440x900",
-    "passed": false,
-    "failures": [
-      "Removing optional video in editor must remove preview video"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
