@@ -1,0 +1,73 @@
+name: Archive original EMORA artworks
+on:
+  push:
+    branches: [emora-v10-fifteen-experiences]
+    paths: [.github/workflows/v10-archive-art.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: emora-v10-fifteen-experiences
+      - name: Download previously generated original Runway artwork
+        run: |
+          mkdir -p v5-live/assets
+          curl --fail --location --silent --show-error --retry 2 --max-time 90 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3-pro-image/images/2202fb50-40bb-4749-a4e9-541d42e847c9/7c5e70c8-55e0-439d-a3b6-ec92d9a83ba6/A_premium_light_editorial_digital_invitation_atelier_hero_im.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiYzRhOTBkMWE3MTZkMDExMyIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDYxMDA3NH0.q9Ow6nseXCvkLiV-LHulQeNV8ceGM0N_371XqBFybME' -o 'v5-live/assets/site-hero.png'
+          file --mime-type 'v5-live/assets/site-hero.png' | grep -E 'image/(jpeg|png|webp)'
+          test "$(wc -c < 'v5-live/assets/site-hero.png')" -gt 30000
+          curl --fail --location --silent --show-error --retry 2 --max-time 90 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3-pro-image/images/83519852-0ec2-4ae1-ba7b-9554bbcaebdc/5ddf9823-eb2e-4fbb-b24e-607c34355867/A_cinematic_romantic_invitation_hero_for_a_premium_interacti.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMzczYThiMjY0YmQ5NTlhOSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDU4MzU5MH0.w_OXXHkRL64GKF4oegvuLTPAc8JMDjl-oiV-d1omB6I' -o 'v5-live/assets/love-rose.png'
+          file --mime-type 'v5-live/assets/love-rose.png' | grep -E 'image/(jpeg|png|webp)'
+          test "$(wc -c < 'v5-live/assets/love-rose.png')" -gt 30000
+          curl --fail --location --silent --show-error --retry 2 --max-time 90 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3-pro-image/images/bdcd566a-eb9d-4ab8-9fb1-939a6ead5a2c/5eda8b86-189b-4a9c-85c8-cddbe63c11ac/A_bright_romantic_editorial_invitation_scene_for_a_premium_l.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiZWVhYWMwNTViYmI0M2ZhOSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDU5OTc2NX0.L_QKHq_HxeOZdnEc80b0WwOxMeG-KrPEtuVrcr6AGsA' -o 'v5-live/assets/love-pearl.png'
+          file --mime-type 'v5-live/assets/love-pearl.png' | grep -E 'image/(jpeg|png|webp)'
+          test "$(wc -c < 'v5-live/assets/love-pearl.png')" -gt 30000
+          curl --fail --location --silent --show-error --retry 2 --max-time 90 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3-pro-image/images/e3add90c-16e6-4c29-85bf-1373e6f7e26a/e730109b-081b-4d4f-88de-490f0aec7f93/A_luxurious_night_garden_wedding_invitation_opening_scene__D.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNjEwMTIzOTk1MDQxMWY5ZiIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDU4NzgwMX0.YTuWyNbHluseClmyaXw9Txv-2m8sNCXbPa0xPB7lTVM' -o 'v5-live/assets/wedding-garden.png'
+          file --mime-type 'v5-live/assets/wedding-garden.png' | grep -E 'image/(jpeg|png|webp)'
+          test "$(wc -c < 'v5-live/assets/wedding-garden.png')" -gt 30000
+          curl --fail --location --silent --show-error --retry 2 --max-time 90 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3-pro-image/images/9f704efa-49ad-4b64-b022-8d2e167d43cd/01e67d7f-e4d0-4a45-8ed2-a9162c453073/A_joyful_premium_birthday_invitation_scene__Warm_peach__apri.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNzk4NTkxMzljOGZkMWRkZSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDU2OTQwMX0.rsiVNiPivaPuMjYYq3uXTStgV8F7Bws1ph_jb-Fg1Q8' -o 'v5-live/assets/birthday-aurora.png'
+          file --mime-type 'v5-live/assets/birthday-aurora.png' | grep -E 'image/(jpeg|png|webp)'
+          test "$(wc -c < 'v5-live/assets/birthday-aurora.png')" -gt 30000
+          curl --fail --location --silent --show-error --retry 2 --max-time 90 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3-pro-image/images/08738b24-fc16-4412-be52-7d7f243230ab/78a912dc-0df6-41b9-8bfd-d2c2371d6156/A_sophisticated_emotional_apology_story_opening_scene__Rain_.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMWU2YjMyNmEwZGUzNTA2YiIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDYxNjkzOH0.uH2Z1wrXZw0SVs2m9BOpLC7rzUxlm7W090Ivznlhpkk' -o 'v5-live/assets/apology-rain.png'
+          file --mime-type 'v5-live/assets/apology-rain.png' | grep -E 'image/(jpeg|png|webp)'
+          test "$(wc -c < 'v5-live/assets/apology-rain.png')" -gt 30000
+          curl --fail --location --silent --show-error --retry 2 --max-time 90 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3-pro-image/images/997e449a-35f8-4d2b-8bda-48d8ebb995b4/db94fbaa-6721-43b4-80a4-c9262cdebd50/A_premium_marriage_proposal_invitation_opening_scene__Champa.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiYWQyODY0MDAxZDBjNWIzNSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDU0NTQwOH0.u4up2Knx6Xo1E9lBpJNSe3J55YN1GvawMYpalI1AhhQ' -o 'v5-live/assets/proposal-pearl.png'
+          file --mime-type 'v5-live/assets/proposal-pearl.png' | grep -E 'image/(jpeg|png|webp)'
+          test "$(wc -c < 'v5-live/assets/proposal-pearl.png')" -gt 30000
+          curl --fail --location --silent --show-error --retry 2 --max-time 90 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3.1-flash-image/images/658adb20-8ae0-47c1-8538-8278e6e2af5d/cf020ce7-5e70-40df-986a-fa803a0cb745/Deep_midnight_indigo_cosmic_observatory_with_hundreds_of_tin.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNzBkMmU1MDNiMjJlMGVkYiIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDU3MTc3OX0.1zvmGy7i1JMA_KDnENSCklR-U1Cl05tXECx3E-lgD18' -o 'v5-live/assets/love-galaxy.png'
+          file --mime-type 'v5-live/assets/love-galaxy.png' | grep -E 'image/(jpeg|png|webp)'
+          test "$(wc -c < 'v5-live/assets/love-galaxy.png')" -gt 30000
+          curl --fail --location --silent --show-error --retry 2 --max-time 90 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3.1-flash-image/images/d117cb20-5434-4bc8-b219-3bd14a4c3838/17a461b9-8727-42e3-aebd-e2a71dbea657/An_extraordinary_Uzbek_heritage_wedding_invitation_of_bespok.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNmNmNjNjOTIxMzU3ZjAxMiIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDU3OTA5MH0.D-Je9M2_zr1kVaagI0fs-CUX0IfTqxY0npQ-HlMm1ck' -o 'v5-live/assets/wedding-naqsh.png'
+          file --mime-type 'v5-live/assets/wedding-naqsh.png' | grep -E 'image/(jpeg|png|webp)'
+          test "$(wc -c < 'v5-live/assets/wedding-naqsh.png')" -gt 30000
+          curl --fail --location --silent --show-error --retry 2 --max-time 90 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3.1-flash-image/images/8a8bbffb-c706-4bf1-9264-d5dfec5079a8/bfda73fe-892e-435b-8ff4-88d515f415b3/A_luxurious_dreamlike_cluster_of_floating_translucent_champa.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiMmQzYWM0ZGZhZjY0YTBhNyIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDYxNTAwN30.qrmi5dSWHreeXdj2Kymtxt0Rew3d93xPOLVe6Noal84' -o 'v5-live/assets/birthday-balloon.png'
+          file --mime-type 'v5-live/assets/birthday-balloon.png' | grep -E 'image/(jpeg|png|webp)'
+          test "$(wc -c < 'v5-live/assets/birthday-balloon.png')" -gt 30000
+          curl --fail --location --silent --show-error --retry 2 --max-time 90 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3.1-flash-image/images/a9de3ed2-20b0-47f8-a6b0-6df9acf46ab7/948b1011-73e6-4ee6-b6b1-905b31070e41/An_intimate_vintage_cinema_reel_and_a_few_blank_beautiful_un.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiYzQ4NDE0MzZhZmVmMTkyYiIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDYwNjI2Mn0.kd1JCJ_rc6oK81UZjBmzfHWGcgKX58t-pYiwNaJ-QCs' -o 'v5-live/assets/birthday-memory.png'
+          file --mime-type 'v5-live/assets/birthday-memory.png' | grep -E 'image/(jpeg|png|webp)'
+          test "$(wc -c < 'v5-live/assets/birthday-memory.png')" -gt 30000
+          curl --fail --location --silent --show-error --retry 2 --max-time 90 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3.1-flash-image/images/cd06b582-2c5b-445e-937e-62cbdbb6e170/cb475c38-a9c4-4431-8760-815518af8856/A_single_drop_of_near_black_elegant_fountain_pen_ink_diffusi.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiZTllMTcyYWUxNzg5MjRhYSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDU2Mzg4Nn0.PPRLrJk6wqiu9xdZLt8Zz0AVvDqmsCeLzWxzZ0Zq5HY' -o 'v5-live/assets/apology-ink.png'
+          file --mime-type 'v5-live/assets/apology-ink.png' | grep -E 'image/(jpeg|png|webp)'
+          test "$(wc -c < 'v5-live/assets/apology-ink.png')" -gt 30000
+          curl --fail --location --silent --show-error --retry 2 --max-time 90 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3.1-flash-image/images/41ddca9a-9c23-49e1-a4e3-8902889d2f83/0c694a63-acd0-4b9b-b345-e9b96c06ae23/An_atmospheric_refined_empty_intimate_midnight_walnut_room_w.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiNjU3ZGQ3MWZlYTFiMzMzOSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDYxNDY4N30.NN2fqIiHElinvXUttvpx7ySUHzhvGQbcQELfSZE1gDw' -o 'v5-live/assets/apology-quiet.png'
+          file --mime-type 'v5-live/assets/apology-quiet.png' | grep -E 'image/(jpeg|png|webp)'
+          test "$(wc -c < 'v5-live/assets/apology-quiet.png')" -gt 30000
+          curl --fail --location --silent --show-error --retry 2 --max-time 90 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3.1-flash-image/images/08a74706-68d0-45d2-955e-201267756f2b/fd326b96-4e63-4363-802d-daff68aa33f5/An_elegant_black_velvet_and_brushed_gold_vintage_cinema_proj.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiODFiZDA2YTcwNjBhMDdhNCIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDYxMzY3MX0.vr7JalZarI92dLV0ksF4XXcPY1ckp4GLiML6JXx-GUo' -o 'v5-live/assets/proposal-cinema.png'
+          file --mime-type 'v5-live/assets/proposal-cinema.png' | grep -E 'image/(jpeg|png|webp)'
+          test "$(wc -c < 'v5-live/assets/proposal-cinema.png')" -gt 30000
+          curl --fail --location --silent --show-error --retry 2 --max-time 90 'https://dnznrvs05pmza.cloudfront.net/gemini/gemini-3.1-flash-image/images/38caa45a-7e60-439a-b7c9-639a0b7b3b0b/109ea86f-bfc0-43e5-9860-1b56a4ec5757/An_extraordinary_cinematic_dusk_sky_dome_transitioning_from_.png?_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlIYXNoIjoiOTBjYzUxMmZjMmFkMGRmZSIsImJ1Y2tldCI6InJ1bndheS10YXNrLWFydGlmYWN0cyIsInN0YWdlIjoicHJvZCIsImV4cCI6MTc5MDU1NDAzMX0.t_fNvjTwuIyHp-FlL3WAwTmNcUcu8x4WRr1tWuPeIAQ' -o 'v5-live/assets/proposal-sky.png'
+          file --mime-type 'v5-live/assets/proposal-sky.png' | grep -E 'image/(jpeg|png|webp)'
+          test "$(wc -c < 'v5-live/assets/proposal-sky.png')" -gt 30000
+      - name: Commit permanent local media to the V10 branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add v5-live/assets/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Archive 15 original premium artwork assets"
+          git pull --rebase origin emora-v10-fifteen-experiences
+          git push origin HEAD:emora-v10-fifteen-experiences
