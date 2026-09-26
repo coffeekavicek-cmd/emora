@@ -5,34 +5,46 @@
 <meta name="theme-color" content="#fcf9f2"><meta name="robots" content="noindex,nofollow">
 <meta name="description" content="EMORA Silk Heritage — ipak pardasi ortidagi shaxsiy premium to‘y taklifnomasi.">
 <title>EMORA · Silk Heritage</title>
+<link rel="preload" as="image" href="/assets/silk-heritage-original.jpg" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="/templates/silk-heritage.css?v=10">
-<script defer src="/templates/silk-heritage.js?v=10"></script>
-<script type="module" src="/templates/silk-3d.js?v=10"></script>
+<link rel="stylesheet" href="/templates/silk-heritage.css?v=11">
+<script defer src="/templates/silk-heritage.js?v=11"></script>
+
 </head>
 <body>
 <!-- All seven chapters exist in semantic HTML so the invitation stays readable if 3D fails. -->
-<div class="intro" id="silkIntro" role="dialog" aria-modal="true" aria-label="Silk Heritage taklifnomasini ochish">
- <button type="button" id="skipIntro" class="skip">O‘tkazib yuborish ↗</button>
- <div class="intro-ornament">EMORA · SILK HERITAGE · WEDDING ATELIER</div>
- <div class="stage" id="introStage">
-  <div class="arch"></div><div class="sunray"></div>
-  <div class="envelope" aria-hidden="true">
-   <div class="letter"><small>TAKLIFNOMA</small><strong id="introCardNames">Malika &amp; Aziz</strong></div>
-   <div class="ribbon"></div><div class="flap"></div><div class="seal" id="introSeal">MA</div>
+<div class="intro silk-editorial-intro" id="silkIntro" role="dialog" aria-modal="true" aria-label="Silk Heritage — shaxsiy taklifnomani ochish">
+ <div class="silk-opening-texture" aria-hidden="true"></div>
+ <header class="silk-intro-header">
+  <div class="silk-intro-brand">emora<span class="silk-intro-brand-dot">.</span></div>
+  <div class="silk-intro-header-label">SILK HERITAGE <span>·</span> THE WEDDING ATELIER</div>
+  <button type="button" id="skipIntro" class="skip">O‘tkazib yuborish <span aria-hidden="true">↗</span></button>
+ </header>
+ <div class="silk-intro-layout">
+  <div class="silk-intro-copy">
+   <div class="silk-intro-eyebrow"><span class="silk-gold-dash"></span> 01 / SHAXSIY TAKLIFNOMA</div>
+   <p class="silk-intro-greeting" id="introGuest">AZIZ MEHMONIMIZ UCHUN</p>
+   <div class="silk-intro-ornament" aria-hidden="true">❦ <span>✦</span> ❦</div>
+   <h1 class="silk-intro-heading">Bir kun.<br><em>Bir umr.</em><br>Birga.</h1>
+   <div class="silk-intro-separator" aria-hidden="true"><span></span> ✦ <span></span></div>
+   <p class="silk-intro-people" id="introCardNames">Malika &amp; Aziz</p>
+   <p class="silk-intro-description">Hayotimizdagi eng qadrli kunga sizni chin yurakdan taklif qilamiz. Taklifnomani ochib, bizning kunimiz bilan tanishing.</p>
+   <button type="button" class="silk-intro-cta" id="openInvite"><span>Taklifnomani ochish</span><span class="silk-cta-arrow" aria-hidden="true">↗</span></button>
+   <p class="silk-intro-footnote">SIZ UCHUN ALOHIDA TAYYORLANGAN</p>
   </div>
-  <canvas class="canvas3d" id="silkCanvas" aria-hidden="true"></canvas><div class="stage-names" id="stageNames" aria-hidden="true">Malika &amp; Aziz</div>
-  <div class="curtain left" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-  <div class="curtain right" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-  <div class="floor-glow"></div>
+  <div class="silk-intro-photo-wrap" id="introStage">
+   <div class="silk-intro-photo-frame">
+    <img class="silk-intro-photo" src="/assets/silk-heritage-original.jpg" alt="Oq atirgullar, ipak lenta va oltin mum muhr bilan bezatilgan asl to‘y taklifnomasi" loading="eager" decoding="async" fetchpriority="high">
+    <div class="silk-intro-photo-light" aria-hidden="true"></div>
+    <div class="silk-intro-photo-inner-frame" aria-hidden="true"></div>
+    <div class="silk-intro-photo-caption" aria-hidden="true">AN INVITATION FROM THE HEART <span>·</span> 01 / EMORA</div>
+   </div>
+   <div class="silk-intro-photo-flower silk-flower-a" aria-hidden="true">✦</div>
+   <div class="silk-intro-photo-flower silk-flower-b" aria-hidden="true">✧</div>
+  </div>
  </div>
- <div class="intro-content">
-  <span class="kicker" id="introGuest">AZIZ MEHMONIMIZ UCHUN</span>
-  <h1>Eng qadrli kun eshigi</h1>
-  <p>Ipak pardani oching. Siz uchun atalgan taklifnoma ichkarida.</p>
-  <button type="button" class="btn" id="openInvite">Taklifnomani ochish ↗</button>
- </div>
+ <div class="silk-intro-bottomline"><span>HANDCRAFTED DIGITAL MOMENTS</span><span class="silk-intro-bottom-separator">✧</span><span>MADE WITH LOVE · EMORA</span></div>
 </div>
 <header class="nav">
  <a href="#opening" class="brand" aria-label="EMORA, bosh sahifa">emora</a>
