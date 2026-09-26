@@ -197,7 +197,7 @@ async function handlePublic(){
 }
 function setAuthMsg(msg,bad=false){$('#authStatus').textContent=msg;$('#authStatus').style.color=bad?'#a33':'var(--sage)'}
 buildCatalog();$('#type').value='love-rose-theatre';render();
-document.querySelectorAll('#type,#name1,#name2,#headline,#date').forEach(el=>el.addEventListener('input',render));
+document.querySelectorAll('#type,#name1,#name2,#headline,#letter,#venue,#venueMap,#date').forEach(el=>el.addEventListener('input',render));
 $('#saveBtn').onclick=saveProject;$('#publishBtn').onclick=publishProject;$('#guestBtn').onclick=addGuest;$('#templateClose').onclick=()=>{$('#templateModal').classList.add('hidden');$('#templateIframe').src='about:blank'};$('#deviceToggle').onclick=()=>$('#liveView').classList.toggle('mobile');$('#templateUse').onclick=()=>state.template&&useTemplate(state.template.slug);
 $('#accountBtn').onclick=async()=>{if(state.user){await supabase.auth.signOut();state.user=null;state.projectId=null;await refreshUser()}else $('#accountModal').classList.remove('hidden')};$('#closeAuth').onclick=()=>$('#accountModal').classList.add('hidden');
 document.querySelectorAll('.auth-tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.auth-tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('#passwordPane').classList.toggle('hidden',b.dataset.tab!=='password');$('#magicPane').classList.toggle('hidden',b.dataset.tab!=='magic')});
