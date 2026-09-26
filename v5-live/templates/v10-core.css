@@ -150,3 +150,11 @@
  .v10-intro,.v10-intro *, .v10-scene *, .v10-ritual-object *{animation:none!important;transition-duration:.01ms!important}
  .v10-reveal{opacity:1;transform:none}
 }
+
+/* Distinctive fallback artwork when guests have not supplied personal photos. */
+.v10-memory-card.editorial-crop-1 .v10-memory-image{object-position:center 18%;filter:contrast(1.06) saturate(.96)}
+.v10-memory-card.editorial-crop-2 .v10-memory-image{object-position:center 82%;filter:contrast(1.04) sepia(.12)}
+.v10-memory-abstract{height:clamp(200px,30vw,380px);display:grid;align-content:center;justify-items:center;gap:19px;background:radial-gradient(ellipse at 55% 30%,color-mix(in srgb,var(--accent) 37%,var(--paper)),var(--paper) 83%);border:1px solid color-mix(in srgb,var(--accent) 45%,transparent)}
+.v10-memory-symbol{font:400 clamp(100px,13vw,160px)/.75 var(--serif);color:var(--accent);opacity:.77;text-shadow:0 7px 30px color-mix(in srgb,var(--accent) 34%,transparent)}
+.v10-memory-art-text{font:700 8px var(--sans);letter-spacing:.24em;color:var(--accent);text-align:center}
+@media(max-width:700px){.v10-memory-abstract{height:245px}.v10-memory-symbol{font-size:115px}}
