@@ -1,0 +1,20 @@
+name: EMORA V9 cinematic quality checks
+on:
+  push:
+    branches: [emora-v9-cinematic-templates]
+  workflow_dispatch:
+
+jobs:
+  cinematic-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate server and animation JavaScript
+        run: |
+          node --check v5-live/server.mjs
+          node --check v5-live/templates/cinematic.js
+      - name: Run seven-template, CSS and local HTTP tests
+        run: node --test v5-live/tests/v9-smoke.test.mjs
