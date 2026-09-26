@@ -47,7 +47,7 @@
  function dismissIntro(animate){
   if(opened)return;opened=true;const layer=$('#intro');
   const finish=()=>{layer.classList.add('dismissed');layer.setAttribute('aria-hidden','true');$('#coverTitle')?.setAttribute('tabindex','-1');$('#coverTitle')?.focus({preventScroll:true})};
-  if(animate){layer.classList.add('playing');setTimeout(finish,1050)}else finish();
+  if(animate){layer.classList.add('playing');setTimeout(finish,key==='wedding-silk'?2220:1050)}else finish();
  }
  $('#startIntro').addEventListener('click',()=>dismissIntro(true));
  $('#skipIntro').addEventListener('click',()=>dismissIntro(false));
