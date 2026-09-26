@@ -59,10 +59,10 @@ function introMarkup(){
 function dismiss(animate){
  if(opened)return;opened=true;const intro=$('#intro');intro.classList.add('opening');
  const duration=animate&&!reduced?1300:0;
- setTimeout(()=>{intro.classList.add('dismissed');intro.setAttribute('aria-hidden','true');document.querySelector('#chapter-1 h1')?.focus({preventScroll:true});document.body.classList.add('intro-finished')},duration);
+ setTimeout(()=>{intro.classList.add('dismissed');intro.setAttribute('aria-hidden','true');$('#main').inert=false;$('.v10-chrome').inert=false;$('.v10-footer').inert=false;document.querySelector('#chapter-1 h1')?.focus({preventScroll:true});document.body.classList.add('intro-finished')},duration);
 }
 function paintCard(src,caption,n,cls){
- const c=create('div','v10-memory-card '+(cls||''));c.append(image(src,'v10-memory-image',caption));
+ const c=create('div','v10-memory-card '+(cls||''));const real=publicAsset(Array.isArray(S.photos)?S.photos[n-1]:'');if(real){c.append(image(real,'v10-memory-image',caption))}else if(n<3){c.classList.add('editorial-crop-'+n);c.append(image('/assets/'+T.art,'v10-memory-image',T.name+' art detail'))}else{const abstract=create('div','v10-memory-abstract');abstract.append(create('span','v10-memory-symbol',T.group==='love'?'♡':T.group==='wedding'?'❦':T.group==='birthday'?'✦':T.group==='apology'?'✧':'◇'),create('span','v10-memory-art-text',T.motif));c.append(abstract)}
  const l=create('span','v10-memory-counter',String(n).padStart(2,'0'));const p=create('p','v10-memory-caption',caption);c.append(l,p);return c;
 }
 function namesFromConfig(cfg){
@@ -102,7 +102,7 @@ function renderSegment(mode,n){
  };
  const [sec,inner]=sceneShell(mode,n,...(headings[mode]||[T.name,'EMORA MOMENT']));
  const lead=create('p','v10-scene-intro',S.memoryTitle||T.defaultNote);inner.append(lead);
- if(['filmstrip','polaroid','orbit','gallery','eras','frames','memories','milestones'].includes(mode)){inner.append(threeCards(mode));return sec}
+ if(['filmstrip','polaroid','orbit','gallery','eras','frames','memories','milestones'].includes(mode)){inner.append(threeCards(mode));const clip=playVideo();if(clip&&['gallery','memories','frames','filmstrip'].includes(mode))inner.append(clip);return sec}
  if(['stars','wishes','dreams','balloons','constellation'].includes(mode)){
   const sky=create('div','v10-interact-layout interact-'+mode);
   for(let i=0;i<3;i++){const b=create('button','v10-interact-point point-'+i,'✧');b.type='button';b.setAttribute('aria-label','Tilak '+(i+1)+' ni ochish');const captionText=caption(i);b.onclick=()=>{text('interactLabel-'+n,captionText);sky.dataset.active=String(i)};sky.append(b)}
@@ -125,7 +125,7 @@ function renderSegment(mode,n){
   inner.append(note);const vid=playVideo();if(vid&&['voices','voice','subtitles'].includes(mode))inner.append(vid);return sec
  }
  if(mode==='families'){inner.append(create('p','v10-serif-big',safe(S.blessing)||T.defaultNote));return sec}
- if(mode==='schedule'){const list=create('ol','v10-schedule-list');const data=Array.isArray(S.program)?S.program.filter(x=>x&&typeof x==='object').slice(0,6):[];if(data.length){for(const row of data){const li=create('li');li.append(create('time','',safe(row.time)||'—'),create('strong','',safe(row.title)||'Marosim'),create('p','',safe(row.note)||''));list.append(li)}}else list.append(create('li','v10-empty-state','Marosim vaqtlari muharrirda ko‘rsatiladi.'));inner.append(list);timeInfo(sec,inner);return sec}
+ if(mode==='schedule'){const list=create('ol','v10-schedule-list');const data=Array.isArray(S.program)?S.program.filter(x=>x&&typeof x==='object').slice(0,6):[];if(data.length){for(const row of data){const li=create('li');li.append(create('time','',safe(row.time)||'—'),create('strong','',safe(row.title)||'Marosim'),create('p','',safe(row.note)||''));list.append(li)}}else list.append(create('li','v10-empty-state','Marosim dasturi tez orada e’lon qilinadi.'));inner.append(list);timeInfo(sec,inner);return sec}
  if(mode==='venue'){inner.append(create('h3','v10-serif-big',safe(S.venue)||'Manzil keyinroq e’lon qilinadi'));const link=mapLink(S.venueMap);if(link){const a=create('a','v10-soft-button','Xaritada ko‘rish ↗');a.href=link;a.target='_blank';a.rel='noopener noreferrer';inner.append(a)}else inner.append(create('p','v10-smallcopy','Xarita havolasi hozircha kiritilmagan.'));return sec}
  if(mode==='event'){timeInfo(sec,inner);if(safe(S.venue))inner.append(create('h3','v10-serif-big',S.venue));return sec}
  return sec
@@ -170,7 +170,7 @@ function build(){
  }
  if(!T.scenes.some(x=>IS_FINAL.has(x)))main.append(finale(T.scenes.length+2));
  const footer=create('footer','v10-footer','EMORA · '+T.name+' · Barcha huquqlar himoyalangan');
- ROOT.replaceChildren(introMarkup(),chrome,bar,main,footer,audio);
+ main.inert=true;chrome.inert=true;footer.inert=true;ROOT.replaceChildren(introMarkup(),chrome,bar,main,footer,audio);
  const sections=[...main.querySelectorAll('section')];
  if('IntersectionObserver' in window){
   const inObs=new IntersectionObserver(entries=>{for(const e of entries)if(e.isIntersecting){e.target.querySelectorAll('.v10-reveal').forEach(n=>n.classList.add('in'));const n=sections.indexOf(e.target);fill.style.width=((n+1)/sections.length*100)+'%'}},{threshold:.12});sections.forEach(sec=>inObs.observe(sec))
