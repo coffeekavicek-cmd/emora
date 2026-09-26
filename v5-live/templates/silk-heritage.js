@@ -44,10 +44,10 @@
  $('#shareTop').onclick=share;$('#shareFinal').onclick=share;
  function tick(){
   const box=$('#countdown'),status=$('#dayStatus');
-  if(!Number.isFinite(eventTime)){box.hidden=true;status.hidden=false;status.textContent='Sana tez orada e’lon qilinadi';return}
-  const now=Date.now(),diff=eventTime-now;
+  if(!Number.isFinite(eventTime)){$('#addCalendar').hidden=true;box.hidden=true;status.hidden=false;status.textContent='Sana tez orada e’lon qilinadi';return}
+  $('#addCalendar').hidden=false;const now=Date.now(),diff=eventTime-now;
   if(diff<0){box.hidden=true;status.hidden=false;status.textContent='Quvonchli kunimiz uchun rahmat!';return}
-  if(diff<86400000&&new Date(eventTime).toDateString()===new Date(now).toDateString()){box.hidden=true;status.hidden=false;status.textContent='Bugun bizning kunimiz!';return}
+  if(diff<86400000&&new Intl.DateTimeFormat('en-CA',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:'Asia/Tashkent'}).format(new Date(eventTime))===new Intl.DateTimeFormat('en-CA',{year:'numeric',month:'2-digit',day:'2-digit',timeZone:'Asia/Tashkent'}).format(new Date(now))){box.hidden=true;status.hidden=false;status.textContent='Bugun bizning kunimiz!';return}
   box.hidden=false;status.hidden=true;
   const t=Math.max(0,diff),vals=[Math.floor(t/86400000),Math.floor(t/3600000)%24,Math.floor(t/60000)%60,Math.floor(t/1000)%60];
   ['d','h','m','s'].forEach((key,i)=>set('#'+key,String(vals[i]).padStart(2,'0')));
@@ -89,7 +89,7 @@
   configured=true;state={...sample,...cfg};
   const b=clean(state.bride)||'Malika',g=clean(state.groom)||'Aziz',mon=initials(b,g);
   document.title='EMORA · '+b+' & '+g+' · Silk Heritage';
-  set('#introCardNames',b+' & '+g);set('#introSeal',mon);set('#heroInitials',mon);set('#finalInitials',mon);
+  set('#introCardNames',b+' & '+g);set('#stageNames',b+' & '+g);set('#introSeal',mon);set('#heroInitials',mon);set('#finalInitials',mon);
   const h=$('#coupleNames');h.replaceChildren(document.createTextNode(b+' '));const and=document.createElement('i');and.textContent='&';and.style.cssText='font-weight:400;color:#b59a70';h.append(and,document.createTextNode(' '+g));h.tabIndex=-1;
   set('#finalNames',b+' & '+g);set('#heroInvitation',clean(state.invitation)||sample.invitation);
   set('#finalBlessing',clean(state.blessing)||'Baxtimizga sherik bo‘lishingiz biz uchun eng katta sovg‘a. Uchrashguncha!');
@@ -122,7 +122,7 @@
   a.href=u;a.download='emora-toy-taklifnomasi.ics';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);
  }
  $('#addCalendar').onclick=calendar;
- $('#rsvpButton').onclick=()=>{if(parent!==window){parent.postMessage({type:'emora:open-rsvp'},location.origin)}else set('#rsvpHint','RSVP faqat sizga yuborilgan shaxsiy mehmon havolasida ishlaydi.');};
+ $('#rsvpButton').onclick=()=>{if(parent!==window&&guestName){parent.postMessage({type:'emora:open-rsvp'},location.origin)}else set('#rsvpHint','RSVP faqat sizga yuborilgan shaxsiy mehmon havolasida ishlaydi.');};
  $('#musicButton').onclick=async()=>{const a=$('#audio'),b=$('#musicButton');if(!a.src)return;if(!a.paused){a.pause();b.textContent='♪ Musiqa';b.setAttribute('aria-pressed','false');return}try{await a.play();b.textContent='Ⅱ To‘xtatish';b.setAttribute('aria-pressed','true')}catch{b.textContent='Musiqa ochilmadi'}};
  if('IntersectionObserver' in window){const sections=[...document.querySelectorAll('.chapter')],obs=new IntersectionObserver(entries=>{for(const e of entries)if(e.isIntersecting){const i=sections.indexOf(e.target);$('#progressBar').style.width=((i+1)/sections.length*100)+'%'}},{threshold:.3});sections.forEach(s=>obs.observe(s))}
  window.addEventListener('message',e=>{
@@ -130,7 +130,7 @@
   if(e.data.type==='emora:guest'){guestName=clean(e.data.name);announceGuest();return}
   if(e.data.config)apply(e.data.config);
  });
- if(parent!==window){try{shareUrl=parent.location.href}catch{}}
- tick();setInterval(tick,1000);observeReveals();
+ if(parent!==window){try{shareUrl=parent.location.origin+parent.location.pathname}catch{}}
+ renderSchedule(sample.program);renderStory(sample);tick();setInterval(tick,1000);observeReveals();
 })();
 //# sourceURL=silk-heritage.js
