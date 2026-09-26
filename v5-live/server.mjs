@@ -2,8 +2,27 @@ import http from 'node:http';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {spawnSync} from 'node:child_process';
 const ROOT=path.dirname(fileURLToPath(import.meta.url));
 const PORT=Number(process.env.PORT||3000);
+const assets=['cinematic.css','cinematic.js',...['love-rose','love-pearl','wedding-silk','wedding-garden','birthday-aurora','apology-rain','proposal-pearl'].map(n=>n+'.html')];
+await Promise.all(assets.map(file=>fs.access(path.join(ROOT,'templates',file))));
+const jsCheck=spawnSync(process.execPath,['--check',path.join(ROOT,'templates','cinematic.js')],{encoding:'utf8'});
+if(jsCheck.status!==0)throw new Error('EMORA cinematic engine syntax check failed: '+(jsCheck.stderr||'unknown'));
+const css=await fs.readFile(path.join(ROOT,'templates','cinematic.css'),'utf8');
+let depth=0,quote=null,comment=false;
+for(let i=0;i<css.length;i++){
+ const ch=css[i],next=css[i+1];
+ if(comment){if(ch==='*'&&next==='/'){comment=false;i++}continue}
+ if(quote){if(ch==='\\'){i++;continue}if(ch===quote)quote=null;continue}
+ if(ch==='/'&&next==='*'){comment=true;i++;continue}
+ if(ch==='"'||ch==="'"){quote=ch;continue}
+ if(ch==='{')depth++;else if(ch==='}')depth--;
+ if(depth<0)throw new Error('EMORA CSS contains an unexpected closing block');
+}
+if(depth!==0||quote||comment)throw new Error('EMORA CSS block or string not closed');
+console.log('EMORA V9 startup checks passed: 7 pages, JS syntax and balanced CSS');
+
 const templates=new Set(['love-rose','love-pearl','wedding-silk','wedding-garden','birthday-aurora','apology-rain','proposal-pearl']);
 http.createServer(async(req,res)=>{
  const u=new URL(req.url,'http://localhost');
