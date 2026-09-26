@@ -207,7 +207,7 @@ function useTemplate(slug){const t=templates.find(x=>x.slug===slug);if(!t)return
 function configFor(c,override){
  const template=templates.find(t=>t.slug===(c.template||'love-rose-theatre'))||templates[0];
  const t=template.slug, group=template.group, photos=Array.isArray(c.photos)?c.photos.filter(s=>typeof s==='string'&&s.trim()).slice(0,3):[];
- const clock=/^([01]\\d|2[0-3]):[0-5]\\d$/.test(c.clock||'')?c.clock:'18:00';
+ const clock=/^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/.test(c.clock||'')?c.clock:'18:00';
  const dateIso=c.date?c.date+'T'+clock+':00+05:00':'';
  const base={template:t,recipient:c.name1||'Sen uchun',sender:c.name2||'',intro:c.headline||template.opening,letter:c.letter||'',final:c.finalQuestion||'',memoryTitle:c.memoryTitle||'',captions:Array.isArray(c.captions)?c.captions.slice(0,3):[],photos,video:c.video||'',music:c.music||'',eventAt:dateIso,metAt:dateIso,venue:c.venue||'',venueMap:c.venueMap||'',program:Array.isArray(c.program)?c.program:[],mistake:c.mistake||'',repair:c.repair||''};
  if(group==='wedding')return {...base,bride:c.name1||'Malika',groom:c.name2||'Aziz',invitation:c.letter||'',cover:photos[0]||'',allowRsvp:!override,blessing:c.finalQuestion||''};
