@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { PearlSealEngine } from './PearlSealEngine.js';
+import { PearlSealEngine, playCrackSound } from './PearlSealEngine.js';
 import { GalaxyEngine } from '../galaxy/GalaxyEngine.js';
 import { createHeartPoints, samplePortraitFile } from '../galaxy/portraitSampler.js';
 import './pearlFlagship.css';
@@ -70,7 +70,7 @@ function Envelope({config,onDone}){
   useEffect(()=>{
     if(!host.current)return;
     const e=new PearlSealEngine(host.current,{
-      onCrack:()=>setCracked(true),
+      onCrack:()=>{playCrackSound();setCracked(true)},
       onSettled:()=>{
         const node=env.current;
         const tl=gsap.timeline({defaults:{ease:'power3.inOut'}});
