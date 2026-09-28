@@ -1,0 +1,282 @@
+/* EMORA V10 · Celamur-inspired motion grammar
+   Curiosity → gesture → reveal → transformation → emotional finale.
+   Every ritual keeps its own material language; motion never blocks reading. */
+
+:root{
+ --emora-ease:cubic-bezier(.16,1,.3,1);
+ --emora-spring:cubic-bezier(.2,1.35,.38,1);
+ --emora-soft:cubic-bezier(.22,.61,.36,1);
+}
+.v10-app{overflow:clip}
+.v10-intro,.v10-scene,.v10-story-cover,.v10-finale{isolation:isolate}
+.v10-intro:before,.v10-story-cover:before,.v10-scene:before,.v10-finale:before{
+ content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+}
+.v10-intro-copy,.v10-intro-art,.v10-scene-inner,.v10-story-cover-inner,.v10-finale .v10-scene-inner{position:relative;z-index:2}
+
+/* cinematic entrance — staged instead of a single fade */
+.v10-intro .v10-topline,.v10-intro .v10-guest,.v10-intro .v10-intro-headline,
+.v10-intro .v10-intro-name,.v10-intro .v10-intro-subtitle,.v10-intro .v10-cta,.v10-intro .v10-attribution{
+ opacity:0;transform:translateY(18px);animation:emora-enter .9s var(--emora-ease) forwards;
+}
+.v10-intro .v10-topline{animation-delay:.12s}.v10-intro .v10-guest{animation-delay:.22s}
+.v10-intro .v10-intro-headline{animation-delay:.32s}.v10-intro .v10-intro-name{animation-delay:.48s}
+.v10-intro .v10-intro-subtitle{animation-delay:.58s}.v10-intro .v10-cta{animation-delay:.7s}
+.v10-intro .v10-attribution{animation-delay:.84s}
+.v10-intro .v10-visual-frame{opacity:0;transform:scale(1.035);animation:emora-image-in 1.45s var(--emora-ease) .12s forwards}
+@keyframes emora-enter{to{opacity:1;transform:none}}
+@keyframes emora-image-in{to{opacity:1;transform:none}}
+
+/* ambient particles inserted by v10-main.js */
+.emora-ambient{position:absolute;inset:0;z-index:4;overflow:hidden;pointer-events:none}
+.emora-mote{
+ position:absolute;left:var(--x);top:var(--y);width:var(--s);height:var(--s);
+ border-radius:50%;opacity:var(--o);background:currentColor;filter:blur(var(--blur,0));
+ animation:emora-drift var(--d) ease-in-out var(--delay) infinite alternate;
+}
+@keyframes emora-drift{to{transform:translate3d(var(--dx),var(--dy),0) scale(1.25);opacity:calc(var(--o) * .55)}}
+.emora-burst{position:fixed;z-index:999;pointer-events:none;left:var(--x);top:var(--y)}
+.emora-burst i{
+ position:absolute;width:7px;height:7px;border-radius:50%;background:var(--accent,#e6c7a6);
+ transform:translate(-50%,-50%);animation:emora-pop .75s var(--emora-ease) forwards;
+ animation-delay:var(--delay);
+}
+@keyframes emora-pop{to{transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) scale(.15);opacity:0}}
+
+/* scroll choreography */
+.v10-scene .v10-eyebrow,.v10-scene .v10-scene-intro,.v10-scene .v10-memory-card,
+.v10-scene .v10-letter-panel,.v10-scene .v10-artifact,.v10-scene .v10-schedule-list>li,
+.v10-scene .v10-event-date,.v10-scene .v10-countdown,.v10-scene .v10-serif-big,
+.v10-scene .v10-soft-button,.v10-scene .v10-interact-layout{
+ opacity:0;transform:translateY(28px) scale(.985);
+ transition:opacity .85s var(--emora-ease),transform .95s var(--emora-ease),filter .95s var(--emora-ease);
+ filter:blur(4px);
+}
+.v10-scene.is-active .v10-eyebrow,.v10-scene.is-active .v10-scene-intro,
+.v10-scene.is-active .v10-memory-card,.v10-scene.is-active .v10-letter-panel,
+.v10-scene.is-active .v10-artifact,.v10-scene.is-active .v10-schedule-list>li,
+.v10-scene.is-active .v10-event-date,.v10-scene.is-active .v10-countdown,
+.v10-scene.is-active .v10-serif-big,.v10-scene.is-active .v10-soft-button,
+.v10-scene.is-active .v10-interact-layout{opacity:1;transform:none;filter:none}
+.v10-scene.is-active .v10-eyebrow{transition-delay:.04s}.v10-scene.is-active .v10-scene-title{transition-delay:.1s}
+.v10-scene.is-active .v10-scene-intro{transition-delay:.18s}
+.v10-scene.is-active .v10-memory-card:nth-child(1),.v10-scene.is-active .v10-schedule-list>li:nth-child(1){transition-delay:.18s}
+.v10-scene.is-active .v10-memory-card:nth-child(2),.v10-scene.is-active .v10-schedule-list>li:nth-child(2){transition-delay:.3s}
+.v10-scene.is-active .v10-memory-card:nth-child(3),.v10-scene.is-active .v10-schedule-list>li:nth-child(3){transition-delay:.42s}
+.v10-scene.is-active .v10-memory-card:nth-child(4),.v10-scene.is-active .v10-schedule-list>li:nth-child(4){transition-delay:.54s}
+.v10-scene.is-active .v10-memory-card:nth-child(5),.v10-scene.is-active .v10-schedule-list>li:nth-child(5){transition-delay:.66s}
+.v10-scene.is-active .v10-memory-card:nth-child(6),.v10-scene.is-active .v10-schedule-list>li:nth-child(6){transition-delay:.78s}
+
+/* tactile cards */
+.v10-memory-card{transform-origin:50% 80%;transition-property:opacity,transform,filter,box-shadow!important}
+.v10-memory-card:hover{box-shadow:0 28px 70px #0003;transform:translateY(-7px) rotate(.35deg)!important}
+.v10-memory-image{transition:transform 1.4s var(--emora-ease),filter 1s}
+.v10-memory-card:hover .v10-memory-image{transform:scale(1.035)}
+.v10-letter-panel{position:relative;overflow:hidden}
+.v10-letter-panel:after{
+ content:"";position:absolute;inset:-30% -60%;pointer-events:none;
+ background:linear-gradient(115deg,transparent 42%,color-mix(in srgb,var(--accent) 14%,transparent) 49%,transparent 56%);
+ transform:translateX(-45%);transition:transform 1.8s var(--emora-ease);
+}
+.v10-scene.is-active .v10-letter-panel:after{transform:translateX(45%)}
+
+/* interactive points become discoveries rather than buttons */
+.v10-interact-point{
+ position:absolute;isolation:isolate;transition:transform .45s var(--emora-spring),box-shadow .45s,background .45s;
+}
+.v10-interact-point:before,.v10-interact-point:after{
+ content:"";position:absolute;inset:-12px;border:1px solid color-mix(in srgb,var(--accent) 52%,transparent);
+ border-radius:50%;opacity:.55;animation:emora-pulse 2.8s ease-out infinite;z-index:-1;
+}
+.v10-interact-point:after{inset:-24px;animation-delay:-1.35s;opacity:.28}
+.v10-interact-point:hover,.v10-interact-point:focus-visible{transform:scale(1.13);box-shadow:0 0 0 9px color-mix(in srgb,var(--accent) 10%,transparent),0 0 42px color-mix(in srgb,var(--accent) 47%,transparent)}
+.v10-interact-layout[data-active] .v10-interact-point{opacity:.46}
+.v10-interact-layout[data-active="0"] .point-0,.v10-interact-layout[data-active="1"] .point-1,.v10-interact-layout[data-active="2"] .point-2{opacity:1;transform:scale(1.16)}
+.v10-interact-label{transition:opacity .35s,transform .5s var(--emora-spring)}
+.v10-interact-layout.is-answering .v10-interact-label{animation:emora-answer .58s var(--emora-spring)}
+@keyframes emora-pulse{0%{transform:scale(.78);opacity:.55}100%{transform:scale(1.45);opacity:0}}
+@keyframes emora-answer{0%{opacity:.1;transform:translateY(12px) scale(.96)}100%{opacity:1;transform:none}}
+
+/* artifact ritual base */
+.v10-artifact{overflow:hidden;perspective:1200px;isolation:isolate}
+.v10-artifact-image{transition:transform 1.25s var(--emora-ease),filter 1.1s,opacity 1s}
+.v10-artifact-veil{transition:transform 1.1s var(--emora-spring),opacity .85s,filter .85s}
+.v10-artifact-button{transition:transform .35s var(--emora-spring),background .3s,color .3s}
+.v10-artifact-button:active{transform:scale(.96)}
+.v10-artifact.activated .v10-artifact-image{transform:scale(1.045)}
+.v10-artifact.activated .v10-artifact-veil{opacity:0;pointer-events:none}
+.v10-artifact.ritual-complete:after{
+ content:"";position:absolute;inset:0;pointer-events:none;border:1px solid color-mix(in srgb,var(--accent) 48%,transparent);
+ box-shadow:inset 0 0 70px color-mix(in srgb,var(--accent) 16%,transparent);
+ animation:emora-afterglow 1.3s var(--emora-ease);
+}
+@keyframes emora-afterglow{0%{opacity:0;transform:scale(.97)}45%{opacity:1}100%{opacity:.25;transform:none}}
+
+/* 01 Rose Theatre — curtains, projector breathe, film-cut reveal */
+.v10-love-rose .v10-intro:before{background:radial-gradient(ellipse at 53% 27%,#f4cbaa1f,transparent 44%),linear-gradient(90deg,#250f1c66,transparent 35% 65%,#250f1c66)}
+.v10-love-rose .emora-mote{color:#efc9ae}
+.v10-love-rose .scene-projector .v10-artifact-image{filter:saturate(.78) contrast(1.11) brightness(.85)}
+.v10-love-rose .scene-projector .v10-artifact.activated .v10-artifact-image{filter:saturate(1) contrast(1.04) brightness(1.08);transform:scale(1.055)}
+.v10-love-rose .scene-filmstrip .v10-memory-card:nth-child(1){transform:rotate(-3deg) translateY(12px)}
+.v10-love-rose .scene-filmstrip .v10-memory-card:nth-child(2){transform:rotate(1deg) translateY(-4px)}
+.v10-love-rose .scene-filmstrip .v10-memory-card:nth-child(3){transform:rotate(3deg) translateY(15px)}
+.v10-love-rose .scene-subtitles .v10-letter-body{animation:emora-film-flicker 8s steps(1,end) infinite}
+@keyframes emora-film-flicker{0%,96%,100%{opacity:1}97%{opacity:.82}98%{opacity:1}99%{opacity:.9}}
+
+/* 02 Pearl Linen — paper, wax, handwritten softness */
+.v10-love-pearl .v10-intro:before{background:radial-gradient(circle at 75% 30%,#c7a89220,transparent 35%),linear-gradient(120deg,transparent,#fff9ef66)}
+.v10-love-pearl .emora-mote{color:#b79d8c}
+.v10-love-pearl .scene-seal .v10-artifact-veil{transform:rotate(-7deg) scale(1.03)}
+.v10-love-pearl .scene-seal .v10-artifact.activated .v10-artifact-veil{transform:rotate(28deg) scale(.25)}
+.v10-love-pearl .scene-letter .v10-letter-body{font-style:italic}
+.v10-love-pearl .scene-polaroid.is-active .v10-memory-card{animation:emora-paper-settle .85s var(--emora-spring) both}
+@keyframes emora-paper-settle{0%{transform:translateY(45px) rotate(var(--r,2deg));opacity:0}100%{opacity:1}}
+
+/* 03 Galaxy Confession — rotating cosmos + constellation reaction */
+.v10-love-galaxy .v10-intro:before,.v10-proposal-sky .v10-intro:before{background-image:radial-gradient(circle at 20% 24%,#fff 0 1px,transparent 1.5px),radial-gradient(circle at 74% 12%,#fff9 0 1px,transparent 1.6px),radial-gradient(circle at 58% 63%,#fff8 0 1px,transparent 1.5px);background-size:118px 118px,173px 173px,227px 227px;animation:emora-star-drift 22s linear infinite}
+@keyframes emora-star-drift{to{background-position:118px 55px,-80px 173px,110px -115px}}
+.v10-love-galaxy .emora-mote,.v10-proposal-sky .emora-mote{color:#f1dcff;box-shadow:0 0 12px currentColor}
+.v10-love-galaxy .scene-stars .v10-interact-layout:after,.v10-love-galaxy .scene-constellation .v10-interact-layout:after{
+ content:"";position:absolute;inset:20% 14%;border:1px solid #dfc8ef33;border-radius:50%;transform:rotate(-18deg);pointer-events:none;
+}
+.v10-love-galaxy .v10-memory-card{box-shadow:0 24px 60px #06031688}
+
+/* 05 Night Garden — lantern glow + fireflies */
+.v10-wedding-garden .emora-mote{color:#ffe8a4;box-shadow:0 0 13px #ffd56f}
+.v10-wedding-garden .v10-intro:before{background:radial-gradient(circle at 68% 28%,#ffe6a625,transparent 20%),radial-gradient(circle at 84% 56%,#ffe6a614,transparent 16%)}
+.v10-wedding-garden .scene-lantern .v10-artifact.activated .v10-artifact-image{filter:brightness(1.16) saturate(1.06)}
+.v10-wedding-garden .scene-schedule .v10-schedule-list>li:before{transition:box-shadow .6s,transform .6s var(--emora-spring)}
+.v10-wedding-garden .scene-schedule.is-active .v10-schedule-list>li:before{box-shadow:0 0 22px #e6c98499;transform:scale(1.08)}
+
+/* 06 Heritage Naqsh — ceremonial geometry */
+.v10-wedding-naqsh .emora-mote{color:#b28a50}
+.v10-wedding-naqsh .v10-intro:before{background:repeating-radial-gradient(circle at 72% 46%,transparent 0 34px,#b9905530 35px 36px,transparent 37px 68px)}
+.v10-wedding-naqsh .scene-medallion .v10-artifact-veil{transition-duration:1.45s}
+.v10-wedding-naqsh .scene-medallion .v10-artifact.activated .v10-artifact-veil{transform:rotate(135deg) scale(.2)}
+.v10-wedding-naqsh .scene-families .v10-serif-big{position:relative}
+.v10-wedding-naqsh .scene-families .v10-serif-big:after{content:"✦";display:block;font-size:20px;margin-top:25px;color:var(--accent);animation:emora-breathe 2.5s ease-in-out infinite alternate}
+
+/* 07 Aurora Paper — unwrap + celebratory paper light */
+.v10-birthday-aurora .emora-mote{color:#d8967e}
+.v10-birthday-aurora .v10-intro:before{background:linear-gradient(135deg,#fff9ef88,transparent 38%),radial-gradient(circle at 77% 24%,#ffbeaa35,transparent 25%)}
+.v10-birthday-aurora .scene-ribbon .v10-artifact.activated .v10-artifact-veil{transform:translateX(42%) rotate(26deg) scale(.6)}
+.v10-birthday-aurora .scene-wishes .v10-interact-point{box-shadow:inset 0 0 24px #fff8}
+
+/* 08 Balloon Dream — buoyant stage */
+.v10-birthday-balloon .emora-mote{color:#b8a8bf}
+.v10-birthday-balloon .v10-intro-copy,.v10-birthday-balloon .v10-story-cover-copy{will-change:transform}
+.v10-birthday-balloon .scene-balloons .v10-interact-point{animation:emora-balloon-point 3.8s ease-in-out infinite alternate}
+.v10-birthday-balloon .scene-balloons .point-2{animation-delay:-1.7s}
+@keyframes emora-balloon-point{to{transform:translateY(-13px) rotate(2deg)}}
+
+/* 09 Memory Reel — analog film movement */
+.v10-birthday-memory .emora-mote,.v10-proposal-cinema .emora-mote{color:#e0b783}
+.v10-birthday-memory .v10-intro:after,.v10-proposal-cinema .v10-intro:after{
+ content:"";position:absolute;inset:0;z-index:7;pointer-events:none;opacity:.13;
+ background:repeating-linear-gradient(0deg,#fff0 0 3px,#fff .5px 4px);
+ mix-blend-mode:soft-light;animation:emora-scan 8s linear infinite;
+}
+@keyframes emora-scan{to{transform:translateY(40px)}}
+.v10-birthday-memory .scene-eras .v10-memory-card,.v10-proposal-cinema .scene-frames .v10-memory-card{border-radius:2px}
+.v10-birthday-memory .scene-credits .v10-letter-panel{animation:emora-credit-breathe 4s ease-in-out infinite alternate}
+@keyframes emora-credit-breathe{to{transform:translateY(-4px)}}
+
+/* 10 After Rain — wipe is the interaction */
+.v10-apology-rain .emora-mote{color:#dff1ee}
+.v10-apology-rain .scene-fog .v10-artifact{cursor:ew-resize}
+.v10-apology-rain .scene-fog .v10-artifact-image{filter:blur(3px) saturate(.72) brightness(.82)}
+.v10-apology-rain .scene-fog .v10-artifact.activated .v10-artifact-image{filter:none}
+.v10-apology-rain .scene-acknowledge .v10-letter-panel{box-shadow:0 25px 80px #06181f66}
+
+/* 11 Ink of Regret — ink bloom resolves into legibility */
+.v10-apology-ink .emora-mote{color:#655f55}
+.v10-apology-ink .scene-ink .v10-artifact:before{
+ content:"";position:absolute;left:50%;top:50%;width:14px;height:14px;border-radius:50%;background:#303536c9;z-index:3;
+ transform:translate(-50%,-50%);box-shadow:0 0 0 0 #3035362b;transition:box-shadow 1.5s var(--emora-ease),opacity 1.4s;
+}
+.v10-apology-ink .scene-ink .v10-artifact.activated:before{box-shadow:0 0 0 55px #3035361f,0 0 0 115px #30353612,0 0 0 190px #30353605;opacity:.15}
+.v10-apology-ink .v10-letter-panel{transform-origin:50% 0}
+
+/* 12 Quiet Room — light switches on, nothing flashy */
+.v10-apology-quiet .emora-mote{color:#e8c38d}
+.v10-apology-quiet .scene-lamp .v10-artifact-image{filter:brightness(.58) saturate(.76)}
+.v10-apology-quiet .scene-lamp .v10-artifact.activated .v10-artifact-image{filter:brightness(1.03) saturate(.92)}
+.v10-apology-quiet .scene-lamp .v10-artifact.activated{box-shadow:0 0 95px #f2bd6c2e}
+.v10-apology-quiet .scene-listen .v10-letter-panel{box-shadow:0 22px 80px #0005}
+
+/* 13 Pearl Promise — ring box focus pull */
+.v10-proposal-pearl .emora-mote{color:#f0d6a7;box-shadow:0 0 15px currentColor}
+.v10-proposal-pearl .scene-box .v10-artifact-image{filter:brightness(.77) blur(.8px)}
+.v10-proposal-pearl .scene-box .v10-artifact.activated .v10-artifact-image{filter:brightness(1.08);transform:scale(1.075)}
+.v10-proposal-pearl .scene-box .v10-artifact.activated{box-shadow:0 0 110px #ffdca93d}
+.v10-proposal-pearl .scene-vows .v10-letter-panel{border-color:#d7bd9980}
+
+/* 14 Cinema Proposal — trailer → frames → final frame */
+.v10-proposal-cinema .scene-trailer .v10-artifact-image{filter:grayscale(.32) contrast(1.15) brightness(.72)}
+.v10-proposal-cinema .scene-trailer .v10-artifact.activated .v10-artifact-image{filter:none;transform:scale(1.055)}
+.v10-proposal-cinema .scene-trailer .v10-artifact.activated:before{
+ content:"REC";position:absolute;top:20px;right:22px;z-index:6;color:#f1d3b5;font:700 10px var(--sans);letter-spacing:.18em;
+ animation:emora-rec 1s steps(1,end) infinite;
+}
+@keyframes emora-rec{50%{opacity:.25}}
+
+/* 15 Sky Promise — dusk literally changes into night */
+.v10-proposal-sky .emora-mote{color:#ffe1ef;box-shadow:0 0 13px currentColor}
+.v10-proposal-sky .scene-dusk{position:relative;overflow:hidden;transition:background 1.8s var(--emora-ease)}
+.v10-proposal-sky .scene-dusk.is-active:after{
+ content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(to bottom,#11143000,#121530d6);
+ animation:emora-nightfall 5s var(--emora-ease) 1s both;z-index:0;
+}
+@keyframes emora-nightfall{from{opacity:0}to{opacity:.72}}
+.v10-proposal-sky .scene-dreams .v10-interact-point{box-shadow:0 0 45px #ffdbe788}
+
+/* finale choreography by emotional category */
+.v10-finale{position:relative;overflow:hidden}
+.v10-finale:after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity .8s}
+.v10-finale.accepted:after{opacity:1}
+.v10-finale.love:after{background:radial-gradient(circle at 50% 40%,#f4b9c526,transparent 52%)}
+.v10-finale.wedding:after{background:radial-gradient(circle at 50% 42%,#e8ce8f28,transparent 55%)}
+.v10-finale.birthday:after{background:radial-gradient(circle at 50% 40%,#f7c8a929,transparent 55%)}
+.v10-finale.proposal:after{background:radial-gradient(circle at 50% 38%,#ffe2b83d,transparent 48%)}
+.v10-finale.apology:after{background:radial-gradient(circle at 50% 42%,#d4e6df17,transparent 58%)}
+.v10-finale.is-celebrating .v10-scene-title{animation:emora-final-title .85s var(--emora-spring)}
+@keyframes emora-final-title{0%{transform:scale(.96);opacity:.55}60%{transform:scale(1.035)}100%{transform:none;opacity:1}}
+.emora-confetti{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none}
+.emora-confetti i{
+ position:absolute;top:-12%;left:var(--x);width:var(--w);height:var(--h);border-radius:var(--r);
+ background:var(--c);animation:emora-fall var(--d) cubic-bezier(.2,.6,.3,1) var(--delay) forwards;
+}
+@keyframes emora-fall{to{transform:translate3d(var(--dx),115svh,0) rotate(var(--rot));opacity:.2}}
+.emora-halo{position:absolute;left:50%;top:50%;width:min(64vw,520px);aspect-ratio:1;border:1px solid color-mix(in srgb,var(--accent) 60%,transparent);border-radius:50%;transform:translate(-50%,-50%) scale(.35);opacity:0;animation:emora-halo 1.8s var(--emora-ease) forwards;pointer-events:none}
+@keyframes emora-halo{45%{opacity:.75}100%{opacity:0;transform:translate(-50%,-50%) scale(1.25)}}
+@keyframes emora-breathe{to{transform:scale(1.12);opacity:.62}}
+
+/* pointer parallax is subtle and removed on touch */
+@media(hover:hover) and (pointer:fine){
+ .v10-intro-art,.v10-story-cover-art{transform:translate3d(var(--mx,0),var(--my,0),0);transition:transform .3s ease-out}
+}
+
+/* mobile: stronger depth, fewer simultaneous layers */
+@media(max-width:700px){
+ .v10-memory-card:hover{transform:none!important}
+ .v10-scene .v10-eyebrow,.v10-scene .v10-scene-intro,.v10-scene .v10-memory-card,
+ .v10-scene .v10-letter-panel,.v10-scene .v10-artifact,.v10-scene .v10-schedule-list>li,
+ .v10-scene .v10-event-date,.v10-scene .v10-countdown,.v10-scene .v10-serif-big,
+ .v10-scene .v10-soft-button,.v10-scene .v10-interact-layout{transform:translateY(20px);filter:blur(2px)}
+ .emora-mote:nth-child(n+15){display:none}
+ .v10-love-rose .scene-filmstrip .v10-memory-card,
+ .v10-love-pearl .scene-polaroid .v10-memory-card{transform:none}
+}
+
+/* accessibility: the story remains complete without motion */
+@media(prefers-reduced-motion:reduce){
+ .emora-ambient,.emora-burst,.emora-confetti,.emora-halo{display:none!important}
+ .v10-intro .v10-topline,.v10-intro .v10-guest,.v10-intro .v10-intro-headline,.v10-intro .v10-intro-name,
+ .v10-intro .v10-intro-subtitle,.v10-intro .v10-cta,.v10-intro .v10-attribution,.v10-intro .v10-visual-frame,
+ .v10-scene .v10-eyebrow,.v10-scene .v10-scene-intro,.v10-scene .v10-memory-card,.v10-scene .v10-letter-panel,
+ .v10-scene .v10-artifact,.v10-scene .v10-schedule-list>li,.v10-scene .v10-event-date,.v10-scene .v10-countdown,
+ .v10-scene .v10-serif-big,.v10-scene .v10-soft-button,.v10-scene .v10-interact-layout{
+  opacity:1!important;transform:none!important;filter:none!important;animation:none!important;transition:none!important;
+ }
+ .v10-proposal-sky .scene-dusk.is-active:after{display:none}
+}
