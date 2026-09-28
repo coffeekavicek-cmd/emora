@@ -4,7 +4,7 @@ import { gsap } from 'gsap';
 const clamp=(n,a=0,b=1)=>Math.max(a,Math.min(b,n));
 function tactile(kind='soft'){
  try{
-  const C=window.AudioContext||window.webkitAudioContext;if(!C)return;
+  const C=window.AudioContext||window.webkitAudioContext;if(C){
   const ctx=new C(),osc=ctx.createOscillator(),gain=ctx.createGain();
   const map={soft:[420,.035],pop:[155,.055],mechanical:[245,.045],light:[690,.032],ring:[520,.05]};
   const [freq,vol]=map[kind]||map.soft;osc.type=kind==='mechanical'?'square':'sine';osc.frequency.setValueAtTime(freq,ctx.currentTime);
@@ -12,6 +12,7 @@ function tactile(kind='soft'){
   if(kind==='ring')osc.frequency.exponentialRampToValueAtTime(880,ctx.currentTime+.18);
   gain.gain.setValueAtTime(.0001,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(vol,ctx.currentTime+.006);gain.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.16);
   osc.connect(gain).connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+.18);setTimeout(()=>ctx.close(),350);
+  }
  }catch{}
  try{navigator.vibrate?.(kind==='pop'?[16,8,20]:kind==='mechanical'?[9]:kind==='ring'?[14,10,22]:[8])}catch{}
 }
