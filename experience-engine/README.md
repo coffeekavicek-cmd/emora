@@ -43,3 +43,7 @@ npm run build
 ## Preview
 
 This branch is deployed as an isolated Railway preview service. Production EMORA remains untouched.
+
+## All 15 ritual preview
+
+This branch expands the engine to all fifteen EMORA experiences with a no-scroll, interaction-first architecture.
