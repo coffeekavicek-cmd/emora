@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { EXPERIENCES } from './registry.js';
 import './gallery.css';
 
@@ -7,6 +8,11 @@ const symbol={
 };
 
 export function ExperienceGallery(){
+ useEffect(()=>{
+  const prev=document.body.style.touchAction;
+  document.body.style.touchAction='pan-y';
+  return()=>{document.body.style.touchAction=prev};
+ },[]);
  const groups=['LOVE','WEDDING','BIRTHDAY','APOLOGY','PROPOSAL'];
  return <main className="template-gallery">
    <header className="gallery-hero">
