@@ -4,8 +4,9 @@
  const $=s=>document.querySelector(s),intro=$('#silkIntro');
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
  if(!document.querySelector('link[href*="/templates/silk-motion.css"]')){const motionSheet=document.createElement('link');motionSheet.rel='stylesheet';motionSheet.href='/templates/silk-motion.css?v=13';document.head.append(motionSheet);}
+ if(!document.querySelector('link[href*="/templates/silk-stage.css"]')){const stageSheet=document.createElement('link');stageSheet.rel='stylesheet';stageSheet.href='/templates/silk-stage.css?v=1';document.head.append(stageSheet);}
  const sample={bride:'Malika',groom:'Aziz',eventAt:'2027-06-25T18:00:00+05:00',venue:'The Garden, Toshkent',venueMap:'',invitation:'Hayotimizning eng qadrli kuni quvonchini siz bilan baham ko‘rishdan baxtiyormiz. To‘yimizga tashrif buyurishingizni kutamiz.',photos:[],music:'',program:[],guestName:''};
- let state={...sample},eventTime=new Date(sample.eventAt).getTime(),opened=false,shareUrl=location.href,guestName='',configured=false;
+ let state={...sample},eventTime=new Date(sample.eventAt).getTime(),opened=false,shareUrl=location.href,guestName='',configured=false,chapters=[],chapterIndex=0,chapterLocked=false,chapterToken=0;
  const clean=v=>typeof v==='string'?v.trim():'';
  function touchBurst(target,count=10){
   if(reduced||!target)return;const r=target.getBoundingClientRect(),wrap=document.createElement('span');wrap.className='silk-touch-burst';wrap.style.left=(r.left+r.width/2)+'px';wrap.style.top=(r.top+r.height/2)+'px';
@@ -24,6 +25,25 @@
   for(let i=0;i<30;i++){const p=document.createElement('i');p.style.setProperty('--x',(Math.random()*100)+'%');p.style.setProperty('--d',(3+Math.random()*2.7)+'s');p.style.setProperty('--delay',(Math.random()*.8)+'s');p.style.setProperty('--dx',((Math.random()-.5)*180)+'px');p.style.setProperty('--rot',((Math.random()-.5)*800)+'deg');layer.append(p)}
   sec.append(layer);setTimeout(()=>layer.remove(),6200);
  }
+ function decorateChapterControls(){
+  document.querySelectorAll('#story,#date,#schedule,#place,#rsvp').forEach(sec=>{if(sec.querySelector('.silk-stage-next'))return;const inner=sec.querySelector('.inner');if(!inner)return;const b=document.createElement('button');b.type='button';b.className='silk-stage-next';b.textContent=sec.id==='rsvp'?'Finale  →':'Davom etish  →';b.onclick=()=>stageNext();inner.append(b)});
+ }
+ function refreshStage(){
+  chapters=[...document.querySelectorAll('#silkExperience > .chapter')].filter(x=>!x.hidden);
+  chapterIndex=Math.min(chapterIndex,Math.max(0,chapters.length-1));
+  chapters.forEach((sec,i)=>{const active=i===chapterIndex;sec.classList.toggle('silk-stage-active',active);sec.classList.toggle('is-active',active);sec.classList.remove('silk-stage-out','silk-stage-back');sec.setAttribute('aria-hidden',active?'false':'true');sec.inert=!active;if(active)sec.querySelectorAll('.reveal').forEach(x=>x.classList.add('visible'))});
+  const bar=$('#progressBar');if(bar)bar.style.width=chapters.length?(((chapterIndex+1)/chapters.length)*100)+'%':'0%';
+ }
+ function showChapter(target,direction='forward'){
+  refreshStage();const next=typeof target==='number'?target:chapters.findIndex(x=>x.id===String(target).replace(/^#/,''));
+  if(next<0||next===chapterIndex||chapterLocked)return;const old=chapters[chapterIndex],incoming=chapters[next],token=++chapterToken;chapterLocked=true;
+  if(old){old.classList.remove('silk-stage-active','is-active');old.classList.add(direction==='back'?'silk-stage-back':'silk-stage-out');old.inert=true;old.setAttribute('aria-hidden','true')}
+  chapterIndex=next;incoming.classList.remove('silk-stage-out','silk-stage-back');incoming.classList.add('silk-stage-active','is-active');incoming.inert=false;incoming.setAttribute('aria-hidden','false');incoming.querySelectorAll('.reveal').forEach(x=>x.classList.add('visible'));
+  const bar=$('#progressBar');if(bar)bar.style.width=(((chapterIndex+1)/chapters.length)*100)+'%';if(incoming.id==='finale')celebrateSilkFinale();
+  setTimeout(()=>{if(token!==chapterToken)return;if(old)old.classList.remove('silk-stage-out','silk-stage-back');chapterLocked=false},reduced?10:850);
+ }
+ function stageNext(){if(chapterIndex<chapters.length-1)showChapter(chapterIndex+1,'forward')}
+ function stagePrev(){if(chapterIndex>0)showChapter(chapterIndex-1,'back')}
  const set=(id,value)=>{const el=$(id);if(el&&value!==undefined&&value!==null)el.textContent=String(value)};
  const safeUrl=value=>{try{const u=new URL(value,location.origin);return u.protocol==='https:'?u.href:null}catch{return null}};
  const safeMap=value=>{const u=safeUrl(value);if(!u)return null;try{const h=new URL(u).hostname.toLowerCase();return ['google.com','maps.app.goo.gl','2gis.uz','2gis.com','yandex.com','yandex.ru','yandex.uz','maps.apple.com'].some(d=>h===d||h.endsWith('.'+d))?u:null}catch{return null}};
@@ -45,14 +65,15 @@
  }
  function dismiss(animated){
   if(opened)return;opened=true;
-  if(animated&&!reduced){intro.classList.add('opening');setTimeout(()=>{intro.classList.add('dismissed');intro.setAttribute('aria-hidden','true');$('#coupleNames')?.focus({preventScroll:true});addPetals(8)},1350)}
-  else{intro.classList.add('opening','dismissed');intro.setAttribute('aria-hidden','true');$('#coupleNames')?.focus({preventScroll:true})}
+  const finish=()=>{intro.classList.add('dismissed');intro.setAttribute('aria-hidden','true');refreshStage();$('#coupleNames')?.focus({preventScroll:true})};
+  if(animated&&!reduced){intro.classList.add('opening');setTimeout(()=>{finish();addPetals(8)},1350)}
+  else{intro.classList.add('opening');finish()}
  }
  decorateSilkIntro();
  $('#openInvite').addEventListener('click',()=>{touchBurst($('#openInvite'),12);dismiss(true)});
  $('#skipIntro').addEventListener('click',()=>dismiss(false));
- document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!opened)dismiss(false)});
- function go(id){const target=$(id);if(target)target.scrollIntoView({behavior:reduced?'instant':'smooth',block:'start'})}
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!opened){dismiss(false);return}if(!opened)return;const tag=document.activeElement?.tagName;if(['INPUT','TEXTAREA','SELECT'].includes(tag))return;if(e.key==='ArrowRight'||e.key==='PageDown'){e.preventDefault();stageNext()}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();stagePrev()}});
+ function go(id){refreshStage();const idx=chapters.findIndex(x=>x.id===String(id).replace(/^#/,''));if(idx>=0)showChapter(idx,idx<chapterIndex?'back':'forward')}
  $('#beginStory').onclick=()=>go($('#story').hidden?'#date':'#story');
  $('#backTop').onclick=()=>go('#opening');
  async function share(){
@@ -124,17 +145,9 @@
   if(music){audio.src=music;control.hidden=false}else{audio.pause();audio.removeAttribute('src');control.hidden=true}
   const cover=safeUrl(state.cover);
   if(cover){$('.hero-memento').style.backgroundImage='linear-gradient(#f9f0e42b,#f9f0e46b),url("'+cover.replace(/"/g,'%22')+'")';$('.hero-memento').style.backgroundSize='cover';$('.hero-memento .floral').style.opacity='.4'}
-  observeReveals();
+  decorateChapterControls();refreshStage();
  }
- function observeReveals(){
-  const elements=[...document.querySelectorAll('.reveal:not(.visible)')];
-  if(!('IntersectionObserver' in window)||reduced){elements.forEach(x=>x.classList.add('visible'));document.querySelectorAll('.chapter').forEach(x=>x.classList.add('is-active'));return}
-  const obs=new IntersectionObserver(entries=>{for(const x of entries)if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target)}},{threshold:.13});
-  elements.forEach(x=>obs.observe(x));
-  const chapters=[...document.querySelectorAll('.chapter')];
-  const chapterObs=new IntersectionObserver(entries=>{for(const x of entries)if(x.isIntersecting){x.target.classList.add('is-active');if(x.target.id==='finale')celebrateSilkFinale()}},{threshold:.22,rootMargin:'0px 0px -8% 0px'});
-  chapters.forEach(x=>chapterObs.observe(x));
- }
+ function observeReveals(){decorateChapterControls();refreshStage()}
  function calendar(){
   if(!Number.isFinite(eventTime))return;
   const utc=t=>new Date(t).toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
@@ -146,13 +159,13 @@
  $('#addCalendar').onclick=calendar;
  $('#rsvpButton').onclick=()=>{if(parent!==window&&guestName){parent.postMessage({type:'emora:open-rsvp'},location.origin)}else set('#rsvpHint','RSVP faqat sizga yuborilgan shaxsiy mehmon havolasida ishlaydi.');};
  $('#musicButton').onclick=async()=>{const a=$('#audio'),b=$('#musicButton');if(!a.src)return;if(!a.paused){a.pause();b.textContent='♪ Musiqa';b.setAttribute('aria-pressed','false');return}try{await a.play();b.textContent='Ⅱ To‘xtatish';b.setAttribute('aria-pressed','true')}catch{b.textContent='Musiqa ochilmadi'}};
- if('IntersectionObserver' in window){const sections=[...document.querySelectorAll('.chapter')],obs=new IntersectionObserver(entries=>{for(const e of entries)if(e.isIntersecting){const i=sections.indexOf(e.target);$('#progressBar').style.width=((i+1)/sections.length*100)+'%'}},{threshold:.3});sections.forEach(s=>obs.observe(s))}
+ decorateChapterControls();refreshStage();
  window.addEventListener('message',e=>{
   if(e.origin!==location.origin||!e.data||typeof e.data.type!=='string'||!e.data.type.startsWith('emora:'))return;
   if(e.data.type==='emora:guest'){guestName=clean(e.data.name);announceGuest();return}
   if(e.data.config)apply(e.data.config);
  });
  if(parent!==window){try{shareUrl=parent.location.origin+parent.location.pathname}catch{}}
- renderSchedule(sample.program);renderStory(sample);tick();setInterval(tick,1000);observeReveals();
+ renderSchedule(sample.program);renderStory(sample);tick();setInterval(tick,1000);decorateChapterControls();refreshStage();
 })();
 //# sourceURL=silk-heritage.js
