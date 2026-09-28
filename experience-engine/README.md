@@ -47,3 +47,7 @@ This branch is deployed as an isolated Railway preview service. Production EMORA
 ## All 15 ritual preview
 
 This branch expands the engine to all fifteen EMORA experiences with a no-scroll, interaction-first architecture.
+
+## Benchmark V2
+
+Pearl Linen now runs as a dedicated flagship ritual informed by the public interaction patterns of e-invitation.uz, etaklifpro.uz and celamur.com. The remaining experiences inherit upgraded artwork layers and finale transforms; see BENCHMARK.md for the quality gate.

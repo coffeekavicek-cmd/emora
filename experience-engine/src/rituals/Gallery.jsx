@@ -27,7 +27,7 @@ export function ExperienceGallery(){
       <div className="gallery-grid">
        {EXPERIENCES.filter(x=>x.group===group).map((x,i)=><a className={'experience-card tone-card-'+x.tone} href={'?template='+x.slug} key={x.slug}>
          <div className={'card-art card-'+x.ritual}>
-           <span className="card-orbit"/><b>{symbol[x.ritual]}</b>
+           <img src={x.art} alt="" /><span className="card-art-veil"/><span className="card-orbit"/><b>{symbol[x.ritual]}</b>
            {Array.from({length:6},(_,n)=><i key={n} style={{'--n':n}}/>)}
          </div>
          <div className="card-copy"><small>0{i+1} · {x.group}</small><h2>{x.name}</h2><p>{x.ritual==='galaxy'?'WebGL particles · portrait morph':x.instruction}</p></div>

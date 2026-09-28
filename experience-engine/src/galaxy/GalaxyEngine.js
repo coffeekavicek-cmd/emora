@@ -31,10 +31,12 @@ function pointInGalaxy(i,total,radius){
 }
 
 export class GalaxyEngine{
-  constructor(host,{onStar,onReady}={}){
+  constructor(host,{onStar,onReady,showStars=true,interactive=true}={}){
     this.host=host;
     this.onStar=onStar;
     this.onReady=onReady;
+    this.showStars=showStars;
+    this.interactive=interactive;
     this.app=null;
     this.root=null;
     this.galaxy=null;
@@ -74,8 +76,8 @@ export class GalaxyEngine{
     app.stage.eventMode='static';
     app.stage.hitArea=app.screen;
     this.createParticles();
-    this.createInteractiveStars();
-    this.installInput();
+    if(this.showStars)this.createInteractiveStars();
+    if(this.interactive)this.installInput();
     app.ticker.add(this.tick);
     this.resizeObserver=new ResizeObserver(()=>this.layout());
     this.resizeObserver.observe(this.host);

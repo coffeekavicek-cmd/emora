@@ -1,4 +1,4 @@
-export const EXPERIENCES=[
+const BASE_EXPERIENCES=[
  {slug:'love-rose',group:'LOVE',name:'Rose Theatre',ritual:'curtain',tone:'rose',eyebrow:'YURAK SAHNASI',intro:'Ba’zi hikoyalar parda ochilganda boshlanadi.',instruction:'Pardani oching',messages:['Seni ko‘rgan kunim sahna yorishgandek bo‘lgan.','Har bir xotira — men qayta ko‘rishni istaydigan kadr.','Bu hikoyada eng sevimli qahramonim — sensan.'],final:'Bu sahna tugamaydi. Men seni yana va yana tanlayman.'},
  {slug:'love-pearl',group:'LOVE',name:'Pearl Linen',ritual:'envelope',tone:'pearl',eyebrow:'MAXFIY MAKTUB',intro:'Senga yozilgan bir gap hali ochilmagan.',instruction:'Muhrni sindiring',messages:['Bu maktub shoshilmay ochilishi kerak.','Satrlar orasida men aytolmagan gaplar bor.','Eng qimmat so‘z ichkarida yashiringan.'],final:'Senga aytmoqchi bo‘lganim juda oddiy: sen men uchun alohidasan.'},
  {slug:'love-galaxy',group:'LOVE',name:'Galaxy Confession',ritual:'galaxy',tone:'galaxy'},
@@ -15,6 +15,26 @@ export const EXPERIENCES=[
  {slug:'proposal-cinema',group:'PROPOSAL',name:'Cinema Proposal',ritual:'cinema',tone:'cinema',eyebrow:'BIZNING FILM',intro:'Bugungi namoyishda faqat bitta film bor.',instruction:'Proyektorni yoqing',messages:['1-akt: seni uchratdim.','2-akt: seni sevib qoldim.','3-akt: qolganini birga yozishni istayman.'],final:'Bu filmning davomiga “ha” deysanmi?'},
  {slug:'proposal-sky',group:'PROPOSAL',name:'Sky Promise',ritual:'sky',tone:'sky',eyebrow:'OSMONDA BITTA SAVOL',intro:'Tong otishidan oldin osmon bitta sirni saqlaydi.',instruction:'Yulduzlarni uyg‘oting',messages:['Bir yulduz — bugun uchun.','Bir yulduz — ertaga uchun.','Bir yulduz — butun umr uchun.'],final:'Har tongni yoningda kutib olishimga rozimisan?'}
 ];
+
+const ART_BASE='https://emora-v10-fifteen-experiences-production.up.railway.app/assets/';
+const ART_BY_SLUG={
+ 'love-rose':'love-rose.png',
+ 'love-pearl':'love-pearl.png',
+ 'love-galaxy':'love-galaxy.png',
+ 'wedding-silk':'silk-heritage-original.jpg',
+ 'wedding-garden':'wedding-garden.png',
+ 'wedding-naqsh':'wedding-naqsh.png',
+ 'birthday-aurora':'birthday-aurora.png',
+ 'birthday-balloon':'birthday-balloon.png',
+ 'birthday-memory':'birthday-memory.png',
+ 'apology-rain':'apology-rain.png',
+ 'apology-ink':'apology-ink.png',
+ 'apology-quiet':'apology-quiet.png',
+ 'proposal-pearl':'proposal-pearl.png',
+ 'proposal-cinema':'proposal-cinema.png',
+ 'proposal-sky':'proposal-sky.png'
+};
+export const EXPERIENCES=BASE_EXPERIENCES.map(x=>({...x,art:ART_BASE+ART_BY_SLUG[x.slug]}));
 
 export const EXPERIENCE_MAP=Object.fromEntries(EXPERIENCES.map(x=>[x.slug,x]));
 
