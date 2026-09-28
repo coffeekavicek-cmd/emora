@@ -3,8 +3,10 @@
     "template": "love-rose",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 4616 > 844"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -45,14 +47,30 @@
       "screenWidth": 390,
       "categoryCount": 4
     },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 4616,
+      "viewportHeight": 844,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 0
+    },
     "videoRoundtripChecked": true
   },
   {
     "template": "love-pearl",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 4516 > 844"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -65,11 +83,11 @@
         "height": 435.6099548339844
       },
       "button": {
-        "x": 116.28125,
+        "x": 114.390625,
         "y": 747.203125,
-        "right": 274.703125,
+        "right": 276.59375,
         "bottom": 796.203125,
-        "width": 158.421875,
+        "width": 162.203125,
         "height": 49
       },
       "headline": {
@@ -93,14 +111,30 @@
       "screenWidth": 390,
       "categoryCount": 4
     },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 4516,
+      "viewportHeight": 844,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 0
+    },
     "videoRoundtripChecked": true
   },
   {
     "template": "love-galaxy",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 4514 > 844"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -141,14 +175,30 @@
       "screenWidth": 390,
       "categoryCount": 4
     },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 4514,
+      "viewportHeight": 844,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 0
+    },
     "videoRoundtripChecked": true
   },
   {
     "template": "wedding-silk",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 5794 > 844"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -161,34 +211,50 @@
         "height": 455.7952880859375
       },
       "button": {
-        "x": 92.953125,
+        "x": 91.71875,
         "y": 753.8125,
-        "right": 297.03125,
+        "right": 298.265625,
         "bottom": 803.8125,
-        "width": 204.078125,
+        "width": 206.546875,
         "height": 50
       },
       "headline": {
         "x": 22,
-        "y": 510.78125,
+        "y": 511.78125,
         "right": 368,
         "bottom": 636.5625,
         "width": 346,
-        "height": 125.78125
+        "height": 124.78125
       },
       "frame": null,
       "frameRadius": null,
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 0
+    },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 5794,
+      "viewportHeight": 844,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "opening",
+      "totalScenes": 7
+    },
+    "stageTransition": {
+      "before": "opening",
+      "after": "story",
+      "scrollY": 0
     }
   },
   {
     "template": "wedding-garden",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 3519 > 844"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -229,14 +295,30 @@
       "screenWidth": 390,
       "categoryCount": 4
     },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 3519,
+      "viewportHeight": 844,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 0
+    },
     "videoRoundtripChecked": true
   },
   {
     "template": "wedding-naqsh",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 3479 > 844"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -249,11 +331,11 @@
         "height": 388.032958984375
       },
       "button": {
-        "x": 111.96875,
+        "x": 110.953125,
         "y": 751.203125,
-        "right": 278.015625,
+        "right": 279.046875,
         "bottom": 800.203125,
-        "width": 166.046875,
+        "width": 168.09375,
         "height": 49
       },
       "headline": {
@@ -277,14 +359,30 @@
       "screenWidth": 390,
       "categoryCount": 4
     },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 3479,
+      "viewportHeight": 844,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 0
+    },
     "videoRoundtripChecked": true
   },
   {
     "template": "birthday-aurora",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 4464 > 844"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -297,11 +395,11 @@
         "height": 416.9891357421875
       },
       "button": {
-        "x": 110.3125,
+        "x": 109.515625,
         "y": 751.203125,
-        "right": 279.6875,
+        "right": 280.484375,
         "bottom": 800.203125,
-        "width": 169.375,
+        "width": 170.96875,
         "height": 49
       },
       "headline": {
@@ -325,14 +423,30 @@
       "screenWidth": 390,
       "categoryCount": 4
     },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 4464,
+      "viewportHeight": 844,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 0
+    },
     "videoRoundtripChecked": true
   },
   {
     "template": "birthday-balloon",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 4258 > 844"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -373,14 +487,30 @@
       "screenWidth": 390,
       "categoryCount": 4
     },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 4258,
+      "viewportHeight": 844,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 0
+    },
     "videoRoundtripChecked": true
   },
   {
     "template": "birthday-memory",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 5168 > 844"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -393,11 +523,11 @@
         "height": 359.7198486328125
       },
       "button": {
-        "x": 95.09375,
+        "x": 92.75,
         "y": 749.203125,
-        "right": 294.90625,
+        "right": 297.234375,
         "bottom": 798.203125,
-        "width": 199.8125,
+        "width": 204.484375,
         "height": 49
       },
       "headline": {
@@ -421,14 +551,30 @@
       "screenWidth": 390,
       "categoryCount": 5
     },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 5168,
+      "viewportHeight": 844,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 6
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 0
+    },
     "videoRoundtripChecked": true
   },
   {
     "template": "apology-rain",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 3875 > 844"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -469,14 +615,30 @@
       "screenWidth": 390,
       "categoryCount": 4
     },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 3875,
+      "viewportHeight": 844,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 0
+    },
     "videoRoundtripChecked": true
   },
   {
     "template": "apology-ink",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 3945 > 844"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -491,18 +653,18 @@
       "button": {
         "x": 27,
         "y": 747.203125,
-        "right": 195.75,
+        "right": 198.96875,
         "bottom": 796.203125,
-        "width": 168.75,
+        "width": 171.96875,
         "height": 49
       },
       "headline": {
         "x": 27,
-        "y": 552.421875,
+        "y": 600.109375,
         "right": 363,
         "bottom": 647.796875,
         "width": 336,
-        "height": 95.375
+        "height": 47.6875
       },
       "frame": {
         "x": 93.609375,
@@ -517,14 +679,30 @@
       "screenWidth": 390,
       "categoryCount": 4
     },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 3945,
+      "viewportHeight": 844,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 0
+    },
     "videoRoundtripChecked": true
   },
   {
     "template": "apology-quiet",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 3945 > 844"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -537,20 +715,20 @@
         "height": 796.075927734375
       },
       "button": {
-        "x": 110.625,
+        "x": 109.015625,
         "y": 774,
-        "right": 279.375,
+        "right": 280.984375,
         "bottom": 823,
-        "width": 168.75,
+        "width": 171.96875,
         "height": 49
       },
       "headline": {
         "x": 22,
-        "y": 592.15625,
+        "y": 634.375,
         "right": 368,
         "bottom": 676.59375,
         "width": 346,
-        "height": 84.4375
+        "height": 42.21875
       },
       "frame": {
         "x": 0,
@@ -564,6 +742,20 @@
       "scrollWidth": 390,
       "screenWidth": 390,
       "categoryCount": 4
+    },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 3945,
+      "viewportHeight": 844,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 0
     },
     "videoRoundtripChecked": true
   },
@@ -571,8 +763,10 @@
     "template": "proposal-pearl",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 4602 > 844"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -585,11 +779,11 @@
         "height": 796.075927734375
       },
       "button": {
-        "x": 110.3125,
+        "x": 109.515625,
         "y": 774,
-        "right": 279.6875,
+        "right": 280.484375,
         "bottom": 823,
-        "width": 169.375,
+        "width": 170.96875,
         "height": 49
       },
       "headline": {
@@ -613,14 +807,30 @@
       "screenWidth": 390,
       "categoryCount": 4
     },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 4602,
+      "viewportHeight": 844,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 0
+    },
     "videoRoundtripChecked": true
   },
   {
     "template": "proposal-cinema",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 4608 > 844"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -633,11 +843,11 @@
         "height": 796.075927734375
       },
       "button": {
-        "x": 102.5625,
+        "x": 100.1875,
         "y": 774,
-        "right": 287.421875,
+        "right": 289.796875,
         "bottom": 823,
-        "width": 184.859375,
+        "width": 189.609375,
         "height": 49
       },
       "headline": {
@@ -661,14 +871,30 @@
       "screenWidth": 390,
       "categoryCount": 4
     },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 4608,
+      "viewportHeight": 844,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 0
+    },
     "videoRoundtripChecked": true
   },
   {
     "template": "proposal-sky",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 3799 > 844"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -681,11 +907,11 @@
         "height": 796.075927734375
       },
       "button": {
-        "x": 108,
+        "x": 106.953125,
         "y": 774,
-        "right": 282,
+        "right": 283.046875,
         "bottom": 823,
-        "width": 174,
+        "width": 176.09375,
         "height": 49
       },
       "headline": {
@@ -709,14 +935,31 @@
       "screenWidth": 390,
       "categoryCount": 4
     },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 3799,
+      "viewportHeight": 844,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 0
+    },
     "videoRoundtripChecked": true
   },
   {
     "template": "love-rose",
     "device": "small",
     "viewport": "360x740",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 4592 > 740",
+      "Stage transition used page scrolling: 371"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -729,11 +972,11 @@
         "height": 690.2039794921875
       },
       "button": {
-        "x": 95.625,
+        "x": 95.515625,
         "y": 670,
-        "right": 264.375,
+        "right": 264.484375,
         "bottom": 719,
-        "width": 168.75,
+        "width": 168.96875,
         "height": 49
       },
       "headline": {
@@ -757,14 +1000,30 @@
       "screenWidth": 360,
       "categoryCount": 4
     },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 4592,
+      "viewportHeight": 740,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 371
+    },
     "videoRoundtripChecked": true
   },
   {
     "template": "wedding-silk",
     "device": "small",
     "viewport": "360x740",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 5840 > 740"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -797,14 +1056,31 @@
       "scrollWidth": 360,
       "screenWidth": 360,
       "categoryCount": 0
+    },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 5840,
+      "viewportHeight": 740,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "opening",
+      "totalScenes": 7
+    },
+    "stageTransition": {
+      "before": "opening",
+      "after": "story",
+      "scrollY": 0
     }
   },
   {
     "template": "birthday-aurora",
     "device": "small",
     "viewport": "360x740",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 4525 > 740",
+      "Stage transition used page scrolling: 6"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -817,11 +1093,11 @@
         "height": 362.0001525878906
       },
       "button": {
-        "x": 95.3125,
+        "x": 94.515625,
         "y": 647.203125,
-        "right": 264.6875,
+        "right": 265.484375,
         "bottom": 696.203125,
-        "width": 169.375,
+        "width": 170.96875,
         "height": 49
       },
       "headline": {
@@ -845,14 +1121,31 @@
       "screenWidth": 360,
       "categoryCount": 4
     },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 4525,
+      "viewportHeight": 740,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 6
+    },
     "videoRoundtripChecked": true
   },
   {
     "template": "apology-rain",
     "device": "small",
     "viewport": "360x740",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 3921 > 740",
+      "Stage transition used page scrolling: 6"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -865,11 +1158,11 @@
         "height": 690.2039794921875
       },
       "button": {
-        "x": 103.21875,
+        "x": 101.390625,
         "y": 670,
-        "right": 256.78125,
+        "right": 258.59375,
         "bottom": 719,
-        "width": 153.5625,
+        "width": 157.203125,
         "height": 49
       },
       "headline": {
@@ -892,6 +1185,20 @@
       "scrollWidth": 360,
       "screenWidth": 360,
       "categoryCount": 4
+    },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 3921,
+      "viewportHeight": 740,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 6
     },
     "videoRoundtripChecked": true
   },
@@ -899,8 +1206,11 @@
     "template": "proposal-pearl",
     "device": "small",
     "viewport": "360x740",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 4642 > 740",
+      "Stage transition used page scrolling: 371"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -913,11 +1223,11 @@
         "height": 690.2039794921875
       },
       "button": {
-        "x": 95.3125,
+        "x": 94.515625,
         "y": 670,
-        "right": 264.6875,
+        "right": 265.484375,
         "bottom": 719,
-        "width": 169.375,
+        "width": 170.96875,
         "height": 49
       },
       "headline": {
@@ -941,14 +1251,30 @@
       "screenWidth": 360,
       "categoryCount": 4
     },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 4642,
+      "viewportHeight": 740,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 371
+    },
     "videoRoundtripChecked": true
   },
   {
     "template": "love-rose",
     "device": "desktop",
     "viewport": "1440x900",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 4797 > 900"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -989,14 +1315,30 @@
       "screenWidth": 1440,
       "categoryCount": 4
     },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 4797,
+      "viewportHeight": 900,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 0
+    },
     "videoRoundtripChecked": true
   },
   {
     "template": "wedding-silk",
     "device": "desktop",
     "viewport": "1440x900",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 5622 > 900"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -1029,14 +1371,30 @@
       "scrollWidth": 1440,
       "screenWidth": 1440,
       "categoryCount": 0
+    },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 5622,
+      "viewportHeight": 900,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "opening",
+      "totalScenes": 7
+    },
+    "stageTransition": {
+      "before": "opening",
+      "after": "story",
+      "scrollY": 0
     }
   },
   {
     "template": "birthday-aurora",
     "device": "desktop",
     "viewport": "1440x900",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 4464 > 900"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -1077,14 +1435,30 @@
       "screenWidth": 1440,
       "categoryCount": 4
     },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 4464,
+      "viewportHeight": 900,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 0
+    },
     "videoRoundtripChecked": true
   },
   {
     "template": "apology-rain",
     "device": "desktop",
     "viewport": "1440x900",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 4520 > 900"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -1125,14 +1499,30 @@
       "screenWidth": 1440,
       "categoryCount": 4
     },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 4520,
+      "viewportHeight": 900,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 0
+    },
     "videoRoundtripChecked": true
   },
   {
     "template": "proposal-pearl",
     "device": "desktop",
     "viewport": "1440x900",
-    "passed": true,
-    "failures": [],
+    "passed": false,
+    "failures": [
+      "Vertical document scroll remains: 4641 > 900"
+    ],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
@@ -1172,6 +1562,20 @@
       "scrollWidth": 1440,
       "screenWidth": 1440,
       "categoryCount": 4
+    },
+    "singleScreen": {
+      "scrollY": 0,
+      "scrollHeight": 4641,
+      "viewportHeight": 900,
+      "bodyOverflow": "auto",
+      "activeCount": 1,
+      "activeId": "chapter-1",
+      "totalScenes": 5
+    },
+    "stageTransition": {
+      "before": "chapter-1",
+      "after": "chapter-2",
+      "scrollY": 0
     },
     "videoRoundtripChecked": true
   }
