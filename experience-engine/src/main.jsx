@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { GalaxyExperience } from './galaxy/GalaxyExperience.jsx';
 import { PearlLinenFlagship } from './pearl/PearlLinenFlagship.jsx';
-import { RitualExperience } from './rituals/RitualExperience.jsx';
+import { CinematicExperience } from './cinematic/CinematicExperience.jsx';
 import { ExperienceGallery } from './rituals/Gallery.jsx';
 import { EXPERIENCE_MAP, selectedSlug } from './rituals/registry.js';
 import './styles.css';
@@ -15,7 +15,7 @@ function App(){
   const definition=EXPERIENCE_MAP[slug];
   if(!definition)return <ExperienceGallery/>;
   if(definition.ritual==='galaxy')return <GalaxyExperience/>;
-  return <RitualExperience definition={definition}/>;
+  return <CinematicExperience definition={definition}/>;
 }
 
 createRoot(document.getElementById('root')).render(<StrictMode><App/></StrictMode>);
