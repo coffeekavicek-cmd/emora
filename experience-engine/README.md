@@ -51,3 +51,7 @@ This branch expands the engine to all fifteen EMORA experiences with a no-scroll
 ## Benchmark V2
 
 Pearl Linen now runs as a dedicated flagship ritual informed by the public interaction patterns of e-invitation.uz, etaklifpro.uz and celamur.com. The remaining experiences inherit upgraded artwork layers and finale transforms; see BENCHMARK.md for the quality gate.
+
+## Pearl storyboard motion
+
+Pearl Linen now follows the approved six-frame Figma storyboard as one continuous material transition: handwriting → seal fracture → letter rise → ink reveal → draggable polaroids → particle portrait.
