@@ -204,3 +204,56 @@
  .ritual-grain,.intro-orbit,.intro-orbit i,.intro-orbit b,.ritual-ambient i,.finale-symbol,.final-halo,.lantern,.balloon,.sky-star{animation:none!important}
  *{scroll-behavior:auto!important}
 }
+
+/* Benchmark art layer: e-invitation materiality + etaklif format identity + ritual transitions */
+.ritual-art-source{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.ritual-art-source img{position:absolute;inset:-4%;width:108%;height:108%;object-fit:cover;opacity:.22;filter:saturate(.7) contrast(.92) brightness(.58);transform:scale(1.03);transition:1.4s cubic-bezier(.16,1,.3,1)}
+.ritual-art-source:after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,#0003,#0000 34%,#0006),radial-gradient(circle at 50% 46%,transparent 10%,#0009 92%)}
+.ritual-art-source i,.ritual-art-source b{position:absolute;border:1px solid color-mix(in srgb,var(--accent),transparent 75%);border-radius:50%;left:50%;top:50%;translate:-50% -50%;width:min(62vw,620px);aspect-ratio:1;opacity:.28}
+.ritual-art-source b{width:min(42vw,420px);border-style:dashed;animation:slowSpin 22s linear infinite reverse}
+.phase-ritual .ritual-art-source img{opacity:.12;transform:scale(1.09);filter:saturate(.65) contrast(.95) brightness(.45) blur(1px)}
+.phase-reveal .ritual-art-source img{opacity:.18;transform:scale(1.15);filter:saturate(.5) contrast(1.02) brightness(.4) blur(3px)}
+.phase-finale .ritual-art-source img{opacity:.06;transform:scale(1.2);filter:blur(6px) brightness(.35)}
+.ritual-curtain .ritual-art-source img{object-position:center 30%;mix-blend-mode:screen}
+.ritual-silk .ritual-art-source img,.ritual-ink .ritual-art-source img{filter:saturate(.6) sepia(.12) contrast(.86) brightness(.82);opacity:.17}
+.ritual-garden .ritual-art-source img{filter:saturate(.8) brightness(.42) contrast(1.05);opacity:.35}
+.ritual-naqsh .ritual-art-source img{filter:saturate(.72) brightness(.5) contrast(1.08);opacity:.3}
+.ritual-gift .ritual-art-source img,.ritual-balloons .ritual-art-source img{filter:saturate(.88) brightness(.5);opacity:.3}
+.ritual-reel .ritual-art-source img,.ritual-cinema .ritual-art-source img{filter:grayscale(.45) sepia(.18) contrast(1.08) brightness(.48);opacity:.32}
+.ritual-rain .ritual-art-source img{filter:saturate(.55) brightness(.45) contrast(1.05) blur(1px);opacity:.38}
+.ritual-lamp .ritual-art-source img{filter:saturate(.38) brightness(.28);opacity:.26}
+.ritual-ring .ritual-art-source img{filter:saturate(.45) brightness(.4);opacity:.28}
+.ritual-sky .ritual-art-source img{filter:saturate(.8) brightness(.48);opacity:.34}
+
+.reveal-artwork{position:absolute;left:50%;top:50%;translate:-50% -50%;width:min(74vw,720px);height:min(62svh,560px);margin:0;overflow:hidden;border-radius:22px;opacity:.23;filter:drop-shadow(0 25px 60px #0008);pointer-events:none}
+.reveal-artwork img{width:100%;height:100%;object-fit:cover;filter:saturate(.7) contrast(.95);transform:scale(1.05);animation:revealArtDrift 9s ease-in-out infinite alternate}
+.reveal-artwork span{position:absolute;inset:0;background:linear-gradient(#07070b55,#07070be0),radial-gradient(circle at center,transparent,#08080ccf)}
+@keyframes revealArtDrift{to{transform:scale(1.12) translate3d(1.5%,-1%,0)}}
+.reveal-sequence>*:not(.reveal-artwork){position:relative;z-index:4}
+.tone-silk .reveal-artwork,.tone-ink .reveal-artwork{border-radius:4px;opacity:.16}
+.tone-silk .reveal-artwork span,.tone-ink .reveal-artwork span{background:#efe4d5c9}
+.tone-silk .reveal-card p,.tone-ink .reveal-card p{color:#352d27;text-shadow:none}.tone-silk .reveal-count,.tone-ink .reveal-count{color:#745f4c}
+
+.final-art-transform{position:absolute;left:50%;top:50%;translate:-50% -50%;width:min(72vw,680px);height:min(66svh,620px);overflow:hidden;border-radius:50%;opacity:.38;filter:drop-shadow(0 0 70px color-mix(in srgb,var(--accent),transparent 70%));animation:finalArtReveal 2.1s cubic-bezier(.16,1,.3,1) both}
+.final-art-transform img{width:100%;height:100%;object-fit:cover;filter:saturate(.55) contrast(1.05);transform:scale(1.12)}
+.final-art-transform i{position:absolute;inset:0;background:radial-gradient(circle,transparent 25%,#07070bd8 72%),linear-gradient(135deg,transparent,#07070b66)}
+@keyframes finalArtReveal{0%{opacity:0;transform:scale(.72) rotate(-7deg);filter:blur(18px)}100%{opacity:.4;transform:scale(1);filter:blur(0) drop-shadow(0 0 70px color-mix(in srgb,var(--accent),transparent 70%))}}
+.ritual-curtain .final-art-transform{clip-path:inset(0 18% round 42% 42% 10% 10%);border-radius:0}
+.ritual-silk .final-art-transform{border-radius:6px;clip-path:polygon(13% 0,100% 8%,91% 100%,0 91%)}
+.ritual-garden .final-art-transform{clip-path:ellipse(46% 45% at 50% 50%)}
+.ritual-naqsh .final-art-transform{clip-path:polygon(50% 0,88% 13%,100% 50%,87% 88%,50% 100%,12% 88%,0 50%,13% 13%);border-radius:0}
+.ritual-gift .final-art-transform{clip-path:polygon(8% 8%,92% 8%,92% 92%,8% 92%);border-radius:12px}
+.ritual-balloons .final-art-transform{clip-path:ellipse(42% 49% at 50% 50%)}
+.ritual-reel .final-art-transform,.ritual-cinema .final-art-transform{border-radius:3px;clip-path:inset(8% 5% 8% 5%)}
+.ritual-rain .final-art-transform{border-radius:28px;clip-path:inset(0 round 28px)}
+.ritual-ink .final-art-transform{border-radius:50% 43% 52% 39% / 45% 55% 38% 61%}
+.ritual-lamp .final-art-transform{clip-path:circle(43% at 50% 50%)}
+.ritual-ring .final-art-transform{clip-path:polygon(50% 0,82% 17%,100% 50%,82% 83%,50% 100%,18% 83%,0 50%,18% 17%);border-radius:0}
+.ritual-sky .final-art-transform{border-radius:50%;clip-path:ellipse(48% 40% at 50% 55%)}
+
+@media(max-width:700px){
+ .ritual-art-source img{opacity:.19}
+ .ritual-art-source i{width:112vw}.ritual-art-source b{width:78vw}
+ .reveal-artwork{width:92vw;height:57svh;opacity:.18}
+ .final-art-transform{width:92vw;height:58svh;opacity:.3}
+}
