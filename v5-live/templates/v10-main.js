@@ -5,7 +5,7 @@ const T=BY_KEY[KEY];
 const ROOT=document.getElementById('experience');
 if(!T){ROOT.textContent='Shablon topilmadi.';throw Error('Unknown EMORA template '+KEY)}
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const motionSheet=document.createElement('link');motionSheet.rel='stylesheet';motionSheet.href='/templates/v10-motion.css?v=13';document.head.append(motionSheet);
+if(!document.querySelector('link[href*="/templates/v10-motion.css"]')){const motionSheet=document.createElement('link');motionSheet.rel='stylesheet';motionSheet.href='/templates/v10-motion.css?v=13';document.head.append(motionSheet);}
 const S={recipient:'',sender:'',bride:'',groom:'',intro:'',letter:'',final:'',eventAt:'',metAt:'',venue:'',venueMap:'',guestName:'',photos:[],program:[],music:'',video:'',memoryTitle:'',captions:[],blessing:'',repair:'',mistake:''};
 let opened=false,guestName='',eventTime=NaN,editMode=new URLSearchParams(location.search).get('editor')==='1',sceneObserver=null;
 const $=s=>document.querySelector(s), create=(tag,cls,txt)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(txt!==undefined)x.textContent=String(txt);return x};
