@@ -27,6 +27,19 @@ export const CINEMATIC_SCENARIOS={
  ],
  secondary:'polaroid-drag',finale:'particle-portrait'
 },
+'love-galaxy':{
+ title:'Galaxy Confession',
+ beats:[
+  {id:'void',label:'00',type:'opening',copy:'Qorong‘i bo‘shliq; yulduzlar bittadan uyg‘onadi.'},
+  {id:'orbit',label:'01',type:'gesture',gesture:'drag-galaxy',copy:'Galaktikani barmoq bilan aylantiring.'},
+  {id:'three-stars',label:'02',type:'reveal',copy:'Uch yorqin yulduz ichida uchta shaxsiy gap yashiringan.'},
+  {id:'lock',label:'03',type:'gesture',gesture:'hold-center',copy:'Uch nuqta ochilgach markazni bosib ushlab turing.'},
+  {id:'collapse',label:'04',type:'turn',copy:'Butun galaktika ichkariga tortiladi va belgilar foto konturiga yo‘l oladi.'},
+  {id:'portrait',label:'05',type:'finale',copy:'Minglab nuqta/heart recipient portretiga yig‘iladi.'},
+  {id:'silence',label:'06',type:'turn',copy:'Portret parchalanadi va ekran bir lahza qorayadi.'},
+  {id:'afterglow',label:'07',type:'afterglow',copy:'Final jumla va qo‘lda yozilgan ism qoladi.'}
+ ],secondary:'hold-center',finale:'particle-portrait'
+},
 'wedding-silk':{
  title:'Silk Heritage',
  beats:[
