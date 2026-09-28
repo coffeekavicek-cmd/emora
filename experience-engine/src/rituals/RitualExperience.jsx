@@ -222,7 +222,7 @@ function Cinema({complete}){
   </button>;
 }
 
-function RitualArtifact({experience,complete,onMessage}){
+export function RitualArtifact({experience,complete,onMessage}){
   switch(experience.ritual){
     case'curtain':return <Curtain complete={complete}/>;
     case'envelope':return <Envelope complete={complete}/>;
