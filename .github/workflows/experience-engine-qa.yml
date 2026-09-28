@@ -1,0 +1,36 @@
+name: EMORA Experience Engine QA
+on:
+  push:
+    branches: [emora-experience-engine-galaxy-v1]
+    paths:
+      - experience-engine/**
+      - .github/workflows/experience-engine-qa.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install exact engine dependencies
+        working-directory: experience-engine
+        run: npm install --no-audit --no-fund
+      - name: Production build
+        working-directory: experience-engine
+        run: npm run build
+      - name: Verify single-screen production bundle
+        working-directory: experience-engine
+        run: |
+          test -f dist/index.html
+          grep -q "assets/" dist/index.html
+          test "$(find dist/assets -type f | wc -l)" -ge 2
+      - uses: actions/upload-artifact@v4
+        with:
+          name: emora-galaxy-v1-dist
+          path: experience-engine/dist/
+          retention-days: 7
