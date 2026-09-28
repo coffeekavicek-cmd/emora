@@ -1,7 +1,7 @@
 name: EMORA V10 — 15 template visual QA
 on:
   push:
-    branches: [emora-v10-fifteen-experiences, emora-v10-celamur-motion-pass]
+    branches: [emora-v10-fifteen-experiences]
     paths:
       - .github/workflows/v10-qa.yml
       - v5-live/tests/v10-qa.mjs
@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref_name }}
+          ref: emora-v10-fifteen-experiences
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -73,8 +73,8 @@ jobs:
           git add v5-live/tests/v10-qa-results/
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "Visual QA evidence for 15 EMORA cinematic templates"
-          git pull --rebase origin "${GITHUB_REF_NAME}"
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+          git pull --rebase origin emora-v10-fifteen-experiences
+          git push origin HEAD:emora-v10-fifteen-experiences
       - uses: actions/upload-artifact@v4
         if: always()
         with:
