@@ -3,44 +3,42 @@
     "template": "love-rose",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 4616 > 844"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": -3.5099945068359375,
-        "y": 54.962005615234375,
-        "right": 393.51002502441406,
-        "bottom": 851.0379333496094,
-        "width": 397.02001953125,
-        "height": 796.075927734375
+        "x": -10.457840919494629,
+        "y": 447.0619201660156,
+        "right": 400.457839012146,
+        "bottom": 1271.0005187988281,
+        "width": 410.9156799316406,
+        "height": 823.9385986328125
       },
       "button": {
         "x": 110.515625,
-        "y": 774,
+        "y": 416.03125,
         "right": 279.484375,
-        "bottom": 823,
+        "bottom": 465.03125,
         "width": 168.96875,
         "height": 49
       },
       "headline": {
         "x": 22,
-        "y": 592.15625,
+        "y": 234.1875,
         "right": 368,
-        "bottom": 676.59375,
+        "bottom": 318.625,
         "width": 346,
         "height": 84.4375
       },
       "frame": {
-        "x": 0,
-        "y": 62,
-        "right": 390,
-        "bottom": 844,
-        "width": 390,
-        "height": 782
+        "x": -6.8249969482421875,
+        "y": 454.34625244140625,
+        "right": 396.8250274658203,
+        "bottom": 1263.71630859375,
+        "width": 403.6500244140625,
+        "height": 809.3700561523438
       },
       "frameRadius": "0px",
       "scrollWidth": 390,
@@ -49,9 +47,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 4616,
+      "scrollHeight": 844,
       "viewportHeight": 844,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
@@ -67,44 +65,42 @@
     "template": "love-pearl",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 4516 > 844"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": 28.424453735351562,
-        "y": 73.42160034179688,
-        "right": 361.57557678222656,
-        "bottom": 509.03155517578125,
-        "width": 333.151123046875,
-        "height": 435.6099548339844
+        "x": 33.74522018432617,
+        "y": 449.5181884765625,
+        "right": 356.2548027038574,
+        "bottom": 884.0911865234375,
+        "width": 322.50958251953125,
+        "height": 434.572998046875
       },
       "button": {
         "x": 114.390625,
-        "y": 747.203125,
+        "y": 358.78125,
         "right": 276.59375,
-        "bottom": 796.203125,
+        "bottom": 407.78125,
         "width": 162.203125,
         "height": 49
       },
       "headline": {
         "x": 22,
-        "y": 559.609375,
+        "y": 171.1875,
         "right": 369,
-        "bottom": 647.796875,
+        "bottom": 259.375,
         "width": 347,
         "height": 88.1875
       },
       "frame": {
-        "x": 30.31884002685547,
-        "y": 76.22180938720703,
-        "right": 359.68114471435547,
-        "bottom": 506.23133087158203,
-        "width": 329.3623046875,
-        "height": 430.009521484375
+        "x": 35.561492919921875,
+        "y": 452.3251953125,
+        "right": 354.4385070800781,
+        "bottom": 881.2841796875,
+        "width": 318.87701416015625,
+        "height": 428.958984375
       },
       "frameRadius": "4px",
       "scrollWidth": 390,
@@ -113,9 +109,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 4516,
+      "scrollHeight": 844,
       "viewportHeight": 844,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
@@ -131,44 +127,42 @@
     "template": "love-galaxy",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 4514 > 844"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": -3.5099945068359375,
-        "y": 54.962005615234375,
-        "right": 393.51002502441406,
-        "bottom": 851.0379333496094,
-        "width": 397.02001953125,
-        "height": 796.075927734375
+        "x": -10.457840919494629,
+        "y": 447.0619201660156,
+        "right": 400.457839012146,
+        "bottom": 1271.0005187988281,
+        "width": 410.9156799316406,
+        "height": 823.9385986328125
       },
       "button": {
         "x": 110.453125,
-        "y": 774,
+        "y": 416.03125,
         "right": 279.546875,
-        "bottom": 823,
+        "bottom": 465.03125,
         "width": 169.09375,
         "height": 49
       },
       "headline": {
         "x": 22,
-        "y": 592.15625,
+        "y": 234.1875,
         "right": 368,
-        "bottom": 676.59375,
+        "bottom": 318.625,
         "width": 346,
         "height": 84.4375
       },
       "frame": {
-        "x": 0,
-        "y": 62,
-        "right": 390,
-        "bottom": 844,
-        "width": 390,
-        "height": 782
+        "x": -6.8249969482421875,
+        "y": 454.34625244140625,
+        "right": 396.8250274658203,
+        "bottom": 1263.71630859375,
+        "width": 403.6500244140625,
+        "height": 809.3700561523438
       },
       "frameRadius": "0px",
       "scrollWidth": 390,
@@ -177,9 +171,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 4514,
+      "scrollHeight": 844,
       "viewportHeight": 844,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
@@ -195,34 +189,32 @@
     "template": "wedding-silk",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 5794 > 844"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": 49.98356628417969,
-        "y": 77.29766845703125,
-        "right": 340.0164031982422,
-        "bottom": 533.0929565429688,
-        "width": 290.0328369140625,
-        "height": 455.7952880859375
+        "x": 40.294288635253906,
+        "y": 521.008056640625,
+        "right": 349.70569610595703,
+        "bottom": 995.820068359375,
+        "width": 309.4114074707031,
+        "height": 474.81201171875
       },
       "button": {
         "x": 91.71875,
-        "y": 753.8125,
+        "y": 435.03125,
         "right": 298.265625,
-        "bottom": 803.8125,
+        "bottom": 485.03125,
         "width": 206.546875,
         "height": 50
       },
       "headline": {
         "x": 22,
-        "y": 511.78125,
+        "y": 193,
         "right": 368,
-        "bottom": 636.5625,
+        "bottom": 317.78125,
         "width": 346,
         "height": 124.78125
       },
@@ -234,9 +226,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 5794,
+      "scrollHeight": 844,
       "viewportHeight": 844,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "opening",
       "totalScenes": 7
@@ -251,44 +243,42 @@
     "template": "wedding-garden",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 3519 > 844"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": -3.5099945068359375,
-        "y": 54.962005615234375,
-        "right": 393.51002502441406,
-        "bottom": 851.0379333496094,
-        "width": 397.02001953125,
-        "height": 796.075927734375
+        "x": -10.457840919494629,
+        "y": 447.0619201660156,
+        "right": 400.457839012146,
+        "bottom": 1271.0005187988281,
+        "width": 410.9156799316406,
+        "height": 823.9385986328125
       },
       "button": {
         "x": 118.390625,
-        "y": 774,
+        "y": 416.03125,
         "right": 271.59375,
-        "bottom": 823,
+        "bottom": 465.03125,
         "width": 153.203125,
         "height": 49
       },
       "headline": {
         "x": 22,
-        "y": 592.15625,
+        "y": 234.1875,
         "right": 368,
-        "bottom": 676.59375,
+        "bottom": 318.625,
         "width": 346,
         "height": 84.4375
       },
       "frame": {
-        "x": 0,
-        "y": 62,
-        "right": 390,
-        "bottom": 844,
-        "width": 390,
-        "height": 782
+        "x": -6.8249969482421875,
+        "y": 454.34625244140625,
+        "right": 396.8250274658203,
+        "bottom": 1263.71630859375,
+        "width": 403.6500244140625,
+        "height": 809.3700561523438
       },
       "frameRadius": "0px",
       "scrollWidth": 390,
@@ -297,9 +287,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 3519,
+      "scrollHeight": 844,
       "viewportHeight": 844,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
@@ -315,44 +305,42 @@
     "template": "wedding-naqsh",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 3479 > 844"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": 41.186553955078125,
-        "y": 81.5694580078125,
-        "right": 348.8134460449219,
-        "bottom": 469.6024169921875,
-        "width": 307.62689208984375,
-        "height": 388.032958984375
+        "x": 35.80309295654297,
+        "y": 455.38824462890625,
+        "right": 354.1969223022461,
+        "bottom": 857.0023193359375,
+        "width": 318.3938293457031,
+        "height": 401.61407470703125
       },
       "button": {
         "x": 110.953125,
-        "y": 751.203125,
+        "y": 367.8125,
         "right": 279.046875,
-        "bottom": 800.203125,
+        "bottom": 416.8125,
         "width": 168.09375,
         "height": 49
       },
       "headline": {
         "x": 19,
-        "y": 564.578125,
+        "y": 181.1875,
         "right": 371,
-        "bottom": 651.796875,
+        "bottom": 268.40625,
         "width": 352,
         "height": 87.21875
       },
       "frame": {
-        "x": 42.90625,
-        "y": 84,
-        "right": 347.09375,
-        "bottom": 467.171875,
-        "width": 304.1875,
-        "height": 383.171875
+        "x": 37.582977294921875,
+        "y": 457.90386962890625,
+        "right": 352.4170227050781,
+        "bottom": 854.4867553710938,
+        "width": 314.83404541015625,
+        "height": 396.5828857421875
       },
       "frameRadius": "50%",
       "scrollWidth": 390,
@@ -361,9 +349,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 3479,
+      "scrollHeight": 844,
       "viewportHeight": 844,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
@@ -379,44 +367,42 @@
     "template": "birthday-aurora",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 4464 > 844"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": 32.52281188964844,
-        "y": 80.91166687011719,
-        "right": 357.47715759277344,
-        "bottom": 497.9008026123047,
-        "width": 324.954345703125,
-        "height": 416.9891357421875
+        "x": 35.80309295654297,
+        "y": 455.5313415527344,
+        "right": 354.1969223022461,
+        "bottom": 873.6248779296875,
+        "width": 318.3938293457031,
+        "height": 418.0935363769531
       },
       "button": {
         "x": 109.515625,
-        "y": 751.203125,
+        "y": 362.375,
         "right": 280.484375,
-        "bottom": 800.203125,
+        "bottom": 411.375,
         "width": 170.96875,
         "height": 49
       },
       "headline": {
         "x": 20,
-        "y": 560.015625,
+        "y": 171.1875,
         "right": 370,
-        "bottom": 651.796875,
+        "bottom": 262.96875,
         "width": 350,
         "height": 91.78125
       },
       "frame": {
-        "x": 34.353031158447266,
-        "y": 83.55555725097656,
-        "right": 355.64697647094727,
-        "bottom": 495.25697326660156,
-        "width": 321.2939453125,
-        "height": 411.701416015625
+        "x": 37.582977294921875,
+        "y": 458.1926574707031,
+        "right": 352.4170227050781,
+        "bottom": 870.963623046875,
+        "width": 314.83404541015625,
+        "height": 412.7709655761719
       },
       "frameRadius": "8px",
       "scrollWidth": 390,
@@ -425,9 +411,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 4464,
+      "scrollHeight": 844,
       "viewportHeight": 844,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
@@ -443,44 +429,42 @@
     "template": "birthday-balloon",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 4258 > 844"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": -3.5099945068359375,
-        "y": 54.962005615234375,
-        "right": 393.51002502441406,
-        "bottom": 851.0379333496094,
-        "width": 397.02001953125,
-        "height": 796.075927734375
+        "x": -10.457840919494629,
+        "y": 427.0150451660156,
+        "right": 400.457839012146,
+        "bottom": 1250.9536437988281,
+        "width": 410.9156799316406,
+        "height": 823.9385986328125
       },
       "button": {
         "x": 102.6875,
-        "y": 777,
+        "y": 398.984375,
         "right": 287.296875,
-        "bottom": 826,
+        "bottom": 447.984375,
         "width": 184.609375,
         "height": 49
       },
       "headline": {
         "x": 22,
-        "y": 612.203125,
+        "y": 234.1875,
         "right": 368,
-        "bottom": 696.640625,
+        "bottom": 318.625,
         "width": 346,
         "height": 84.4375
       },
       "frame": {
-        "x": 0,
-        "y": 62,
-        "right": 390,
-        "bottom": 844,
-        "width": 390,
-        "height": 782
+        "x": -6.8249969482421875,
+        "y": 434.29937744140625,
+        "right": 396.8250274658203,
+        "bottom": 1243.66943359375,
+        "width": 403.6500244140625,
+        "height": 809.3700561523438
       },
       "frameRadius": "0px",
       "scrollWidth": 390,
@@ -489,9 +473,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 4258,
+      "scrollHeight": 844,
       "viewportHeight": 844,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
@@ -507,44 +491,42 @@
     "template": "birthday-memory",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 5168 > 844"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": 3.615997314453125,
-        "y": 103.81976318359375,
-        "right": 386.3840026855469,
-        "bottom": 463.53961181640625,
-        "width": 382.76800537109375,
-        "height": 359.7198486328125
+        "x": -3.08243989944458,
+        "y": 463.102783203125,
+        "right": 393.0824465751648,
+        "bottom": 835.412841796875,
+        "width": 396.1648864746094,
+        "height": 372.31005859375
       },
       "button": {
         "x": 92.75,
-        "y": 749.203125,
+        "y": 350.78125,
         "right": 297.234375,
-        "bottom": 798.203125,
+        "bottom": 399.78125,
         "width": 204.484375,
         "height": 49
       },
       "headline": {
         "x": 20,
-        "y": 561.609375,
+        "y": 163.1875,
         "right": 370,
-        "bottom": 649.796875,
+        "bottom": 251.375,
         "width": 350,
         "height": 88.1875
       },
       "frame": {
-        "x": 0,
-        "y": 96,
-        "right": 390,
-        "bottom": 471.359375,
-        "width": 390,
-        "height": 375.359375
+        "x": -6.8249969482421875,
+        "y": 455.00933837890625,
+        "right": 396.8250274658203,
+        "bottom": 843.5062866210938,
+        "width": 403.6500244140625,
+        "height": 388.4969482421875
       },
       "frameRadius": "0px",
       "scrollWidth": 390,
@@ -553,9 +535,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 5168,
+      "scrollHeight": 844,
       "viewportHeight": 844,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 6
@@ -571,44 +553,42 @@
     "template": "apology-rain",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 3875 > 844"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": -3.5099945068359375,
-        "y": 54.962005615234375,
-        "right": 393.51002502441406,
-        "bottom": 851.0379333496094,
-        "width": 397.02001953125,
-        "height": 796.075927734375
+        "x": -10.457840919494629,
+        "y": 447.0619201660156,
+        "right": 400.457839012146,
+        "bottom": 1271.0005187988281,
+        "width": 410.9156799316406,
+        "height": 823.9385986328125
       },
       "button": {
         "x": 116.390625,
-        "y": 774,
+        "y": 416.03125,
         "right": 273.59375,
-        "bottom": 823,
+        "bottom": 465.03125,
         "width": 157.203125,
         "height": 49
       },
       "headline": {
         "x": 22,
-        "y": 592.15625,
+        "y": 234.1875,
         "right": 368,
-        "bottom": 676.59375,
+        "bottom": 318.625,
         "width": 346,
         "height": 84.4375
       },
       "frame": {
-        "x": 0,
-        "y": 62,
-        "right": 390,
-        "bottom": 844,
-        "width": 390,
-        "height": 782
+        "x": -6.8249969482421875,
+        "y": 454.34625244140625,
+        "right": 396.8250274658203,
+        "bottom": 1263.71630859375,
+        "width": 403.6500244140625,
+        "height": 809.3700561523438
       },
       "frameRadius": "0px",
       "scrollWidth": 390,
@@ -617,9 +597,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 3875,
+      "scrollHeight": 844,
       "viewportHeight": 844,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
@@ -635,44 +615,42 @@
     "template": "apology-ink",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 3945 > 844"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": 92.17037963867188,
-        "y": 84.85098266601562,
-        "right": 368.0483703613281,
-        "bottom": 441.0396423339844,
-        "width": 275.87799072265625,
-        "height": 356.18865966796875
+        "x": 87.34252166748047,
+        "y": 411.69580078125,
+        "right": 372.87621307373047,
+        "bottom": 780.35107421875,
+        "width": 285.53369140625,
+        "height": 368.6552734375
       },
       "button": {
         "x": 27,
-        "y": 747.203125,
+        "y": 316.28125,
         "right": 198.96875,
-        "bottom": 796.203125,
+        "bottom": 365.28125,
         "width": 171.96875,
         "height": 49
       },
       "headline": {
         "x": 27,
-        "y": 600.109375,
+        "y": 169.1875,
         "right": 363,
-        "bottom": 647.796875,
+        "bottom": 216.875,
         "width": 336,
         "height": 47.6875
       },
       "frame": {
-        "x": 93.609375,
-        "y": 87,
-        "right": 366.609375,
-        "bottom": 438.890625,
-        "width": 273,
-        "height": 351.890625
+        "x": 88.83187866210938,
+        "y": 413.9200439453125,
+        "right": 371.3868713378906,
+        "bottom": 778.1268310546875,
+        "width": 282.55499267578125,
+        "height": 364.206787109375
       },
       "frameRadius": "0px",
       "scrollWidth": 390,
@@ -681,9 +659,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 3945,
+      "scrollHeight": 844,
       "viewportHeight": 844,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
@@ -699,44 +677,42 @@
     "template": "apology-quiet",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 3945 > 844"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": -3.5099945068359375,
-        "y": 54.962005615234375,
-        "right": 393.51002502441406,
-        "bottom": 851.0379333496094,
-        "width": 397.02001953125,
-        "height": 796.075927734375
+        "x": -10.457840919494629,
+        "y": 404.8431701660156,
+        "right": 400.457839012146,
+        "bottom": 1228.7817687988281,
+        "width": 410.9156799316406,
+        "height": 823.9385986328125
       },
       "button": {
         "x": 109.015625,
-        "y": 774,
+        "y": 373.8125,
         "right": 280.984375,
-        "bottom": 823,
+        "bottom": 422.8125,
         "width": 171.96875,
         "height": 49
       },
       "headline": {
         "x": 22,
-        "y": 634.375,
+        "y": 234.1875,
         "right": 368,
-        "bottom": 676.59375,
+        "bottom": 276.40625,
         "width": 346,
         "height": 42.21875
       },
       "frame": {
-        "x": 0,
-        "y": 62,
-        "right": 390,
-        "bottom": 844,
-        "width": 390,
-        "height": 782
+        "x": -6.8249969482421875,
+        "y": 412.12750244140625,
+        "right": 396.8250274658203,
+        "bottom": 1221.49755859375,
+        "width": 403.6500244140625,
+        "height": 809.3700561523438
       },
       "frameRadius": "0px",
       "scrollWidth": 390,
@@ -745,9 +721,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 3945,
+      "scrollHeight": 844,
       "viewportHeight": 844,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
@@ -763,44 +739,42 @@
     "template": "proposal-pearl",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 4602 > 844"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": -3.5099945068359375,
-        "y": 54.962005615234375,
-        "right": 393.51002502441406,
-        "bottom": 851.0379333496094,
-        "width": 397.02001953125,
-        "height": 796.075927734375
+        "x": -10.457840919494629,
+        "y": 447.0619201660156,
+        "right": 400.457839012146,
+        "bottom": 1271.0005187988281,
+        "width": 410.9156799316406,
+        "height": 823.9385986328125
       },
       "button": {
         "x": 109.515625,
-        "y": 774,
+        "y": 416.03125,
         "right": 280.484375,
-        "bottom": 823,
+        "bottom": 465.03125,
         "width": 170.96875,
         "height": 49
       },
       "headline": {
         "x": 22,
-        "y": 592.15625,
+        "y": 234.1875,
         "right": 368,
-        "bottom": 676.59375,
+        "bottom": 318.625,
         "width": 346,
         "height": 84.4375
       },
       "frame": {
-        "x": 0,
-        "y": 62,
-        "right": 390,
-        "bottom": 844,
-        "width": 390,
-        "height": 782
+        "x": -6.8249969482421875,
+        "y": 454.34625244140625,
+        "right": 396.8250274658203,
+        "bottom": 1263.71630859375,
+        "width": 403.6500244140625,
+        "height": 809.3700561523438
       },
       "frameRadius": "0px",
       "scrollWidth": 390,
@@ -809,9 +783,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 4602,
+      "scrollHeight": 844,
       "viewportHeight": 844,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
@@ -827,44 +801,42 @@
     "template": "proposal-cinema",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 4608 > 844"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": -3.5099945068359375,
-        "y": 54.962005615234375,
-        "right": 393.51002502441406,
-        "bottom": 851.0379333496094,
-        "width": 397.02001953125,
-        "height": 796.075927734375
+        "x": -10.457840919494629,
+        "y": 430.0150451660156,
+        "right": 400.457839012146,
+        "bottom": 1253.9536437988281,
+        "width": 410.9156799316406,
+        "height": 823.9385986328125
       },
       "button": {
         "x": 100.1875,
-        "y": 774,
+        "y": 398.984375,
         "right": 289.796875,
-        "bottom": 823,
+        "bottom": 447.984375,
         "width": 189.609375,
         "height": 49
       },
       "headline": {
         "x": 22,
-        "y": 609.203125,
+        "y": 234.1875,
         "right": 368,
-        "bottom": 693.640625,
+        "bottom": 318.625,
         "width": 346,
         "height": 84.4375
       },
       "frame": {
-        "x": 0,
-        "y": 62,
-        "right": 390,
-        "bottom": 844,
-        "width": 390,
-        "height": 782
+        "x": -6.8249969482421875,
+        "y": 437.29937744140625,
+        "right": 396.8250274658203,
+        "bottom": 1246.66943359375,
+        "width": 403.6500244140625,
+        "height": 809.3700561523438
       },
       "frameRadius": "0px",
       "scrollWidth": 390,
@@ -873,9 +845,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 4608,
+      "scrollHeight": 844,
       "viewportHeight": 844,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
@@ -891,44 +863,42 @@
     "template": "proposal-sky",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 3799 > 844"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": -3.5099945068359375,
-        "y": 54.962005615234375,
-        "right": 393.51002502441406,
-        "bottom": 851.0379333496094,
-        "width": 397.02001953125,
-        "height": 796.075927734375
+        "x": -10.457840919494629,
+        "y": 447.0619201660156,
+        "right": 400.457839012146,
+        "bottom": 1271.0005187988281,
+        "width": 410.9156799316406,
+        "height": 823.9385986328125
       },
       "button": {
         "x": 106.953125,
-        "y": 774,
+        "y": 416.03125,
         "right": 283.046875,
-        "bottom": 823,
+        "bottom": 465.03125,
         "width": 176.09375,
         "height": 49
       },
       "headline": {
         "x": 22,
-        "y": 592.15625,
+        "y": 234.1875,
         "right": 368,
-        "bottom": 676.59375,
+        "bottom": 318.625,
         "width": 346,
         "height": 84.4375
       },
       "frame": {
-        "x": 0,
-        "y": 62,
-        "right": 390,
-        "bottom": 844,
-        "width": 390,
-        "height": 782
+        "x": -6.8249969482421875,
+        "y": 454.34625244140625,
+        "right": 396.8250274658203,
+        "bottom": 1263.71630859375,
+        "width": 403.6500244140625,
+        "height": 809.3700561523438
       },
       "frameRadius": "0px",
       "scrollWidth": 390,
@@ -937,9 +907,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 3799,
+      "scrollHeight": 844,
       "viewportHeight": 844,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
@@ -955,45 +925,42 @@
     "template": "love-rose",
     "device": "small",
     "viewport": "360x740",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 4592 > 740",
-      "Stage transition used page scrolling: 371"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": -3.2400054931640625,
-        "y": 55.89801025390625,
-        "right": 363.23997497558594,
-        "bottom": 746.1019897460938,
-        "width": 366.47998046875,
-        "height": 690.2039794921875
+        "x": -9.653392791748047,
+        "y": 447.8194580078125,
+        "right": 369.65336990356445,
+        "bottom": 1162.1805419921875,
+        "width": 379.3067626953125,
+        "height": 714.361083984375
       },
       "button": {
         "x": 95.515625,
-        "y": 670,
+        "y": 414,
         "right": 264.484375,
-        "bottom": 719,
+        "bottom": 463,
         "width": 168.96875,
         "height": 49
       },
       "headline": {
         "x": 22,
-        "y": 490.1875,
+        "y": 234.1875,
         "right": 338,
-        "bottom": 573.90625,
+        "bottom": 317.90625,
         "width": 316,
         "height": 83.71875
       },
       "frame": {
-        "x": 0,
-        "y": 62,
-        "right": 360,
-        "bottom": 740,
-        "width": 360,
-        "height": 678
+        "x": -6.29998779296875,
+        "y": 454.135009765625,
+        "right": 366.29998779296875,
+        "bottom": 1155.864990234375,
+        "width": 372.5999755859375,
+        "height": 701.72998046875
       },
       "frameRadius": "0px",
       "scrollWidth": 360,
@@ -1002,9 +969,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 4592,
+      "scrollHeight": 740,
       "viewportHeight": 740,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
@@ -1012,7 +979,7 @@
     "stageTransition": {
       "before": "chapter-1",
       "after": "chapter-2",
-      "scrollY": 371
+      "scrollY": 0
     },
     "videoRoundtripChecked": true
   },
@@ -1020,34 +987,32 @@
     "template": "wedding-silk",
     "device": "small",
     "viewport": "360x740",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 5840 > 740"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": 46.210540771484375,
-        "y": 77.65953063964844,
-        "right": 313.7738342285156,
-        "bottom": 472.41856384277344,
-        "width": 267.56329345703125,
-        "height": 394.759033203125
+        "x": 37.61703109741211,
+        "y": 517.423583984375,
+        "right": 322.36733627319336,
+        "bottom": 929.092041015625,
+        "width": 284.75030517578125,
+        "height": 411.66845703125
       },
       "button": {
         "x": 76.71875,
-        "y": 649.8125,
+        "y": 430.03125,
         "right": 283.265625,
-        "bottom": 699.8125,
+        "bottom": 480.03125,
         "width": 206.546875,
         "height": 50
       },
       "headline": {
         "x": 22,
-        "y": 412.78125,
+        "y": 193,
         "right": 338,
-        "bottom": 533.71875,
+        "bottom": 313.9375,
         "width": 316,
         "height": 120.9375
       },
@@ -1059,9 +1024,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 5840,
+      "scrollHeight": 740,
       "viewportHeight": 740,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "opening",
       "totalScenes": 7
@@ -1076,45 +1041,42 @@
     "template": "birthday-aurora",
     "device": "small",
     "viewport": "360x740",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 4525 > 740",
-      "Stage transition used page scrolling: 6"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": 30.587268829345703,
-        "y": 81.88272857666016,
-        "right": 329.3970832824707,
-        "bottom": 443.8828811645508,
-        "width": 298.809814453125,
-        "height": 362.0001525878906
+        "x": 33.11781692504883,
+        "y": 455.6413269042969,
+        "right": 326.8665351867676,
+        "bottom": 817.8430786132812,
+        "width": 293.74871826171875,
+        "height": 362.2017517089844
       },
       "button": {
-        "x": 94.515625,
-        "y": 647.203125,
-        "right": 265.484375,
-        "bottom": 696.203125,
-        "width": 170.96875,
+        "x": 95.3125,
+        "y": 361.0625,
+        "right": 264.6875,
+        "bottom": 410.0625,
+        "width": 169.375,
         "height": 49
       },
       "headline": {
         "x": 20,
-        "y": 457.328125,
+        "y": 171.1875,
         "right": 340,
-        "bottom": 549.109375,
+        "bottom": 262.96875,
         "width": 320,
         "height": 91.78125
       },
       "frame": {
-        "x": 32.186336517333984,
-        "y": 84.04045104980469,
-        "right": 327.7980308532715,
-        "bottom": 441.7251434326172,
-        "width": 295.6116943359375,
-        "height": 357.6846923828125
+        "x": 34.6798095703125,
+        "y": 457.8084716796875,
+        "right": 325.3045654296875,
+        "bottom": 815.6759033203125,
+        "width": 290.624755859375,
+        "height": 357.867431640625
       },
       "frameRadius": "8px",
       "scrollWidth": 360,
@@ -1123,9 +1085,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 4525,
+      "scrollHeight": 740,
       "viewportHeight": 740,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
@@ -1133,7 +1095,7 @@
     "stageTransition": {
       "before": "chapter-1",
       "after": "chapter-2",
-      "scrollY": 6
+      "scrollY": 0
     },
     "videoRoundtripChecked": true
   },
@@ -1141,45 +1103,42 @@
     "template": "apology-rain",
     "device": "small",
     "viewport": "360x740",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 3921 > 740",
-      "Stage transition used page scrolling: 6"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": -3.2400054931640625,
-        "y": 55.89801025390625,
-        "right": 363.23997497558594,
-        "bottom": 746.1019897460938,
-        "width": 366.47998046875,
-        "height": 690.2039794921875
+        "x": -9.653392791748047,
+        "y": 447.8194580078125,
+        "right": 369.65336990356445,
+        "bottom": 1162.1805419921875,
+        "width": 379.3067626953125,
+        "height": 714.361083984375
       },
       "button": {
         "x": 101.390625,
-        "y": 670,
+        "y": 414,
         "right": 258.59375,
-        "bottom": 719,
+        "bottom": 463,
         "width": 157.203125,
         "height": 49
       },
       "headline": {
         "x": 22,
-        "y": 490.1875,
+        "y": 234.1875,
         "right": 338,
-        "bottom": 573.90625,
+        "bottom": 317.90625,
         "width": 316,
         "height": 83.71875
       },
       "frame": {
-        "x": 0,
-        "y": 62,
-        "right": 360,
-        "bottom": 740,
-        "width": 360,
-        "height": 678
+        "x": -6.29998779296875,
+        "y": 454.135009765625,
+        "right": 366.29998779296875,
+        "bottom": 1155.864990234375,
+        "width": 372.5999755859375,
+        "height": 701.72998046875
       },
       "frameRadius": "0px",
       "scrollWidth": 360,
@@ -1188,9 +1147,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 3921,
+      "scrollHeight": 740,
       "viewportHeight": 740,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
@@ -1198,7 +1157,7 @@
     "stageTransition": {
       "before": "chapter-1",
       "after": "chapter-2",
-      "scrollY": 6
+      "scrollY": 0
     },
     "videoRoundtripChecked": true
   },
@@ -1206,45 +1165,42 @@
     "template": "proposal-pearl",
     "device": "small",
     "viewport": "360x740",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 4642 > 740",
-      "Stage transition used page scrolling: 371"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": -3.2400054931640625,
-        "y": 55.89801025390625,
-        "right": 363.23997497558594,
-        "bottom": 746.1019897460938,
-        "width": 366.47998046875,
-        "height": 690.2039794921875
+        "x": -9.653392791748047,
+        "y": 447.8194580078125,
+        "right": 369.65336990356445,
+        "bottom": 1162.1805419921875,
+        "width": 379.3067626953125,
+        "height": 714.361083984375
       },
       "button": {
         "x": 94.515625,
-        "y": 670,
+        "y": 414,
         "right": 265.484375,
-        "bottom": 719,
+        "bottom": 463,
         "width": 170.96875,
         "height": 49
       },
       "headline": {
         "x": 22,
-        "y": 490.1875,
+        "y": 234.1875,
         "right": 338,
-        "bottom": 573.90625,
+        "bottom": 317.90625,
         "width": 316,
         "height": 83.71875
       },
       "frame": {
-        "x": 0,
-        "y": 62,
-        "right": 360,
-        "bottom": 740,
-        "width": 360,
-        "height": 678
+        "x": -6.29998779296875,
+        "y": 454.135009765625,
+        "right": 366.29998779296875,
+        "bottom": 1155.864990234375,
+        "width": 372.5999755859375,
+        "height": 701.72998046875
       },
       "frameRadius": "0px",
       "scrollWidth": 360,
@@ -1253,9 +1209,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 4642,
+      "scrollHeight": 740,
       "viewportHeight": 740,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
@@ -1263,7 +1219,7 @@
     "stageTransition": {
       "before": "chapter-1",
       "after": "chapter-2",
-      "scrollY": 371
+      "scrollY": 0
     },
     "videoRoundtripChecked": true
   },
@@ -1271,44 +1227,42 @@
     "template": "love-rose",
     "device": "desktop",
     "viewport": "1440x900",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 4797 > 900"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": 481.05584716796875,
-        "y": 74.07000732421875,
-        "right": 1448.553466796875,
-        "bottom": 857.9299926757812,
-        "width": 967.4976196289062,
-        "height": 783.8599853515625
+        "x": 645.076171875,
+        "y": 60.352481842041016,
+        "right": 1357.330078125,
+        "bottom": 871.6475257873535,
+        "width": 712.25390625,
+        "height": 811.2950439453125
       },
       "button": {
         "x": 100.796875,
-        "y": 610.125,
+        "y": 628.125,
         "right": 276.125,
-        "bottom": 663.125,
+        "bottom": 681.125,
         "width": 175.328125,
         "height": 53
       },
       "headline": {
         "x": 100.796875,
-        "y": 275.6875,
-        "right": 770.796875,
-        "bottom": 443.53125,
-        "width": 670,
+        "y": 293.6875,
+        "right": 663.203125,
+        "bottom": 461.53125,
+        "width": 562.40625,
         "height": 167.84375
       },
       "frame": {
-        "x": 489.609375,
-        "y": 81,
-        "right": 1440,
-        "bottom": 851,
-        "width": 950.390625,
-        "height": 770
+        "x": 651.3731689453125,
+        "y": 67.5250244140625,
+        "right": 1351.0330810546875,
+        "bottom": 864.4749755859375,
+        "width": 699.659912109375,
+        "height": 796.949951171875
       },
       "frameRadius": "0px",
       "scrollWidth": 1440,
@@ -1317,9 +1271,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 4797,
+      "scrollHeight": 900,
       "viewportHeight": 900,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
@@ -1335,34 +1289,32 @@
     "template": "wedding-silk",
     "device": "desktop",
     "viewport": "1440x900",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 5622 > 900"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": 822.2969970703125,
-        "y": 135.57000732421875,
-        "right": 1341.4530029296875,
-        "bottom": 798.4299926757812,
-        "width": 519.156005859375,
-        "height": 662.8599853515625
+        "x": 807.0059814453125,
+        "y": 132.43585205078125,
+        "right": 1356.7440185546875,
+        "bottom": 825.5641479492188,
+        "width": 549.738037109375,
+        "height": 693.1282958984375
       },
       "button": {
         "x": 74.875,
-        "y": 682.515625,
+        "y": 702.515625,
         "right": 304.5625,
-        "bottom": 738.515625,
+        "bottom": 758.515625,
         "width": 229.6875,
         "height": 56
       },
       "headline": {
         "x": 74.875,
-        "y": 262.578125,
+        "y": 282.578125,
         "right": 726.625,
-        "bottom": 496.34375,
+        "bottom": 516.34375,
         "width": 651.75,
         "height": 233.765625
       },
@@ -1374,9 +1326,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 5622,
+      "scrollHeight": 900,
       "viewportHeight": 900,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "opening",
       "totalScenes": 7
@@ -1391,44 +1343,42 @@
     "template": "birthday-aurora",
     "device": "desktop",
     "viewport": "1440x900",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 4464 > 900"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": 810.6237182617188,
-        "y": 120.70091247558594,
-        "right": 1343.938720703125,
-        "bottom": 807.2991180419922,
-        "width": 533.3150024414062,
-        "height": 686.5982055664062
+        "x": 814.9273681640625,
+        "y": 118.93618774414062,
+        "right": 1339.635009765625,
+        "bottom": 809.0638732910156,
+        "width": 524.7076416015625,
+        "height": 690.127685546875
       },
       "button": {
         "x": 72,
-        "y": 616.328125,
+        "y": 634.328125,
         "right": 247.328125,
-        "bottom": 669.328125,
+        "bottom": 687.328125,
         "width": 175.328125,
         "height": 53
       },
       "headline": {
         "x": 72,
-        "y": 276.484375,
+        "y": 294.484375,
         "right": 714.59375,
-        "bottom": 449.734375,
+        "bottom": 467.734375,
         "width": 642.59375,
         "height": 173.25
       },
       "frame": {
-        "x": 814.2993774414062,
-        "y": 125.731689453125,
-        "right": 1340.26318359375,
-        "bottom": 802.268310546875,
-        "width": 525.9638061523438,
-        "height": 676.53662109375
+        "x": 818.53125,
+        "y": 124.00250244140625,
+        "right": 1336.03125,
+        "bottom": 803.9974975585938,
+        "width": 517.5,
+        "height": 679.9949951171875
       },
       "frameRadius": "11px",
       "scrollWidth": 1440,
@@ -1437,9 +1387,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 4464,
+      "scrollHeight": 900,
       "viewportHeight": 900,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
@@ -1455,44 +1405,42 @@
     "template": "apology-rain",
     "device": "desktop",
     "viewport": "1440x900",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 4520 > 900"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": 481.05584716796875,
-        "y": 74.07000732421875,
-        "right": 1448.553466796875,
-        "bottom": 857.9299926757812,
-        "width": 967.4976196289062,
-        "height": 783.8599853515625
+        "x": 645.076171875,
+        "y": 60.352481842041016,
+        "right": 1357.330078125,
+        "bottom": 871.6475257873535,
+        "width": 712.25390625,
+        "height": 811.2950439453125
       },
       "button": {
         "x": 100.796875,
-        "y": 610.125,
+        "y": 628.125,
         "right": 262.203125,
-        "bottom": 663.125,
+        "bottom": 681.125,
         "width": 161.40625,
         "height": 53
       },
       "headline": {
         "x": 100.796875,
-        "y": 275.6875,
-        "right": 770.796875,
-        "bottom": 443.53125,
-        "width": 670,
+        "y": 293.6875,
+        "right": 663.203125,
+        "bottom": 461.53125,
+        "width": 562.40625,
         "height": 167.84375
       },
       "frame": {
-        "x": 489.609375,
-        "y": 81,
-        "right": 1440,
-        "bottom": 851,
-        "width": 950.390625,
-        "height": 770
+        "x": 651.3731689453125,
+        "y": 67.5250244140625,
+        "right": 1351.0330810546875,
+        "bottom": 864.4749755859375,
+        "width": 699.659912109375,
+        "height": 796.949951171875
       },
       "frameRadius": "0px",
       "scrollWidth": 1440,
@@ -1501,9 +1449,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 4520,
+      "scrollHeight": 900,
       "viewportHeight": 900,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
@@ -1519,44 +1467,42 @@
     "template": "proposal-pearl",
     "device": "desktop",
     "viewport": "1440x900",
-    "passed": false,
-    "failures": [
-      "Vertical document scroll remains: 4641 > 900"
-    ],
+    "passed": true,
+    "failures": [],
     "exceptions": [],
     "layout": {
       "imageLoaded": true,
       "img": {
-        "x": 481.05584716796875,
-        "y": 74.07000732421875,
-        "right": 1448.553466796875,
-        "bottom": 857.9299926757812,
-        "width": 967.4976196289062,
-        "height": 783.8599853515625
+        "x": 645.076171875,
+        "y": 60.352481842041016,
+        "right": 1357.330078125,
+        "bottom": 871.6475257873535,
+        "width": 712.25390625,
+        "height": 811.2950439453125
       },
       "button": {
         "x": 100.796875,
-        "y": 610.125,
+        "y": 628.125,
         "right": 276.125,
-        "bottom": 663.125,
+        "bottom": 681.125,
         "width": 175.328125,
         "height": 53
       },
       "headline": {
         "x": 100.796875,
-        "y": 275.6875,
-        "right": 770.796875,
-        "bottom": 443.53125,
-        "width": 670,
+        "y": 293.6875,
+        "right": 663.203125,
+        "bottom": 461.53125,
+        "width": 562.40625,
         "height": 167.84375
       },
       "frame": {
-        "x": 489.609375,
-        "y": 81,
-        "right": 1440,
-        "bottom": 851,
-        "width": 950.390625,
-        "height": 770
+        "x": 651.3731689453125,
+        "y": 67.5250244140625,
+        "right": 1351.0330810546875,
+        "bottom": 864.4749755859375,
+        "width": 699.659912109375,
+        "height": 796.949951171875
       },
       "frameRadius": "0px",
       "scrollWidth": 1440,
@@ -1565,9 +1511,9 @@
     },
     "singleScreen": {
       "scrollY": 0,
-      "scrollHeight": 4641,
+      "scrollHeight": 900,
       "viewportHeight": 900,
-      "bodyOverflow": "auto",
+      "bodyOverflow": "hidden",
       "activeCount": 1,
       "activeId": "chapter-1",
       "totalScenes": 5
