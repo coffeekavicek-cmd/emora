@@ -1,7 +1,7 @@
-name: EMORA V10 — 15 template visual QA
+name: EMORA — 15 template single-screen QA
 on:
   push:
-    branches: [emora-v10-fifteen-experiences, emora-v11-single-screen-rituals]
+    branches: [emora-v10-fifteen-experiences]
     paths:
       - .github/workflows/v10-qa.yml
       - v5-live/tests/v10-qa.mjs
