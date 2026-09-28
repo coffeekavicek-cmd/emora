@@ -169,7 +169,7 @@ function Finale({config,portraitFile,onRestart}){
 
   useEffect(()=>{
     if(!host.current)return;
-    const e=new GalaxyEngine(host.current,{onReady:async()=>{
+    const e=new GalaxyEngine(host.current,{showStars:false,interactive:false,onReady:async()=>{
       engine.current=e;
       const rect=host.current.getBoundingClientRect();
       let points;
