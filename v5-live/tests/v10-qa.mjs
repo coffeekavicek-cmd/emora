@@ -44,6 +44,32 @@ try{
     const isHidden=await page.evaluate(key=>{const el=document.querySelector(key==='wedding-silk'?'#silkIntro':'#intro');return el&&getComputedStyle(el).visibility==='hidden'},key);
     if(!isHidden)item.failures.push('Intro did not dismiss after clicking');
    }
+   const singleScreen=await page.evaluate(key=>{
+    const activeSelector=key==='wedding-silk'?'#silkExperience > .silk-stage-active':'#main > .v11-stage-active';
+    const allSelector=key==='wedding-silk'?'#silkExperience > .chapter':'#main > section';
+    return{
+     scrollY:window.scrollY,
+     scrollHeight:document.documentElement.scrollHeight,
+     viewportHeight:innerHeight,
+     bodyOverflow:getComputedStyle(document.body).overflowY,
+     activeCount:document.querySelectorAll(activeSelector).length,
+     activeId:document.querySelector(activeSelector)?.id||'',
+     totalScenes:document.querySelectorAll(allSelector).length
+    };
+   },key);
+   item.singleScreen=singleScreen;
+   if(singleScreen.scrollY!==0)item.failures.push('Experience moved page scrollY to '+singleScreen.scrollY);
+   if(singleScreen.scrollHeight>singleScreen.viewportHeight+4)item.failures.push('Vertical document scroll remains: '+singleScreen.scrollHeight+' > '+singleScreen.viewportHeight);
+   if(singleScreen.activeCount!==1)item.failures.push('Expected exactly one active stage, found '+singleScreen.activeCount);
+   const beforeStage=singleScreen.activeId;
+   const stageTrigger=key==='wedding-silk'?page.locator('#beginStory'):page.locator('#chapter-1 .v10-cta');
+   if(await stageTrigger.count()){
+    await stageTrigger.click();await page.waitForTimeout(1050);
+    const afterStage=await page.evaluate(key=>({id:document.querySelector(key==='wedding-silk'?'#silkExperience > .silk-stage-active':'#main > .v11-stage-active')?.id||'',scrollY:window.scrollY}),key);
+    item.stageTransition={before:beforeStage,after:afterStage.id,scrollY:afterStage.scrollY};
+    if(!afterStage.id||afterStage.id===beforeStage)item.failures.push('Single-screen stage did not advance from '+beforeStage);
+    if(afterStage.scrollY!==0)item.failures.push('Stage transition used page scrolling: '+afterStage.scrollY);
+   }
    if(key!=='wedding-silk'){
     await page.evaluate(()=>window.postMessage({type:'emora:preview',config:{recipient:'DILNOZA QA',bride:'MALIKA QA',groom:'JASUR QA',intro:'QA PERSONALIZATION',letter:'Faqat QA uchun xavfsiz xat.',final:'QA FINAL QUESTION',video:'https://example.invalid/emora-qa.mp4',date:'2027-06-25'}},location.origin));
     await page.waitForTimeout(130);

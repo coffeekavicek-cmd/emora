@@ -1,0 +1,86 @@
+/* EMORA Silk V11 · one viewport, one ritual beat */
+html,body{height:100%;overflow:hidden!important;overscroll-behavior:none}
+body{position:fixed;inset:0;width:100%;touch-action:manipulation}
+.nav{
+ position:fixed!important;left:0;right:0;top:0;z-index:60;height:58px!important;
+ background:linear-gradient(to bottom,#fcf9f2f2,#fcf9f2bb)!important;backdrop-filter:blur(15px);
+}
+.progress{position:fixed!important;left:0;right:0;top:57px!important;z-index:61}
+#silkExperience{position:fixed;inset:0;height:100svh;overflow:hidden!important}
+#silkExperience>.chapter{
+ position:absolute!important;inset:0!important;width:100%!important;height:100svh!important;min-height:0!important;
+ overflow:hidden!important;margin:0!important;padding-top:72px!important;padding-bottom:15px!important;
+ opacity:0;visibility:hidden;pointer-events:none;transform:translate3d(7%,0,0) scale(.985);filter:blur(9px);
+ transition:opacity .62s cubic-bezier(.16,1,.3,1),transform .84s cubic-bezier(.16,1,.3,1),filter .65s,visibility 0s linear .84s;
+}
+#silkExperience>.chapter.silk-stage-active{opacity:1;visibility:visible;pointer-events:auto;transform:none;filter:none;z-index:4;transition-delay:0s}
+#silkExperience>.chapter.silk-stage-out{opacity:0;visibility:visible;transform:translate3d(-8%,0,0) scale(.985);z-index:3}
+#silkExperience>.chapter.silk-stage-back{opacity:0;visibility:visible;transform:translate3d(8%,0,0) scale(.985);z-index:3}
+.chapter>.inner{max-height:calc(100svh - 90px);overflow:visible}
+.hero .inner,.story .inner,.place .inner{height:100%;align-items:center}
+.hero .display{font-size:clamp(53px,7vw,103px)!important}
+.hero .lead{font-size:clamp(12px,1.2vw,15px)!important;line-height:1.6!important}
+.hero-memento{height:min(62svh,580px)!important}
+.heading{font-size:clamp(43px,6vw,78px)!important;line-height:.96!important;margin-bottom:12px!important}
+.chapter .lead{line-height:1.55!important}
+.story-art{max-height:57svh;overflow:hidden}
+.story-points{max-height:56svh;overflow:hidden}
+.story-point{padding-block:12px!important}
+.story-point img{height:min(18svh,145px)!important}
+.date .event-date{font-size:clamp(46px,7vw,86px)!important;margin:10px auto!important}
+.countdown{margin:10px auto!important}
+.countdown strong{font-size:clamp(35px,5vw,64px)!important}
+.schedule .inner{height:100%;overflow:hidden!important}
+.schedule .timeline{max-height:50svh;overflow:hidden;margin-top:10px!important}
+.schedule .timeline li{padding-bottom:12px!important}
+.place-map{height:min(55svh,500px)!important}
+.rsvp .inner,.finale .inner{display:flex!important;flex-direction:column;justify-content:center;align-items:center;height:100%}
+.silk-stage-next{
+ border:1px solid #b59a7077;background:#fffaf1d9;color:#4b4035;border-radius:999px;min-height:42px;
+ padding:10px 18px;font:700 10px/1 sans-serif;letter-spacing:.1em;margin-top:13px;
+ opacity:0;transform:translateY(8px);animation:silk-next-in .6s cubic-bezier(.16,1,.3,1) .75s forwards;
+}
+@keyframes silk-next-in{to{opacity:1;transform:none}}
+.silk-stage-cue{
+ position:absolute;left:50%;bottom:max(10px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:10;
+ border:1px solid #b59a7060;background:#fffaf1cc;backdrop-filter:blur(12px);border-radius:999px;
+ padding:8px 12px;font:700 8px/1 sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#5d5143;
+}
+.chapter.silk-stage-active .heading,.chapter.silk-stage-active .display{animation:silk-title-arrive .88s cubic-bezier(.16,1,.3,1) both}
+@keyframes silk-title-arrive{0%{opacity:0;transform:translateY(18px);filter:blur(6px)}100%{opacity:1;transform:none;filter:none}}
+.story.silk-stage-active .story-point:nth-child(1){transition-delay:.14s}.story.silk-stage-active .story-point:nth-child(2){transition-delay:.27s}.story.silk-stage-active .story-point:nth-child(3){transition-delay:.40s}
+.date.silk-stage-active:before{opacity:1}
+.schedule.silk-stage-active .timeline>li{opacity:1;transform:none;filter:none}
+.place.silk-stage-active .pin{animation:silk-pin 2s ease-out infinite}
+.finale.silk-stage-active{animation:silk-finale-glow 6s ease-in-out infinite alternate}
+@keyframes silk-finale-glow{to{filter:saturate(1.06) brightness(1.02)}}
+@media(max-width:700px){
+ .nav{height:49px!important;padding:6px 15px!important}.edition{display:none!important}.progress{top:48px!important}
+ #silkExperience>.chapter{padding:57px 14px 11px!important}
+ .chapter>.inner{max-height:calc(100svh - 68px)}
+ .hero .inner{display:flex!important;flex-direction:column!important;gap:8px!important;justify-content:center}
+ .hero .copy{order:2;text-align:center}.hero-memento{order:1;height:min(39svh,330px)!important;width:min(75vw,300px)!important}
+ .hero .display{font-size:clamp(38px,11vw,58px)!important;line-height:.9!important;margin:5px 0!important}
+ .hero .lead{font-size:10.5px!important;line-height:1.4!important;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+ .heading{font-size:clamp(34px,10vw,50px)!important;margin:5px 0 8px!important}
+ .chapter-label{font-size:7px!important}.ornament{margin:4px auto!important}
+ .story .inner,.place .inner{display:flex!important;flex-direction:column!important;gap:8px!important;justify-content:center}
+ .story-art{height:31svh!important;width:min(83vw,330px)!important;flex:none}
+ .story-points{max-height:42svh;width:94vw}
+ .story-point{padding:8px!important}.story-point img{height:12svh!important;margin-top:6px!important}
+ .date .event-date{font-size:clamp(36px,10vw,50px)!important}
+ .countdown{gap:8px!important}.countdown strong{font-size:clamp(28px,8vw,42px)!important}
+ .schedule .timeline{max-height:48svh;margin-top:5px!important}.schedule .timeline li{padding-bottom:8px!important}
+ .place-map{height:35svh!important;width:94vw!important}
+ .venue-name{font-size:clamp(30px,9vw,47px)!important}
+ .rsvp .lead,.finale .lead{font-size:11px!important;line-height:1.45!important}
+ .silk-stage-next{min-height:38px;padding:8px 14px;font-size:8px;margin-top:7px}
+ .silk-stage-cue{bottom:max(7px,env(safe-area-inset-bottom));font-size:7px}
+}
+@media(max-width:700px) and (max-height:680px){
+ .hero-memento{height:31svh!important}.hero .lead{display:none}.story-art{height:25svh!important}.story-points{max-height:39svh}
+}
+@media(prefers-reduced-motion:reduce){
+ #silkExperience>.chapter,#silkExperience>.chapter.silk-stage-active,#silkExperience>.chapter.silk-stage-out,#silkExperience>.chapter.silk-stage-back{transition:none!important;filter:none!important}
+ .silk-stage-next{animation:none;opacity:1;transform:none}
+}
