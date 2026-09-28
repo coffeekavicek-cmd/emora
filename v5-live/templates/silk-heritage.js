@@ -3,7 +3,7 @@
  'use strict';
  const $=s=>document.querySelector(s),intro=$('#silkIntro');
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
- const motionSheet=document.createElement('link');motionSheet.rel='stylesheet';motionSheet.href='/templates/silk-motion.css?v=13';document.head.append(motionSheet);
+ if(!document.querySelector('link[href*="/templates/silk-motion.css"]')){const motionSheet=document.createElement('link');motionSheet.rel='stylesheet';motionSheet.href='/templates/silk-motion.css?v=13';document.head.append(motionSheet);}
  const sample={bride:'Malika',groom:'Aziz',eventAt:'2027-06-25T18:00:00+05:00',venue:'The Garden, Toshkent',venueMap:'',invitation:'Hayotimizning eng qadrli kuni quvonchini siz bilan baham ko‘rishdan baxtiyormiz. To‘yimizga tashrif buyurishingizni kutamiz.',photos:[],music:'',program:[],guestName:''};
  let state={...sample},eventTime=new Date(sample.eventAt).getTime(),opened=false,shareUrl=location.href,guestName='',configured=false;
  const clean=v=>typeof v==='string'?v.trim():'';
