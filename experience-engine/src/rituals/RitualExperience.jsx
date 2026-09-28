@@ -42,6 +42,7 @@ function RevealSequence({experience,onFinish}){
     gsap.to(cardRef.current,{opacity:0,y:-18,filter:'blur(8px)',duration:.32,ease:'power2.in',onComplete:()=>setIndex(i=>i+1)});
   };
   return <div className={'reveal-sequence reveal-'+experience.ritual}>
+    <figure className="reveal-artwork"><img src={experience.art} alt="" /><span/></figure>
     <div className="reveal-count">{String(index+1).padStart(2,'0')} / 03</div>
     <div className="reveal-card" ref={cardRef}>
       <span className="reveal-mark">{experience.ritual==='cinema'?'REC':experience.ritual==='ink'?'●':'✦'}</span>
@@ -245,6 +246,7 @@ export function RitualExperience({definition}){
 
   return <main className={'ritual-experience tone-'+experience.tone+' ritual-'+experience.ritual+' phase-'+phase}>
     <Ambient type={experience.ritual}/>
+    <div className="ritual-art-source" aria-hidden="true"><img src={experience.art} alt="" /><i/><b/></div>
     <div className="ritual-vignette"/><div className="ritual-grain"/>
     <header className="ritual-chrome">
       <a href="?" className="ritual-brand">emora<span>.</span></a>
@@ -276,6 +278,7 @@ export function RitualExperience({definition}){
     </section>}
 
     {phase==='finale'&&<section ref={sceneRef} className="ritual-scene final-ritual">
+      <div className="final-art-transform" aria-hidden="true"><img src={experience.art} alt="" /><i/></div>
       <div className="final-halo"/><div className="finale-content">
         <span className="finale-symbol">{experience.ritual==='ring'?'◇':experience.ritual==='balloons'?'✦':experience.ritual==='rain'?'○':'✧'}</span>
         <p className="ritual-eyebrow">{experience.name} · FINALE</p>
