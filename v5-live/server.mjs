@@ -10,7 +10,7 @@ const mediaNames=new Set(["site-hero","love-rose","love-pearl","love-galaxy","we
 const legacy={"love-rose":"love-rose","love-pearl":"love-pearl","wedding-garden":"wedding-garden","birthday-aurora":"birthday-aurora","apology-rain":"apology-rain","proposal-pearl":"proposal-pearl"};
 const templateFiles=['wedding-silk.html',...premiumKeys.map(k=>'v10-'+k+'.html')];
 const jsFiles=['silk-heritage.js','v10-data.js','v10-main.js','v10-media.js'];
-const cssFiles=['silk-heritage.css','v10-core.css','v10-ritual-layouts.css','v10-love.css','v10-wedding.css','v10-birthday.css','v10-apology.css','v10-proposal.css'];
+const cssFiles=['silk-heritage.css','silk-motion.css','silk-stage.css','v10-core.css','v10-ritual-layouts.css','v10-love.css','v10-wedding.css','v10-birthday.css','v10-apology.css','v10-proposal.css','v10-motion.css','v11-stage.css'];
 await Promise.all([...templateFiles,...jsFiles,...cssFiles].map(f=>fs.access(path.join(ROOT,'templates',f))));
 await Promise.all(['silk-heritage-original.jpg',...mediaNames].map(f=>fs.access(path.join(ROOT,'assets',f.endsWith('.jpg')?f:f+'.png'))));
 for(const name of jsFiles){
@@ -30,7 +30,7 @@ for(const name of cssFiles){
  }
  if(depth!==0||quote||comment)throw new Error('Malformed CSS in '+name);
 }
-console.log('EMORA V10 boot passed: 15 HTML templates, 16 local original images, JS and CSS verified');
+console.log('EMORA V11 boot passed: 15 single-screen HTML templates, 16 local original images, JS and CSS verified');
 http.createServer(async(req,res)=>{
  let url;
  try{url=new URL(req.url,'http://localhost')}catch{res.writeHead(400);return res.end('Bad URL')}
@@ -38,7 +38,7 @@ http.createServer(async(req,res)=>{
  const headers={'x-content-type-options':'nosniff','referrer-policy':'strict-origin-when-cross-origin'};
  if(pathname==='/health'){
   res.writeHead(200,{'content-type':'application/json','cache-control':'no-store',...headers});
-  return res.end(JSON.stringify({ok:true,version:10,categories:5,templates:15,localOriginalMedia:16}));
+  return res.end(JSON.stringify({ok:true,version:11,mode:'single-screen',categories:5,templates:15,localOriginalMedia:16}));
  }
  if(req.method!=='GET'&&req.method!=='HEAD'){res.writeHead(405,{'allow':'GET, HEAD',...headers});return res.end('Method not allowed')}
  let target=path.join(ROOT,'index.html'),cache='no-cache',robots='index,follow',mime='text/html; charset=utf-8';
@@ -63,4 +63,4 @@ http.createServer(async(req,res)=>{
   res.writeHead(200,{'content-type':mime,'cache-control':cache,'x-robots-tag':robots,...headers});
   return res.end(req.method==='HEAD'?undefined:data);
  }catch(e){console.error('EMORA missing route '+pathname+' '+e.code);res.writeHead(e.code==='ENOENT'?404:500,headers);res.end('Unavailable')}
-}).listen(PORT,()=>console.log('EMORA V10 listening on '+PORT));
+}).listen(PORT,()=>console.log('EMORA V11 listening on '+PORT));
