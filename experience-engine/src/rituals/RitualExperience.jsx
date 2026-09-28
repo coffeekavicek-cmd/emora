@@ -2,6 +2,19 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 
 const clamp=(n,a=0,b=1)=>Math.max(a,Math.min(b,n));
+function tactile(kind='soft'){
+ try{
+  const C=window.AudioContext||window.webkitAudioContext;if(!C)return;
+  const ctx=new C(),osc=ctx.createOscillator(),gain=ctx.createGain();
+  const map={soft:[420,.035],pop:[155,.055],mechanical:[245,.045],light:[690,.032],ring:[520,.05]};
+  const [freq,vol]=map[kind]||map.soft;osc.type=kind==='mechanical'?'square':'sine';osc.frequency.setValueAtTime(freq,ctx.currentTime);
+  if(kind==='pop')osc.frequency.exponentialRampToValueAtTime(70,ctx.currentTime+.09);
+  if(kind==='ring')osc.frequency.exponentialRampToValueAtTime(880,ctx.currentTime+.18);
+  gain.gain.setValueAtTime(.0001,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(vol,ctx.currentTime+.006);gain.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.16);
+  osc.connect(gain).connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+.18);setTimeout(()=>ctx.close(),350);
+ }catch{}
+ try{navigator.vibrate?.(kind==='pop'?[16,8,20]:kind==='mechanical'?[9]:kind==='ring'?[14,10,22]:[8])}catch{}
+}
 
 function personalized(base){
   const q=new URLSearchParams(location.search);
@@ -58,7 +71,7 @@ function Curtain({complete}){
   const done=useRef(false);
   const finish=(v=1)=>{
     setOpen(v);
-    if(v>.92&&!done.current){done.current=true;setTimeout(complete,650)}
+    if(v>.92&&!done.current){done.current=true;tactile('soft');setTimeout(complete,650)}
   };
   return <div className="art curtain-art" style={{'--open':open}}>
     <div className="curtain-backdrop"><span>✦</span></div>
@@ -85,7 +98,7 @@ function Envelope({complete}){
 
 function Silk({complete}){
   const [open,setOpen]=useState(false);
-  const go=()=>{if(open)return;setOpen(true);setTimeout(complete,1350)};
+  const go=()=>{if(open)return;tactile('soft');setOpen(true);setTimeout(complete,1350)};
   return <button className={'art silk-art '+(open?'is-open':'')} onClick={go}>
     <span className="silk-fold silk-a"/><span className="silk-fold silk-b"/><span className="silk-fold silk-c"/>
     <span className="silk-monogram">E</span><span className="silk-thread"/>
@@ -97,7 +110,7 @@ function ThreeTapArtifact({kind,complete,onMessage}){
   const [opened,setOpened]=useState([]);
   const hit=i=>{
     if(opened.includes(i))return;
-    const next=[...opened,i];setOpened(next);onMessage?.(i);
+    const next=[...opened,i];tactile(kind==='balloons'?'pop':kind==='sky'?'light':'soft');setOpened(next);onMessage?.(i);
     if(next.length===3)setTimeout(complete,900);
   };
   if(kind==='garden')return <div className="art garden-art">
@@ -122,7 +135,7 @@ function ThreeTapArtifact({kind,complete,onMessage}){
 
 function Gift({complete}){
   const [open,setOpen]=useState(false);
-  const go=()=>{if(open)return;setOpen(true);setTimeout(complete,1200)};
+  const go=()=>{if(open)return;tactile('pop');setOpen(true);setTimeout(complete,1200)};
   return <button className={'art gift-art '+(open?'is-open':'')} onClick={go}>
     <span className="gift-glow"/><span className="gift-box"/><span className="gift-lid"/><span className="gift-ribbon r1"/><span className="gift-ribbon r2"/>
     <span className="gift-burst">{Array.from({length:12},(_,i)=><i key={i} style={{'--i':i}}/> )}</span>
@@ -134,7 +147,7 @@ function Reel({complete,onMessage}){
   const [turns,setTurns]=useState(0);
   const turn=()=>{
     if(turns>=3)return;
-    const n=turns+1;setTurns(n);onMessage?.(turns);
+    const n=turns+1;tactile('mechanical');setTurns(n);onMessage?.(turns);
     if(n===3)setTimeout(complete,900);
   };
   return <div className={'art reel-art turns-'+turns}>
@@ -150,7 +163,7 @@ function Rain({complete}){
   const pointer=useRef(null),done=useRef(false);
   const update=v=>{
     const n=clamp(v);setWipe(n);
-    if(n>.82&&!done.current){done.current=true;setTimeout(complete,700)}
+    if(n>.82&&!done.current){done.current=true;tactile('soft');setTimeout(complete,700)}
   };
   return <div className="art rain-art" style={{'--wipe':wipe}}>
     <div className="rain-message">men shu yerdaman</div>
@@ -165,7 +178,7 @@ function Rain({complete}){
 
 function Ink({complete}){
   const [bloom,setBloom]=useState(false);
-  const go=()=>{if(bloom)return;setBloom(true);setTimeout(complete,1450)};
+  const go=()=>{if(bloom)return;tactile('soft');setBloom(true);setTimeout(complete,1450)};
   return <button className={'art ink-art '+(bloom?'is-bloom':'')} onClick={go}>
     <span className="paper-line"/>
     <span className="ink-drop"/><span className="ink-pool"/><span className="ink-script">kechir</span>
@@ -175,7 +188,7 @@ function Ink({complete}){
 
 function Lamp({complete}){
   const [on,setOn]=useState(false);
-  const go=()=>{if(on)return;setOn(true);setTimeout(complete,1000)};
+  const go=()=>{if(on)return;tactile('light');setOn(true);setTimeout(complete,1000)};
   return <div className={'art lamp-art '+(on?'is-on':'')}>
     <div className="lamp-light"/><div className="lamp-shade"/><div className="lamp-stand"/>
     <button className="lamp-chain" onClick={go}><i/><span>torting</span></button>
@@ -188,7 +201,7 @@ function Ring({complete}){
   const start=()=>{
     if(open)return;
     setHeld(true);
-    timer.current=setTimeout(()=>{setOpen(true);setHeld(false);setTimeout(complete,1400)},900);
+    timer.current=setTimeout(()=>{tactile('ring');setOpen(true);setHeld(false);setTimeout(complete,1400)},900);
   };
   const stop=()=>{if(open)return;setHeld(false);clearTimeout(timer.current)};
   useEffect(()=>()=>clearTimeout(timer.current),[]);
@@ -200,7 +213,7 @@ function Ring({complete}){
 
 function Cinema({complete}){
   const [play,setPlay]=useState(false);
-  const go=()=>{if(play)return;setPlay(true);setTimeout(complete,1700)};
+  const go=()=>{if(play)return;tactile('mechanical');setPlay(true);setTimeout(complete,1700)};
   return <button className={'art cinema-art '+(play?'is-playing':'')} onClick={go}>
     <span className="projector"><i/><i/><b/></span><span className="projector-beam"/>
     <span className="cinema-screen"><b>OUR STORY</b><em>00:00:01</em></span>
