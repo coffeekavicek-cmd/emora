@@ -1,7 +1,7 @@
-name: EMORA Experience Engine QA
+name: EMORA Experience Engine · 15 Ritual QA
 on:
   push:
-    branches: [emora-experience-engine-galaxy-v1]
+    branches: [emora-experience-engine-galaxy-v1, emora-experience-engine-all-15-v1]
     paths:
       - experience-engine/**
       - .github/workflows/experience-engine-qa.yml
@@ -31,6 +31,6 @@ jobs:
           test "$(find dist/assets -type f | wc -l)" -ge 2
       - uses: actions/upload-artifact@v4
         with:
-          name: emora-galaxy-v1-dist
+          name: emora-experience-engine-dist
           path: experience-engine/dist/
           retention-days: 7
