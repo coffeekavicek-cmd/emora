@@ -39,3 +39,7 @@ npm run dev
 Production validation:
 
 npm run build
+
+## Preview
+
+This branch is deployed as an isolated Railway preview service. Production EMORA remains untouched.
