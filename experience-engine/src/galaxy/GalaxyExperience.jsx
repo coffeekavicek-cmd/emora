@@ -38,6 +38,8 @@ export function GalaxyExperience(){
   const [activeMessage,setActiveMessage]=useState('');
   const [ready,setReady]=useState(false);
   const [uploadName,setUploadName]=useState('');
+  const holdTimerRef=useRef(null);
+  const [holding,setHolding]=useState(false);
   const config=useMemo(readConfig,[]);
 
   const queueMorph=useCallback(()=>{
@@ -60,7 +62,10 @@ export function GalaxyExperience(){
     openedRef.current.add(index);
     setOpened([...openedRef.current]);
     setActiveMessage(config.messages[index]);
-    if(openedRef.current.size===3)queueMorph();
+    if(openedRef.current.size===3){
+      try{navigator.vibrate?.([8,8,12])}catch{}
+      setTimeout(()=>setPhase('constellation'),620);
+    }
   },[config.messages,queueMorph]);
 
   useEffect(()=>{
@@ -102,9 +107,26 @@ export function GalaxyExperience(){
     }
   };
 
+  const beginConstellationHold=()=>{
+    if(holding)return;
+    setHolding(true);
+    holdTimerRef.current=setTimeout(()=>{
+      try{navigator.vibrate?.([16,10,24])}catch{}
+      setHolding(false);
+      queueMorph();
+    },900);
+  };
+  const cancelConstellationHold=()=>{
+    clearTimeout(holdTimerRef.current);
+    setHolding(false);
+  };
+
   const revealFinale=()=>{
     setPhase('exploding');
-    engineRef.current?.explode({onComplete:()=>setPhase('finale')});
+    engineRef.current?.explode({onComplete:()=>{
+      setPhase('silence');
+      setTimeout(()=>setPhase('finale'),760);
+    }});
   };
 
   const restart=()=>{
@@ -114,12 +136,15 @@ export function GalaxyExperience(){
     setUploadName('');
     setOpened([]);
     setActiveMessage('');
+    clearTimeout(holdTimerRef.current);
+    setHolding(false);
     engineRef.current?.reset();
     setPhase('intro');
   };
 
   const isIntro=phase==='intro';
   const isExplore=phase==='explore';
+  const isConstellation=phase==='constellation';
   const isPortrait=phase==='portrait'||phase==='portrait-ready';
   const isFinale=phase==='finale';
 
@@ -132,7 +157,7 @@ export function GalaxyExperience(){
       <header className="experience-chrome">
         <span className="brand">emora<span>.</span></span>
         <span className="edition">GALAXY CONFESSION · EXPERIMENT 01</span>
-        <span className="step">{isIntro?'00':isExplore?String(opened.length).padStart(2,'0')+'/03':isPortrait?'04/05':isFinale?'05/05':'••'}</span>
+        <span className="step">{isIntro?'00':isExplore?String(opened.length).padStart(2,'0')+'/03':isConstellation?'04/07':isPortrait?'05/07':isFinale?'07/07':'••'}</span>
       </header>
 
       <section className={'scene intro-scene '+(isIntro?'scene-visible':'')} aria-hidden={!isIntro}>
@@ -164,6 +189,18 @@ export function GalaxyExperience(){
         <div className="drag-hint"><i/> suring · aylantiring · oching</div>
       </section>
 
+      <section className={'scene constellation-scene '+(isConstellation?'scene-visible':'')} aria-hidden={!isConstellation}>
+        <div className="constellation-lines" aria-hidden="true"><i/><i/><i/><b/></div>
+        <div className="constellation-copy">
+          <p className="eyebrow">UCHTA NUQTA · BITTA MARKAZ</p>
+          <h2>Endi ularni bir joyga yig‘.</h2>
+          <p>Markazni bosib ushlab tur. Galaktika ichkariga tortiladi.</p>
+          <button className={'galaxy-hold '+(holding?'holding':'')} onPointerDown={beginConstellationHold} onPointerUp={cancelConstellationHold} onPointerLeave={cancelConstellationHold} onPointerCancel={cancelConstellationHold}>
+            <span>900ms ushlab turing</span><i/>
+          </button>
+        </div>
+      </section>
+
       <section className={'scene morph-scene '+((phase==='morphing'||isPortrait)?'scene-visible':'')} aria-hidden={!(phase==='morphing'||isPortrait)}>
         <p className="eyebrow">{phase==='morphing'?'YULDUZLAR BIR JOYGA YIG‘ILYAPTI':'SHU OLAMdagi ENG TANISH QIYOFA'}</p>
         <div className={'portrait-copy '+(isPortrait?'show':'')}>
@@ -171,6 +208,10 @@ export function GalaxyExperience(){
           <p>{portraitRef.current?'Surating yulduzlarga aylandi.':'Hozircha yurak — keyin bu joyda haqiqiy portret yig‘iladi.'}</p>
           {phase==='portrait-ready'&&<button className="primary final-trigger" onClick={revealFinale}>Oxirgi gapni ochish</button>}
         </div>
+      </section>
+
+      <section className={'scene silence-scene '+(phase==='silence'?'scene-visible':'')} aria-hidden={phase!=='silence'}>
+        <div className="silence-dot">✦</div>
       </section>
 
       <section className={'scene finale-scene '+(isFinale?'scene-visible':'')} aria-hidden={!isFinale}>
