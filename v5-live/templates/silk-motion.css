@@ -1,0 +1,105 @@
+/* EMORA · Silk Heritage motion polish
+   Material-first movement: silk, paper, gold, petals. */
+:root{--silk-ease:cubic-bezier(.16,1,.3,1);--silk-spring:cubic-bezier(.2,1.3,.34,1)}
+.silk-editorial-intro{isolation:isolate;overflow:hidden}
+.silk-editorial-intro:before{
+ content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+ background:radial-gradient(circle at 76% 24%,#e9d7b92c,transparent 26%),linear-gradient(125deg,#fffdf977,transparent 35% 70%,#b89a6d0d);
+}
+.silk-intro-copy,.silk-intro-photo-wrap,.silk-intro-header,.silk-intro-bottomline{position:relative;z-index:3}
+.silk-intro-eyebrow,.silk-intro-greeting,.silk-intro-ornament,.silk-intro-heading,.silk-intro-separator,
+.silk-intro-people,.silk-intro-description,.silk-intro-cta,.silk-intro-footnote{
+ opacity:0;transform:translateY(20px);animation:silk-stage-in .9s var(--silk-ease) forwards;
+}
+.silk-intro-eyebrow{animation-delay:.08s}.silk-intro-greeting{animation-delay:.16s}.silk-intro-ornament{animation-delay:.24s}
+.silk-intro-heading{animation-delay:.32s}.silk-intro-separator{animation-delay:.44s}.silk-intro-people{animation-delay:.52s}
+.silk-intro-description{animation-delay:.61s}.silk-intro-cta{animation-delay:.72s}.silk-intro-footnote{animation-delay:.82s}
+.silk-intro-photo-frame{opacity:0;transform:translateY(12px) rotate(1.5deg) scale(1.025);animation:silk-photo-in 1.35s var(--silk-ease) .16s forwards}
+@keyframes silk-stage-in{to{opacity:1;transform:none}}
+@keyframes silk-photo-in{to{opacity:1;transform:rotate(0) scale(1)}}
+.silk-intro-photo-light{animation:silk-light 5.5s ease-in-out infinite alternate}
+@keyframes silk-light{to{opacity:.8;transform:translate3d(3%,-2%,0) scale(1.08)}}
+.silk-intro-photo-flower{animation:silk-float 4.4s ease-in-out infinite alternate}
+.silk-flower-b{animation-delay:-2.2s}
+@keyframes silk-float{to{transform:translateY(-12px) rotate(18deg);opacity:.62}}
+.silk-intro-cta{transition:transform .35s var(--silk-spring),box-shadow .35s,background .35s}
+.silk-intro-cta:hover{transform:translateY(-3px);box-shadow:0 18px 45px #8b6b4633}
+.silk-intro-cta:active{transform:scale(.97)}
+.silk-motion-motes{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+.silk-motion-motes i{
+ position:absolute;left:var(--x);top:var(--y);width:var(--s);height:var(--s);border-radius:50%;
+ background:#b99b6f;opacity:var(--o);box-shadow:0 0 10px #d8bf9588;
+ animation:silk-mote var(--d) ease-in-out var(--delay) infinite alternate;
+}
+@keyframes silk-mote{to{transform:translate3d(var(--dx),var(--dy),0);opacity:.12}}
+
+/* chapter staging */
+.chapter{position:relative;isolation:isolate;overflow:hidden}
+.chapter .chapter-label,.chapter .ornament,.chapter .lead,.chapter .event-date,.chapter .countdown,
+.chapter .action-row,.chapter .hero-memento,.chapter .story-art,.chapter .story-point,.chapter .timeline>li,
+.chapter .place-map,.chapter .venue-name,.chapter .monogram,.chapter .closing{
+ opacity:0;transform:translateY(26px);filter:blur(3px);
+ transition:opacity .82s var(--silk-ease),transform .95s var(--silk-ease),filter .8s var(--silk-ease);
+}
+.chapter.is-active .chapter-label,.chapter.is-active .ornament,.chapter.is-active .lead,.chapter.is-active .event-date,
+.chapter.is-active .countdown,.chapter.is-active .action-row,.chapter.is-active .hero-memento,.chapter.is-active .story-art,
+.chapter.is-active .story-point,.chapter.is-active .timeline>li,.chapter.is-active .place-map,.chapter.is-active .venue-name,
+.chapter.is-active .monogram,.chapter.is-active .closing{opacity:1;transform:none;filter:none}
+.chapter.is-active .chapter-label{transition-delay:.04s}.chapter.is-active .heading{transition-delay:.1s}
+.chapter.is-active .lead{transition-delay:.18s}.chapter.is-active .action-row{transition-delay:.28s}
+.chapter.is-active .story-point:nth-child(1),.chapter.is-active .timeline>li:nth-child(1){transition-delay:.18s}
+.chapter.is-active .story-point:nth-child(2),.chapter.is-active .timeline>li:nth-child(2){transition-delay:.3s}
+.chapter.is-active .story-point:nth-child(3),.chapter.is-active .timeline>li:nth-child(3){transition-delay:.42s}
+.chapter.is-active .timeline>li:nth-child(4){transition-delay:.54s}.chapter.is-active .timeline>li:nth-child(5){transition-delay:.66s}
+.hero.is-active .hero-memento{animation:silk-medallion-breathe 4.8s ease-in-out 1s infinite alternate}
+@keyframes silk-medallion-breathe{to{transform:translateY(-8px) rotate(.8deg);box-shadow:0 30px 80px #8e71452e}}
+.story.is-active .story-art{animation:silk-story-float 5s ease-in-out 1s infinite alternate}
+@keyframes silk-story-float{to{transform:translateY(-7px) rotate(-.4deg)}}
+.story-point{transition-property:opacity,transform,filter,box-shadow!important}
+.story-point:hover{transform:translateY(-6px)!important;box-shadow:0 25px 65px #745a3c24}
+.date:before{
+ content:"";position:absolute;inset:0;pointer-events:none;opacity:0;
+ background:radial-gradient(circle at 50% 42%,#dfc38c22,transparent 46%);transition:opacity 1.2s;
+}
+.date.is-active:before{opacity:1}
+.date.is-active .event-date{animation:silk-date-focus 1.1s var(--silk-spring) .3s both}
+@keyframes silk-date-focus{0%{letter-spacing:.08em;opacity:.35}100%{letter-spacing:inherit;opacity:1}}
+.schedule .timeline>li{position:relative}
+.schedule .timeline>li:after{content:"";position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(transparent,#b89a6d88,transparent);transform:scaleY(0);transform-origin:top;transition:transform .8s var(--silk-ease)}
+.schedule.is-active .timeline>li:after{transform:scaleY(1)}
+.place .pin{animation:silk-pin 2.3s ease-out infinite}
+@keyframes silk-pin{0%{box-shadow:0 0 0 0 #b69a7088}100%{box-shadow:0 0 0 26px #b69a7000}}
+.rsvp.is-active .ornament{animation:silk-heart 2.1s ease-in-out 1s infinite}
+@keyframes silk-heart{50%{transform:scale(1.11);opacity:.68}}
+.finale.is-active .monogram{animation:silk-final-monogram 1.1s var(--silk-spring) both}
+@keyframes silk-final-monogram{0%{opacity:0;transform:scale(.65) rotate(-9deg)}70%{transform:scale(1.05)}100%{opacity:1;transform:none}}
+.silk-final-petals{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.silk-final-petals i{
+ position:absolute;left:var(--x);top:-10%;width:8px;height:14px;border-radius:70% 20% 70% 20%;
+ background:linear-gradient(145deg,#fff9ef,#d9bfa6);opacity:.8;
+ animation:silk-petal-fall var(--d) cubic-bezier(.2,.6,.3,1) var(--delay) forwards;
+}
+@keyframes silk-petal-fall{to{transform:translate3d(var(--dx),115svh,0) rotate(var(--rot));opacity:.15}}
+.silk-touch-burst{position:fixed;z-index:9999;pointer-events:none}
+.silk-touch-burst i{
+ position:absolute;width:6px;height:6px;border-radius:50%;background:#c3a271;
+ transform:translate(-50%,-50%);animation:silk-touch-pop .7s var(--silk-ease) forwards;
+}
+@keyframes silk-touch-pop{to{transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) scale(.1);opacity:0}}
+@media(hover:hover) and (pointer:fine){.silk-intro-photo-wrap{transform:translate3d(var(--mx,0),var(--my,0),0);transition:transform .28s ease-out}}
+@media(max-width:700px){
+ .chapter .chapter-label,.chapter .ornament,.chapter .lead,.chapter .event-date,.chapter .countdown,.chapter .action-row,
+ .chapter .hero-memento,.chapter .story-art,.chapter .story-point,.chapter .timeline>li,.chapter .place-map,.chapter .venue-name,
+ .chapter .monogram,.chapter .closing{transform:translateY(18px);filter:blur(1.5px)}
+ .silk-motion-motes i:nth-child(n+13){display:none}
+ .story-point:hover{transform:none!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .silk-motion-motes,.silk-final-petals,.silk-touch-burst{display:none!important}
+ .silk-intro-eyebrow,.silk-intro-greeting,.silk-intro-ornament,.silk-intro-heading,.silk-intro-separator,.silk-intro-people,
+ .silk-intro-description,.silk-intro-cta,.silk-intro-footnote,.silk-intro-photo-frame,.chapter .chapter-label,.chapter .ornament,
+ .chapter .lead,.chapter .event-date,.chapter .countdown,.chapter .action-row,.chapter .hero-memento,.chapter .story-art,
+ .chapter .story-point,.chapter .timeline>li,.chapter .place-map,.chapter .venue-name,.chapter .monogram,.chapter .closing{
+  opacity:1!important;transform:none!important;filter:none!important;animation:none!important;transition:none!important;
+ }
+}

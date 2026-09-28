@@ -3,9 +3,27 @@
  'use strict';
  const $=s=>document.querySelector(s),intro=$('#silkIntro');
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ if(!document.querySelector('link[href*="/templates/silk-motion.css"]')){const motionSheet=document.createElement('link');motionSheet.rel='stylesheet';motionSheet.href='/templates/silk-motion.css?v=13';document.head.append(motionSheet);}
  const sample={bride:'Malika',groom:'Aziz',eventAt:'2027-06-25T18:00:00+05:00',venue:'The Garden, Toshkent',venueMap:'',invitation:'Hayotimizning eng qadrli kuni quvonchini siz bilan baham ko‘rishdan baxtiyormiz. To‘yimizga tashrif buyurishingizni kutamiz.',photos:[],music:'',program:[],guestName:''};
  let state={...sample},eventTime=new Date(sample.eventAt).getTime(),opened=false,shareUrl=location.href,guestName='',configured=false;
  const clean=v=>typeof v==='string'?v.trim():'';
+ function touchBurst(target,count=10){
+  if(reduced||!target)return;const r=target.getBoundingClientRect(),wrap=document.createElement('span');wrap.className='silk-touch-burst';wrap.style.left=(r.left+r.width/2)+'px';wrap.style.top=(r.top+r.height/2)+'px';
+  for(let i=0;i<count;i++){const p=document.createElement('i'),a=Math.PI*2*i/count,d=32+Math.random()*46;p.style.setProperty('--tx',Math.cos(a)*d+'px');p.style.setProperty('--ty',Math.sin(a)*d+'px');wrap.append(p)}
+  document.body.append(wrap);setTimeout(()=>wrap.remove(),850);
+ }
+ function decorateSilkIntro(){
+  if(reduced)return;const motes=document.createElement('div');motes.className='silk-motion-motes';motes.setAttribute('aria-hidden','true');
+  for(let i=0;i<22;i++){const m=document.createElement('i');m.style.setProperty('--x',(4+Math.random()*92)+'%');m.style.setProperty('--y',(4+Math.random()*88)+'%');m.style.setProperty('--s',(1+Math.random()*3)+'px');m.style.setProperty('--o',(.12+Math.random()*.48).toFixed(2));m.style.setProperty('--d',(4+Math.random()*6)+'s');m.style.setProperty('--delay',(-Math.random()*6)+'s');m.style.setProperty('--dx',((Math.random()-.5)*45)+'px');m.style.setProperty('--dy',((Math.random()-.5)*42)+'px');motes.append(m)}
+  intro.append(motes);const stage=$('#introStage');
+  if(stage&&matchMedia('(hover:hover) and (pointer:fine)').matches)intro.addEventListener('pointermove',e=>{stage.style.setProperty('--mx',((e.clientX/innerWidth-.5)*9)+'px');stage.style.setProperty('--my',((e.clientY/innerHeight-.5)*7)+'px')},{passive:true});
+ }
+ let finalCelebrated=false;
+ function celebrateSilkFinale(){
+  if(reduced||finalCelebrated)return;finalCelebrated=true;const sec=$('#finale'),layer=document.createElement('div');layer.className='silk-final-petals';layer.setAttribute('aria-hidden','true');
+  for(let i=0;i<30;i++){const p=document.createElement('i');p.style.setProperty('--x',(Math.random()*100)+'%');p.style.setProperty('--d',(3+Math.random()*2.7)+'s');p.style.setProperty('--delay',(Math.random()*.8)+'s');p.style.setProperty('--dx',((Math.random()-.5)*180)+'px');p.style.setProperty('--rot',((Math.random()-.5)*800)+'deg');layer.append(p)}
+  sec.append(layer);setTimeout(()=>layer.remove(),6200);
+ }
  const set=(id,value)=>{const el=$(id);if(el&&value!==undefined&&value!==null)el.textContent=String(value)};
  const safeUrl=value=>{try{const u=new URL(value,location.origin);return u.protocol==='https:'?u.href:null}catch{return null}};
  const safeMap=value=>{const u=safeUrl(value);if(!u)return null;try{const h=new URL(u).hostname.toLowerCase();return ['google.com','maps.app.goo.gl','2gis.uz','2gis.com','yandex.com','yandex.ru','yandex.uz','maps.apple.com'].some(d=>h===d||h.endsWith('.'+d))?u:null}catch{return null}};
@@ -30,7 +48,8 @@
   if(animated&&!reduced){intro.classList.add('opening');setTimeout(()=>{intro.classList.add('dismissed');intro.setAttribute('aria-hidden','true');$('#coupleNames')?.focus({preventScroll:true});addPetals(8)},1350)}
   else{intro.classList.add('opening','dismissed');intro.setAttribute('aria-hidden','true');$('#coupleNames')?.focus({preventScroll:true})}
  }
- $('#openInvite').addEventListener('click',()=>dismiss(true));
+ decorateSilkIntro();
+ $('#openInvite').addEventListener('click',()=>{touchBurst($('#openInvite'),12);dismiss(true)});
  $('#skipIntro').addEventListener('click',()=>dismiss(false));
  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!opened)dismiss(false)});
  function go(id){const target=$(id);if(target)target.scrollIntoView({behavior:reduced?'instant':'smooth',block:'start'})}
@@ -41,7 +60,7 @@
    if(navigator.clipboard){await navigator.clipboard.writeText(shareUrl);for(const sel of ['#shareTop','#shareFinal'])set(sel,'Havola nusxalandi ✓')}
   }catch{}
  }
- $('#shareTop').onclick=share;$('#shareFinal').onclick=share;
+ $('#shareTop').onclick=()=>{touchBurst($('#shareTop'),8);share()};$('#shareFinal').onclick=()=>{touchBurst($('#shareFinal'),10);celebrateSilkFinale();share()};
  function tick(){
   const box=$('#countdown'),status=$('#dayStatus');
   if(!Number.isFinite(eventTime)){$('#addCalendar').hidden=true;box.hidden=true;status.hidden=false;status.textContent='Sana tez orada e’lon qilinadi';return}
@@ -109,9 +128,12 @@
  }
  function observeReveals(){
   const elements=[...document.querySelectorAll('.reveal:not(.visible)')];
-  if(!('IntersectionObserver' in window)||reduced){elements.forEach(x=>x.classList.add('visible'));return}
+  if(!('IntersectionObserver' in window)||reduced){elements.forEach(x=>x.classList.add('visible'));document.querySelectorAll('.chapter').forEach(x=>x.classList.add('is-active'));return}
   const obs=new IntersectionObserver(entries=>{for(const x of entries)if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target)}},{threshold:.13});
   elements.forEach(x=>obs.observe(x));
+  const chapters=[...document.querySelectorAll('.chapter')];
+  const chapterObs=new IntersectionObserver(entries=>{for(const x of entries)if(x.isIntersecting){x.target.classList.add('is-active');if(x.target.id==='finale')celebrateSilkFinale()}},{threshold:.22,rootMargin:'0px 0px -8% 0px'});
+  chapters.forEach(x=>chapterObs.observe(x));
  }
  function calendar(){
   if(!Number.isFinite(eventTime))return;

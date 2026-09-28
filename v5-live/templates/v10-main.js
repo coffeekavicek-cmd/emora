@@ -5,10 +5,56 @@ const T=BY_KEY[KEY];
 const ROOT=document.getElementById('experience');
 if(!T){ROOT.textContent='Shablon topilmadi.';throw Error('Unknown EMORA template '+KEY)}
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!document.querySelector('link[href*="/templates/v10-motion.css"]')){const motionSheet=document.createElement('link');motionSheet.rel='stylesheet';motionSheet.href='/templates/v10-motion.css?v=13';document.head.append(motionSheet);}
 const S={recipient:'',sender:'',bride:'',groom:'',intro:'',letter:'',final:'',eventAt:'',metAt:'',venue:'',venueMap:'',guestName:'',photos:[],program:[],music:'',video:'',memoryTitle:'',captions:[],blessing:'',repair:'',mistake:''};
-let opened=false,guestName='',eventTime=NaN,editMode=new URLSearchParams(location.search).get('editor')==='1';
+let opened=false,guestName='',eventTime=NaN,editMode=new URLSearchParams(location.search).get('editor')==='1',sceneObserver=null;
 const $=s=>document.querySelector(s), create=(tag,cls,txt)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(txt!==undefined)x.textContent=String(txt);return x};
 const safe=v=>typeof v==='string'?v.trim():'';
+function burstAt(target,count=9){
+ if(reduced||!target)return;
+ const b=target.getBoundingClientRect(),wrap=create('span','emora-burst');
+ wrap.style.setProperty('--x',(b.left+b.width/2)+'px');wrap.style.setProperty('--y',(b.top+b.height/2)+'px');
+ for(let i=0;i<count;i++){const p=create('i');const a=(Math.PI*2*i/count)+(Math.random()*.35);const d=34+Math.random()*55;
+  p.style.setProperty('--tx',Math.cos(a)*d+'px');p.style.setProperty('--ty',Math.sin(a)*d+'px');p.style.setProperty('--delay',(Math.random()*.08)+'s');wrap.append(p)}
+ document.body.append(wrap);setTimeout(()=>wrap.remove(),950);
+}
+function decorateIntro(intro){
+ if(reduced)return;
+ const ambient=create('div','emora-ambient');ambient.setAttribute('aria-hidden','true');
+ const dense=['galaxy','sky','garden'].includes(T.introType)?28:['rain','cinema','reel','theatre'].includes(T.introType)?20:14;
+ for(let i=0;i<dense;i++){const m=create('i','emora-mote');const tiny=['galaxy','sky','garden','rain'].includes(T.introType);
+  m.style.setProperty('--x',(3+Math.random()*94)+'%');m.style.setProperty('--y',(4+Math.random()*90)+'%');m.style.setProperty('--s',(tiny?1+Math.random()*2.8:2+Math.random()*4)+'px');
+  m.style.setProperty('--o',(.16+Math.random()*.58).toFixed(2));m.style.setProperty('--d',(3.5+Math.random()*6)+'s');m.style.setProperty('--delay',(-Math.random()*5)+'s');
+  m.style.setProperty('--dx',((Math.random()-.5)*54)+'px');m.style.setProperty('--dy',((Math.random()-.5)*50)+'px');if(tiny)m.style.setProperty('--blur',(Math.random()*.8)+'px');ambient.append(m)}
+ intro.append(ambient);
+ const art=intro.querySelector('.v10-intro-art');
+ if(art&&matchMedia('(hover:hover) and (pointer:fine)').matches)intro.addEventListener('pointermove',e=>{const x=(e.clientX/innerWidth-.5)*10,y=(e.clientY/innerHeight-.5)*8;art.style.setProperty('--mx',x+'px');art.style.setProperty('--my',y+'px')},{passive:true});
+}
+function activateArtifact(media,mode,action){
+ const active=!media.classList.contains('activated');media.classList.toggle('activated',active);media.classList.remove('ritual-complete');
+ action.textContent=active?'Yana ko‘rish ↶':'Ochish ✦';
+ if(active){burstAt(action,mode==='box'||mode==='dusk'?14:8);setTimeout(()=>media.classList.add('ritual-complete'),420)}
+ if(mode==='fog'){const img=media.querySelector('.v10-artifact-image');if(img)img.style.transform=active?'scale(1.06) translateX(1%)':''}
+ if(mode==='lamp')media.style.setProperty('--lamp',active?'1':'0');
+ if(mode==='projector'||mode==='trailer')media.dataset.playing=active?'1':'0';
+}
+function celebrateFinale(sec){
+ if(reduced)return;sec.classList.remove('is-celebrating');void sec.offsetWidth;sec.classList.add('is-celebrating');
+ const halo=create('i','emora-halo');halo.setAttribute('aria-hidden','true');sec.append(halo);setTimeout(()=>halo.remove(),2100);
+ if(T.group==='apology')return;
+ const conf=create('div','emora-confetti');conf.setAttribute('aria-hidden','true');
+ const palette=T.group==='proposal'?['#f7ddb0','#fff5dd','#e8c3cf']:T.group==='wedding'?['#e6cf9a','#fff8e8','#b9c5aa']:T.group==='love'?['#efb6bd','#f6d8d0','#d9a6b6']:['#f1b39d','#cdb7d6','#f0d6a1','#afd0c2'];
+ const total=T.group==='proposal'?34:T.group==='birthday'?54:30;
+ for(let i=0;i<total;i++){const p=create('i');p.style.setProperty('--x',(Math.random()*100)+'%');p.style.setProperty('--w',(4+Math.random()*7)+'px');p.style.setProperty('--h',(5+Math.random()*10)+'px');p.style.setProperty('--r',Math.random()>.55?'50%':'2px');p.style.setProperty('--c',palette[i%palette.length]);p.style.setProperty('--d',(2.6+Math.random()*2.3)+'s');p.style.setProperty('--delay',(Math.random()*.6)+'s');p.style.setProperty('--dx',((Math.random()-.5)*170)+'px');p.style.setProperty('--rot',((Math.random()-.5)*900)+'deg');conf.append(p)}
+ sec.append(conf);setTimeout(()=>conf.remove(),5600);
+}
+function installSceneMotion(main,fill){
+ if(sceneObserver){sceneObserver.disconnect();sceneObserver=null}
+ const sections=[...main.querySelectorAll('section')];
+ if(reduced||!('IntersectionObserver' in window)){sections.forEach((sec,i)=>{sec.classList.add('is-active');sec.querySelectorAll('.v10-reveal').forEach(n=>n.classList.add('in'));if(fill&&i===0)fill.style.width=(100/Math.max(1,sections.length))+'%'});return}
+ sceneObserver=new IntersectionObserver(entries=>{for(const e of entries)if(e.isIntersecting){e.target.classList.add('is-active');e.target.querySelectorAll('.v10-reveal').forEach(n=>n.classList.add('in'));const n=sections.indexOf(e.target);if(fill&&n>=0)fill.style.width=((n+1)/sections.length*100)+'%'}},{threshold:.16,rootMargin:'0px 0px -8% 0px'});
+ sections.forEach(sec=>sceneObserver.observe(sec));
+}
 function publicAsset(v){const raw=safe(v);if(!raw||(!/^https?:\/\//i.test(raw)&&!raw.startsWith('/assets/')))return null;try{const u=new URL(raw,location.origin);return ['https:','http:'].includes(u.protocol)&&(!u.username&&!u.password)?u.href:null}catch{return null}}
 function mapLink(v){const url=publicAsset(v);if(!url)return null;const u=new URL(url);return u.protocol==='https:'&&['google.com','maps.app.goo.gl','maps.apple.com','2gis.uz','2gis.com','yandex.com','yandex.ru','yandex.uz'].some(h=>u.hostname===h||u.hostname.endsWith('.'+h))?url:null}
 function title(){const labels={theatre:'Senga atalgan film',envelope:'Senga yozilgan maktub',galaxy:'Bizning kichik olam',garden:'Aziz mehmonimiz',naqsh:'Qadrli mehmonimiz',gift:'Yorqin kuningga',balloon:'Orzularing uchun',reel:'Sening xotiralaring',rain:'Eshitishingni istayman',ink:'Yurakdan uzr',lamp:'Sokin suhbat',ring:'Sen bilan bir umr',cinema:'Bizning filmimiz',sky:'Bir osmon ostida'};return T.group==='wedding'?((safe(S.bride)||'Malika')+' & '+(safe(S.groom)||'Aziz')):(safe(S.recipient)||labels[T.introType]||'Sen uchun')}
@@ -52,8 +98,12 @@ function introMarkup(){
  frame.append(photo,motif,create('div','v10-image-border'),create('p','v10-image-caption','AN ORIGINAL EMORA EXPERIENCE · '+T.code));
  art.append(frame);layout.append(copy,art);
  intro.append(nav,layout,create('div','v10-intro-footer','EMORA   ✧   '+T.name+'   ✧   A STORY JUST FOR YOU'));
- skip.onclick=()=>dismiss(false);btn.onclick=()=>dismiss(true);
- if(T.introType==='rain'){art.addEventListener('pointermove',e=>{const b=frame.getBoundingClientRect();frame.style.setProperty('--wipe',Math.round(Math.max(0,Math.min(100,(e.clientX-b.left)/b.width*100)))+'%')},{passive:true})}
+ decorateIntro(intro);
+ skip.onclick=()=>dismiss(false);btn.onclick=()=>{burstAt(btn,10);dismiss(true)};
+ if(T.introType==='rain'){
+  const wipe=e=>{const b=frame.getBoundingClientRect();frame.style.setProperty('--wipe',Math.round(Math.max(0,Math.min(100,(e.clientX-b.left)/b.width*100)))+'%')};
+  art.addEventListener('pointermove',wipe,{passive:true});art.addEventListener('pointerdown',wipe,{passive:true});
+ }
  return intro;
 }
 function dismiss(animate){
@@ -105,7 +155,7 @@ function renderSegment(mode,n){
  if(['filmstrip','polaroid','orbit','gallery','eras','frames','memories','milestones'].includes(mode)){inner.append(threeCards(mode));return sec}
  if(['stars','wishes','dreams','balloons','constellation'].includes(mode)){
   const sky=create('div','v10-interact-layout interact-'+mode);
-  for(let i=0;i<3;i++){const b=create('button','v10-interact-point point-'+i,'✧');b.type='button';b.setAttribute('aria-label','Tilak '+(i+1)+' ni ochish');const captionText=caption(i);b.onclick=()=>{text('interactLabel-'+n,captionText);sky.dataset.active=String(i)};sky.append(b)}
+  for(let i=0;i<3;i++){const b=create('button','v10-interact-point point-'+i,'✧');b.type='button';b.setAttribute('aria-label','Tilak '+(i+1)+' ni ochish');const captionText=caption(i);b.onclick=()=>{text('interactLabel-'+n,captionText);sky.dataset.active=String(i);sky.classList.remove('is-answering');void sky.offsetWidth;sky.classList.add('is-answering');burstAt(b,9)};sky.append(b)}
   const word=create('p','v10-interact-label',T.defaultNote);word.id='interactLabel-'+n;sky.append(word);inner.append(sky);return sec
  }
  if(['seal','ribbon','ink','lamp','box','medallion','fog','lantern','projector','trailer','dusk'].includes(mode)){
@@ -115,7 +165,7 @@ function renderSegment(mode,n){
   if(mode==='box')veil.textContent='◇';if(mode==='lamp')veil.textContent='◉';
   if(mode==='ink')veil.textContent='•';
   if(mode==='ribbon')veil.textContent='✧';if(mode==='lantern')veil.textContent='✺';
-  const action=create('button','v10-artifact-button','Ochish ✦');action.type='button';action.onclick=()=>{media.classList.toggle('activated');action.textContent=media.classList.contains('activated')?'Yana ko‘rish ↶':'Ochish ✦'};media.append(veil,action);inner.append(media);return sec
+  const action=create('button','v10-artifact-button','Ochish ✦');action.type='button';action.onclick=()=>activateArtifact(media,mode,action);media.append(veil,action);inner.append(media);return sec
  }
  if(['subtitles','letter','accountability','acknowledge','repair','listen','vows','voice','voices','credits'].includes(mode)){
   const note=create('blockquote','v10-letter-panel');
@@ -142,6 +192,7 @@ function finale(n){
   if(T.group==='wedding'){if(guestName&&parent!==window){parent.postMessage({type:'emora:open-rsvp'},location.origin);out.textContent='Shaxsiy RSVP oynasi ochiladi.'}else out.textContent='Javob yuborish uchun ismingiz yozilgan shaxsiy mehmon havolasidan foydalaning.'}
   else if(T.group==='birthday'){sec.classList.add('celebrate');out.textContent='Yangi kuning muborak ✦'}
   else{out.textContent=T.group==='apology'?'Rahmat. Bu tanlov faqat shu ekranda ko‘rsatiladi; xabar yuborilmadi.':'Javobingiz faqat shu ekranda aks etdi; xabar yuborilmadi.';sec.classList.add('accepted')}
+  celebrateFinale(sec);
  };
  later.onclick=()=>{if(T.group==='wedding'||T.group==='birthday')share();else{sec.classList.remove('accepted');out.textContent='Qaroringni hurmat qilaman. Javob yuborilmadi.'}};
  choices.append(yes,later);inner.append(choices,out);
@@ -177,10 +228,7 @@ function build(){
  if(!T.scenes.some(x=>IS_FINAL.has(x)))main.append(finale(T.scenes.length+2));
  const footer=create('footer','v10-footer','EMORA · '+T.name+' · Barcha huquqlar himoyalangan');
  main.inert=true;chrome.inert=true;footer.inert=true;ROOT.replaceChildren(introMarkup(),chrome,bar,main,footer,audio);
- const sections=[...main.querySelectorAll('section')];
- if('IntersectionObserver' in window){
-  const inObs=new IntersectionObserver(entries=>{for(const e of entries)if(e.isIntersecting){e.target.querySelectorAll('.v10-reveal').forEach(n=>n.classList.add('in'));const n=sections.indexOf(e.target);fill.style.width=((n+1)/sections.length*100)+'%'}},{threshold:.12});sections.forEach(sec=>inObs.observe(sec))
- }else document.querySelectorAll('.v10-reveal').forEach(x=>x.classList.add('in'));
+ installSceneMotion(main,fill);
  let prev=window.scrollY;window.addEventListener('scroll',()=>{const now=window.scrollY;if(now>prev+12)chrome.classList.add('compact');if(now<prev-12)chrome.classList.remove('compact');prev=now},{passive:true});
 }
 function tick(){
@@ -223,7 +271,7 @@ function patch(cfg){
   if(T.group==='birthday'&&!T.scenes.includes('event')&&safe(S.eventAt)&&Number.isFinite(new Date(S.eventAt).getTime()))timeInfo(segment,segment.querySelector('.v10-scene-inner'))}
  main.append(segment)}
  if(!T.scenes.some(x=>IS_FINAL.has(x)))main.append(finale(T.scenes.length+2));
- document.querySelectorAll('.v10-reveal').forEach(e=>e.classList.add('in'));
+ installSceneMotion(main,$('#progress'));
  const a=$('#audio'),b=$('#soundToggle'),url=publicAsset(S.music);if(url){a.src=url;b.hidden=false}else{a.pause();a.removeAttribute('src');b.hidden=true}
  tick();
 }

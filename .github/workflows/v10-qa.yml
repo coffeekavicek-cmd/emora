@@ -9,6 +9,7 @@ on:
       - v5-live/tests/v10-media.test.mjs
       - v5-live/templates/v10-**
       - v5-live/templates/silk-heritage.**
+      - v5-live/templates/silk-motion.css
       - v5-live/templates/wedding-silk.html
       - v5-live/index.html
       - v5-live/server.mjs
