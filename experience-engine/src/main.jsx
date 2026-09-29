@@ -14,6 +14,7 @@ const MemoryReelExperience=lazy(()=>import('./birthday/MemoryReelExperience.jsx'
 const AuroraPaperExperience=lazy(()=>import('./birthday/AuroraPaperExperience.jsx').then(m=>({default:m.AuroraPaperExperience})));
 const QuietRoomExperience=lazy(()=>import('./apology/QuietRoomExperience.jsx').then(m=>({default:m.QuietRoomExperience})));
 const AfterRainExperience=lazy(()=>import('./apology/AfterRainExperience.jsx').then(m=>({default:m.AfterRainExperience})));
+const InkRegretExperience=lazy(()=>import('./apology/InkRegretExperience.jsx').then(m=>({default:m.InkRegretExperience})));
 const RoseTheatreExperience=lazy(()=>import('./love/RoseTheatreExperience.jsx').then(m=>({default:m.RoseTheatreExperience})));
 const NightGardenExperience=lazy(()=>import('./wedding/NightGardenExperience.jsx').then(m=>({default:m.NightGardenExperience})));
 const HeritageNaqshExperience=lazy(()=>import('./wedding/HeritageNaqshExperience.jsx').then(m=>({default:m.HeritageNaqshExperience})));
@@ -45,6 +46,7 @@ function App(){
   if(slug==='birthday-aurora')return <AuroraPaperExperience/>;
   if(slug==='apology-quiet')return <QuietRoomExperience/>;
   if(slug==='apology-rain')return <AfterRainExperience definition={EXPERIENCE_MAP[slug]}/>;
+  if(slug==='apology-ink')return <InkRegretExperience/>;
   if(slug==='love-rose')return <RoseTheatreExperience/>;
   if(slug==='wedding-garden')return <NightGardenExperience/>;
   if(slug==='wedding-naqsh')return <HeritageNaqshExperience/>;
