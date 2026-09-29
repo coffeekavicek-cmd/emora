@@ -8,10 +8,12 @@ const errors=[];
 const ids=new Set();
 const signatureMoments=new Set();
 const dbSlugs=new Set();
+const releaseStates=new Set(['concept','art-directed','motion-alpha','review','approved','published']);
 
 for(const t of TEMPLATE_MANIFEST){
   if(ids.has(t.id))errors.push(`Duplicate template id: ${t.id}`);
   ids.add(t.id);
+  if(!releaseStates.has(t.releaseStatus))errors.push(`${t.id}: invalid releaseStatus ${t.releaseStatus}`);
   if(!t.dbSlug)errors.push(`${t.id}: missing dbSlug`);
   else if(dbSlugs.has(t.dbSlug))errors.push(`${t.id}: duplicate dbSlug ${t.dbSlug}`);
   else dbSlugs.add(t.dbSlug);
