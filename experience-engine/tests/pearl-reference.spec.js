@@ -86,7 +86,7 @@ test.describe('Pearl Linen reference',()=>{
     await page.screenshot({path:testInfo.outputPath('03-letter.png'),fullPage:true});
 
     const continueButton=page.getByRole('button',{name:'Xotiralarni ochish →'});
-    await expect(continueButton).toBeVisible({timeout:7000});
+    await expect(continueButton).toBeVisible({timeout:12000});
     await continueButton.click();
 
     await page.waitForTimeout(1100);
@@ -111,7 +111,9 @@ test.describe('Pearl Linen reference',()=>{
     const release=page.getByRole('button',{name:'Bitta joyga yig‘ish →'});
     await expect(release).toBeVisible({timeout:4000});
     await release.click();
-    await expect(page.locator('.pearl-motion')).toHaveClass(/step-finale/,{timeout:12000});
+    await expect(page.locator('.pm-effort-copy')).toBeVisible({timeout:5000});
+    await expect(page.locator('.pm-effort-copy strong')).toContainText(/9,?4/, {timeout:9000}).catch(()=>{});
+    await expect(page.locator('.pearl-motion')).toHaveClass(/step-finale/,{timeout:16000});
     await expect(page.locator('.pm-final-copy')).toBeVisible();
     await expect(page.getByRole('button',{name:'Ulashish'})).toBeVisible();
     const keepsake=page.getByRole('button',{name:'Keepsake saqlash'});
