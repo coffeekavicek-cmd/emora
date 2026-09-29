@@ -8,6 +8,7 @@ import './rituals/rituals.css';
 const PearlMotionExperience=lazy(()=>import('./pearl/PearlMotionExperience.jsx').then(m=>({default:m.PearlMotionExperience})));
 const GalaxyExperience=lazy(()=>import('./galaxy/GalaxyExperience.jsx').then(m=>({default:m.GalaxyExperience})));
 const PearlPromiseExperience=lazy(()=>import('./proposal/PearlPromiseExperience.jsx').then(m=>({default:m.PearlPromiseExperience})));
+const CinemaProposalExperience=lazy(()=>import('./proposal/CinemaProposalExperience.jsx').then(m=>({default:m.CinemaProposalExperience})));
 const SilkHeritageExperience=lazy(()=>import('./wedding/SilkHeritageExperience.jsx').then(m=>({default:m.SilkHeritageExperience})));
 const MemoryReelExperience=lazy(()=>import('./birthday/MemoryReelExperience.jsx').then(m=>({default:m.MemoryReelExperience})));
 const AuroraPaperExperience=lazy(()=>import('./birthday/AuroraPaperExperience.jsx').then(m=>({default:m.AuroraPaperExperience})));
@@ -38,6 +39,7 @@ function App(){
   if(slug==='gallery')return <ExperienceGallery/>;
   if(slug==='love-pearl')return <PearlMotionExperience/>;
   if(slug==='proposal-pearl')return <PearlPromiseExperience/>;
+  if(slug==='proposal-cinema')return <CinemaProposalExperience/>;
   if(slug==='wedding-silk')return <SilkHeritageExperience/>;
   if(slug==='birthday-memory')return <MemoryReelExperience/>;
   if(slug==='birthday-aurora')return <AuroraPaperExperience/>;
