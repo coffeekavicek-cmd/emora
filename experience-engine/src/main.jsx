@@ -8,6 +8,7 @@ import './rituals/rituals.css';
 const PearlMotionExperience=lazy(()=>import('./pearl/PearlMotionExperience.jsx').then(m=>({default:m.PearlMotionExperience})));
 const GalaxyExperience=lazy(()=>import('./galaxy/GalaxyExperience.jsx').then(m=>({default:m.GalaxyExperience})));
 const PearlPromiseExperience=lazy(()=>import('./proposal/PearlPromiseExperience.jsx').then(m=>({default:m.PearlPromiseExperience})));
+const SilkHeritageExperience=lazy(()=>import('./wedding/SilkHeritageExperience.jsx').then(m=>({default:m.SilkHeritageExperience})));
 const CinematicExperience=lazy(()=>import('./cinematic/CinematicExperience.jsx').then(m=>({default:m.CinematicExperience})));
 const ExperienceGallery=lazy(()=>import('./rituals/Gallery.jsx').then(m=>({default:m.ExperienceGallery})));
 const CreatorEditor=lazy(()=>import('./system/CreatorEditor.jsx').then(m=>({default:m.CreatorEditor})));
@@ -30,6 +31,7 @@ function App(){
   if(slug==='gallery')return <ExperienceGallery/>;
   if(slug==='love-pearl')return <PearlMotionExperience/>;
   if(slug==='proposal-pearl')return <PearlPromiseExperience/>;
+  if(slug==='wedding-silk')return <SilkHeritageExperience/>;
   const definition=EXPERIENCE_MAP[slug];
   if(!definition)return <ExperienceGallery/>;
   if(definition.ritual==='galaxy')return <GalaxyExperience/>;
