@@ -5,6 +5,7 @@ import { contentToSearchParams, readUrlContent } from './contentModel.js';
 import { PearlMotionExperience } from '../pearl/PearlMotionExperience.jsx';
 import { EXPERIENCE_MAP } from '../rituals/registry.js';
 const PearlPromiseExperience=lazy(()=>import('../proposal/PearlPromiseExperience.jsx').then(m=>({default:m.PearlPromiseExperience})));
+const CinemaProposalExperience=lazy(()=>import('../proposal/CinemaProposalExperience.jsx').then(m=>({default:m.CinemaProposalExperience})));
 const GalaxyExperience=lazy(()=>import('../galaxy/GalaxyExperience.jsx').then(m=>({default:m.GalaxyExperience})));
 const SilkHeritageExperience=lazy(()=>import('../wedding/SilkHeritageExperience.jsx').then(m=>({default:m.SilkHeritageExperience})));
 const MemoryReelExperience=lazy(()=>import('../birthday/MemoryReelExperience.jsx').then(m=>({default:m.MemoryReelExperience})));
@@ -75,6 +76,7 @@ function Section({title,fields,content,onChange,onMedia}){
 function PreviewRuntime({template,content,media}){
   if(template.id==='love-pearl')return <PearlMotionExperience content={content} media={media} embedded/>;
   if(template.id==='proposal-pearl')return <Suspense fallback={<div className="ce-runtime-loading">3D preview</div>}><PearlPromiseExperience content={content} embedded/></Suspense>;
+  if(template.id==='proposal-cinema')return <Suspense fallback={<div className="ce-runtime-loading">Cinema preview</div>}><CinemaProposalExperience content={content} media={media} embedded/></Suspense>;
   if(template.id==='love-galaxy')return <Suspense fallback={<div className="ce-runtime-loading">WebGL preview</div>}><GalaxyExperience content={content} embedded/></Suspense>;
   if(template.id==='wedding-silk')return <Suspense fallback={<div className="ce-runtime-loading">Silk preview</div>}><SilkHeritageExperience content={content} embedded/></Suspense>;
   if(template.id==='birthday-memory')return <Suspense fallback={<div className="ce-runtime-loading">Film preview</div>}><MemoryReelExperience content={content} media={media} embedded/></Suspense>;
