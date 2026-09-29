@@ -38,6 +38,13 @@ export function readUrlContent(templateId='love-pearl'){
     message:read('intro',defaults.message,130),
     language:read('lang','uz',8),
     guestGreeting:read('greeting','Faqat sen uchun',120),
+    coupleNames:read('couple','Aziz & Dilnoza',100),
+    eventDate:read('date','2026-10-18T18:00',40),
+    venueName:read('venue','Silk Garden',100),
+    venueAddress:read('address','Toshkent',180),
+    mapLocation:read('map','',220),
+    rsvpEnabled:q.get('rsvp')!=='0',
+    calendarEnabled:q.get('calendar')!=='0',
     paragraphs:[
       read('m1',defaults.paragraphs[0],240),
       read('m2',defaults.paragraphs[1],240),
@@ -67,9 +74,16 @@ export function contentToSearchParams(content){
   put('intro',content.message);
   put('lang',content.language);
   put('greeting',content.guestGreeting);
+  put('couple',content.coupleNames);
+  put('date',content.eventDate);
+  put('venue',content.venueName);
+  put('address',content.venueAddress);
+  put('map',content.mapLocation);
   (content.paragraphs||[]).forEach((x,i)=>put('m'+(i+1),x));
   (content.captions||[]).forEach((x,i)=>put('c'+(i+1),x));
   put('final',content.final);
+  if(content.rsvpEnabled===false)p.set('rsvp','0');
+  if(content.calendarEnabled===false)p.set('calendar','0');
   if(content.responseEnabled===false)p.set('response','0');
   if(content.shareEnabled===false)p.set('share','0');
   if(content.saveEnabled===false)p.set('save','0');
@@ -84,6 +98,13 @@ export function splitPublishPayload(content){
     message:content.message,
     language:content.language,
     guestGreeting:content.guestGreeting,
+    coupleNames:content.coupleNames,
+    eventDate:content.eventDate,
+    venueName:content.venueName,
+    venueAddress:content.venueAddress,
+    mapLocation:content.mapLocation,
+    rsvpEnabled:content.rsvpEnabled!==false,
+    calendarEnabled:content.calendarEnabled!==false,
     paragraphs:content.paragraphs||[],
     captions:content.captions||[],
     final:content.final,
