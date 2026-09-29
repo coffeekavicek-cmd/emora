@@ -16,16 +16,16 @@ export const CINEMATIC_SCENARIOS={
 'love-pearl':{
  title:'Pearl Linen',
  beats:[
-  {id:'name',label:'00',type:'opening',copy:'Recipient ismi qog‘ozga qo‘lda yoziladi.'},
-  {id:'seal',label:'01',type:'gesture',gesture:'hold-crack',copy:'Muhrni ushlab turing — u fizik bo‘laklarga parchalanadi.'},
-  {id:'letter-rise',label:'02',type:'transition',copy:'Konvert ochilib, qog‘oz kamera tomon ko‘tariladi.'},
-  {id:'ink',label:'03',type:'reveal',copy:'Gaplar bir vaqtda emas, siyoh singgandek satrma-satr paydo bo‘ladi.'},
-  {id:'polaroids',label:'04',type:'memory',copy:'Uch polaroid stolga tushadi; barmoq bilan siljitish mumkin.'},
-  {id:'zoom',label:'05',type:'turn',copy:'Oxirgi polaroid ichiga kamera kiradi va foto mayda belgilar ichiga eriydi.'},
-  {id:'portrait',label:'06',type:'finale',copy:'Belgilar butun ekran bo‘ylab qayta yig‘ilib portretga aylanadi.'},
-  {id:'signature',label:'07',type:'afterglow',copy:'Portret ostida ism yana qo‘lda yoziladi va final jumla qoladi.'}
+  {id:'arrival',label:'00',type:'opening',copy:'Linen stol sokin turadi; recipient ismi qo‘lda yozilib, yopiq konvert nafas olgandek juda mayin harakat qiladi.'},
+  {id:'seal',label:'01',type:'gesture',gesture:'hold-seal',copy:'Muhrning o‘zini 520ms bosib ushlang — WebGL wax fizik bo‘laklarga sinadi, haptic va crack faqat gesture’dan keyin keladi.'},
+  {id:'paper-rise',label:'02',type:'transition',copy:'Kesish yo‘q: aynan shu qog‘oz konvertdan chiqib, kamera tomon ko‘tarilib xatga aylanadi.'},
+  {id:'live-ink',label:'03',type:'reveal',copy:'Uch paragraf avtomatik dump bo‘lmaydi; har biri siyoh tolalarga singgandek paydo bo‘ladi va keyingisini recipient o‘zi chaqiradi.'},
+  {id:'memories',label:'04',type:'gesture',gesture:'drag-memories',copy:'Faqat birinchi polaroid tushadi; unga tegish/drag ikkinchisini, ikkinchisi uchinchisini ochadi. Stol xotira kompozitsiyasiga aylanadi.'},
+  {id:'afterword',label:'05',type:'turn',copy:'Uchala xotira joyiga tushgach sahna sokinlashadi. Toza teskari qog‘oz: “Yana bitta narsa bor.” Markazda bitta marvarid.'},
+  {id:'pearl-finale',label:'06',type:'finale',gesture:'hold-final-pearl',copy:'Marvaridni 900ms ushlash qog‘oz dunyosini yo‘qotadi; real render qilinayotgan nuqtalar sanalib, portret yoki fallback yurakka yig‘iladi.'},
+  {id:'afterglow',label:'07',type:'afterglow',copy:'Portret ostida final jumla va qo‘lda yozilgan ism qoladi; shundan keyingina ulashish, keepsake va replay paydo bo‘ladi.'}
  ],
- secondary:'polaroid-drag',finale:'particle-portrait'
+ secondary:'hold-final-pearl',finale:'pearl-particle-portrait'
 },
 'love-galaxy':{
  title:'Galaxy Confession',
