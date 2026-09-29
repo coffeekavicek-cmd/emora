@@ -8,7 +8,7 @@ const commonInvite=[C.GUEST_GREETING,C.SHARE,C.VIEW_EVENTS];
 
 export const TEMPLATE_MANIFEST = Object.freeze([
   {
-    id:'love-rose',dbSlug:'love-rose-theatre',name:'Rose Theatre',category:'love',
+    id:'love-rose',dbSlug:'love-rose-theatre',name:'Rose Theatre',category:'love',releaseStatus:'concept',
     archetype:A.RITUAL_OBJECT,navigation:N.RITUAL,
     metaphor:'velvet theatre',primaryMedia:'photo',
     signatureMoment:'The velvet curtain opens into a living theatre and the recipient reveal.',
@@ -19,7 +19,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     performance:{maxDpr:1.75,heavyLazyLoad:true},
   },
   {
-    id:'love-pearl',dbSlug:'love-pearl-linen',name:'Pearl Linen',category:'love',
+    id:'love-pearl',dbSlug:'love-pearl-linen',name:'Pearl Linen',category:'love',releaseStatus:'motion-alpha',
     archetype:A.RITUAL_OBJECT,navigation:N.RITUAL,
     metaphor:'handwritten private letter',primaryMedia:'paper',
     signatureMoment:'The wax seal fractures and the same letter rises from the envelope into the final portrait ritual.',
@@ -30,7 +30,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     performance:{maxDpr:1.75,heavyLazyLoad:true},
   },
   {
-    id:'love-galaxy',dbSlug:'love-galaxy-confession',name:'Galaxy Confession',category:'love',
+    id:'love-galaxy',dbSlug:'love-galaxy-confession',name:'Galaxy Confession',category:'love',releaseStatus:'concept',
     archetype:A.LIVING_WORLD,navigation:N.WORLD,
     metaphor:'interactive galaxy of personal words',primaryMedia:'webgl-world',
     signatureMoment:'The manipulable galaxy collapses into the recipient portrait.',
@@ -41,7 +41,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     performance:{maxDpr:1.5,heavyLazyLoad:true},
   },
   {
-    id:'wedding-silk',dbSlug:'wedding-silk-heritage',name:'Silk Heritage',category:'wedding',
+    id:'wedding-silk',dbSlug:'wedding-silk-heritage',name:'Silk Heritage',category:'wedding',releaseStatus:'concept',
     archetype:A.EDITORIAL_STORY,navigation:N.PAGINATED,
     metaphor:'embroidered silk invitation',primaryMedia:'textile-editorial',
     signatureMoment:'A gold thread finishes the textile composition and reveals the couple and ceremony.',
@@ -52,7 +52,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     performance:{maxDpr:2,heavyLazyLoad:false},
   },
   {
-    id:'wedding-garden',dbSlug:'wedding-night-garden',name:'Night Garden',category:'wedding',
+    id:'wedding-garden',dbSlug:'wedding-night-garden',name:'Night Garden',category:'wedding',releaseStatus:'concept',
     archetype:A.LIVING_WORLD,navigation:N.WORLD,
     metaphor:'living night garden',primaryMedia:'interactive-world',
     signatureMoment:'Lantern light and fireflies gather into the couple names and invitation.',
@@ -63,7 +63,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     performance:{maxDpr:1.5,heavyLazyLoad:true},
   },
   {
-    id:'wedding-naqsh',dbSlug:'wedding-heritage-naqsh',name:'Heritage Naqsh',category:'wedding',
+    id:'wedding-naqsh',dbSlug:'wedding-heritage-naqsh',name:'Heritage Naqsh',category:'wedding',releaseStatus:'concept',
     archetype:A.EDITORIAL_STORY,navigation:N.PAGINATED,
     metaphor:'suzani-inspired geometric invitation',primaryMedia:'ornamental-editorial',
     signatureMoment:'The final geometric path locks into place and the full invitation appears inside the completed naqsh.',
@@ -74,7 +74,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     performance:{maxDpr:2,heavyLazyLoad:false},
   },
   {
-    id:'birthday-aurora',dbSlug:'birthday-aurora-paper',name:'Aurora Paper',category:'birthday',
+    id:'birthday-aurora',dbSlug:'birthday-aurora-paper',name:'Aurora Paper',category:'birthday',releaseStatus:'concept',
     archetype:A.RITUAL_OBJECT,navigation:N.RITUAL,
     metaphor:'layered paper gift',primaryMedia:'paper-object',
     signatureMoment:'The final paper layer tears open and aurora light escapes into the whole screen.',
@@ -85,7 +85,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     performance:{maxDpr:1.75,heavyLazyLoad:true},
   },
   {
-    id:'birthday-balloon',dbSlug:'birthday-balloon-dream',name:'Balloon Dream',category:'birthday',
+    id:'birthday-balloon',dbSlug:'birthday-balloon-dream',name:'Balloon Dream',category:'birthday',releaseStatus:'concept',
     archetype:A.LIVING_WORLD,navigation:N.WORLD,
     metaphor:'room of memory balloons',primaryMedia:'interactive-world',
     signatureMoment:'The final balloon bursts into a sky of memories and the recipient message.',
@@ -96,7 +96,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     performance:{maxDpr:1.5,heavyLazyLoad:true},
   },
   {
-    id:'birthday-memory',dbSlug:'birthday-memory-reel',name:'Memory Reel',category:'birthday',
+    id:'birthday-memory',dbSlug:'birthday-memory-reel',name:'Memory Reel',category:'birthday',releaseStatus:'concept',
     archetype:A.CINEMATIC_MEMORY,navigation:N.TIMELINE,
     metaphor:'film reel of memories',primaryMedia:'photos-video',
     signatureMoment:'The chosen film frame burns through into the next-chapter birthday message.',
@@ -107,7 +107,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     performance:{maxDpr:2,heavyLazyLoad:false},
   },
   {
-    id:'apology-rain',dbSlug:'apology-after-rain',name:'After Rain',category:'apology',
+    id:'apology-rain',dbSlug:'apology-after-rain',name:'After Rain',category:'apology',releaseStatus:'concept',
     archetype:A.ATMOSPHERIC_MINIMAL,navigation:N.RITUAL,
     metaphor:'rain-covered window',primaryMedia:'atmosphere',
     signatureMoment:'The final wipe clears the message as the rain stops and natural light returns.',
@@ -118,7 +118,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     performance:{maxDpr:1.5,heavyLazyLoad:true},
   },
   {
-    id:'apology-ink',dbSlug:'apology-ink-of-regret',name:'Ink of Regret',category:'apology',
+    id:'apology-ink',dbSlug:'apology-ink-of-regret',name:'Ink of Regret',category:'apology',releaseStatus:'concept',
     archetype:A.RITUAL_OBJECT,navigation:N.RITUAL,
     metaphor:'ink spreading through paper',primaryMedia:'paper-fluid',
     signatureMoment:'Ink consumes the page, then retreats and leaves the apology in clean negative space.',
@@ -129,7 +129,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     performance:{maxDpr:1.5,heavyLazyLoad:true},
   },
   {
-    id:'apology-quiet',dbSlug:'apology-quiet-room',name:'Quiet Room',category:'apology',
+    id:'apology-quiet',dbSlug:'apology-quiet-room',name:'Quiet Room',category:'apology',releaseStatus:'concept',
     archetype:A.ATMOSPHERIC_MINIMAL,navigation:N.SINGLE,
     metaphor:'dark room and one lamp',primaryMedia:'light-atmosphere',
     signatureMoment:'One pull of the lamp chain reveals the entire intimate apology composition.',
@@ -140,7 +140,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     performance:{maxDpr:2,heavyLazyLoad:false},
   },
   {
-    id:'proposal-pearl',dbSlug:'proposal-pearl-promise',name:'Pearl Promise',category:'proposal',
+    id:'proposal-pearl',dbSlug:'proposal-pearl-promise',name:'Pearl Promise',category:'proposal',releaseStatus:'concept',
     archetype:A.RITUAL_OBJECT,navigation:N.RITUAL,
     metaphor:'ring box and engraved promise',primaryMedia:'hero-object',
     signatureMoment:'Rotating the opened ring reveals a hidden engraving immediately before the proposal question.',
@@ -151,7 +151,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     performance:{maxDpr:1.5,heavyLazyLoad:true},
   },
   {
-    id:'proposal-cinema',dbSlug:'proposal-cinema',name:'Cinema Proposal',category:'proposal',
+    id:'proposal-cinema',dbSlug:'proposal-cinema',name:'Cinema Proposal',category:'proposal',releaseStatus:'concept',
     archetype:A.CINEMATIC_MEMORY,navigation:N.TIMELINE,
     metaphor:'private cinema screening',primaryMedia:'photos-video',
     signatureMoment:'The film jams and burns through into the proposal question.',
@@ -162,7 +162,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     performance:{maxDpr:2,heavyLazyLoad:false},
   },
   {
-    id:'proposal-sky',dbSlug:'proposal-sky-promise',name:'Sky Promise',category:'proposal',
+    id:'proposal-sky',dbSlug:'proposal-sky-promise',name:'Sky Promise',category:'proposal',releaseStatus:'concept',
     archetype:A.LIVING_WORLD,navigation:N.WORLD,
     metaphor:'night sky becoming dawn',primaryMedia:'interactive-world',
     signatureMoment:'The manipulated night horizon becomes dawn and the proposal appears with sunrise.',
