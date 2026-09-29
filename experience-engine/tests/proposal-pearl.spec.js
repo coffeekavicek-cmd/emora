@@ -21,23 +21,20 @@ test.describe('Pearl Promise true 3D reference',()=>{
     await page.screenshot({path:testInfo.outputPath('01-proposal-closed.png'),fullPage:true});
 
     const hold=page.getByRole('button',{name:'Uzuk qutisini bosib ushlab oching'});
-    const box=await hold.boundingBox();
-    expect(box).not.toBeNull();
-    if(box){
-      const x=box.x+box.width/2,y=box.y+box.height/2;
-      await page.mouse.move(x,y);
+    await hold.focus();
 
-      await page.mouse.down();
-      await page.waitForTimeout(320);
-      await page.mouse.up();
-      await page.waitForTimeout(850);
-      await expect(page.locator('.pearl-promise')).toHaveClass(/phase-intro/);
+    // Accessibility path also owns the hold contract; a quick tap must cancel.
+    await page.keyboard.down('Enter');
+    await page.keyboard.up('Enter');
+    await page.waitForTimeout(650);
+    await expect(page.locator('.pearl-promise')).toHaveClass(/phase-intro/);
 
-      await page.mouse.down();
-      await page.waitForTimeout(1030);
-      await page.mouse.up();
-    }
+    // A deliberate hold earns the opening.
+    await page.keyboard.down('Enter');
+    await page.waitForTimeout(1020);
+    await page.keyboard.up('Enter');
 
+    await expect(page.locator('.pearl-promise')).toHaveClass(/phase-opening|phase-memories/,{timeout:3500});
     await expect(page.locator('.pearl-promise')).toHaveClass(/phase-memories/,{timeout:5000});
     await expect(page.locator('.pp-memories article.show')).toHaveCount(1);
     await page.screenshot({path:testInfo.outputPath('02-proposal-open.png'),fullPage:true});
