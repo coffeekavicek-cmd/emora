@@ -120,3 +120,13 @@
 .pm-final-actions>button:hover{background:rgba(255,255,255,.12)}
 .pm-final-actions>.pm-final-restart{background:transparent;color:#b5a8af}
 @media(max-width:720px){.pm-final-actions{gap:5px}.pm-final-actions>button{min-height:36px;padding:0 12px;font-size:7px}}
+
+/* Pearl review pass: mobile opening balance */
+@media(max-width:720px) and (min-height:720px){
+  .pm-intro{justify-content:flex-start;padding-top:88px;gap:18px}
+  .pm-paper-stack{width:min(56vw,220px);margin-bottom:4px}
+  .pm-intro-copy{max-width:360px}
+  .pm-intro h1{font-size:clamp(44px,12.6vw,61px);line-height:.91}
+  .pm-intro .pm-signature{margin-top:2px;margin-bottom:9px}
+  .pm-intro .pm-primary{margin-top:3px}
+}
