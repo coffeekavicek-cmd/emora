@@ -266,7 +266,7 @@ export class GalaxyEngine{
         x:w/2+x,
         y:h/2+y,
         scale:k,
-        alpha:c._opened?.12:c.alpha,
+        alpha:c._opened ? .12 : c.alpha,
         opened:c._opened,
       });
     });
