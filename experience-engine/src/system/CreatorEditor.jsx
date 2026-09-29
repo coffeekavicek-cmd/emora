@@ -3,6 +3,7 @@ import { TEMPLATE_BY_ID } from './templateManifest.js';
 import { editorSectionsFor } from './editorContract.js';
 import { contentToSearchParams, readUrlContent } from './contentModel.js';
 import { PearlMotionExperience } from '../pearl/PearlMotionExperience.jsx';
+import { GalaxyExperience } from '../galaxy/GalaxyExperience.jsx';
 import './creatorEditor.css';
 
 function Field({field,value,onChange,onMedia}){
@@ -51,6 +52,28 @@ function Field({field,value,onChange,onMedia}){
     <input {...common} type={field.type==='number'?'number':field.type==='datetime'?'datetime-local':'text'}
       maxLength={field.max} value={value||''} onChange={e=>onChange(field.key,e.target.value)}/>
   </label>;
+}
+
+function ExperienceSpecificFields({template,content,setContent}){
+  const setParagraph=(i,value)=>setContent(p=>({...p,paragraphs:p.paragraphs.map((v,n)=>n===i?value:v)}));
+  if(template.id==='love-galaxy'){
+    return <section className="ce-section">
+      <div className="ce-section-title"><span>Galaxy discoveries</span><i/></div>
+      {content.paragraphs.map((x,i)=><label className="ce-field" key={'gm'+i}><span>{i+1}-yulduz ichidagi gap</span><textarea value={x} onChange={e=>setParagraph(i,e.target.value)}/></label>)}
+      <label className="ce-field"><span>Final jumla</span><textarea value={content.final} onChange={e=>setContent(p=>({...p,final:e.target.value}))}/></label>
+    </section>;
+  }
+  return <section className="ce-section">
+    <div className="ce-section-title"><span>Pearl letter</span><i/></div>
+    {content.paragraphs.map((x,i)=><label className="ce-field" key={'m'+i}><span>{i+1}-paragraf</span><textarea value={x} onChange={e=>setParagraph(i,e.target.value)}/></label>)}
+    {content.captions.map((x,i)=><label className="ce-field" key={'c'+i}><span>{i+1}-polaroid izohi</span><input value={x} onChange={e=>setContent(p=>({...p,captions:p.captions.map((v,n)=>n===i?e.target.value:v)}))}/></label>)}
+    <label className="ce-field"><span>Final jumla</span><textarea value={content.final} onChange={e=>setContent(p=>({...p,final:e.target.value}))}/></label>
+  </section>;
+}
+
+function RecipientPreview({template,content,media}){
+  if(template.id==='love-galaxy')return <GalaxyExperience content={content} media={media} embedded/>;
+  return <PearlMotionExperience content={content} media={media} embedded/>;
 }
 
 function Section({title,fields,content,onChange,onMedia}){
@@ -114,12 +137,7 @@ export function CreatorEditor({templateId='love-pearl'}){
       </div>
       <div className="ce-scroll">
         <Section title="Content" fields={sections.content.filter(f=>!['title'].includes(f.key))} content={content} onChange={update} onMedia={updateMedia}/>
-        <section className="ce-section">
-          <div className="ce-section-title"><span>Pearl letter</span><i/></div>
-          {content.paragraphs.map((x,i)=><label className="ce-field" key={'m'+i}><span>{i+1}-paragraf</span><textarea value={x} onChange={e=>setContent(p=>({...p,paragraphs:p.paragraphs.map((v,n)=>n===i?e.target.value:v)}))}/></label>)}
-          {content.captions.map((x,i)=><label className="ce-field" key={'c'+i}><span>{i+1}-polaroid izohi</span><input value={x} onChange={e=>setContent(p=>({...p,captions:p.captions.map((v,n)=>n===i?e.target.value:v)}))}/></label>)}
-          <label className="ce-field"><span>Final jumla</span><textarea value={content.final} onChange={e=>setContent(p=>({...p,final:e.target.value}))}/></label>
-        </section>
+        <ExperienceSpecificFields template={template} content={content} setContent={setContent}/>
         <Section title="Media" fields={sections.media.filter(f=>!['photoCaptions'].includes(f.key))} content={content} onChange={update} onMedia={updateMedia}/>
         <Section title="Guest actions" fields={sections.guests} content={content} onChange={update} onMedia={updateMedia}/>
         <Section title="Access" fields={sections.access} content={content} onChange={update} onMedia={updateMedia}/>
@@ -133,7 +151,7 @@ export function CreatorEditor({templateId='love-pearl'}){
     <section className="ce-preview-zone">
       <div className="ce-preview-head"><div><small>LIVE RECIPIENT PREVIEW</small><b>390 × 844</b></div><span>manifest-driven</span></div>
       <div className="ce-phone">
-        <div className="ce-phone-screen"><PearlMotionExperience content={content} media={media} embedded/></div>
+        <div className="ce-phone-screen"><RecipientPreview template={template} content={content} media={media}/></div>
       </div>
       <div className="ce-preview-note">
         <b>Signature moment</b>
