@@ -72,10 +72,6 @@ export class PearlSealEngine{
     const monogram=new Graphics();
     monogram.circle(0,0,32).stroke({width:1.7,color:0xe8a2b1,alpha:.34});
     monogram.circle(0,0,25).stroke({width:1,color:0x570b19,alpha:.52});
-    monogram.moveTo(-13,-12)
-      .bezierCurveTo(10,-24,21,-9,5,-1)
-      .bezierCurveTo(-6,5,-8,13,12,19)
-      .stroke({width:3,color:0x4e0916,alpha:.76});
     this.root.addChild(monogram);this.monogram=monogram;
 
     for(let i=0;i<34;i++){
