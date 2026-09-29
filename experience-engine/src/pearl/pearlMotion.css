@@ -6,7 +6,7 @@
 .pm-vignette{position:absolute;inset:0;z-index:80;pointer-events:none;background:radial-gradient(circle at 50% 46%,transparent 0 38%,rgba(0,0,0,.08) 62%,rgba(0,0,0,.35) 100%)}
 @keyframes pmGrain{0%{transform:translate(0)}25%{transform:translate(2%,-2%)}50%{transform:translate(-2%,1%)}75%{transform:translate(1%,2%)}100%{transform:translate(-1%,-1%)}}
 .pm-chrome{position:absolute;z-index:100;top:0;left:0;right:0;height:58px;padding:0 clamp(14px,4vw,54px);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;border-bottom:1px solid rgba(255,255,255,.08);background:linear-gradient(to bottom,rgba(12,9,8,.72),transparent)}
-.pm-chrome a{font:500 31px/.9 Georgia,serif;color:#fff8ef;text-decoration:none;letter-spacing:-.055em}.pm-chrome a span{color:#e6a5b3}.pm-chrome small{font-size:8px;font-weight:800;letter-spacing:.18em;color:#b8aa9f}.pm-chrome b{justify-self:end;font:700 9px monospace;color:#9f9187}
+.pm-chrome a{font:500 31px/.9 Georgia,serif;color:#fff8ef;text-decoration:none;letter-spacing:-.055em}.pm-chrome a span{color:#e6a5b3}.pm-chrome small{font-size:8px;font-weight:800;letter-spacing:.18em;color:#b8aa9f}.pm-chrome b{font:700 9px monospace;color:#9f9187}.pm-chrome-actions{justify-self:end;display:flex;align-items:center;gap:12px}.pm-sound{border:0;background:transparent;color:#9f9187;padding:4px 0;font-size:7px;font-weight:800;letter-spacing:.12em;cursor:pointer}.pm-sound:hover{color:#f0dfe5}
 .pm-primary,.pm-final-restart{min-height:48px;border-radius:999px;border:1px solid rgba(255,255,255,.12);padding:0 21px;cursor:pointer;font-size:9px;font-weight:800;letter-spacing:.09em;transition:.25s}
 .pm-primary{background:#322722;color:#fff8ef;box-shadow:0 14px 45px rgba(55,36,24,.25)}.pm-primary:hover{transform:translateY(-2px)}.pm-final-restart{background:rgba(255,255,255,.08);color:#fff8ef;backdrop-filter:blur(12px)}
 .pm-signature{position:relative;display:inline-grid;place-items:center;min-width:230px;min-height:74px;color:var(--pm-wine)}
@@ -59,7 +59,7 @@
 .step-converge .pm-memory-layer{background:#09080a}.step-final .pm-chrome,.step-converge .pm-chrome{background:linear-gradient(to bottom,rgba(5,4,6,.75),transparent)}
 
 @media(max-width:720px){
- .pm-chrome{height:49px;padding:0 13px;grid-template-columns:1fr auto}.pm-chrome small{display:none}.pm-chrome a{font-size:27px}
+ .pm-chrome{height:49px;padding:0 13px;grid-template-columns:1fr auto}.pm-chrome small{display:none}.pm-chrome a{font-size:27px}.pm-chrome-actions{gap:8px}.pm-sound{font-size:6px}
  .pm-intro{display:flex;flex-direction:column;justify-content:center;padding:58px 15px 16px;text-align:center;gap:12px}.pm-intro-copy{order:2;align-items:center}.pm-intro-copy>p{font-size:7px;margin-bottom:7px}.pm-intro h1{font-size:clamp(41px,11.8vw,57px);line-height:.9}.pm-intro .pm-signature{min-width:220px;min-height:60px;margin-bottom:5px}.pm-intro .pm-signature>span{font-size:45px}.pm-paper-stack{order:1;width:min(47vw,188px);margin:0 auto -3px}.pm-paper-stack>b{font-size:29px}.pm-assets{margin-top:8px;text-align:left}.pm-assets label{padding:6px 8px}
  .pm-envelope-object{width:94vw}.pm-seal{width:145px;height:145px}.pm-seal-copy{bottom:11px}.pm-seal-copy>p{font-size:20px}
  .pm-letter-layer{padding:58px 9px 60px}.pm-paper{width:94vw;min-height:74svh;max-height:calc(100svh - 121px);padding:25px 21px}.pm-letter-name{min-height:56px}.pm-letter-name>span{font-size:39px}.pm-ink{margin-top:6px}.pm-ink>p{font-size:clamp(18px,5.15vw,23px);line-height:1.31;margin-bottom:12px}.pm-signoff{font-size:17px;margin-top:9px}.pm-letter-continue{bottom:7px}
