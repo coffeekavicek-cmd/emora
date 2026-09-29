@@ -133,7 +133,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     archetype:A.ATMOSPHERIC_MINIMAL,navigation:N.SINGLE,
     metaphor:'dark room and one lamp',primaryMedia:'light-atmosphere',
     signatureMoment:'One pull of the lamp chain reveals the entire intimate apology composition.',
-    gestures:['pull-lamp','move-light'],
+    gestures:['pull-lamp'],
     capabilities:[...commonInvite,C.MUSIC,C.RESPONSE,C.SAVE],
     assets:{required:['room-art','lamp-art'],optional:['room-tone']},
     finale:'warm-room-reveal',engine:['css3d','gsap'],
