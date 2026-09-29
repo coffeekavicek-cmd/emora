@@ -10,6 +10,7 @@ const SilkHeritageExperience=lazy(()=>import('../wedding/SilkHeritageExperience.
 const MemoryReelExperience=lazy(()=>import('../birthday/MemoryReelExperience.jsx').then(m=>({default:m.MemoryReelExperience})));
 const AuroraPaperExperience=lazy(()=>import('../birthday/AuroraPaperExperience.jsx').then(m=>({default:m.AuroraPaperExperience})));
 const QuietRoomExperience=lazy(()=>import('../apology/QuietRoomExperience.jsx').then(m=>({default:m.QuietRoomExperience})));
+const AfterRainExperience=lazy(()=>import('../apology/AfterRainExperience.jsx').then(m=>({default:m.AfterRainExperience})));
 const RoseTheatreExperience=lazy(()=>import('../love/RoseTheatreExperience.jsx').then(m=>({default:m.RoseTheatreExperience})));
 const NightGardenExperience=lazy(()=>import('../wedding/NightGardenExperience.jsx').then(m=>({default:m.NightGardenExperience})));
 const HeritageNaqshExperience=lazy(()=>import('../wedding/HeritageNaqshExperience.jsx').then(m=>({default:m.HeritageNaqshExperience})));
@@ -79,6 +80,7 @@ function PreviewRuntime({template,content,media}){
   if(template.id==='birthday-memory')return <Suspense fallback={<div className="ce-runtime-loading">Film preview</div>}><MemoryReelExperience content={content} media={media} embedded/></Suspense>;
   if(template.id==='birthday-aurora')return <Suspense fallback={<div className="ce-runtime-loading">Aurora preview</div>}><AuroraPaperExperience content={content} embedded/></Suspense>;
   if(template.id==='apology-quiet')return <Suspense fallback={<div className="ce-runtime-loading">Quiet preview</div>}><QuietRoomExperience content={content} embedded/></Suspense>;
+  if(template.id==='apology-rain')return <Suspense fallback={<div className="ce-runtime-loading">Rain preview</div>}><AfterRainExperience content={content} definition={EXPERIENCE_MAP[template.id]} embedded/></Suspense>;
   if(template.id==='love-rose')return <Suspense fallback={<div className="ce-runtime-loading">Theatre preview</div>}><RoseTheatreExperience content={content} media={media} embedded/></Suspense>;
   if(template.id==='wedding-garden')return <Suspense fallback={<div className="ce-runtime-loading">Garden preview</div>}><NightGardenExperience content={content} embedded/></Suspense>;
   if(template.id==='wedding-naqsh')return <Suspense fallback={<div className="ce-runtime-loading">Naqsh preview</div>}><HeritageNaqshExperience content={content} embedded/></Suspense>;
