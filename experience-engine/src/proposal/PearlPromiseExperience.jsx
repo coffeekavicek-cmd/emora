@@ -24,14 +24,16 @@ function createScene(host,onReady){
   scene.background=new THREE.Color(0x080609);
   scene.fog=new THREE.FogExp2(0x080609,.085);
 
-  const renderer=new THREE.WebGLRenderer({antialias:true,alpha:false,powerPreference:'high-performance'});
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.75));
+  const mobile=Math.min(innerWidth,innerHeight)<760;
+  const lowPower=mobile||(navigator.hardwareConcurrency||4)<=4;
+  const renderer=new THREE.WebGLRenderer({antialias:!lowPower,alpha:false,powerPreference:lowPower?'low-power':'high-performance'});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,lowPower?1.15:1.5));
   renderer.setSize(host.clientWidth,host.clientHeight,false);
   renderer.outputColorSpace=THREE.SRGBColorSpace;
   renderer.toneMapping=THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure=1.08;
-  renderer.shadowMap.enabled=true;
-  renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+  renderer.shadowMap.enabled=!lowPower;
+  if(!lowPower)renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   renderer.domElement.className='pp-canvas';
   host.appendChild(renderer.domElement);
 
@@ -40,7 +42,7 @@ function createScene(host,onReady){
   camera.lookAt(0,-.1,0);
 
   scene.add(new THREE.HemisphereLight(0x6d5264,0x120d11,.72));
-  const key=new THREE.DirectionalLight(0xffdfd2,4.1);key.position.set(3.8,5.5,4.2);key.castShadow=true;scene.add(key);
+  const key=new THREE.DirectionalLight(0xffdfd2,4.1);key.position.set(3.8,5.5,4.2);key.castShadow=!lowPower;scene.add(key);
   const rim=new THREE.PointLight(0xc889ff,22,8,2);rim.position.set(-3,1.8,-1.5);scene.add(rim);
   const warm=new THREE.PointLight(0xffaf91,18,7,2);warm.position.set(2,-.2,2);scene.add(warm);
 
@@ -54,29 +56,29 @@ function createScene(host,onReady){
   const inside=new THREE.MeshPhysicalMaterial({color:0x12090f,roughness:.96,metalness:0,sheen:1,sheenColor:new THREE.Color(0x5b2238)});
 
   const box=new THREE.Group();scene.add(box);
-  const base=new THREE.Mesh(new THREE.BoxGeometry(2.45,.72,2.05),velvet);base.position.y=-.6;base.castShadow=true;base.receiveShadow=true;box.add(base);
-  const cushion=new THREE.Mesh(new THREE.BoxGeometry(1.95,.22,1.55),inside);cushion.position.set(0,-.15,.02);cushion.castShadow=true;box.add(cushion);
+  const base=new THREE.Mesh(new THREE.BoxGeometry(2.45,.72,2.05),velvet);base.position.y=-.6;base.castShadow=!lowPower;base.receiveShadow=!lowPower;box.add(base);
+  const cushion=new THREE.Mesh(new THREE.BoxGeometry(1.95,.22,1.55),inside);cushion.position.set(0,-.15,.02);cushion.castShadow=!lowPower;box.add(cushion);
 
   const lidPivot=new THREE.Group();lidPivot.position.set(0,-.22,-1.02);box.add(lidPivot);
-  const lid=new THREE.Mesh(new THREE.BoxGeometry(2.48,.28,2.08),velvet);lid.position.set(0,0,1.02);lid.castShadow=true;lidPivot.add(lid);
+  const lid=new THREE.Mesh(new THREE.BoxGeometry(2.48,.28,2.08),velvet);lid.position.set(0,0,1.02);lid.castShadow=!lowPower;lidPivot.add(lid);
   const lidInside=new THREE.Mesh(new THREE.BoxGeometry(2.12,.08,1.72),inside);lidInside.position.set(0,-.18,1.02);lidPivot.add(lidInside);
 
   const ring=new THREE.Group();ring.position.set(0,.23,.05);ring.scale.setScalar(.001);box.add(ring);
   const gold=new THREE.MeshPhysicalMaterial({color:0xe5bd72,metalness:1,roughness:.14,clearcoat:1,clearcoatRoughness:.08});
-  const band=new THREE.Mesh(new THREE.TorusGeometry(.54,.095,32,120),gold);band.rotation.x=Math.PI/2;band.castShadow=true;ring.add(band);
-  const shoulder=new THREE.Mesh(new THREE.TorusGeometry(.31,.055,22,70,Math.PI),gold);shoulder.rotation.set(Math.PI/2,0,Math.PI);shoulder.position.y=.25;ring.add(shoulder);
+  const band=new THREE.Mesh(new THREE.TorusGeometry(.54,.095,lowPower?16:24,lowPower?56:88),gold);band.rotation.x=Math.PI/2;band.castShadow=true;ring.add(band);
+  const shoulder=new THREE.Mesh(new THREE.TorusGeometry(.31,.055,lowPower?12:18,lowPower?34:54,Math.PI),gold);shoulder.rotation.set(Math.PI/2,0,Math.PI);shoulder.position.y=.25;ring.add(shoulder);
 
   const gemMat=new THREE.MeshPhysicalMaterial({
     color:0xffffff,metalness:0,roughness:.03,transmission:.92,thickness:.7,ior:2.35,
     clearcoat:1,clearcoatRoughness:.02,attenuationColor:new THREE.Color(0xffeefa),attenuationDistance:1.4
   });
-  const gem=new THREE.Mesh(new THREE.OctahedronGeometry(.29,2),gemMat);gem.position.set(0,.58,0);gem.rotation.y=Math.PI/4;gem.castShadow=true;ring.add(gem);
+  const gem=new THREE.Mesh(new THREE.OctahedronGeometry(.29,lowPower?1:2),gemMat);gem.position.set(0,.58,0);gem.rotation.y=Math.PI/4;gem.castShadow=!lowPower;ring.add(gem);
   [-.18,.18].forEach(x=>[-.12,.12].forEach(z=>{
-    const p=new THREE.Mesh(new THREE.CylinderGeometry(.018,.025,.28,10),gold);p.position.set(x*.72,.46,z*.72);p.rotation.z=x>0?-.42:.42;ring.add(p);
+    const p=new THREE.Mesh(new THREE.CylinderGeometry(.018,.025,.28,lowPower?6:10),gold);p.position.set(x*.72,.46,z*.72);p.rotation.z=x>0?-.42:.42;ring.add(p);
   }));
 
   const dustGeo=new THREE.BufferGeometry();
-  const count=180;
+  const count=lowPower?54:120;
   const arr=new Float32Array(count*3);
   for(let i=0;i<count;i++){arr[i*3]=(Math.random()-.5)*7;arr[i*3+1]=Math.random()*4-1;arr[i*3+2]=(Math.random()-.5)*5}
   dustGeo.setAttribute('position',new THREE.BufferAttribute(arr,3));
@@ -93,8 +95,11 @@ function createScene(host,onReady){
   };
   const ro=new ResizeObserver(resize);ro.observe(host);resize();
 
-  const render=()=>{
-    if(destroyed)return;
+  let lastFrame=0;
+  const render=(time=0)=>{
+    if(destroyed||document.hidden)return;
+    if(lowPower&&time-lastFrame<33)return;
+    lastFrame=time;
     const t=clock.getElapsedTime();
     state.rotation+=(state.targetRotation-state.rotation)*.1;
     ring.rotation.y=state.rotation;
@@ -129,6 +134,7 @@ function createScene(host,onReady){
     whiteout(){
       gsap.to(renderer,{toneMappingExposure:3.8,duration:1.15,ease:'power3.in'});
       gsap.to(scene.fog,{density:.015,duration:1.0,ease:'power2.in'});
+      if(lowPower)setTimeout(()=>renderer.setAnimationLoop(null),1450);
     },
     destroy(){
       destroyed=true;ro.disconnect();renderer.setAnimationLoop(null);
