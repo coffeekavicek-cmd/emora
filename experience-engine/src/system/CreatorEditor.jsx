@@ -4,6 +4,7 @@ import { editorSectionsFor } from './editorContract.js';
 import { contentToSearchParams, readUrlContent } from './contentModel.js';
 import { PearlMotionExperience } from '../pearl/PearlMotionExperience.jsx';
 import { GalaxyExperience } from '../galaxy/GalaxyExperience.jsx';
+import { SilkHeritageExperience } from '../silk/SilkHeritageExperience.jsx';
 import './creatorEditor.css';
 
 function Field({field,value,onChange,onMedia}){
@@ -73,6 +74,7 @@ function ExperienceSpecificFields({template,content,setContent}){
 
 function RecipientPreview({template,content,media}){
   if(template.id==='love-galaxy')return <GalaxyExperience content={content} media={media} embedded/>;
+  if(template.id==='wedding-silk')return <SilkHeritageExperience content={content} media={media} embedded/>;
   return <PearlMotionExperience content={content} media={media} embedded/>;
 }
 
