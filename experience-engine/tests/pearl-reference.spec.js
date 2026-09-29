@@ -85,11 +85,18 @@ test.describe('Pearl Linen reference',()=>{
     await page.waitForTimeout(250);
     await page.screenshot({path:testInfo.outputPath('03-letter.png'),fullPage:true});
 
+    const readMore=page.getByRole('button',{name:'Davomini o‘qish →'});
+    await expect(readMore).toBeVisible({timeout:5000});
+    await readMore.click();
+    await expect(readMore).toBeVisible({timeout:5000});
+    await readMore.click();
+
     const continueButton=page.getByRole('button',{name:'Xotiralarni ochish →'});
-    await expect(continueButton).toBeVisible({timeout:7000});
+    await expect(continueButton).toBeVisible({timeout:5000});
+    await page.screenshot({path:testInfo.outputPath('04-full-letter.png'),fullPage:true});
     await continueButton.click();
 
-    await page.waitForTimeout(1100);
+    await page.waitForTimeout(1200);
     await expectFullStage('.pm-memory-layer');
     const dragCard=async(selector,dx,dy)=>{
       const card=page.locator(selector);
@@ -104,15 +111,33 @@ test.describe('Pearl Linen reference',()=>{
       await page.mouse.up();
       await page.waitForTimeout(220);
     };
-    await dragCard('.pm-polaroid-1',105,-25);
-    await dragCard('.pm-polaroid-2',-95,55);
     await dragCard('.pm-polaroid-0',75,-45);
+    await expect(page.locator('.pm-polaroid-1')).toBeVisible({timeout:4000});
+    await dragCard('.pm-polaroid-1',105,-25);
+    await expect(page.locator('.pm-polaroid-2')).toBeVisible({timeout:4000});
+    await dragCard('.pm-polaroid-2',-95,55);
 
-    const release=page.getByRole('button',{name:'Bitta joyga yig‘ish →'});
-    await expect(release).toBeVisible({timeout:4000});
+    const release=page.getByRole('button',{name:'Oxirgi sahifa →'});
+    await expect(release).toBeVisible({timeout:5000});
+    await page.screenshot({path:testInfo.outputPath('05-memories.png'),fullPage:true});
     await release.click();
-    await expect(page.locator('.pearl-motion')).toHaveClass(/step-finale/,{timeout:12000});
+
+    const pearl=page.getByRole('button',{name:'Oxirgi satrni bosib ushlab oching'});
+    await expect(pearl).toBeVisible({timeout:5000});
+    await page.screenshot({path:testInfo.outputPath('06-afterword.png'),fullPage:true});
+    const pearlBox=await pearl.boundingBox();
+    expect(pearlBox).not.toBeNull();
+    if(pearlBox){
+      const x=pearlBox.x+pearlBox.width/2,y=pearlBox.y+pearlBox.height/2;
+      await page.mouse.move(x,y);
+      await page.mouse.down();
+      await page.waitForTimeout(1050);
+      await page.mouse.up();
+    }
+
+    await expect(page.locator('.pearl-motion')).toHaveClass(/step-finale/,{timeout:14000});
     await expect(page.locator('.pm-final-copy')).toBeVisible();
+    await expect(page.locator('.pm-particle-counter')).toContainText(/marvarid nuqta/);
     await expect(page.getByRole('button',{name:'Ulashish'})).toBeVisible();
     const keepsake=page.getByRole('button',{name:'Keepsake saqlash'});
     await expect(keepsake).toBeVisible();
@@ -120,7 +145,7 @@ test.describe('Pearl Linen reference',()=>{
     await keepsake.click();
     const download=await downloadPromise;
     expect(download.suggestedFilename()).toMatch(/^emora-pearl-.*\.svg$/);
-    await page.screenshot({path:testInfo.outputPath('04-finale.png'),fullPage:true});
+    await page.screenshot({path:testInfo.outputPath('07-finale.png'),fullPage:true});
 
     expect(errors).toEqual([]);
   });
