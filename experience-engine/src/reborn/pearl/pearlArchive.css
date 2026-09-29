@@ -23,6 +23,8 @@ button,a{font:inherit}
 .pr-arrival-copy h1 em{font-weight:400;color:#d9bd91}
 .pr-arrival-copy>span{display:block;margin-top:15px;font:italic 400 clamp(27px,3vw,44px)/1 "Cormorant Garamond",serif;color:#d6c5ad;opacity:.88}
 .pr-thread{display:block}
+.pr-thread:before{content:"";position:absolute;z-index:5;left:50%;top:49%;width:min(92vw,900px);height:min(58vh,620px);transform:translate(-50%,-50%);pointer-events:none;background:radial-gradient(ellipse at 50% 56%,rgba(220,190,135,.11),rgba(128,91,55,.035) 38%,transparent 69%);filter:blur(2px)}
+.pr-thread:after{content:"";position:absolute;z-index:5;left:50%;top:23%;width:min(52vw,460px);height:62%;transform:translateX(-50%) perspective(500px) rotateX(12deg);pointer-events:none;clip-path:polygon(43% 0,57% 0,100% 100%,0 100%);background:linear-gradient(180deg,rgba(255,241,214,.055),rgba(255,225,172,.018) 55%,transparent);filter:blur(7px)}
 .pr-thread-copy{position:absolute;z-index:20;left:6vw;top:14vh;width:min(570px,64vw)}
 .pr-thread-copy h2,.pr-folio-copy h2,.pr-archive-head h2{margin:8px 0 0;font:400 clamp(44px,5.4vw,78px)/.92 "Cormorant Garamond",serif;letter-spacing:-.045em;text-wrap:balance}
 .pr-stitched-name{position:absolute;z-index:12;left:50%;top:51%;transform:translate(-50%,-50%);width:min(70vw,980px);text-align:center;pointer-events:none}
@@ -36,6 +38,7 @@ button,a{font:inherit}
 .pr-archive-track>b{left:calc(var(--archive)*100%)}
 .pr-thread-track>span,.pr-archive-track>span{position:absolute;left:0;top:3px;font:italic 400 17px/1 "Cormorant Garamond",serif;color:#cabcaa}
 .pr-folio{display:grid;place-items:center;padding:72px 18px 30px}
+.pr-folio:before{content:"";position:absolute;z-index:5;left:50%;top:58%;width:min(76vw,680px);height:min(46vh,460px);transform:translate(-50%,-50%);pointer-events:none;background:radial-gradient(ellipse,rgba(229,199,151,.09),rgba(129,84,49,.025) 44%,transparent 72%);filter:blur(9px)}
 .pr-folio-copy{position:absolute;z-index:18;left:6vw;top:15vh;width:min(510px,55vw);transition:opacity .6s}
 .phase-transition-folio .pr-folio-copy{opacity:.15}
 .pr-seal{position:absolute;z-index:24;left:50%;top:54%;transform:translate(-50%,-50%);width:118px;height:118px;border:0;border-radius:50%;background:radial-gradient(circle at 35% 30%,#8d3d3d 0 8%,#64282d 31%,#3d171d 71%,#260e13);color:#e8b8a3;box-shadow:0 16px 32px rgba(0,0,0,.34),inset 0 3px 6px rgba(255,255,255,.08),0 0 0 1px rgba(220,156,134,.12);cursor:pointer;transition:transform .35s,filter .35s}
