@@ -230,8 +230,8 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
     <section ref={intro} className="pm-layer pm-intro">
       <div className="pm-intro-copy">
         <p>PRIVATE LETTER · FOR ONE PERSON</p>
-        <h1>{cfg.intro}</h1>
-        <Signature name={cfg.name}/>
+        <h1>{cfg.message}</h1>
+        <Signature name={cfg.recipient}/>
         <button className="pm-primary" onClick={startRitual}>Maktubni olish</button>
       </div>
       <div className="pm-paper-stack" aria-hidden="true"><i/><i/><b>for you</b></div>
@@ -239,7 +239,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
 
     <section ref={envelope} className="pm-layer pm-envelope-layer">
       <div className="pm-envelope-object">
-        <div className="pm-sheet"><Signature name={cfg.name} className="pm-sheet-name"/><small>faqat sen uchun</small></div>
+        <div className="pm-sheet"><Signature name={cfg.recipient} className="pm-sheet-name"/><small>faqat sen uchun</small></div>
         <div className="pm-pocket"/>
         <div className="pm-flap"/>
         <div ref={sealHost} className={'pm-seal '+(holding?'holding':'')}/>
@@ -254,7 +254,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
       <article ref={paper} className="pm-paper">
         <div className="pm-paper-fiber"/>
         <p className="pm-date">28 · 09 · 2026</p>
-        <Signature name={cfg.name} className="pm-letter-name"/>
+        <Signature name={cfg.recipient} className="pm-letter-name"/>
         <div className="pm-ink">
           {cfg.paragraphs.map((x,i)=><p className={i<inkCount?'visible':''} key={i}><span>{x}</span><i/></p>)}
         </div>
@@ -279,7 +279,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
       <div className={'pm-final-copy '+(portraitReady?'ready':'')}>
         <p>AND THIS IS THE ONLY LINE THAT MATTERS</p>
         <h2>{cfg.final}</h2>
-        <Signature name={cfg.name} className="pm-final-name"/>
+        <Signature name={cfg.recipient} className="pm-final-name"/>
         <button className="pm-final-restart" onClick={restart}>Boshidan ↺</button>
       </div>
     </section>
