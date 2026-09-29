@@ -62,7 +62,7 @@ function DraggablePolaroid({index,src,caption,onExplore,cardRef}){
   </button>;
 }
 
-export function PearlMotionExperience({content:contentProp=null,media=null}){
+export function PearlMotionExperience({content:contentProp=null,media=null,embedded=false}){
   const cfg=useMemo(()=>contentProp||readUrlContent('love-pearl'),[contentProp]);
   const root=useRef(null),intro=useRef(null),envelope=useRef(null),letter=useRef(null),paper=useRef(null),sealHost=useRef(null);
   const memory=useRef(null),finale=useRef(null),particleHost=useRef(null);
@@ -223,7 +223,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null}){
 
   useEffect(()=>()=>clearTimeout(holdTimer.current),[]);
 
-  return <main ref={root} className={'pearl-motion step-'+step}>
+  return <main ref={root} className={'pearl-motion '+(embedded?'is-embedded ':'')+'step-'+step}>
     <div className="pm-grain"/><div className="pm-vignette"/>
     <header className="pm-chrome"><a href="?">emora<span>.</span></a><small>PEARL LINEN · FLAGSHIP</small><b>{step==='intro'?'00':step==='seal'?'01':step==='letter-rise'?'02':step==='ink'?'03':step==='memories'?'04':step==='converge'?'05':'06'}</b></header>
 
