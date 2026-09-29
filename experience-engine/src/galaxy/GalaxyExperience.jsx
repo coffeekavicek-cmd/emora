@@ -250,7 +250,7 @@ export function GalaxyExperience({content:contentProp=null,media=null,embedded=f
 
     <header className="gx-chrome">
       <a href="?" className="gx-brand">emora<span>.</span></a>
-      <span className="gx-progress">{phase==='intro'?'ready':isExplore?opened.length+'/3':phase==='constellation'?'all found':phase==='collapse'||phase==='morphing'?'converging':isFinale?'for '+config.recipient:'...'}</span>
+      <span className="gx-progress">{phase==='intro'?'tayyor':isExplore?opened.length+'/3':phase==='constellation'?'hammasi topildi':phase==='collapse'||phase==='morphing'?'yig‘ilmoqda':isFinale?config.recipient+' uchun':'...'}</span>
       {musicUrl&&<button className="gx-sound" onClick={toggleSound}>{soundOn?'sound on':'sound off'}</button>}
     </header>
 
