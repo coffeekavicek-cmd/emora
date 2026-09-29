@@ -114,3 +114,9 @@
   .pm-seal-copy{bottom:max(22px,env(safe-area-inset-bottom))}
   .pm-seal-copy>p{font-size:18px;max-width:270px;line-height:1.05}
 }
+
+.pm-final-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-top:6px}
+.pm-final-actions>button{min-height:40px;padding:0 15px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);color:#f6edf1;font-size:8px;font-weight:850;letter-spacing:.08em;cursor:pointer;backdrop-filter:blur(10px)}
+.pm-final-actions>button:hover{background:rgba(255,255,255,.12)}
+.pm-final-actions>.pm-final-restart{background:transparent;color:#b5a8af}
+@media(max-width:720px){.pm-final-actions{gap:5px}.pm-final-actions>button{min-height:36px;padding:0 12px;font-size:7px}}
