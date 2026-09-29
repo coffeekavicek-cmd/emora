@@ -63,11 +63,23 @@ test.describe('Pearl Linen reference',()=>{
     await expect(continueButton).toBeVisible({timeout:7000});
     await continueButton.click();
 
-    for(const selector of ['.pm-polaroid-0','.pm-polaroid-1','.pm-polaroid-2']){
+    await page.waitForTimeout(1100);
+    const dragCard=async(selector,dx,dy)=>{
       const card=page.locator(selector);
       await expect(card).toBeVisible();
-      await card.click();
-    }
+      const box=await card.boundingBox();
+      expect(box).not.toBeNull();
+      if(!box)return;
+      const x=box.x+box.width/2,y=box.y+box.height/2;
+      await page.mouse.move(x,y);
+      await page.mouse.down();
+      await page.mouse.move(x+dx,y+dy,{steps:12});
+      await page.mouse.up();
+      await page.waitForTimeout(220);
+    };
+    await dragCard('.pm-polaroid-1',105,-25);
+    await dragCard('.pm-polaroid-2',-95,55);
+    await dragCard('.pm-polaroid-0',75,-45);
 
     const release=page.getByRole('button',{name:'Bitta joyga yig‘ish →'});
     await expect(release).toBeVisible({timeout:4000});
