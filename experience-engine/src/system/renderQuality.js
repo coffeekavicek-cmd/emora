@@ -15,6 +15,6 @@ export function getRenderTier(){
 
 export function qualityProfile(tier=getRenderTier()){
   if(tier==='full')return {tier,maxDpr:2,particleScale:1,blur:true,shadows:true};
-  if(tier==='balanced')return {tier,maxDpr:1.5,particleScale:.72,blur:true,shadows:true};
-  return {tier,maxDpr:1,particleScale:.42,blur:false,shadows:false};
+  if(tier==='balanced')return {tier,maxDpr:1.5,particleScale:.92,blur:true,shadows:true};
+  return {tier,maxDpr:1,particleScale:.52,blur:false,shadows:false};
 }
