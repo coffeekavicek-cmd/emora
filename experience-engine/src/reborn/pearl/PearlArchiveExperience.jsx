@@ -161,7 +161,7 @@ export function PearlArchiveExperience({content:contentProp=null,embedded=false}
 
     <section className="pr-stage pr-thread">
       <div className="pr-thread-copy"><p>01 · THE THREAD</p><h2>Ismingni bir ip bilan tikib chiqamiz.</h2></div>
-      <div className="pr-stitched-name" aria-hidden="true"><span>{content.recipient}</span><i/></div>
+      <div className="pr-stitched-name" aria-hidden="true" style={{clipPath:`inset(0 ${(1-thread)*100}% 0 0)`}}><span>{content.recipient}</span><i/></div>
       <button className="pr-thread-track" aria-label="Marvaridni ip bo‘ylab o‘ngga torting" onPointerDown={threadDown} onPointerMove={threadMove} onPointerUp={threadUp} onPointerCancel={threadUp}
         onKeyDown={e=>{if((e.key==='Enter'||e.key===' ')&&phase==='thread'){e.preventDefault();setThread(1);world.current?.setThreadProgress(1);world.current?.revealFolio();setPhase('transition-folio');setTimeout(()=>setPhase('folio'),850)}}}>
         <i/><b/><span>marvaridni torting →</span>
@@ -187,12 +187,12 @@ export function PearlArchiveExperience({content:contentProp=null,embedded=false}
         </div>
         <em className={letterBeat>=3?'show':''}>— men tomondan, faqat senga.</em>
       </article>
-      <div className="pr-ink-progress"><i/><span>{Math.min(100,letterBeat*33)}%</span></div>
+      <div className="pr-ink-progress" style={{'--beat':Math.min(1,letterBeat/3)}}><i/><span>{Math.min(100,letterBeat*33)}%</span></div>
     </section>
 
     <section className="pr-stage pr-archive">
       <div className="pr-archive-head"><p>04 · MEMORY ARCHIVE</p><h2>Uch xotirani bitta harakatda varaqlang.</h2></div>
-      <div className="pr-memory-deck">
+      <div className="pr-memory-deck" style={{transform:`translateX(${-archive*(innerWidth<760?158:74)}vw)`}}>
         {memories.map((m,i)=><article key={i} className={'pr-memory-card c'+i} style={{'--i':i}}>
           <span>{m.n}</span><h3>{m.title}</h3><p>{m.body}</p><i/>
         </article>)}
