@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
+import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { TEMPLATE_BY_ID } from './templateManifest.js';
 import { editorSectionsFor } from './editorContract.js';
 import { contentToSearchParams, readUrlContent } from './contentModel.js';
 import { PearlMotionExperience } from '../pearl/PearlMotionExperience.jsx';
-import { PearlPromiseExperience } from '../proposal/PearlPromiseExperience.jsx';
+const PearlPromiseExperience=lazy(()=>import('../proposal/PearlPromiseExperience.jsx').then(m=>({default:m.PearlPromiseExperience})));
 import './creatorEditor.css';
 
 function Field({field,value,onChange,onMedia}){
@@ -162,7 +162,7 @@ export function CreatorEditor({templateId='love-pearl'}){
     <section className="ce-preview-zone">
       <div className="ce-preview-head"><div><small>LIVE RECIPIENT PREVIEW</small><b>390 × 844</b></div><span>manifest-driven</span></div>
       <div className="ce-phone">
-        <div className="ce-phone-screen">{template.id==='proposal-pearl'?<PearlPromiseExperience content={content} embedded/>:<PearlMotionExperience content={content} media={media} embedded/>}</div>
+        <div className="ce-phone-screen">{template.id==='proposal-pearl'?<Suspense fallback={<div className="ce-runtime-loading">3D preview</div>}><PearlPromiseExperience content={content} embedded/></Suspense>:<PearlMotionExperience content={content} media={media} embedded/>}</div>
       </div>
       <div className="ce-preview-note">
         <b>Signature moment</b>
