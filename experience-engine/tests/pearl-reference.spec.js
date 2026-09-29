@@ -98,6 +98,7 @@ test.describe('Pearl Linen reference',()=>{
 
     await page.waitForTimeout(1200);
     await expectFullStage('.pm-memory-layer');
+    await expect(page.locator('.pm-photo-fallback')).toHaveCount(3);
     const dragCard=async(selector,dx,dy)=>{
       const card=page.locator(selector);
       await expect(card).toBeVisible();
@@ -138,6 +139,8 @@ test.describe('Pearl Linen reference',()=>{
     await expect(page.locator('.pearl-motion')).toHaveClass(/step-finale/,{timeout:14000});
     await expect(page.locator('.pm-final-copy')).toBeVisible();
     await expect(page.locator('.pm-particle-counter')).toContainText(/marvarid nuqta/);
+    const renderedPoints=Number((await page.locator('.pm-particle-counter b').textContent())?.replace(/\D/g,'')||0);
+    expect(renderedPoints).toBeGreaterThanOrEqual(600);
     await expect(page.getByRole('button',{name:'Ulashish'})).toBeVisible();
     const keepsake=page.getByRole('button',{name:'Keepsake saqlash'});
     await expect(keepsake).toBeVisible();
