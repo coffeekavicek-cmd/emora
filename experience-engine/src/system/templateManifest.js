@@ -45,10 +45,10 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     archetype:A.EDITORIAL_STORY,navigation:N.PAGINATED,
     metaphor:'embroidered silk invitation',primaryMedia:'textile-editorial',
     signatureMoment:'A gold thread finishes the textile composition and reveals the couple and ceremony.',
-    gestures:['pull-silk'],
+    gestures:['pull-silk','tie-knot'],
     capabilities:[...commonInvite,C.RSVP,C.MAP,C.CALENDAR,C.MUSIC,C.PHOTOS,C.GUEST_LINKS],
     assets:{required:['silk-texture','embroidery-art'],optional:['couple-photo','music']},
-    finale:'embroidered-invitation',engine:['gsap','svg'],
+    finale:'embroidered-invitation',engine:['gsap','svg','css3d'],
     performance:{maxDpr:2,heavyLazyLoad:false},
   },
   {
