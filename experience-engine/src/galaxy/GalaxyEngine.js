@@ -212,7 +212,7 @@ export class GalaxyEngine{
           const px=p.portrait.x,py=p.portrait.y;
           s.x=lerp(gx,px,m);
           s.y=lerp(gy,py,m);
-          s.alpha=lerp((.22+Math.random()*.02)*this.state.intro,p.portrait.alpha,m);
+          s.alpha=lerp((.22+Math.sin(time*1.9+p.phase)*.018)*this.state.intro,p.portrait.alpha,m);
           s.tint=m>.55?p.portrait.tint:s.tint;
           const targetScale=clamp(p.baseScale*(.72+p.portrait.alpha*.68),.12,.7);
           const sc=lerp(p.baseScale,targetScale,m);
