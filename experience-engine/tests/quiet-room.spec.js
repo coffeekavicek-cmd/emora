@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Quiet Room dedicated ritual',()=>{
-  test('mobile recipient pulls light → reads → moves light → warm return',async({page},testInfo)=>{
+  test('mobile recipient pulls light → reads → blackout → warm return',async({page},testInfo)=>{
     const errors=[];
     page.on('pageerror',e=>errors.push(e.message));
     page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
@@ -26,14 +26,7 @@ test.describe('Quiet Room dedicated ritual',()=>{
     await expect(page.locator('.qr-lines .show')).toHaveCount(3,{timeout:6000});
     await page.screenshot({path:testInfo.outputPath('02-quiet-letter.png'),fullPage:true});
 
-    await expect(page.locator('.quiet-room')).toHaveClass(/phase-move/,{timeout:8000});
-    const move=page.getByRole('button',{name:'Yorug‘likni chetga suring'});
-    const mb=await move.boundingBox();expect(mb).not.toBeNull();
-    if(mb){
-      const x=mb.x+mb.width/2,y=mb.y+mb.height/2;
-      await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(x+170,y,{steps:14});await page.mouse.up();
-    }
-    await expect(page.locator('.quiet-room')).toHaveClass(/phase-blackout|phase-finale/,{timeout:3500});
+    await expect(page.locator('.quiet-room')).toHaveClass(/phase-blackout|phase-finale/,{timeout:9000});
     await expect(page.locator('.quiet-room')).toHaveClass(/phase-finale/,{timeout:3500});
     await expect(page.locator('.qr-finale h2')).toBeVisible();
     await page.screenshot({path:testInfo.outputPath('03-quiet-finale.png'),fullPage:true});
