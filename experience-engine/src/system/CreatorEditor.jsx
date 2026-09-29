@@ -79,6 +79,7 @@ export function CreatorEditor({templateId='love-pearl'}){
   }));
   const [media,setMedia]=useState({photos:[],portrait:null,music:null});
   const [copied,setCopied]=useState(false);
+  const [mobileView,setMobileView]=useState('edit');
 
   const update=(key,value)=>{
     if(key==='photoCaptions')return;
@@ -100,7 +101,11 @@ export function CreatorEditor({templateId='love-pearl'}){
     catch{}
   };
 
-  return <main className="creator-editor">
+  return <main className={'creator-editor mobile-'+mobileView}>
+    <nav className="ce-mobile-tabs" aria-label="Editor view">
+      <button className={mobileView==='edit'?'active':''} onClick={()=>setMobileView('edit')}>Edit</button>
+      <button className={mobileView==='preview'?'active':''} onClick={()=>setMobileView('preview')}>Preview</button>
+    </nav>
     <aside className="ce-panel">
       <header className="ce-header"><a href="?">emora<span>.</span></a><div><small>REFERENCE EDITOR</small><b>{template.name}</b></div></header>
       <div className="ce-manifest">
