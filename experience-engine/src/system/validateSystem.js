@@ -3,6 +3,7 @@ import { TEMPLATE_MANIFEST } from './templateManifest.js';
 import { editorFieldsFor } from './editorContract.js';
 import { runtimePlan } from './runtimeContract.js';
 import { contentToSearchParams, splitPublishPayload } from './contentModel.js';
+import { ART_DIRECTION, QUALITY_CONTRACT } from './artDirectionManifest.js';
 
 const errors=[];
 const ids=new Set();
@@ -44,6 +45,14 @@ for(const t of TEMPLATE_MANIFEST){
 
   const dpr=t.performance?.maxDpr;
   if(typeof dpr!=='number'||dpr>2)errors.push(`${t.id}: maxDpr must be <= 2`);
+
+  const art=ART_DIRECTION[t.id];
+  if(!art)errors.push(`${t.id}: missing art-direction contract`);
+  else{
+    for(const key of ['render','camera','material','hero','finale']){
+      if(!art[key])errors.push(`${t.id}: art-direction field ${key} is missing`);
+    }
+  }
 }
 
 const expected=15;
@@ -55,6 +64,13 @@ const publicParams=contentToSearchParams(securityProbe).toString();
 if(publicParams.includes('secret-token'))errors.push('Sensitive word lock leaked into public URL');
 const split=splitPublishPayload(securityProbe);
 if(JSON.stringify(split.publicContent).includes('secret-token'))errors.push('Sensitive word lock leaked into public content');
+
+if(Object.keys(ART_DIRECTION).length!==expected){
+  errors.push(`Expected ${expected} art-direction entries, found ${Object.keys(ART_DIRECTION).length}`);
+}
+if(QUALITY_CONTRACT.maxMeaningfulGestures!==3)errors.push('Quality contract gesture budget must stay at 3');
+if(QUALITY_CONTRACT.noDocumentScroll!==true)errors.push('Quality contract must forbid document scroll');
+if(QUALITY_CONTRACT.finalSceneMustTransformWorld!==true)errors.push('Quality contract must require world-transforming finales');
 
 if(TEMPLATE_MANIFEST.length!==expected){
   errors.push(`Expected ${expected} templates, found ${TEMPLATE_MANIFEST.length}`);
