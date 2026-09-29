@@ -151,11 +151,11 @@ export const CINEMATIC_SCENARIOS={
   {id:'chain',label:'01',type:'gesture',gesture:'pull-chain',copy:'Chiroq zanjirini torting.'},
   {id:'pool',label:'02',type:'reveal',copy:'Yorug‘ doira ichida stol va bitta yopiq xat ko‘rinadi.'},
   {id:'listen',label:'03',type:'memory',copy:'Uch qisqa jumla navbat bilan o‘qiladi; oralig‘ida jimlik saqlanadi.'},
-  {id:'dim',label:'04',type:'gesture',gesture:'dim-light',copy:'Yorug‘likni slider emas, lampani barmoq bilan yaqinlashtirib pasaytiring.'},
+  {id:'dim',label:'04',type:'transition',copy:'Gaplar o‘qilgach yorug‘lik o‘zi sekin chekinadi; recipientdan ikkinchi gesture talab qilinmaydi.'},
   {id:'dark-again',label:'05',type:'turn',copy:'Chiroq o‘chadi — faqat qog‘ozdagi bir satr fosfor kabi qoladi.'},
   {id:'warm-return',label:'06',type:'finale',copy:'Chiroq iliq rangda qayta yonadi va final uzr paydo bo‘ladi.'},
   {id:'room-tone',label:'07',type:'afterglow',copy:'Hech narsa qimirlamaydi; faqat yengil xona tovushi.'}
- ],secondary:'dim-light',finale:'warm-return'
+ ],secondary:'pull-chain',finale:'warm-return'
 },
 'proposal-pearl':{
  title:'Pearl Promise',
