@@ -73,6 +73,8 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
   const [inkCount,setInkCount]=useState(0);
   const [explored,setExplored]=useState(new Set());
   const [portraitReady,setPortraitReady]=useState(false);
+  const [effortCount,setEffortCount]=useState(0);
+  const [finalPhase,setFinalPhase]=useState('idle');
   const [soundOn,setSoundOn]=useState(true);
 
   const photos=media?.photos||[];
@@ -180,10 +182,10 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
     setInkCount(0);
     [0,1,2].forEach((_,i)=>setTimeout(()=>{
       setInkCount(i+1);softTone(300+i*70,.08,.018);
-    },520+i*1180));
+    },900+i*2700));
     setTimeout(()=>{
-      gsap.to('.pm-letter-continue',{autoAlpha:1,y:0,duration:.5,ease:'power2.out'});
-    },4050);
+      gsap.to('.pm-letter-continue',{autoAlpha:1,y:0,duration:.7,ease:'power2.out'});
+    },9100);
   };
 
   const openMemories=()=>{
@@ -219,7 +221,19 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
       .to(memory.current,{backgroundColor:'#08070a',duration:.5},'-=.55')
       .set(finale.current,{autoAlpha:1,pointerEvents:'auto'},'-=.35')
       .to(letter.current,{autoAlpha:0,duration:.3},'<')
-      .call(()=>startPortrait());
+      .call(()=>startVisibleEffort());
+  };
+
+  const startVisibleEffort=()=>{
+    setFinalPhase('counting');
+    setEffortCount(0);
+    const target=9494;
+    const proxy={n:0};
+    gsap.to(proxy,{n:target,duration:5.4,ease:'power3.inOut',onUpdate:()=>setEffortCount(Math.round(proxy.n)),onComplete:()=>{
+      setFinalPhase('silence');
+      gsap.to('.pm-effort-copy',{autoAlpha:0,duration:.45});
+      setTimeout(()=>startPortrait(),1200);
+    }});
   };
 
   const startPortrait=async()=>{
@@ -238,7 +252,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
     points=points.map(p=>({...p,x:p.x*fit,y:p.y*fit}));
     gsap.fromTo(particleHost.current,{autoAlpha:0,scale:1.12},{autoAlpha:1,scale:1,duration:.75,ease:'power3.out'});
     e.morphToPortrait(points,{onComplete:()=>{
-      setPortraitReady(true);setStep('finale');
+      setPortraitReady(true);setStep('finale');setFinalPhase('portrait');
       softTone(660,.32,.035);
       try{navigator.vibrate?.([8,35,12])}catch{}
       gsap.fromTo('.pm-final-copy',{autoAlpha:0,y:30},{autoAlpha:1,y:0,duration:1.15,ease:'power3.out'});
@@ -280,7 +294,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
   };
 
   const restart=()=>{
-    setPortraitReady(false);setExplored(new Set());setInkCount(0);setSealCracked(false);setStep('intro');started.current=false;
+    setPortraitReady(false);setExplored(new Set());setInkCount(0);setSealCracked(false);setEffortCount(0);setFinalPhase('idle');setStep('intro');started.current=false;
     particleEngine.current?.reset();sealEngine.current?.reset();
     const tl=gsap.timeline({defaults:{duration:.4}});
     tl.to([envelope.current,letter.current,memory.current,finale.current],{autoAlpha:0,pointerEvents:'none'})
@@ -355,6 +369,11 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
     </section>
 
     <section ref={finale} className="pm-layer pm-finale-layer">
+      <div className={'pm-effort-copy phase-'+finalPhase}>
+        <span>VISIBLE EFFORT</span>
+        <strong>{effortCount.toLocaleString('en-US')}</strong>
+        <p>{portrait||photos.length?'mayda nuqta portretga yig‘ilyapti':'yurakchalar bitta belgiga yig‘ilyapti'}</p>
+      </div>
       <div ref={particleHost} className="pm-particles"/>
       <div className={'pm-final-copy '+(portraitReady?'ready':'')}>
         <p>AND THIS IS THE ONLY LINE THAT MATTERS</p>
