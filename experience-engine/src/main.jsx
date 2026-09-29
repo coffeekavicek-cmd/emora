@@ -1,4 +1,4 @@
-import { StrictMode, Suspense, lazy } from 'react';
+import { StrictMode, Suspense, lazy, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { EXPERIENCE_MAP, selectedSlug } from './rituals/registry.js';
 import { TEMPLATE_BY_ID } from './system/templateManifest.js';
@@ -22,6 +22,12 @@ function Loading(){
 function App(){
   const params=new URLSearchParams(location.search);
   const slug=selectedSlug();
+
+  useEffect(()=>{
+    const template=TEMPLATE_BY_ID[slug];
+    const suffix=params.get('mode')==='editor'?' · Editor':'';
+    document.title=template?`EMORA · ${template.name}${suffix}`:'EMORA · Experiences';
+  },[slug,params.get('mode')]);
 
   if(params.get('mode')==='editor'){
     const templateId=TEMPLATE_BY_ID[slug]?slug:'love-pearl';
