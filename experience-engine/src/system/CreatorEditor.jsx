@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { TEMPLATE_BY_ID } from './templateManifest.js';
 import { editorSectionsFor } from './editorContract.js';
 import { contentToSearchParams, readUrlContent } from './contentModel.js';
@@ -80,6 +80,29 @@ export function CreatorEditor({templateId='love-pearl'}){
   const [media,setMedia]=useState({photos:[],portrait:null,music:null});
   const [copied,setCopied]=useState(false);
   const [mobileView,setMobileView]=useState('edit');
+  const [savedAt,setSavedAt]=useState(null);
+
+  useEffect(()=>{
+    const key='emora:draft:'+template.id;
+    try{
+      const raw=localStorage.getItem(key);
+      if(raw){
+        const draft=JSON.parse(raw);
+        if(draft&&draft.content)setContent(prev=>({...prev,...draft.content}));
+      }
+    }catch{}
+  },[template.id]);
+
+  useEffect(()=>{
+    const key='emora:draft:'+template.id;
+    const timer=setTimeout(()=>{
+      try{
+        localStorage.setItem(key,JSON.stringify({content,updatedAt:Date.now()}));
+        setSavedAt(new Date());
+      }catch{}
+    },420);
+    return()=>clearTimeout(timer);
+  },[content,template.id]);
 
   const update=(key,value)=>{
     if(key==='photoCaptions')return;
@@ -107,7 +130,7 @@ export function CreatorEditor({templateId='love-pearl'}){
       <button className={mobileView==='preview'?'active':''} onClick={()=>setMobileView('preview')}>Preview</button>
     </nav>
     <aside className="ce-panel">
-      <header className="ce-header"><a href="?">emora<span>.</span></a><div><small>REFERENCE EDITOR</small><b>{template.name}</b></div></header>
+      <header className="ce-header"><a href="?">emora<span>.</span></a><div><small>REFERENCE EDITOR</small><b>{template.name}</b><em>{savedAt?'Draft saqlandi':'Draft'}</em></div></header>
       <div className="ce-manifest">
         <span>{template.archetype}</span><span>{template.navigation}</span><span className="ce-release">{template.releaseState||'concept'}</span>
         <p>{template.signatureMoment}</p>
@@ -121,6 +144,11 @@ export function CreatorEditor({templateId='love-pearl'}){
           <label className="ce-field"><span>Final jumla</span><textarea value={content.final} onChange={e=>setContent(p=>({...p,final:e.target.value}))}/></label>
         </section>
         <Section title="Media" fields={sections.media.filter(f=>!['photoCaptions'].includes(f.key))} content={content} onChange={update} onMedia={updateMedia}/>
+        {(media.photos.length||media.portrait||media.music)&&<div className="ce-media-status">
+          <div><span>Xotira rasmlari</span><b>{media.photos.length||0}/3</b></div>
+          <div><span>Final portret</span><b>{media.portrait?'tayyor':'—'}</b></div>
+          <div><span>Musiqa</span><b>{media.music?'tayyor':'—'}</b></div>
+        </div>}
         <Section title="Guest actions" fields={sections.guests} content={content} onChange={update} onMedia={updateMedia}/>
         <Section title="Access" fields={sections.access} content={content} onChange={update} onMedia={updateMedia}/>
       </div>
