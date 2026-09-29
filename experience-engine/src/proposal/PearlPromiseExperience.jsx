@@ -152,7 +152,7 @@ export function PearlPromiseExperience({content:contentProp=null,embedded=false}
   useEffect(()=>{
     if(!host.current)return;
     engine.current=createScene(host.current);
-    return()=>engine.current?.destroy();
+    return()=>{if(holdTimer.current!=null)clearTimeout(holdTimer.current);engine.current?.destroy()};
   },[]);
 
   useEffect(()=>{
