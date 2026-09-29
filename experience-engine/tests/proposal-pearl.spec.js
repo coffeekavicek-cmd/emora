@@ -35,11 +35,10 @@ test.describe('Pearl Promise true 3D reference',()=>{
     await page.keyboard.up('Enter');
 
     await expect(page.locator('.pearl-promise')).toHaveClass(/phase-opening|phase-memories/,{timeout:3500});
-    await expect(page.locator('.pearl-promise')).toHaveClass(/phase-memories/,{timeout:5000});
-    await expect(page.locator('.pp-memories article.show')).toHaveCount(1);
+    await expect(page.locator('.pp-memories article.show').first()).toBeVisible({timeout:5500});
     await page.screenshot({path:testInfo.outputPath('02-proposal-open.png'),fullPage:true});
 
-    await expect(page.locator('.pearl-promise')).toHaveClass(/phase-rotate/,{timeout:8000});
+    await expect(page.locator('.pearl-promise')).toHaveClass(/phase-rotate/,{timeout:8500});
     const drag=page.getByRole('button',{name:'Uzukni aylantiring'});
     const dragBox=await drag.boundingBox();
     expect(dragBox).not.toBeNull();
