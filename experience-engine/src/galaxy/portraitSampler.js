@@ -69,8 +69,8 @@ export function createNamePoints(text,width,height,count=1450){
   canvas.width=w;canvas.height=h;
   const ctx=canvas.getContext('2d',{willReadFrequently:true});
   ctx.clearRect(0,0,w,h);
-  const size=clamp(Math.round(w/(Math.max(4,label.length)*.57)),58,150);
-  ctx.font=`italic 500 ${size}px Georgia, "Times New Roman", serif`;
+  const size=clamp(Math.round(w/(Math.max(4,label.length)*.54)),64,164);
+  ctx.font=`600 ${size}px Georgia, "Times New Roman", serif`;
   ctx.textAlign='center';
   ctx.textBaseline='middle';
   ctx.fillStyle='#ffffff';
@@ -83,7 +83,7 @@ export function createNamePoints(text,width,height,count=1450){
   for(let y=0;y<h;y+=step){
     for(let x=0;x<w;x+=step){
       const a=data[(y*w+x)*4+3]/255;
-      if(a<.15)continue;
+      if(a<.28)continue;
       candidates.push({x:x-w/2,y:y-h/2,alpha:clamp(.45+a*.62,.45,1)});
     }
   }
