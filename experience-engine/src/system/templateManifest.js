@@ -15,7 +15,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     gestures:['drag-curtain','pluck-petal'],
     capabilities:[...commonInvite,C.PHOTOS,C.MUSIC,C.SAVE,C.RESPONSE],
     assets:{required:['curtain-art','recipient-photo'],optional:['petal-atlas','ambient-audio']},
-    finale:'petal-photo-reveal',engine:['gsap','pixi-optional'],
+    finale:'petal-photo-reveal',engine:['css3d','canvas','gsap'],
     performance:{maxDpr:1.75,heavyLazyLoad:true},
   },
   {
