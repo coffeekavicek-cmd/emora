@@ -144,7 +144,7 @@ export function CreatorEditor({templateId='love-pearl'}){
           <label className="ce-field"><span>Final jumla</span><textarea value={content.final} onChange={e=>setContent(p=>({...p,final:e.target.value}))}/></label>
         </section>
         <Section title="Media" fields={sections.media.filter(f=>!['photoCaptions'].includes(f.key))} content={content} onChange={update} onMedia={updateMedia}/>
-        {(media.photos.length||media.portrait||media.music)&&<div className="ce-media-status">
+        {(media.photos.length||media.portrait||media.music)&&<div className="ce-media-status"><p>Media hozir live preview uchun local. Publish pipeline ulangach recipient linkka upload qilinadi.</p>
           <div><span>Xotira rasmlari</span><b>{media.photos.length||0}/3</b></div>
           <div><span>Final portret</span><b>{media.portrait?'tayyor':'—'}</b></div>
           <div><span>Musiqa</span><b>{media.music?'tayyor':'—'}</b></div>
@@ -153,8 +153,8 @@ export function CreatorEditor({templateId='love-pearl'}){
         <Section title="Access" fields={sections.access} content={content} onChange={update} onMedia={updateMedia}/>
       </div>
       <footer className="ce-footer">
-        <button className="ce-copy" onClick={copyLink}>{copied?'Nusxalandi ✓':'Guest linkni nusxalash'}</button>
-        <a className="ce-open" href={guestLink} target="_blank" rel="noreferrer">Recipient mode ↗</a>
+        <button className="ce-copy" onClick={copyLink}>{copied?'Nusxalandi ✓':'Preview linkni nusxalash'}</button>
+        <a className="ce-open" href={guestLink} target="_blank" rel="noreferrer">Recipient preview ↗</a>
       </footer>
     </aside>
 
