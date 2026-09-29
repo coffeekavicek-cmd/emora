@@ -2,7 +2,6 @@ import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { TEMPLATE_BY_ID } from './templateManifest.js';
 import { editorSectionsFor } from './editorContract.js';
 import { contentToSearchParams, readUrlContent } from './contentModel.js';
-import { PearlMotionExperience } from '../pearl/PearlMotionExperience.jsx';
 import { EXPERIENCE_MAP } from '../rituals/registry.js';
 const PearlArchiveExperience=lazy(()=>import('../reborn/pearl/PearlArchiveExperience.jsx').then(m=>({default:m.PearlArchiveExperience})));
 const PearlPromiseExperience=lazy(()=>import('../proposal/PearlPromiseExperience.jsx').then(m=>({default:m.PearlPromiseExperience})));
