@@ -226,14 +226,13 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
     thump();
   };
 
-  const markExplored=i=>setExplored(prev=>{
-    if(prev.has(i))return prev;
-    const next=new Set(prev);next.add(i);
-    if(i===0&&memoryUnlocked<2)setTimeout(()=>unlockMemory(1),650);
-    if(i===1&&memoryUnlocked<3)setTimeout(()=>unlockMemory(2),650);
+  const markExplored=i=>{
+    if(explored.has(i))return;
+    const next=new Set(explored);next.add(i);setExplored(next);
+    if(i===0)setTimeout(()=>unlockMemory(1),650);
+    if(i===1)setTimeout(()=>unlockMemory(2),650);
     if(next.size===3)setTimeout(()=>gsap.to('.pm-memory-release',{autoAlpha:1,y:0,duration:.6,ease:'power2.out'}),700);
-    return next;
-  });
+  };
 
   const openAfterword=()=>{
     if(step!=='memories'||explored.size<3)return;
