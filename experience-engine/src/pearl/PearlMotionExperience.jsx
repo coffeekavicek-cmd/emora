@@ -3,29 +3,10 @@ import { gsap } from 'gsap';
 import { PearlSealEngine, playCrackSound } from './PearlSealEngine.js';
 import { GalaxyEngine } from '../galaxy/GalaxyEngine.js';
 import { createHeartPoints, samplePortraitFile } from '../galaxy/portraitSampler.js';
+import { readUrlContent } from '../system/contentModel.js';
 import './pearlMotion.css';
 
 const FALLBACK='https://emora-v10-fifteen-experiences-production.up.railway.app/assets/love-pearl.png';
-
-function configFromUrl(){
-  const q=new URLSearchParams(location.search);
-  const read=(k,f,m)=>String(q.get(k)||'').trim().slice(0,m)||f;
-  return {
-    name:read('name','Dilnoza',42),
-    intro:read('intro','Senga aytolmay yurgan bir nechta gapim bor.',130),
-    paragraphs:[
-      read('m1','Ba’zan odam hayotga shovqinsiz kiradi. Keyin esa hamma narsa undan oldin va undan keyin bo‘lib qoladi.',240),
-      read('m2','Sen bilan oddiy kun ham xotiraga aylanadi. Men aynan shu oddiylikni eng ko‘p qadrlayman.',240),
-      read('m3','Bu maktub ichida katta va murakkab gap yo‘q. Faqat rost gap bor.',220),
-    ],
-    captions:[
-      read('c1','bizning birinchi kulgimiz',72),
-      read('c2','hech qayerga shoshilmagan kun',72),
-      read('c3','yana qaytishni istaydigan lahza',72),
-    ],
-    final:read('final','Sening yoningda o‘zimni uyga qaytgandek his qilaman.',220),
-  };
-}
 
 function softTone(freq=440,duration=.12,vol=.028){
   try{
@@ -47,14 +28,6 @@ function Signature({name,className=''}) {
     </svg>
     <i/>
   </span>;
-}
-
-function AssetPicker({photos,setPhotos,portrait,setPortrait}){
-  return <details className="pm-assets">
-    <summary>Rasmlarni almashtirish</summary>
-    <label><span>3 ta xotira</span><small>{photos.length?photos.length+' ta tanlandi':'ixtiyoriy'}</small><input type="file" accept="image/*" multiple onChange={e=>setPhotos(Array.from(e.target.files||[]).slice(0,3))}/></label>
-    <label><span>Final portret</span><small>{portrait?.name||'ixtiyoriy'}</small><input type="file" accept="image/*" onChange={e=>setPortrait(e.target.files?.[0]||null)}/></label>
-  </details>;
 }
 
 function DraggablePolaroid({index,src,caption,onExplore,cardRef}){
@@ -89,8 +62,8 @@ function DraggablePolaroid({index,src,caption,onExplore,cardRef}){
   </button>;
 }
 
-export function PearlMotionExperience(){
-  const cfg=useMemo(configFromUrl,[]);
+export function PearlMotionExperience({content:contentProp=null,media=null}){
+  const cfg=useMemo(()=>contentProp||readUrlContent('love-pearl'),[contentProp]);
   const root=useRef(null),intro=useRef(null),envelope=useRef(null),letter=useRef(null),paper=useRef(null),sealHost=useRef(null);
   const memory=useRef(null),finale=useRef(null),particleHost=useRef(null);
   const p0=useRef(null),p1=useRef(null),p2=useRef(null);
@@ -100,15 +73,18 @@ export function PearlMotionExperience(){
   const [holding,setHolding]=useState(false);
   const [inkCount,setInkCount]=useState(0);
   const [explored,setExplored]=useState(new Set());
-  const [photos,setPhotos]=useState([]);
-  const [portrait,setPortrait]=useState(null);
   const [portraitReady,setPortraitReady]=useState(false);
 
+  const photos=media?.photos||[];
+  const portrait=media?.portrait||null;
   const photoUrls=useMemo(()=>{
     if(!photos.length)return [FALLBACK,FALLBACK,FALLBACK];
-    return [0,1,2].map(i=>URL.createObjectURL(photos[i%photos.length]));
+    return [0,1,2].map(i=>{
+      const item=photos[i%photos.length];
+      return typeof item==='string'?item:URL.createObjectURL(item);
+    });
   },[photos]);
-  useEffect(()=>()=>{if(photos.length)photoUrls.forEach(u=>URL.revokeObjectURL(u))},[photos,photoUrls]);
+  useEffect(()=>()=>{photoUrls.forEach((u,i)=>{if(photos.length&&typeof photos[i%photos.length]!=='string'&&u!==FALLBACK)URL.revokeObjectURL(u)})},[photos,photoUrls]);
 
   useEffect(()=>{
     const ctx=gsap.context(()=>{
@@ -257,7 +233,6 @@ export function PearlMotionExperience(){
         <h1>{cfg.intro}</h1>
         <Signature name={cfg.name}/>
         <button className="pm-primary" onClick={startRitual}>Maktubni olish</button>
-        <AssetPicker photos={photos} setPhotos={setPhotos} portrait={portrait} setPortrait={setPortrait}/>
       </div>
       <div className="pm-paper-stack" aria-hidden="true"><i/><i/><b>for you</b></div>
     </section>
