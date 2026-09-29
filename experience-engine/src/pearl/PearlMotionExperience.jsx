@@ -54,8 +54,16 @@ function DraggablePolaroid({index,src,caption,onExplore,cardRef,locked=false}){
     onExplore(index);
     gsap.to(cardRef.current,{scale:1,zIndex:1,duration:.32,ease:'power2.out'});
   };
+  const cancel=()=>{
+    pointer.current=null;
+    gsap.to(cardRef.current,{scale:1,zIndex:1,duration:.22,ease:'power2.out'});
+  };
+  const keyboardExplore=e=>{
+    if(locked||e.repeat||!(e.key==='Enter'||e.key===' '))return;
+    e.preventDefault();thump();onExplore(index);
+  };
   return <button ref={cardRef} aria-hidden={locked} tabIndex={locked?-1:0} className={'pm-polaroid pm-polaroid-'+index+(locked?' locked':'')}
-    onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up}>
+    onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={cancel} onKeyDown={keyboardExplore}>
     {src?<img src={src} alt=""/>:<div className={'pm-photo-fallback pm-photo-fallback-'+index} aria-hidden="true"><i/><i/><i/></div>}
     <span>{caption}</span><b>0{index+1}</b>
   </button>;
