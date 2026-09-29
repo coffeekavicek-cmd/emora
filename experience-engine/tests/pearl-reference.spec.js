@@ -131,11 +131,23 @@ test.describe('Pearl Linen reference',()=>{
     if(pearlBox){
       const x=pearlBox.x+pearlBox.width/2,y=pearlBox.y+pearlBox.height/2;
       await page.mouse.move(x,y);
+
+      // Early release must cancel the irreversible finale.
+      await page.mouse.down();
+      await page.waitForTimeout(320);
+      await page.mouse.up();
+      await page.waitForTimeout(950);
+      await expect(page.locator('.pearl-motion')).toHaveClass(/step-afterword/);
+
+      // A deliberate 900ms+ hold earns the final transformation.
       await page.mouse.down();
       await page.waitForTimeout(1050);
       await page.mouse.up();
     }
 
+    await expect(page.locator('.pearl-motion')).toHaveClass(/step-converge|step-finale/,{timeout:5000});
+    await expect(page.locator('.pm-particle-counter')).toBeVisible({timeout:5000});
+    await page.screenshot({path:testInfo.outputPath('07-visible-effort.png'),fullPage:true});
     await expect(page.locator('.pearl-motion')).toHaveClass(/step-finale/,{timeout:14000});
     await expect(page.locator('.pm-final-copy')).toBeVisible();
     await expect(page.locator('.pm-particle-counter')).toContainText(/marvarid nuqta/);
