@@ -13,9 +13,17 @@ export function createHeartPoints(width,height,count=900){
   return points;
 }
 
-async function decodeImage(file){
-  if('createImageBitmap' in window)return createImageBitmap(file);
-  const url=URL.createObjectURL(file);
+async function decodeImage(source){
+  if(typeof source==='string'){
+    const img=new Image();
+    img.decoding='async';
+    img.crossOrigin='anonymous';
+    img.src=source;
+    await img.decode();
+    return img;
+  }
+  if('createImageBitmap' in window)return createImageBitmap(source);
+  const url=URL.createObjectURL(source);
   try{
     const img=new Image();
     img.decoding='async';
@@ -25,8 +33,8 @@ async function decodeImage(file){
   }finally{URL.revokeObjectURL(url)}
 }
 
-export async function samplePortraitFile(file,{width,height,count=1100}){
-  const image=await decodeImage(file);
+export async function samplePortraitFile(source,{width,height,count=1100}){
+  const image=await decodeImage(source);
   const canvas=document.createElement('canvas');
   const side=clamp(Math.round(Math.min(width,height)*.72),280,720);
   canvas.width=side;canvas.height=side;
