@@ -27,7 +27,7 @@ function readConfig(){
   };
 }
 
-export function GalaxyExperience(){
+export function GalaxyExperience({content:contentProp=null,embedded=false}){
   const hostRef=useRef(null);
   const engineRef=useRef(null);
   const openedRef=useRef(new Set());
@@ -40,7 +40,12 @@ export function GalaxyExperience(){
   const [uploadName,setUploadName]=useState('');
   const holdTimerRef=useRef(null);
   const [holding,setHolding]=useState(false);
-  const config=useMemo(readConfig,[]);
+  const config=useMemo(()=>contentProp?{
+    recipient:contentProp.recipient||'Sen uchun',
+    intro:contentProp.message||'Ba’zi tuyg‘ularni oddiy so‘z bilan aytib bo‘lmaydi.',
+    messages:(contentProp.paragraphs||DEFAULT_MESSAGES).slice(0,3),
+    final:contentProp.final||'Mening kichik olamimda eng yorqin nuqta — sensan.',
+  }:readConfig(),[contentProp]);
 
   const queueMorph=useCallback(()=>{
     if(morphQueuedRef.current)return;
@@ -149,7 +154,7 @@ export function GalaxyExperience(){
   const isFinale=phase==='finale';
 
   return(
-    <main className={'experience phase-'+phase} aria-label="EMORA Galaxy Confession">
+    <main className={'experience '+(embedded?'is-embedded ':'')+'phase-'+phase} aria-label="EMORA Galaxy Confession">
       <div className="galaxy-host" ref={hostRef} aria-hidden="true" />
       <div className="space-vignette" aria-hidden="true" />
       <div className="grain" aria-hidden="true" />

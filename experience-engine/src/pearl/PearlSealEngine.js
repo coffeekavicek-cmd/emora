@@ -1,18 +1,19 @@
 import { Application, Container, Graphics } from 'pixi.js';
 import { gsap } from 'gsap';
+import { qualityProfile } from '../system/renderQuality.js';
 
 const TAU=Math.PI*2;
 
 export class PearlSealEngine{
   constructor(host,{onCrack,onSettled}={}){
     this.host=host;this.onCrack=onCrack;this.onSettled=onSettled;
-    this.app=null;this.root=null;this.baseWax=null;this.shards=[];this.dust=[];this.destroyed=false;this.cracked=false;
+    this.app=null;this.root=null;this.baseWax=null;this.shards=[];this.dust=[];this.destroyed=false;this.cracked=false;this.quality=qualityProfile();
   }
   async init(){
     const app=new Application();
     await app.init({
       resizeTo:this.host,backgroundAlpha:0,antialias:true,autoDensity:true,
-      resolution:Math.min(devicePixelRatio||1,2),preference:'webgl',powerPreference:'high-performance'
+      resolution:Math.min(devicePixelRatio||1,this.quality.maxDpr),preference:'webgl',powerPreference:'high-performance'
     });
     if(this.destroyed){app.destroy(true);return}
     this.app=app;app.canvas.className='pearl-seal-canvas';this.host.appendChild(app.canvas);

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { readUrlContent } from '../system/contentModel.js';
+import { getRenderTier } from '../system/renderQuality.js';
 import './pearlMotion.css';
 
 const FALLBACK='https://emora-v10-fifteen-experiences-production.up.railway.app/assets/love-pearl.png';
@@ -53,15 +54,24 @@ function DraggablePolaroid({index,src,caption,onExplore,cardRef,locked=false}){
     onExplore(index);
     gsap.to(cardRef.current,{scale:1,zIndex:1,duration:.32,ease:'power2.out'});
   };
+  const cancel=()=>{
+    pointer.current=null;
+    gsap.to(cardRef.current,{scale:1,zIndex:1,duration:.22,ease:'power2.out'});
+  };
+  const keyboardExplore=e=>{
+    if(locked||e.repeat||!(e.key==='Enter'||e.key===' '))return;
+    e.preventDefault();thump();onExplore(index);
+  };
   return <button ref={cardRef} aria-hidden={locked} tabIndex={locked?-1:0} className={'pm-polaroid pm-polaroid-'+index+(locked?' locked':'')}
-    onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up}>
-    <img src={src} alt=""/>
+    onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={cancel} onKeyDown={keyboardExplore}>
+    {src?<img src={src} alt=""/>:<div className={'pm-photo-fallback pm-photo-fallback-'+index} aria-hidden="true"><i/><i/><i/></div>}
     <span>{caption}</span><b>0{index+1}</b>
   </button>;
 }
 
 export function PearlMotionExperience({content:contentProp=null,media=null,embedded=false}){
   const cfg=useMemo(()=>contentProp||readUrlContent('love-pearl'),[contentProp]);
+  const renderTier=useMemo(()=>getRenderTier(),[]);
   const root=useRef(null),intro=useRef(null),envelope=useRef(null),letter=useRef(null),paper=useRef(null),sealHost=useRef(null);
   const memory=useRef(null),afterword=useRef(null),finale=useRef(null),particleHost=useRef(null),audioRef=useRef(null),counterRef=useRef(null);
   const p0=useRef(null),p1=useRef(null),p2=useRef(null);
@@ -88,13 +98,31 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
   },[music]);
   useEffect(()=>()=>{if(music&&typeof music!=='string'&&musicUrl)URL.revokeObjectURL(musicUrl)},[music,musicUrl]);
   const photoUrls=useMemo(()=>{
-    if(!photos.length)return [FALLBACK,FALLBACK,FALLBACK];
+    if(!photos.length)return [null,null,null];
     return [0,1,2].map(i=>{
       const item=photos[i%photos.length];
       return typeof item==='string'?item:URL.createObjectURL(item);
     });
   },[photos]);
-  useEffect(()=>()=>{photoUrls.forEach((u,i)=>{if(photos.length&&typeof photos[i%photos.length]!=='string'&&u!==FALLBACK)URL.revokeObjectURL(u)})},[photos,photoUrls]);
+  useEffect(()=>()=>{photoUrls.forEach((u,i)=>{if(u&&photos.length&&typeof photos[i%photos.length]!=='string'&&u!==FALLBACK)URL.revokeObjectURL(u)})},[photos,photoUrls]);
+
+  useEffect(()=>{
+    const node=root.current;if(!node)return;
+    const update=e=>{
+      const r=node.getBoundingClientRect();
+      const x=Math.max(0,Math.min(1,(e.clientX-r.left)/Math.max(1,r.width)));
+      const y=Math.max(0,Math.min(1,(e.clientY-r.top)/Math.max(1,r.height)));
+      node.style.setProperty('--pm-light-x',(x*100).toFixed(1)+'%');
+      node.style.setProperty('--pm-light-y',(y*100).toFixed(1)+'%');
+    };
+    const reset=()=>{
+      node.style.setProperty('--pm-light-x','50%');
+      node.style.setProperty('--pm-light-y','42%');
+    };
+    node.addEventListener('pointermove',update,{passive:true});
+    node.addEventListener('pointerleave',reset);
+    return()=>{node.removeEventListener('pointermove',update);node.removeEventListener('pointerleave',reset)};
+  },[]);
 
   useEffect(()=>{
     const ctx=gsap.context(()=>{
@@ -364,9 +392,9 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
 
   useEffect(()=>()=>{clearTimeout(holdTimer.current);clearTimeout(afterHoldTimer.current);sealEngine.current?.destroy();particleEngine.current?.destroy();audioRef.current?.pause()},[]);
 
-  return <main ref={root} className={'pearl-motion '+(embedded?'is-embedded ':'')+'step-'+step}>
+  return <main ref={root} data-render-tier={renderTier} className={'pearl-motion tier-'+renderTier+' '+(embedded?'is-embedded ':'')+'step-'+step}>
     {musicUrl&&<audio ref={audioRef} src={musicUrl} preload="metadata"/>}
-    <div className="pm-grain"/><div className="pm-vignette"/>
+    <div className="pm-grain"/><div className="pm-reactive-light"/><div className="pm-vignette"/>
     <header className="pm-chrome"><a href="?">emora<span>.</span></a><small>PEARL LINEN · FLAGSHIP</small>
       <div className="pm-chrome-actions">{musicUrl&&<button className="pm-sound" onClick={toggleSound} aria-label={soundOn?'Ovozni o‘chirish':'Ovozni yoqish'}>{soundOn?'SOUND ON':'SOUND OFF'}</button>}<b>{step==='intro'?'00':step==='seal'?'01':step==='letter-rise'?'02':step==='ink'?'03':step==='memories'?'04':step==='afterword'?'05':step==='converge'?'06':'07'}</b></div>
     </header>
@@ -446,7 +474,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
 
     <section ref={finale} className="pm-layer pm-finale-layer">
       <div ref={particleHost} className="pm-particles"/>
-      <div className="pm-particle-counter"><b ref={counterRef}>0</b><span>marvarid nuqta · bitta xotira</span></div>
+      <div className="pm-particle-counter" aria-live="polite"><b ref={counterRef}>0</b><span>marvarid nuqta · bitta xotira</span></div>
       <div className={'pm-final-copy '+(portraitReady?'ready':'')}>
         <p>AND THIS IS THE ONLY LINE THAT MATTERS</p>
         <h2>{cfg.final}</h2>

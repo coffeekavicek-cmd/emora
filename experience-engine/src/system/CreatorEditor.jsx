@@ -1,8 +1,24 @@
-import { useEffect, useMemo, useState } from 'react';
+import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { TEMPLATE_BY_ID } from './templateManifest.js';
 import { editorSectionsFor } from './editorContract.js';
 import { contentToSearchParams, readUrlContent } from './contentModel.js';
 import { PearlMotionExperience } from '../pearl/PearlMotionExperience.jsx';
+import { EXPERIENCE_MAP } from '../rituals/registry.js';
+const PearlPromiseExperience=lazy(()=>import('../proposal/PearlPromiseExperience.jsx').then(m=>({default:m.PearlPromiseExperience})));
+const CinemaProposalExperience=lazy(()=>import('../proposal/CinemaProposalExperience.jsx').then(m=>({default:m.CinemaProposalExperience})));
+const SkyPromiseExperience=lazy(()=>import('../proposal/SkyPromiseExperience.jsx').then(m=>({default:m.SkyPromiseExperience})));
+const GalaxyExperience=lazy(()=>import('../galaxy/GalaxyExperience.jsx').then(m=>({default:m.GalaxyExperience})));
+const SilkHeritageExperience=lazy(()=>import('../wedding/SilkHeritageExperience.jsx').then(m=>({default:m.SilkHeritageExperience})));
+const MemoryReelExperience=lazy(()=>import('../birthday/MemoryReelExperience.jsx').then(m=>({default:m.MemoryReelExperience})));
+const AuroraPaperExperience=lazy(()=>import('../birthday/AuroraPaperExperience.jsx').then(m=>({default:m.AuroraPaperExperience})));
+const BalloonDreamExperience=lazy(()=>import('../birthday/BalloonDreamExperience.jsx').then(m=>({default:m.BalloonDreamExperience})));
+const QuietRoomExperience=lazy(()=>import('../apology/QuietRoomExperience.jsx').then(m=>({default:m.QuietRoomExperience})));
+const AfterRainExperience=lazy(()=>import('../apology/AfterRainExperience.jsx').then(m=>({default:m.AfterRainExperience})));
+const InkRegretExperience=lazy(()=>import('../apology/InkRegretExperience.jsx').then(m=>({default:m.InkRegretExperience})));
+const RoseTheatreExperience=lazy(()=>import('../love/RoseTheatreExperience.jsx').then(m=>({default:m.RoseTheatreExperience})));
+const NightGardenExperience=lazy(()=>import('../wedding/NightGardenExperience.jsx').then(m=>({default:m.NightGardenExperience})));
+const HeritageNaqshExperience=lazy(()=>import('../wedding/HeritageNaqshExperience.jsx').then(m=>({default:m.HeritageNaqshExperience})));
+const CinematicExperience=lazy(()=>import('../cinematic/CinematicExperience.jsx').then(m=>({default:m.CinematicExperience})));
 import './creatorEditor.css';
 
 function Field({field,value,onChange,onMedia}){
@@ -58,6 +74,27 @@ function Section({title,fields,content,onChange,onMedia}){
   return <section className="ce-section"><div className="ce-section-title"><span>{title}</span><i/></div>
     {fields.map(f=><Field key={f.key} field={f} value={content[f.key]} onChange={onChange} onMedia={onMedia}/>)}
   </section>;
+}
+
+function PreviewRuntime({template,content,media}){
+  if(template.id==='love-pearl')return <PearlMotionExperience content={content} media={media} embedded/>;
+  if(template.id==='proposal-pearl')return <Suspense fallback={<div className="ce-runtime-loading">3D preview</div>}><PearlPromiseExperience content={content} embedded/></Suspense>;
+  if(template.id==='proposal-cinema')return <Suspense fallback={<div className="ce-runtime-loading">Cinema preview</div>}><CinemaProposalExperience content={content} media={media} embedded/></Suspense>;
+  if(template.id==='proposal-sky')return <Suspense fallback={<div className="ce-runtime-loading">Sky preview</div>}><SkyPromiseExperience content={content} embedded/></Suspense>;
+  if(template.id==='love-galaxy')return <Suspense fallback={<div className="ce-runtime-loading">WebGL preview</div>}><GalaxyExperience content={content} embedded/></Suspense>;
+  if(template.id==='wedding-silk')return <Suspense fallback={<div className="ce-runtime-loading">Silk preview</div>}><SilkHeritageExperience content={content} embedded/></Suspense>;
+  if(template.id==='birthday-memory')return <Suspense fallback={<div className="ce-runtime-loading">Film preview</div>}><MemoryReelExperience content={content} media={media} embedded/></Suspense>;
+  if(template.id==='birthday-aurora')return <Suspense fallback={<div className="ce-runtime-loading">Aurora preview</div>}><AuroraPaperExperience content={content} embedded/></Suspense>;
+  if(template.id==='birthday-balloon')return <Suspense fallback={<div className="ce-runtime-loading">Balloon preview</div>}><BalloonDreamExperience content={content} media={media} embedded/></Suspense>;
+  if(template.id==='apology-quiet')return <Suspense fallback={<div className="ce-runtime-loading">Quiet preview</div>}><QuietRoomExperience content={content} embedded/></Suspense>;
+  if(template.id==='apology-rain')return <Suspense fallback={<div className="ce-runtime-loading">Rain preview</div>}><AfterRainExperience content={content} definition={EXPERIENCE_MAP[template.id]} embedded/></Suspense>;
+  if(template.id==='apology-ink')return <Suspense fallback={<div className="ce-runtime-loading">Ink preview</div>}><InkRegretExperience content={content} embedded/></Suspense>;
+  if(template.id==='love-rose')return <Suspense fallback={<div className="ce-runtime-loading">Theatre preview</div>}><RoseTheatreExperience content={content} media={media} embedded/></Suspense>;
+  if(template.id==='wedding-garden')return <Suspense fallback={<div className="ce-runtime-loading">Garden preview</div>}><NightGardenExperience content={content} embedded/></Suspense>;
+  if(template.id==='wedding-naqsh')return <Suspense fallback={<div className="ce-runtime-loading">Naqsh preview</div>}><HeritageNaqshExperience content={content} embedded/></Suspense>;
+  const definition=EXPERIENCE_MAP[template.id];
+  if(!definition)return <div className="ce-runtime-loading">Runtime unavailable</div>;
+  return <Suspense fallback={<div className="ce-runtime-loading">Experience preview</div>}><CinematicExperience definition={definition} content={content} embedded/></Suspense>;
 }
 
 export function CreatorEditor({templateId='love-pearl'}){
@@ -138,9 +175,9 @@ export function CreatorEditor({templateId='love-pearl'}){
       <div className="ce-scroll">
         <Section title="Content" fields={sections.content.filter(f=>!['title'].includes(f.key))} content={content} onChange={update} onMedia={updateMedia}/>
         <section className="ce-section">
-          <div className="ce-section-title"><span>Pearl letter</span><i/></div>
+          <div className="ce-section-title"><span>{template.id==='love-pearl'?'Pearl letter':template.id==='proposal-pearl'?'Proposal story':'Story beats'}</span><i/></div>
           {content.paragraphs.map((x,i)=><label className="ce-field" key={'m'+i}><span>{i+1}-paragraf</span><textarea value={x} onChange={e=>setContent(p=>({...p,paragraphs:p.paragraphs.map((v,n)=>n===i?e.target.value:v)}))}/></label>)}
-          {content.captions.map((x,i)=><label className="ce-field" key={'c'+i}><span>{i+1}-polaroid izohi</span><input value={x} onChange={e=>setContent(p=>({...p,captions:p.captions.map((v,n)=>n===i?e.target.value:v)}))}/></label>)}
+          {content.captions.map((x,i)=><label className="ce-field" key={'c'+i}><span>{i+1}-vizual caption</span><input value={x} onChange={e=>setContent(p=>({...p,captions:p.captions.map((v,n)=>n===i?e.target.value:v)}))}/></label>)}
           <label className="ce-field"><span>Final jumla</span><textarea value={content.final} onChange={e=>setContent(p=>({...p,final:e.target.value}))}/></label>
         </section>
         <Section title="Media" fields={sections.media.filter(f=>!['photoCaptions'].includes(f.key))} content={content} onChange={update} onMedia={updateMedia}/>
@@ -161,7 +198,7 @@ export function CreatorEditor({templateId='love-pearl'}){
     <section className="ce-preview-zone">
       <div className="ce-preview-head"><div><small>LIVE RECIPIENT PREVIEW</small><b>390 × 844</b></div><span>manifest-driven</span></div>
       <div className="ce-phone">
-        <div className="ce-phone-screen"><PearlMotionExperience content={content} media={media} embedded/></div>
+        <div className="ce-phone-screen"><PreviewRuntime template={template} content={content} media={media}/></div>
       </div>
       <div className="ce-preview-note">
         <b>Signature moment</b>

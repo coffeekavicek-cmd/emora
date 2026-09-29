@@ -1,5 +1,6 @@
 import { Application, Container, Graphics, Sprite } from 'pixi.js';
 import { gsap } from 'gsap';
+import { qualityProfile } from '../system/renderQuality.js';
 
 const TAU=Math.PI*2;
 const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
@@ -51,6 +52,7 @@ export class GalaxyEngine{
     this.mode='galaxy';
     this.destroyed=false;
     this.resizeObserver=null;
+    this.quality=qualityProfile();
   }
 
   async init(){
@@ -60,7 +62,7 @@ export class GalaxyEngine{
       backgroundAlpha:0,
       antialias:true,
       autoDensity:true,
-      resolution:Math.min(window.devicePixelRatio||1,2),
+      resolution:Math.min(window.devicePixelRatio||1,this.quality.maxDpr),
       preference:'webgl',
       powerPreference:'high-performance',
     });
@@ -89,9 +91,8 @@ export class GalaxyEngine{
   qualityCount(){
     const mobile=Math.min(innerWidth,innerHeight)<760;
     const cores=navigator.hardwareConcurrency||4;
-    if(mobile&&cores<=4)return 560;
-    if(mobile)return 760;
-    return cores>=8?1250:960;
+    const base=mobile?(cores<=4?760:960):(cores>=8?1450:1120);
+    return Math.max(420,Math.round(base*this.quality.particleScale));
   }
 
   createParticles(){

@@ -15,11 +15,11 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     gestures:['drag-curtain','pluck-petal'],
     capabilities:[...commonInvite,C.PHOTOS,C.MUSIC,C.SAVE,C.RESPONSE],
     assets:{required:['curtain-art','recipient-photo'],optional:['petal-atlas','ambient-audio']},
-    finale:'petal-photo-reveal',engine:['gsap','pixi-optional'],
+    finale:'petal-photo-reveal',engine:['css3d','canvas','gsap'],
     performance:{maxDpr:1.75,heavyLazyLoad:true},
   },
   {
-    id:'love-pearl',dbSlug:'love-pearl-linen',name:'Pearl Linen',category:'love',releaseStatus:'motion-alpha',
+    id:'love-pearl',dbSlug:'love-pearl-linen',name:'Pearl Linen',category:'love',releaseStatus:'review',
     archetype:A.RITUAL_OBJECT,navigation:N.RITUAL,
     metaphor:'handwritten private letter',primaryMedia:'paper',
     signatureMoment:'The seal fractures, the same letter slowly reveals ink and memories, then one final pearl hold dissolves the paper world into a portrait.',
@@ -45,10 +45,10 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     archetype:A.EDITORIAL_STORY,navigation:N.PAGINATED,
     metaphor:'embroidered silk invitation',primaryMedia:'textile-editorial',
     signatureMoment:'A gold thread finishes the textile composition and reveals the couple and ceremony.',
-    gestures:['pull-silk'],
+    gestures:['pull-silk','tie-knot'],
     capabilities:[...commonInvite,C.RSVP,C.MAP,C.CALENDAR,C.MUSIC,C.PHOTOS,C.GUEST_LINKS],
     assets:{required:['silk-texture','embroidery-art'],optional:['couple-photo','music']},
-    finale:'embroidered-invitation',engine:['gsap','svg'],
+    finale:'embroidered-invitation',engine:['gsap','svg','css3d'],
     performance:{maxDpr:2,heavyLazyLoad:false},
   },
   {
@@ -59,7 +59,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     gestures:['light-lanterns','open-garden'],
     capabilities:[...commonInvite,C.RSVP,C.MAP,C.CALENDAR,C.MUSIC,C.PHOTOS,C.GUEST_LINKS],
     assets:{required:['garden-art','lantern-art'],optional:['flower-atlas','ambient-audio']},
-    finale:'firefly-name-bloom',engine:['pixi','gsap'],
+    finale:'firefly-name-bloom',engine:['canvas','css3d','gsap'],
     performance:{maxDpr:1.5,heavyLazyLoad:true},
   },
   {
@@ -70,7 +70,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     gestures:['trace-pattern','rotate-medallion'],
     capabilities:[...commonInvite,C.RSVP,C.MAP,C.CALENDAR,C.MUSIC,C.GUEST_LINKS],
     assets:{required:['naqsh-vector-set'],optional:['paper-texture','music']},
-    finale:'completed-naqsh-invite',engine:['svg','gsap'],
+    finale:'completed-naqsh-invite',engine:['svg','css3d','gsap'],
     performance:{maxDpr:2,heavyLazyLoad:false},
   },
   {
@@ -136,7 +136,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     gestures:['pull-lamp'],
     capabilities:[...commonInvite,C.MUSIC,C.RESPONSE,C.SAVE],
     assets:{required:['room-art','lamp-art'],optional:['room-tone']},
-    finale:'warm-room-reveal',engine:['rive-or-svg','gsap'],
+    finale:'warm-room-reveal',engine:['css3d','gsap'],
     performance:{maxDpr:2,heavyLazyLoad:false},
   },
   {

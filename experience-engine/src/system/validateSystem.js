@@ -3,6 +3,8 @@ import { TEMPLATE_MANIFEST } from './templateManifest.js';
 import { editorFieldsFor } from './editorContract.js';
 import { runtimePlan } from './runtimeContract.js';
 import { contentToSearchParams, splitPublishPayload } from './contentModel.js';
+import { ART_DIRECTION, QUALITY_CONTRACT } from './artDirectionManifest.js';
+import { CINEMATIC_SCENARIOS } from '../cinematic/cinematicScenarios.js';
 
 const errors=[];
 const ids=new Set();
@@ -44,6 +46,14 @@ for(const t of TEMPLATE_MANIFEST){
 
   const dpr=t.performance?.maxDpr;
   if(typeof dpr!=='number'||dpr>2)errors.push(`${t.id}: maxDpr must be <= 2`);
+
+  const art=ART_DIRECTION[t.id];
+  if(!art)errors.push(`${t.id}: missing art-direction contract`);
+  else{
+    for(const key of ['render','camera','material','hero','finale','signature3d','lighting','sound','silenceBeat','antiGeneric']){
+      if(!art[key])errors.push(`${t.id}: art-direction field ${key} is missing`);
+    }
+  }
 }
 
 const expected=15;
@@ -55,6 +65,28 @@ const publicParams=contentToSearchParams(securityProbe).toString();
 if(publicParams.includes('secret-token'))errors.push('Sensitive word lock leaked into public URL');
 const split=splitPublishPayload(securityProbe);
 if(JSON.stringify(split.publicContent).includes('secret-token'))errors.push('Sensitive word lock leaked into public content');
+
+if(Object.keys(ART_DIRECTION).length!==expected){
+  errors.push(`Expected ${expected} art-direction entries, found ${Object.keys(ART_DIRECTION).length}`);
+}
+if(QUALITY_CONTRACT.maxMeaningfulGestures!==3)errors.push('Quality contract gesture budget must stay at 3');
+if(QUALITY_CONTRACT.noDocumentScroll!==true)errors.push('Quality contract must forbid document scroll');
+if(QUALITY_CONTRACT.finalSceneMustTransformWorld!==true)errors.push('Quality contract must require world-transforming finales');
+if(QUALITY_CONTRACT.physicalConsequenceForEveryGesture!==true)errors.push('Quality contract must require physical consequences');
+if(QUALITY_CONTRACT.deliberateSilenceBeforeFinale!==true)errors.push('Quality contract must require a silence/stillness beat');
+if(QUALITY_CONTRACT.reducedMotionRequired!==true)errors.push('Quality contract must require reduced-motion support');
+
+for(const t of TEMPLATE_MANIFEST){
+  const scenario=CINEMATIC_SCENARIOS[t.id];
+  if(!scenario){errors.push(`${t.id}: missing cinematic scenario`);continue}
+  if(scenario.beats?.length!==8)errors.push(`${t.id}: masterpiece scenario must contain exactly 8 beats`);
+  const beatTypes=new Set((scenario.beats||[]).map(x=>x.type));
+  for(const required of ['opening','gesture','turn','finale','afterglow']){
+    if(!beatTypes.has(required))errors.push(`${t.id}: scenario missing ${required} beat`);
+  }
+  if(!scenario.secondary)errors.push(`${t.id}: missing secondary/signature interaction`);
+  if(!scenario.finale)errors.push(`${t.id}: missing scenario finale`);
+}
 
 if(TEMPLATE_MANIFEST.length!==expected){
   errors.push(`Expected ${expected} templates, found ${TEMPLATE_MANIFEST.length}`);

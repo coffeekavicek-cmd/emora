@@ -26,6 +26,7 @@ test.describe('Pearl Linen reference',()=>{
   });
 
   test('recipient ritual reaches the particle finale without scroll or browser errors',async({page},testInfo)=>{
+    test.setTimeout(90000);
     const errors=[];
     page.on('pageerror',e=>errors.push(e.message));
     page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
@@ -98,6 +99,7 @@ test.describe('Pearl Linen reference',()=>{
 
     await page.waitForTimeout(1200);
     await expectFullStage('.pm-memory-layer');
+    await expect(page.locator('.pm-photo-fallback')).toHaveCount(3);
     const dragCard=async(selector,dx,dy)=>{
       const card=page.locator(selector);
       await expect(card).toBeVisible();
@@ -130,14 +132,28 @@ test.describe('Pearl Linen reference',()=>{
     if(pearlBox){
       const x=pearlBox.x+pearlBox.width/2,y=pearlBox.y+pearlBox.height/2;
       await page.mouse.move(x,y);
+
+      // Early release must cancel the irreversible finale.
+      await page.mouse.down();
+      await page.waitForTimeout(320);
+      await page.mouse.up();
+      await page.waitForTimeout(950);
+      await expect(page.locator('.pearl-motion')).toHaveClass(/step-afterword/);
+
+      // A deliberate 900ms+ hold earns the final transformation.
       await page.mouse.down();
       await page.waitForTimeout(1050);
       await page.mouse.up();
     }
 
+    await expect(page.locator('.pearl-motion')).toHaveClass(/step-converge|step-finale/,{timeout:5000});
+    await expect(page.locator('.pm-particle-counter')).toBeVisible({timeout:5000});
+    await page.screenshot({path:testInfo.outputPath('07-visible-effort.png'),fullPage:true});
     await expect(page.locator('.pearl-motion')).toHaveClass(/step-finale/,{timeout:14000});
     await expect(page.locator('.pm-final-copy')).toBeVisible();
     await expect(page.locator('.pm-particle-counter')).toContainText(/marvarid nuqta/);
+    const renderedPoints=Number((await page.locator('.pm-particle-counter b').textContent())?.replace(/\D/g,'')||0);
+    expect(renderedPoints).toBeGreaterThanOrEqual(600);
     await expect(page.getByRole('button',{name:'Ulashish'})).toBeVisible();
     const keepsake=page.getByRole('button',{name:'Keepsake saqlash'});
     await expect(keepsake).toBeVisible();
