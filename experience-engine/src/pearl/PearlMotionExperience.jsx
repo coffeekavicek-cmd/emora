@@ -1,31 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { PearlSealEngine, playCrackSound } from './PearlSealEngine.js';
-import { GalaxyEngine } from '../galaxy/GalaxyEngine.js';
-import { createHeartPoints, samplePortraitFile } from '../galaxy/portraitSampler.js';
+import { readUrlContent } from '../system/contentModel.js';
 import './pearlMotion.css';
 
 const FALLBACK='https://emora-v10-fifteen-experiences-production.up.railway.app/assets/love-pearl.png';
-
-function configFromUrl(){
-  const q=new URLSearchParams(location.search);
-  const read=(k,f,m)=>String(q.get(k)||'').trim().slice(0,m)||f;
-  return {
-    name:read('name','Dilnoza',42),
-    intro:read('intro','Senga aytolmay yurgan bir nechta gapim bor.',130),
-    paragraphs:[
-      read('m1','Ba’zan odam hayotga shovqinsiz kiradi. Keyin esa hamma narsa undan oldin va undan keyin bo‘lib qoladi.',240),
-      read('m2','Sen bilan oddiy kun ham xotiraga aylanadi. Men aynan shu oddiylikni eng ko‘p qadrlayman.',240),
-      read('m3','Bu maktub ichida katta va murakkab gap yo‘q. Faqat rost gap bor.',220),
-    ],
-    captions:[
-      read('c1','bizning birinchi kulgimiz',72),
-      read('c2','hech qayerga shoshilmagan kun',72),
-      read('c3','yana qaytishni istaydigan lahza',72),
-    ],
-    final:read('final','Sening yoningda o‘zimni uyga qaytgandek his qilaman.',220),
-  };
-}
 
 function softTone(freq=440,duration=.12,vol=.028){
   try{
@@ -47,14 +25,6 @@ function Signature({name,className=''}) {
     </svg>
     <i/>
   </span>;
-}
-
-function AssetPicker({photos,setPhotos,portrait,setPortrait}){
-  return <details className="pm-assets">
-    <summary>Rasmlarni almashtirish</summary>
-    <label><span>3 ta xotira</span><small>{photos.length?photos.length+' ta tanlandi':'ixtiyoriy'}</small><input type="file" accept="image/*" multiple onChange={e=>setPhotos(Array.from(e.target.files||[]).slice(0,3))}/></label>
-    <label><span>Final portret</span><small>{portrait?.name||'ixtiyoriy'}</small><input type="file" accept="image/*" onChange={e=>setPortrait(e.target.files?.[0]||null)}/></label>
-  </details>;
 }
 
 function DraggablePolaroid({index,src,caption,onExplore,cardRef}){
@@ -80,7 +50,7 @@ function DraggablePolaroid({index,src,caption,onExplore,cardRef}){
     if(!pointer.current)return;
     pointer.current=null;
     onExplore(index);
-    gsap.to(cardRef.current,{scale:1,zIndex:index===1?4:3,duration:.28,ease:'power2.out'});
+    gsap.to(cardRef.current,{scale:1,zIndex:1,duration:.32,ease:'power2.out'});
   };
   return <button ref={cardRef} className={'pm-polaroid pm-polaroid-'+index}
     onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up}>
@@ -89,26 +59,40 @@ function DraggablePolaroid({index,src,caption,onExplore,cardRef}){
   </button>;
 }
 
-export function PearlMotionExperience(){
-  const cfg=useMemo(configFromUrl,[]);
+export function PearlMotionExperience({content:contentProp=null,media=null,embedded=false}){
+  const cfg=useMemo(()=>contentProp||readUrlContent('love-pearl'),[contentProp]);
   const root=useRef(null),intro=useRef(null),envelope=useRef(null),letter=useRef(null),paper=useRef(null),sealHost=useRef(null);
-  const memory=useRef(null),finale=useRef(null),particleHost=useRef(null);
+  const memory=useRef(null),finale=useRef(null),particleHost=useRef(null),audioRef=useRef(null);
   const p0=useRef(null),p1=useRef(null),p2=useRef(null);
   const sealEngine=useRef(null),particleEngine=useRef(null);
+  const sealInitPromise=useRef(null),particleInitPromise=useRef(null);
   const holdTimer=useRef(null),started=useRef(false);
   const [step,setStep]=useState('intro');
   const [holding,setHolding]=useState(false);
+  const [sealCracked,setSealCracked]=useState(false);
   const [inkCount,setInkCount]=useState(0);
   const [explored,setExplored]=useState(new Set());
-  const [photos,setPhotos]=useState([]);
-  const [portrait,setPortrait]=useState(null);
   const [portraitReady,setPortraitReady]=useState(false);
+  const [effortCount,setEffortCount]=useState(0);
+  const [finalPhase,setFinalPhase]=useState('idle');
+  const [soundOn,setSoundOn]=useState(true);
 
+  const photos=media?.photos||[];
+  const portrait=media?.portrait||null;
+  const music=media?.music||null;
+  const musicUrl=useMemo(()=>{
+    if(!music)return '';
+    return typeof music==='string'?music:URL.createObjectURL(music);
+  },[music]);
+  useEffect(()=>()=>{if(music&&typeof music!=='string'&&musicUrl)URL.revokeObjectURL(musicUrl)},[music,musicUrl]);
   const photoUrls=useMemo(()=>{
     if(!photos.length)return [FALLBACK,FALLBACK,FALLBACK];
-    return [0,1,2].map(i=>URL.createObjectURL(photos[i%photos.length]));
+    return [0,1,2].map(i=>{
+      const item=photos[i%photos.length];
+      return typeof item==='string'?item:URL.createObjectURL(item);
+    });
   },[photos]);
-  useEffect(()=>()=>{if(photos.length)photoUrls.forEach(u=>URL.revokeObjectURL(u))},[photos,photoUrls]);
+  useEffect(()=>()=>{photoUrls.forEach((u,i)=>{if(photos.length&&typeof photos[i%photos.length]!=='string'&&u!==FALLBACK)URL.revokeObjectURL(u)})},[photos,photoUrls]);
 
   useEffect(()=>{
     const ctx=gsap.context(()=>{
@@ -119,25 +103,45 @@ export function PearlMotionExperience(){
     return()=>ctx.revert();
   },[]);
 
-  useEffect(()=>{
-    if(!sealHost.current)return;
-    const e=new PearlSealEngine(sealHost.current,{
-      onCrack:()=>{playCrackSound();setHolding(false)},
-      onSettled:()=>openEnvelope(),
-    });
-    sealEngine.current=e;e.init();
-    return()=>e.destroy();
-  },[]);
+  const ensureSealEngine=async()=>{
+    if(sealEngine.current)return sealEngine.current;
+    if(sealInitPromise.current)return sealInitPromise.current;
+    sealInitPromise.current=(async()=>{
+      const mod=await import('./PearlSealEngine.js');
+      if(!sealHost.current)return null;
+      const e=new mod.PearlSealEngine(sealHost.current,{
+        onCrack:()=>{mod.playCrackSound();setHolding(false);setSealCracked(true)},
+        onSettled:()=>openEnvelope(),
+      });
+      sealEngine.current=e;
+      await e.init();
+      return e;
+    })().finally(()=>{sealInitPromise.current=null});
+    return sealInitPromise.current;
+  };
 
-  useEffect(()=>{
-    if(!particleHost.current)return;
-    const e=new GalaxyEngine(particleHost.current,{showStars:false,interactive:false,onReady:()=>{particleEngine.current=e}});
-    particleEngine.current=e;e.init();
-    return()=>e.destroy();
-  },[]);
+  const ensureParticleEngine=async()=>{
+    if(particleEngine.current)return particleEngine.current;
+    if(particleInitPromise.current)return particleInitPromise.current;
+    particleInitPromise.current=(async()=>{
+      const {GalaxyEngine}=await import('../galaxy/GalaxyEngine.js');
+      if(!particleHost.current)return null;
+      const e=new GalaxyEngine(particleHost.current,{showStars:false,interactive:false});
+      particleEngine.current=e;
+      await e.init();
+      return e;
+    })().finally(()=>{particleInitPromise.current=null});
+    return particleInitPromise.current;
+  };
 
-  const startRitual=()=>{
+  const startRitual=async()=>{
     if(started.current)return;started.current=true;softTone(520,.16,.035);
+    if(audioRef.current&&musicUrl){
+      audioRef.current.volume=0;
+      audioRef.current.loop=true;
+      audioRef.current.play().then(()=>gsap.to(audioRef.current,{volume:soundOn?.32:0,duration:1.4,ease:'power2.out'})).catch(()=>{});
+    }
+    try{await ensureSealEngine()}catch{started.current=false;return}
     setStep('seal');
     const tl=gsap.timeline({defaults:{ease:'power3.inOut'}});
     tl.to(intro.current,{autoAlpha:0,scale:.985,duration:.55})
@@ -149,6 +153,7 @@ export function PearlMotionExperience(){
 
   const startHold=()=>{
     if(step!=='seal')return;
+    clearTimeout(holdTimer.current);
     setHolding(true);
     holdTimer.current=setTimeout(()=>sealEngine.current?.crack(),520);
   };
@@ -177,14 +182,16 @@ export function PearlMotionExperience(){
     setInkCount(0);
     [0,1,2].forEach((_,i)=>setTimeout(()=>{
       setInkCount(i+1);softTone(300+i*70,.08,.018);
-    },520+i*1180));
+    },900+i*2700));
     setTimeout(()=>{
-      gsap.to('.pm-letter-continue',{autoAlpha:1,y:0,duration:.5,ease:'power2.out'});
-    },4050);
+      gsap.to('.pm-letter-continue',{autoAlpha:1,y:0,duration:.7,ease:'power2.out'});
+    },9100);
   };
 
   const openMemories=()=>{
     if(step!=='ink')return;
+    void import('../galaxy/GalaxyEngine.js');
+    void import('../galaxy/portraitSampler.js');
     setStep('memories');thump();
     const cards=[p0.current,p1.current,p2.current];
     const tl=gsap.timeline({defaults:{ease:'power4.out'}});
@@ -214,27 +221,80 @@ export function PearlMotionExperience(){
       .to(memory.current,{backgroundColor:'#08070a',duration:.5},'-=.55')
       .set(finale.current,{autoAlpha:1,pointerEvents:'auto'},'-=.35')
       .to(letter.current,{autoAlpha:0,duration:.3},'<')
-      .call(()=>startPortrait());
+      .call(()=>startVisibleEffort());
+  };
+
+  const startVisibleEffort=()=>{
+    setFinalPhase('counting');
+    setEffortCount(0);
+    const target=9494;
+    const proxy={n:0};
+    gsap.to(proxy,{n:target,duration:5.4,ease:'power3.inOut',onUpdate:()=>setEffortCount(Math.round(proxy.n)),onComplete:()=>{
+      setFinalPhase('silence');
+      gsap.to('.pm-effort-copy',{autoAlpha:0,duration:.45});
+      setTimeout(()=>startPortrait(),1200);
+    }});
   };
 
   const startPortrait=async()=>{
-    const host=particleHost.current,e=particleEngine.current;if(!host||!e)return;
+    const host=particleHost.current;if(!host)return;
+    const [sampler,e]=await Promise.all([
+      import('../galaxy/portraitSampler.js'),
+      ensureParticleEngine(),
+    ]);
+    if(!e)return;
     const rect=host.getBoundingClientRect();
     let points;
     const source=portrait||photos[2]||photos[0]||null;
-    try{points=source?await samplePortraitFile(source,{width:rect.width,height:rect.height,count:1650}):createHeartPoints(rect.width,rect.height,1650)}
-    catch{points=createHeartPoints(rect.width,rect.height,1650)}
+    try{points=source?await sampler.samplePortraitFile(source,{width:rect.width,height:rect.height,count:1650}):sampler.createHeartPoints(rect.width,rect.height,1350)}
+    catch{points=sampler.createHeartPoints(rect.width,rect.height,1350)}
+    const fit=source?1.1:1.0;
+    points=points.map(p=>({...p,x:p.x*fit,y:p.y*fit}));
     gsap.fromTo(particleHost.current,{autoAlpha:0,scale:1.12},{autoAlpha:1,scale:1,duration:.75,ease:'power3.out'});
     e.morphToPortrait(points,{onComplete:()=>{
-      setPortraitReady(true);setStep('finale');
+      setPortraitReady(true);setStep('finale');setFinalPhase('portrait');
       softTone(660,.32,.035);
       try{navigator.vibrate?.([8,35,12])}catch{}
       gsap.fromTo('.pm-final-copy',{autoAlpha:0,y:30},{autoAlpha:1,y:0,duration:1.15,ease:'power3.out'});
     }});
   };
 
+  const shareExperience=async()=>{
+    const payload={title:cfg.title||'Emora',text:cfg.final||cfg.message,url:location.href};
+    try{
+      if(navigator.share){await navigator.share(payload);return}
+      await navigator.clipboard.writeText(location.href);
+      softTone(760,.09,.02);
+    }catch{}
+  };
+
+  const saveKeepsake=()=>{
+    const esc=s=>String(s||'').replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+    const quote=esc(cfg.final||cfg.message),name=esc(cfg.recipient||'');
+    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+      <defs><radialGradient id="g"><stop stop-color="#28171f"/><stop offset="1" stop-color="#08070a"/></radialGradient></defs>
+      <rect width="1080" height="1350" fill="url(#g)"/>
+      <text x="540" y="140" text-anchor="middle" fill="#b79ca8" font-family="Arial" font-size="20" letter-spacing="5">EMORA · PEARL LINEN</text>
+      <foreignObject x="120" y="360" width="840" height="430"><div xmlns="http://www.w3.org/1999/xhtml" style="font:64px Georgia,serif;line-height:1.08;text-align:center;color:#fff7f3;">${quote}</div></foreignObject>
+      <text x="540" y="1040" text-anchor="middle" fill="#e3a0b1" font-family="Georgia,serif" font-size="82" font-style="italic">${name}</text>
+      <circle cx="540" cy="1180" r="3" fill="#e3a0b1"/><circle cx="520" cy="1180" r="2" fill="#fff1ed"/><circle cx="560" cy="1180" r="2" fill="#fff1ed"/>
+    </svg>`;
+    const blob=new Blob([svg],{type:'image/svg+xml;charset=utf-8'});
+    const url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download='emora-pearl-'+(cfg.recipient||'keepsake').toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.svg';
+    document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1200);
+  };
+
+  const toggleSound=()=>{
+    setSoundOn(v=>{
+      const next=!v;
+      if(audioRef.current)gsap.to(audioRef.current,{volume:next?.32:0,duration:.35});
+      return next;
+    });
+  };
+
   const restart=()=>{
-    setPortraitReady(false);setExplored(new Set());setInkCount(0);setStep('intro');started.current=false;
+    setPortraitReady(false);setExplored(new Set());setInkCount(0);setSealCracked(false);setEffortCount(0);setFinalPhase('idle');setStep('intro');started.current=false;
     particleEngine.current?.reset();sealEngine.current?.reset();
     const tl=gsap.timeline({defaults:{duration:.4}});
     tl.to([envelope.current,letter.current,memory.current,finale.current],{autoAlpha:0,pointerEvents:'none'})
@@ -245,33 +305,42 @@ export function PearlMotionExperience(){
     gsap.set('.pm-letter-continue,.pm-memory-release',{autoAlpha:0,y:10});
   };
 
-  useEffect(()=>()=>clearTimeout(holdTimer.current),[]);
+  useEffect(()=>()=>{clearTimeout(holdTimer.current);sealEngine.current?.destroy();particleEngine.current?.destroy();audioRef.current?.pause()},[]);
 
-  return <main ref={root} className={'pearl-motion step-'+step}>
+  return <main ref={root} className={'pearl-motion '+(embedded?'is-embedded ':'')+'step-'+step}>
+    {musicUrl&&<audio ref={audioRef} src={musicUrl} preload="metadata"/>}
     <div className="pm-grain"/><div className="pm-vignette"/>
-    <header className="pm-chrome"><a href="?">emora<span>.</span></a><small>PEARL LINEN · FLAGSHIP</small><b>{step==='intro'?'00':step==='seal'?'01':step==='letter-rise'?'02':step==='ink'?'03':step==='memories'?'04':step==='converge'?'05':'06'}</b></header>
+    <header className="pm-chrome"><a href="?">emora<span>.</span></a><small>PEARL LINEN · FLAGSHIP</small>
+      <div className="pm-chrome-actions">{musicUrl&&<button className="pm-sound" onClick={toggleSound} aria-label={soundOn?'Ovozni o‘chirish':'Ovozni yoqish'}>{soundOn?'SOUND ON':'SOUND OFF'}</button>}<b>{step==='intro'?'00':step==='seal'?'01':step==='letter-rise'?'02':step==='ink'?'03':step==='memories'?'04':step==='converge'?'05':'06'}</b></div>
+    </header>
 
     <section ref={intro} className="pm-layer pm-intro">
       <div className="pm-intro-copy">
         <p>PRIVATE LETTER · FOR ONE PERSON</p>
-        <h1>{cfg.intro}</h1>
-        <Signature name={cfg.name}/>
+        <h1>{cfg.message}</h1>
+        <Signature name={cfg.recipient}/>
         <button className="pm-primary" onClick={startRitual}>Maktubni olish</button>
-        <AssetPicker photos={photos} setPhotos={setPhotos} portrait={portrait} setPortrait={setPortrait}/>
       </div>
       <div className="pm-paper-stack" aria-hidden="true"><i/><i/><b>for you</b></div>
     </section>
 
     <section ref={envelope} className="pm-layer pm-envelope-layer">
       <div className="pm-envelope-object">
-        <div className="pm-sheet"><Signature name={cfg.name} className="pm-sheet-name"/><small>faqat sen uchun</small></div>
+        <div className="pm-sheet"><Signature name={cfg.recipient} className="pm-sheet-name"/><small>faqat sen uchun</small></div>
         <div className="pm-pocket"/>
         <div className="pm-flap"/>
-        <div ref={sealHost} className={'pm-seal '+(holding?'holding':'')}/>
+        <div ref={sealHost} className={'pm-seal '+(holding?'holding ':'')+(sealCracked?'cracked':'')}
+          role="button" tabIndex={0} aria-label="Wax muhrni bosib ushlab oching"
+          onPointerDown={startHold} onPointerUp={cancelHold} onPointerCancel={cancelHold} onPointerLeave={cancelHold}
+          onKeyDown={e=>{if((e.key==='Enter'||e.key===' ')&&!e.repeat){e.preventDefault();startHold()}}}
+          onKeyUp={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();cancelHold()}}}
+          onContextMenu={e=>e.preventDefault()}>
+          <span className="pm-seal-initial">{(cfg.recipient||'E').trim().charAt(0).toUpperCase()}</span>
+        </div>
       </div>
       <div className="pm-seal-copy">
-        <span>01 · THE SEAL</span><p>Muhrni bosib ushlab turing.</p>
-        <button onPointerDown={startHold} onPointerUp={cancelHold} onPointerCancel={cancelHold} onPointerLeave={cancelHold}><i/>520ms</button>
+        <span>01 · THE SEAL</span><p>Muhrning o‘zini bosib ushlab turing.</p>
+        <div className={'pm-hold-meter '+(holding?'holding':'')} aria-hidden="true"><i/></div>
       </div>
     </section>
 
@@ -279,7 +348,7 @@ export function PearlMotionExperience(){
       <article ref={paper} className="pm-paper">
         <div className="pm-paper-fiber"/>
         <p className="pm-date">28 · 09 · 2026</p>
-        <Signature name={cfg.name} className="pm-letter-name"/>
+        <Signature name={cfg.recipient} className="pm-letter-name"/>
         <div className="pm-ink">
           {cfg.paragraphs.map((x,i)=><p className={i<inkCount?'visible':''} key={i}><span>{x}</span><i/></p>)}
         </div>
@@ -300,12 +369,21 @@ export function PearlMotionExperience(){
     </section>
 
     <section ref={finale} className="pm-layer pm-finale-layer">
+      <div className={'pm-effort-copy phase-'+finalPhase}>
+        <span>VISIBLE EFFORT</span>
+        <strong>{effortCount.toLocaleString('en-US')}</strong>
+        <p>{portrait||photos.length?'mayda nuqta portretga yig‘ilyapti':'yurakchalar bitta belgiga yig‘ilyapti'}</p>
+      </div>
       <div ref={particleHost} className="pm-particles"/>
       <div className={'pm-final-copy '+(portraitReady?'ready':'')}>
         <p>AND THIS IS THE ONLY LINE THAT MATTERS</p>
         <h2>{cfg.final}</h2>
-        <Signature name={cfg.name} className="pm-final-name"/>
-        <button className="pm-final-restart" onClick={restart}>Boshidan ↺</button>
+        <Signature name={cfg.recipient} className="pm-final-name"/>
+        <div className="pm-final-actions">
+          {cfg.shareEnabled!==false&&<button onClick={shareExperience}>Ulashish</button>}
+          {cfg.saveEnabled!==false&&<button onClick={saveKeepsake}>Keepsake saqlash</button>}
+          <button className="pm-final-restart" onClick={restart}>Boshidan ↺</button>
+        </div>
       </div>
     </section>
   </main>;

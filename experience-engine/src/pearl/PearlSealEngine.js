@@ -6,7 +6,7 @@ const TAU=Math.PI*2;
 export class PearlSealEngine{
   constructor(host,{onCrack,onSettled}={}){
     this.host=host;this.onCrack=onCrack;this.onSettled=onSettled;
-    this.app=null;this.root=null;this.shards=[];this.dust=[];this.destroyed=false;this.cracked=false;
+    this.app=null;this.root=null;this.baseWax=null;this.shards=[];this.dust=[];this.destroyed=false;this.cracked=false;
   }
   async init(){
     const app=new Application();
@@ -20,42 +20,64 @@ export class PearlSealEngine{
     this.drawSeal();this.layout();
     this.ro=new ResizeObserver(()=>this.layout());this.ro.observe(this.host);
   }
-  polygonPoints(index,total,r1=52,r2=84){
+  polygonPoints(index,total){
     const a0=index/total*TAU-Math.PI/2;
     const a1=(index+1)/total*TAU-Math.PI/2;
     const mid=(a0+a1)/2;
+    const r0=79+(index%4)*1.2;
+    const r1=79+((index+1)%4)*1.2;
+    const rm=82+((index*7)%3)*1.4;
     return[
-      [Math.cos(a0)*r1,Math.sin(a0)*r1],
-      [Math.cos(mid)*r2,Math.sin(mid)*r2],
+      [Math.cos(a0)*7,Math.sin(a0)*7],
+      [Math.cos(a0)*r0,Math.sin(a0)*r0],
+      [Math.cos(mid)*rm,Math.sin(mid)*rm],
       [Math.cos(a1)*r1,Math.sin(a1)*r1],
-      [Math.cos(mid)*22,Math.sin(mid)*22],
-      [Math.cos(a0)*13,Math.sin(a0)*13],
+      [Math.cos(a1)*7,Math.sin(a1)*7],
     ];
   }
   drawSeal(){
     const total=15;
     for(let i=0;i<total;i++){
-      const pts=this.polygonPoints(i,total,50+(i%3)*3,79+(i%4)*4);
+      const pts=this.polygonPoints(i,total);
       const g=new Graphics();
-      g.poly(pts.flat()).fill({color:i%3===0?0x8b2034:i%3===1?0xa42d43:0x741628,alpha:1});
-      g.poly(pts.flat()).stroke({width:1,color:0xd46a7d,alpha:.24});
-      g.rotation=(Math.random()-.5)*.035;
+      g.poly(pts.flat()).fill({color:i%3===0?0x92233a:i%3===1?0x98263e:0x892037,alpha:.91});
+      g.poly(pts.flat()).stroke({width:.55,color:0x5b0d1c,alpha:.09});
       g._angle=(i+.5)/total*TAU-Math.PI/2;
-      g._distance=70+Math.random()*95;
-      g._spin=(Math.random()-.5)*2.3;
+      g._distance=72+((i*29)%70);
+      g._spin=((i%5)-2)*.42;
       this.shards.push(g);this.root.addChild(g);
     }
+
+    // A continuous wax skin sits above the hidden fracture pieces.
+    // It fades only after the hold completes, so the seal reads as real wax
+    // instead of a pre-sliced graphic.
+    const base=new Graphics();
+    for(let i=0;i<24;i++){
+      const a=i/24*TAU;
+      const rr=79+((i*7)%5)*.55;
+      base.circle(Math.cos(a)*rr,Math.sin(a)*rr,3.4+((i*11)%4)*.45).fill({color:0x8d2036,alpha:1});
+    }
+    base.circle(0,0,80).fill({color:0x8d2036,alpha:1});
+    base.circle(-18,-20,55).fill({color:0xb43750,alpha:.2});
+    base.circle(14,18,56).fill({color:0x6e1427,alpha:.1});
+    base.circle(0,0,73).stroke({width:1.35,color:0xd36a7e,alpha:.21});
+    base.circle(0,0,67).stroke({width:.9,color:0x5a0c1b,alpha:.19});
+    this.baseWax=base;this.root.addChild(base);
+
+    const gloss=new Graphics();
+    gloss.arc(-7,-8,55,Math.PI*1.07,Math.PI*1.68).stroke({width:3,color:0xf0a6b6,alpha:.17});
+    gloss.arc(-8,-9,48,Math.PI*1.08,Math.PI*1.57).stroke({width:1.2,color:0xffd6df,alpha:.18});
+    this.root.addChild(gloss);this.gloss=gloss;
+
     const monogram=new Graphics();
-    monogram.circle(0,0,31).stroke({width:2,color:0xe69bad,alpha:.38});
-    monogram.circle(0,0,24).stroke({width:1,color:0x5b0d1b,alpha:.55});
-    monogram.moveTo(-12,-10).bezierCurveTo(6,-22,20,-12,7,-1).bezierCurveTo(-2,7,-9,10,10,18)
-      .stroke({width:3,color:0x4f0a16,alpha:.78});
-    monogram.label='monogram';this.root.addChild(monogram);this.monogram=monogram;
+    monogram.circle(0,0,32).stroke({width:1.7,color:0xe8a2b1,alpha:.34});
+    monogram.circle(0,0,25).stroke({width:1,color:0x570b19,alpha:.52});
+    this.root.addChild(monogram);this.monogram=monogram;
 
     for(let i=0;i<34;i++){
       const d=new Graphics();
-      d.circle(0,0,.7+Math.random()*2).fill({color:i%4===0?0xf3bdc8:0x9a3347,alpha:.75});
-      d.visible=false;d._angle=Math.random()*TAU;d._distance=40+Math.random()*135;
+      d.circle(0,0,.7+(i%5)*.32).fill({color:i%4===0?0xf3bdc8:0x9a3347,alpha:.72});
+      d.visible=false;d._angle=(i*2.399963229728653)%TAU;d._distance=42+((i*31)%120);
       this.dust.push(d);this.root.addChild(d);
     }
   }
@@ -68,11 +90,13 @@ export class PearlSealEngine{
   crack(){
     if(this.cracked||!this.app)return;this.cracked=true;
     this.onCrack?.();
-    this.monogram && gsap.to(this.monogram,{alpha:0,scaleX:.55,scaleY:.55,duration:.22,ease:'power2.in'});
+    if(this.baseWax)gsap.to(this.baseWax,{alpha:0,scaleX:.96,scaleY:.96,duration:.18,ease:'power2.in'});
+    if(this.gloss)gsap.to(this.gloss,{alpha:0,duration:.14,ease:'power1.in'});
+    if(this.monogram)gsap.to(this.monogram,{alpha:0,scaleX:.56,scaleY:.56,duration:.2,ease:'power2.in'});
     this.dust.forEach((d,i)=>{
       d.visible=true;d.alpha=0;
       gsap.timeline({delay:i*.006})
-        .to(d,{alpha:.85,duration:.08})
+        .to(d,{alpha:.82,duration:.07})
         .to(d,{x:Math.cos(d._angle)*d._distance,y:Math.sin(d._angle)*d._distance,alpha:0,duration:.62,ease:'power3.out'},'<');
     });
     this.shards.forEach((g,i)=>{
@@ -80,24 +104,29 @@ export class PearlSealEngine{
       gsap.to(g,{
         x:Math.cos(a)*g._distance,
         y:Math.sin(a)*g._distance,
-        rotation:g.rotation+g._spin,
+        rotation:g._spin,
         alpha:0,
-        duration:.72+Math.random()*.32,
-        delay:i*.008,
+        duration:.68+(i%5)*.055,
+        delay:i*.007,
         ease:'power3.out'
       });
     });
-    setTimeout(()=>this.onSettled?.(),920);
+    setTimeout(()=>this.onSettled?.(),900);
   }
   reset(){
     this.cracked=false;
-    this.shards.forEach(g=>{gsap.killTweensOf(g);g.x=0;g.y=0;g.alpha=1;g.rotation=0});
+    this.shards.forEach(g=>{gsap.killTweensOf(g);g.x=0;g.y=0;g.alpha=.91;g.rotation=0});
+    if(this.baseWax){gsap.killTweensOf(this.baseWax);this.baseWax.alpha=1;this.baseWax.scale.set(1)}
+    if(this.gloss){gsap.killTweensOf(this.gloss);this.gloss.alpha=1}
     if(this.monogram){gsap.killTweensOf(this.monogram);this.monogram.alpha=1;this.monogram.scale.set(1)}
-    this.dust.forEach(d=>{gsap.killTweensOf(d);d.visible=false;d.x=0;d.y=0});
+    this.dust.forEach(d=>{gsap.killTweensOf(d);d.visible=false;d.x=0;d.y=0;d.alpha=0});
   }
   destroy(){
     this.destroyed=true;this.ro?.disconnect();
     this.shards.forEach(g=>gsap.killTweensOf(g));this.dust.forEach(g=>gsap.killTweensOf(g));
+    if(this.baseWax)gsap.killTweensOf(this.baseWax);
+    if(this.gloss)gsap.killTweensOf(this.gloss);
+    if(this.monogram)gsap.killTweensOf(this.monogram);
     if(this.app){this.app.destroy(true,{children:true});this.app=null}
   }
 }

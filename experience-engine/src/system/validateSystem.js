@@ -2,14 +2,21 @@ import { ARCHETYPE_RULES } from './archetypes.js';
 import { TEMPLATE_MANIFEST } from './templateManifest.js';
 import { editorFieldsFor } from './editorContract.js';
 import { runtimePlan } from './runtimeContract.js';
+import { contentToSearchParams, splitPublishPayload } from './contentModel.js';
 
 const errors=[];
 const ids=new Set();
 const signatureMoments=new Set();
+const dbSlugs=new Set();
+const releaseStates=new Set(['concept','art-directed','motion-alpha','review','approved','published']);
 
 for(const t of TEMPLATE_MANIFEST){
   if(ids.has(t.id))errors.push(`Duplicate template id: ${t.id}`);
   ids.add(t.id);
+  if(!releaseStates.has(t.releaseStatus))errors.push(`${t.id}: invalid releaseStatus ${t.releaseStatus}`);
+  if(!t.dbSlug)errors.push(`${t.id}: missing dbSlug`);
+  else if(dbSlugs.has(t.dbSlug))errors.push(`${t.id}: duplicate dbSlug ${t.dbSlug}`);
+  else dbSlugs.add(t.dbSlug);
 
   if(!ARCHETYPE_RULES[t.archetype])errors.push(`${t.id}: unknown archetype ${t.archetype}`);
   const rule=ARCHETYPE_RULES[t.archetype];
@@ -40,6 +47,15 @@ for(const t of TEMPLATE_MANIFEST){
 }
 
 const expected=15;
+const securityProbe={
+  templateId:'love-pearl',recipient:'Test',message:'Hello',language:'uz',guestGreeting:'Hi',
+  paragraphs:['a','b','c'],captions:['1','2','3'],final:'bye',wordLock:'secret-token',
+};
+const publicParams=contentToSearchParams(securityProbe).toString();
+if(publicParams.includes('secret-token'))errors.push('Sensitive word lock leaked into public URL');
+const split=splitPublishPayload(securityProbe);
+if(JSON.stringify(split.publicContent).includes('secret-token'))errors.push('Sensitive word lock leaked into public content');
+
 if(TEMPLATE_MANIFEST.length!==expected){
   errors.push(`Expected ${expected} templates, found ${TEMPLATE_MANIFEST.length}`);
 }
