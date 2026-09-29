@@ -19,7 +19,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     performance:{maxDpr:1.75,heavyLazyLoad:true},
   },
   {
-    id:'love-pearl',dbSlug:'love-pearl-linen',name:'Pearl Linen',category:'love',releaseState:'review',releaseStatus:'motion-alpha',
+    id:'love-pearl',dbSlug:'love-pearl-linen',name:'Pearl Linen',category:'love',releaseStatus:'review',
     archetype:A.RITUAL_OBJECT,navigation:N.RITUAL,
     metaphor:'handwritten private letter',primaryMedia:'paper',
     signatureMoment:'The wax seal fractures and the same letter rises from the envelope into the final portrait ritual.',
