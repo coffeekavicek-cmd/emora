@@ -37,3 +37,5 @@
 .ce-media-status{margin:4px 0 8px;display:grid;gap:6px}
 .ce-media-status>div{display:flex;align-items:center;justify-content:space-between;padding:9px 10px;border:1px solid #ffffff0d;border-radius:10px;background:#ffffff04}
 .ce-media-status span{font-size:8px;color:#8f8892}.ce-media-status b{font-size:8px;font-weight:800;letter-spacing:.08em;color:#d8cfd6}
+
+.ce-media-status>p{margin:0 0 7px;padding:9px 10px;border-radius:10px;background:#e7afbf0a;border:1px solid #e7afbf18;font-size:8px;line-height:1.45;color:#a99da5}
