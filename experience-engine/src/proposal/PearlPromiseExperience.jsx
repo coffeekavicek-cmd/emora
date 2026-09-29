@@ -143,7 +143,7 @@ function createScene(host,onReady){
 
 export function PearlPromiseExperience({content:contentProp=null,embedded=false}){
   const cfg=useMemo(()=>contentProp||readUrlContent('proposal-pearl'),[contentProp]);
-  const host=useRef(null),engine=useRef(null),holdStart=useRef(null),drag=useRef(null),rotationRef=useRef(0);
+  const host=useRef(null),engine=useRef(null),holdTimer=useRef(null),drag=useRef(null),rotationRef=useRef(0);
   const [phase,setPhase]=useState('intro');
   const [holding,setHolding]=useState(false);
   const [memory,setMemory]=useState(0);
@@ -174,23 +174,23 @@ export function PearlPromiseExperience({content:contentProp=null,embedded=false}
   },[phase]);
 
   const completeBoxHold=()=>{
-    holdStart.current=null;setHolding(false);setPhase('opening');engine.current?.open();
+    holdTimer.current=null;setHolding(false);setPhase('opening');engine.current?.open();
     setTimeout(()=>{setPhase('memories');setMemory(1)},1600);
     setTimeout(()=>setMemory(2),2800);
     setTimeout(()=>setMemory(3),4000);
     setTimeout(()=>setPhase('rotate'),5200);
   };
-  const startHold=e=>{
-    if(phase!=='intro'||holdStart.current!=null)return;
-    holdStart.current=performance.now();
+  const startHold=()=>{
+    if(phase!=='intro'||holdTimer.current!=null)return;
     setHolding(true);tone(88,.08,.02);
+    holdTimer.current=setTimeout(()=>completeBoxHold(),900);
   };
-  const stopHold=e=>{
-    if(phase!=='intro'||holdStart.current==null)return;
-    const started=holdStart.current;
-    const ended=performance.now();
-    holdStart.current=null;setHolding(false);
-    if(ended-started>=880)completeBoxHold();
+  const stopHold=()=>{
+    if(holdTimer.current!=null){
+      clearTimeout(holdTimer.current);
+      holdTimer.current=null;
+    }
+    setHolding(false);
   };
 
   const down=e=>{
@@ -200,7 +200,7 @@ export function PearlPromiseExperience({content:contentProp=null,embedded=false}
   const up=()=>{drag.current=null};
 
   const restart=()=>{
-    rotationRef.current=0;setRotation(0);setMemory(0);setHolding(false);holdStart.current=null;
+    rotationRef.current=0;setRotation(0);setMemory(0);setHolding(false);if(holdTimer.current!=null)clearTimeout(holdTimer.current);holdTimer.current=null;
     location.href=location.pathname+'?template=proposal-pearl&name='+encodeURIComponent(cfg.recipient)+'&final='+encodeURIComponent(cfg.final);
   };
 
