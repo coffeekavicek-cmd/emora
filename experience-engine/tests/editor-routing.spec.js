@@ -9,10 +9,11 @@ test.describe('Creator preview runtime routing',()=>{
     await expect(page.locator('.ce-phone-screen .pearl-promise')).toHaveCount(0);
   });
 
-  test('Silk editor uses its cinematic runtime, not Pearl',async({page})=>{
+  test('Silk editor uses its dedicated textile runtime, not generic cinematic',async({page})=>{
     await page.goto('/?mode=editor&template=wedding-silk');
     await page.getByRole('button',{name:'Preview',exact:true}).click();
-    await expect(page.locator('.ce-phone-screen .cinematic.experience-wedding-silk')).toBeVisible({timeout:10000});
+    await expect(page.locator('.ce-phone-screen .silk-heritage')).toBeVisible({timeout:10000});
+    await expect(page.locator('.ce-phone-screen .cinematic')).toHaveCount(0);
     await expect(page.locator('.ce-phone-screen .pearl-motion')).toHaveCount(0);
   });
 });
