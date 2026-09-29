@@ -6,10 +6,14 @@ import { runtimePlan } from './runtimeContract.js';
 const errors=[];
 const ids=new Set();
 const signatureMoments=new Set();
+const dbSlugs=new Set();
 
 for(const t of TEMPLATE_MANIFEST){
   if(ids.has(t.id))errors.push(`Duplicate template id: ${t.id}`);
   ids.add(t.id);
+  if(!t.dbSlug)errors.push(`${t.id}: missing dbSlug`);
+  else if(dbSlugs.has(t.dbSlug))errors.push(`${t.id}: duplicate dbSlug ${t.dbSlug}`);
+  else dbSlugs.add(t.dbSlug);
 
   if(!ARCHETYPE_RULES[t.archetype])errors.push(`${t.id}: unknown archetype ${t.archetype}`);
   const rule=ARCHETYPE_RULES[t.archetype];
