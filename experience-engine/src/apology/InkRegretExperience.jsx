@@ -58,7 +58,7 @@ function NibRewrite({onDone}){
     const next=clamp((e.clientX-start.current)/230,0,1);setP(next);
     if(next>.95){done.current=true;scratch(96,.14,.022);try{navigator.vibrate?.([8,16,8])}catch{};setTimeout(onDone,420)}
   };
-  return <div className="ir-rewrite" style={{'--p':p}}>
+  return <div className="ir-rewrite" style={{'--p':p,'--reveal':((1-p)*100)+'%'}}>
     <div className="ir-wrong"><span>Men shunchaki jahlim chiqdi.</span><i/></div>
     <div className="ir-right">Men seni og‘ritganimni tushunaman.</div>
     <button aria-label="Peroni o‘ngga sudrab gapni qayta yozing"
@@ -78,8 +78,8 @@ export function InkRegretExperience({content:contentProp=null,embedded=false}){
   const paragraphs=c.paragraphs?.length?c.paragraphs:['Avval xatoimni tan olaman.','Keyin seni tinglayman.','Va faqat keyin uzr so‘rayman.'];
 
   const touchDrop=()=>{if(phase!=='blank')return;scratch(120,.1,.015);setPhase('diffuse');setInkMode('diffuse')};
-  const finishDiffuse=()=>{if(phase==='diffuse')setPhase('rewrite')};
-  const beginSpill=()=>{setPhase('spill');setInkMode('spill');spillTimer.current=setTimeout(()=>setPhase('finale'),2050)};
+  const finishDiffuse=()=>{if(phase==='diffuse'){setInkMode(null);setPhase('rewrite')}};
+  const beginSpill=()=>{setPhase('spill');setInkMode('spill');spillTimer.current=setTimeout(()=>{setInkMode(null);setPhase('finale')},2050)};
   useEffect(()=>()=>clearTimeout(spillTimer.current),[]);
 
   return <main className={'ink-regret '+(embedded?'is-embedded ':'')+'phase-'+phase}>
