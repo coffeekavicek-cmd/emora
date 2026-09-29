@@ -26,8 +26,23 @@ test.describe('Pearl Linen reference',()=>{
     page.on('pageerror',e=>errors.push(e.message));
     page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
 
+    const expectFullStage=async(selector)=>{
+      const dims=await page.locator(selector).evaluate(el=>{
+        const r=el.getBoundingClientRect();
+        const s=getComputedStyle(el);
+        return {width:r.width,height:r.height,left:r.left,top:r.top,transform:s.transform,position:s.position};
+      });
+      console.log(selector,JSON.stringify(dims));
+      expect(dims.width).toBeGreaterThanOrEqual(388);
+      expect(dims.height).toBeGreaterThanOrEqual(842);
+      expect(Math.abs(dims.left)).toBeLessThanOrEqual(2);
+      expect(Math.abs(dims.top)).toBeLessThanOrEqual(2);
+    };
+
     await page.goto('/?template=love-pearl&name=Test');
     await expect(page.locator('.pearl-motion')).toBeVisible();
+    await expectFullStage('.pearl-motion');
+    await expectFullStage('.pm-intro');
     await page.screenshot({path:testInfo.outputPath('01-opening.png'),fullPage:true});
 
     const viewport=await page.evaluate(()=>({
@@ -42,6 +57,8 @@ test.describe('Pearl Linen reference',()=>{
     const seal=page.getByRole('button',{name:'Wax muhrni bosib ushlab oching'});
     await expect(seal).toBeVisible();
     await expect(page.locator('.pm-seal canvas')).toHaveCount(1);
+    await expectFullStage('.pm-envelope-layer');
+    await page.waitForTimeout(1050);
     await page.screenshot({path:testInfo.outputPath('02-seal.png'),fullPage:true});
 
     const sealBox=await seal.boundingBox();
@@ -57,6 +74,8 @@ test.describe('Pearl Linen reference',()=>{
 
     await expect(page.locator('.pearl-motion')).toHaveClass(/step-ink/,{timeout:12000});
     await expect(page.locator('.pm-paper')).toBeVisible();
+    await expectFullStage('.pm-letter-layer');
+    await page.waitForTimeout(250);
     await page.screenshot({path:testInfo.outputPath('03-letter.png'),fullPage:true});
 
     const continueButton=page.getByRole('button',{name:'Xotiralarni ochish →'});
@@ -64,6 +83,7 @@ test.describe('Pearl Linen reference',()=>{
     await continueButton.click();
 
     await page.waitForTimeout(1100);
+    await expectFullStage('.pm-memory-layer');
     const dragCard=async(selector,dx,dy)=>{
       const card=page.locator(selector);
       await expect(card).toBeVisible();
