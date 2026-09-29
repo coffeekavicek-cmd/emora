@@ -36,18 +36,6 @@ export class PearlSealEngine{
     ];
   }
   drawSeal(){
-    const base=new Graphics();
-    for(let i=0;i<18;i++){
-      const a=i/18*TAU;
-      const rr=76+(i%5)*1.7;
-      base.circle(Math.cos(a)*rr,Math.sin(a)*rr,8+(i%3)*1.4).fill({color:0x8e1f36,alpha:1});
-    }
-    base.circle(0,0,79).fill({color:0x8d2036,alpha:1});
-    base.circle(-16,-20,54).fill({color:0xa62c45,alpha:.28});
-    base.circle(0,0,73).stroke({width:1.4,color:0xd36a7e,alpha:.25});
-    base.circle(0,0,67).stroke({width:1,color:0x5a0c1b,alpha:.22});
-    this.baseWax=base;this.root.addChild(base);
-
     const total=15;
     for(let i=0;i<total;i++){
       const pts=this.polygonPoints(i,total);
@@ -59,6 +47,22 @@ export class PearlSealEngine{
       g._spin=((i%5)-2)*.42;
       this.shards.push(g);this.root.addChild(g);
     }
+
+    // A continuous wax skin sits above the hidden fracture pieces.
+    // It fades only after the hold completes, so the seal reads as real wax
+    // instead of a pre-sliced graphic.
+    const base=new Graphics();
+    for(let i=0;i<24;i++){
+      const a=i/24*TAU;
+      const rr=79+((i*7)%5)*.55;
+      base.circle(Math.cos(a)*rr,Math.sin(a)*rr,3.4+((i*11)%4)*.45).fill({color:0x8d2036,alpha:1});
+    }
+    base.circle(0,0,80).fill({color:0x8d2036,alpha:1});
+    base.circle(-18,-20,55).fill({color:0xb43750,alpha:.2});
+    base.circle(14,18,56).fill({color:0x6e1427,alpha:.1});
+    base.circle(0,0,73).stroke({width:1.35,color:0xd36a7e,alpha:.21});
+    base.circle(0,0,67).stroke({width:.9,color:0x5a0c1b,alpha:.19});
+    this.baseWax=base;this.root.addChild(base);
 
     const gloss=new Graphics();
     gloss.arc(-7,-8,55,Math.PI*1.07,Math.PI*1.68).stroke({width:3,color:0xf0a6b6,alpha:.17});
