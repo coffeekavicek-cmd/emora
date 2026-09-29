@@ -3,6 +3,7 @@ import { TEMPLATE_BY_ID } from './templateManifest.js';
 import { editorSectionsFor } from './editorContract.js';
 import { contentToSearchParams, readUrlContent } from './contentModel.js';
 import { PearlMotionExperience } from '../pearl/PearlMotionExperience.jsx';
+import { GalaxyExperience } from '../galaxy/GalaxyExperience.jsx';
 import './creatorEditor.css';
 
 function Field({field,value,onChange,onMedia}){
@@ -64,11 +65,22 @@ export function CreatorEditor({templateId='love-pearl'}){
   const template=TEMPLATE_BY_ID[templateId]||TEMPLATE_BY_ID['love-pearl'];
   const sections=useMemo(()=>editorSectionsFor(template),[template]);
   const base=useMemo(()=>readUrlContent(template.id),[template.id]);
-  const [content,setContent]=useState(()=>({
+  const [content,setContent]=useState(()=>{
+    const galaxy=template.id==='love-galaxy'?{
+      message:'Ba’zi tuyg‘ularni oddiy so‘z bilan aytib bo‘lmaydi.',
+      paragraphs:[
+        'Sening yoningda oddiy kunlar ham xotiraga aylanadi.',
+        'Kulging — mening eng sevimli yulduzim.',
+        'Bu olamda seni topganim eng go‘zal tasodif.',
+      ],
+      final:'Mening kichik olamimda eng yorqin nuqta — sensan.',
+    }:null;
+    return {
     ...base,
+    ...(galaxy||{}),
     title:base.title||template.name,
     recipient:base.recipient||'Dilnoza',
-    message:base.message||'Senga aytolmay yurgan bir nechta gapim bor.',
+    message:galaxy?.message||base.message||'Senga aytolmay yurgan bir nechta gapim bor.',
     photos:undefined,
     portrait:undefined,
     portraitParticle:'hearts',
@@ -76,7 +88,7 @@ export function CreatorEditor({templateId='love-pearl'}){
     responseEnabled:true,
     saveEnabled:true,
     shareEnabled:true,
-  }));
+  }});
   const [media,setMedia]=useState({photos:[],portrait:null,music:null});
   const [copied,setCopied]=useState(false);
   const [mobileView,setMobileView]=useState('edit');
@@ -137,12 +149,12 @@ export function CreatorEditor({templateId='love-pearl'}){
       </div>
       <div className="ce-scroll">
         <Section title="Content" fields={sections.content.filter(f=>!['title'].includes(f.key))} content={content} onChange={update} onMedia={updateMedia}/>
-        <section className="ce-section">
-          <div className="ce-section-title"><span>Pearl letter</span><i/></div>
-          {content.paragraphs.map((x,i)=><label className="ce-field" key={'m'+i}><span>{i+1}-paragraf</span><textarea value={x} onChange={e=>setContent(p=>({...p,paragraphs:p.paragraphs.map((v,n)=>n===i?e.target.value:v)}))}/></label>)}
-          {content.captions.map((x,i)=><label className="ce-field" key={'c'+i}><span>{i+1}-polaroid izohi</span><input value={x} onChange={e=>setContent(p=>({...p,captions:p.captions.map((v,n)=>n===i?e.target.value:v)}))}/></label>)}
+        {(template.id==='love-pearl'||template.id==='love-galaxy')&&<section className="ce-section">
+          <div className="ce-section-title"><span>{template.id==='love-galaxy'?'Galaxy memories':'Pearl letter'}</span><i/></div>
+          {content.paragraphs.map((x,i)=><label className="ce-field" key={'m'+i}><span>{template.id==='love-galaxy'?(i+1)+'-yulduz siri':(i+1)+'-paragraf'}</span><textarea value={x} onChange={e=>setContent(p=>({...p,paragraphs:p.paragraphs.map((v,n)=>n===i?e.target.value:v)}))}/></label>)}
+          {template.id==='love-pearl'&&content.captions.map((x,i)=><label className="ce-field" key={'c'+i}><span>{i+1}-polaroid izohi</span><input value={x} onChange={e=>setContent(p=>({...p,captions:p.captions.map((v,n)=>n===i?e.target.value:v)}))}/></label>)}
           <label className="ce-field"><span>Final jumla</span><textarea value={content.final} onChange={e=>setContent(p=>({...p,final:e.target.value}))}/></label>
-        </section>
+        </section>}
         <Section title="Media" fields={sections.media.filter(f=>!['photoCaptions'].includes(f.key))} content={content} onChange={update} onMedia={updateMedia}/>
         {(media.photos.length||media.portrait||media.music)&&<div className="ce-media-status"><p>Media hozir live preview uchun local. Publish pipeline ulangach recipient linkka upload qilinadi.</p>
           <div><span>Xotira rasmlari</span><b>{media.photos.length||0}/3</b></div>
@@ -161,7 +173,9 @@ export function CreatorEditor({templateId='love-pearl'}){
     <section className="ce-preview-zone">
       <div className="ce-preview-head"><div><small>LIVE RECIPIENT PREVIEW</small><b>390 × 844</b></div><span>manifest-driven</span></div>
       <div className="ce-phone">
-        <div className="ce-phone-screen"><PearlMotionExperience content={content} media={media} embedded/></div>
+        <div className="ce-phone-screen">{template.id==='love-galaxy'
+          ?<GalaxyExperience content={content} media={media} embedded/>
+          :<PearlMotionExperience content={content} media={media} embedded/>}</div>
       </div>
       <div className="ce-preview-note">
         <b>Signature moment</b>

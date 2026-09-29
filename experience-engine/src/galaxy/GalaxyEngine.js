@@ -19,23 +19,30 @@ function makeDotTexture(app,size=22){
 function pointInGalaxy(i,total,radius){
   const arm=i%4;
   const p=i/Math.max(1,total-1);
-  const distance=radius*(.08+Math.pow(p,.7)*.92);
-  const spiral=p*TAU*2.4+arm*(TAU/4);
-  const jitter=(Math.random()-.5)*Math.min(72,22+distance*.12);
+  const distance=radius*(.07+Math.pow(p,.69)*.93);
+  const spiral=p*TAU*2.58+arm*(TAU/4);
+  const jitter=(Math.random()-.5)*Math.min(76,18+distance*.13);
   return{
     distance:Math.max(8,distance+jitter),
-    angle:spiral+(Math.random()-.5)*.42,
-    lift:(Math.random()-.5)*(14+distance*.08),
-    speed:.08+Math.random()*.08,
+    angle:spiral+(Math.random()-.5)*.38,
+    lift:(Math.random()-.5)*(12+distance*.075),
+    speed:.06+Math.random()*.085,
     phase:Math.random()*TAU,
   };
 }
 
+const STAR_PLACEMENTS=[
+  {angle:-2.42,radius:.36,flatten:.57},
+  {angle:-.17,radius:.41,flatten:.54},
+  {angle:1.67,radius:.34,flatten:.61},
+];
+
 export class GalaxyEngine{
-  constructor(host,{onStar,onReady,showStars=true,interactive=true}={}){
+  constructor(host,{onStar,onReady,onStarLayout,showStars=true,interactive=true}={}){
     this.host=host;
     this.onStar=onStar;
     this.onReady=onReady;
+    this.onStarLayout=onStarLayout;
     this.showStars=showStars;
     this.interactive=interactive;
     this.app=null;
@@ -48,7 +55,7 @@ export class GalaxyEngine{
     this.rotation=0;
     this.targetRotation=0;
     this.pointer={x:0,y:0};
-    this.state={intro:0,morph:0,explode:0};
+    this.state={intro:0,morph:0,explode:0,collapse:0};
     this.mode='galaxy';
     this.destroyed=false;
     this.resizeObserver=null;
@@ -84,15 +91,15 @@ export class GalaxyEngine{
     this.resizeObserver=new ResizeObserver(()=>this.layout());
     this.resizeObserver.observe(this.host);
     this.layout();
-    gsap.to(this.state,{intro:1,duration:2.2,ease:'power3.out'});
-    this.onReady?.();
+    gsap.to(this.state,{intro:1,duration:2.15,ease:'power3.out'});
+    this.onReady?.({particleCount:this.points.length,tier:this.quality.tier});
   }
 
   qualityCount(){
     const mobile=Math.min(innerWidth,innerHeight)<760;
     const cores=navigator.hardwareConcurrency||4;
-    const base=mobile?(cores<=4?760:960):(cores>=8?1450:1120);
-    return Math.max(420,Math.round(base*this.quality.particleScale));
+    const base=mobile?(cores<=4?820:1040):(cores>=8?1580:1240);
+    return Math.max(460,Math.round(base*this.quality.particleScale));
   }
 
   createParticles(){
@@ -100,11 +107,11 @@ export class GalaxyEngine{
     for(let i=0;i<count;i++){
       const sprite=new Sprite(this.dotTexture);
       sprite.anchor.set(.5);
-      const size=.16+Math.random()*.46;
+      const size=.14+Math.random()*.5;
       sprite.scale.set(size);
       sprite.alpha=0;
       const warm=Math.random();
-      sprite.tint=warm>.88?0xffc3d8:warm>.62?0xdad4ff:0xffffff;
+      sprite.tint=warm>.91?0xffb9d6:warm>.69?0xcac6ff:warm>.54?0xe5ddff:0xffffff;
       const meta=pointInGalaxy(i,count,360);
       meta.sprite=sprite;
       meta.baseScale=size;
@@ -116,42 +123,43 @@ export class GalaxyEngine{
   }
 
   createInteractiveStars(){
-    const placements=[
-      {x:.25,y:.33,label:'01'},
-      {x:.73,y:.29,label:'02'},
-      {x:.57,y:.72,label:'03'},
-    ];
-    placements.forEach((p,index)=>{
+    STAR_PLACEMENTS.forEach((p,index)=>{
       const c=new Container();
-      const glow=new Graphics();
-      glow.circle(0,0,31).fill({color:0xffd7e7,alpha:.06});
-      glow.circle(0,0,18).fill({color:0xffffff,alpha:.08});
-      const core=new Graphics();
-      core.star(0,0,5,8,2.8,0).fill({color:0xfff9ef,alpha:1});
+      const outer=new Graphics();
+      outer.circle(0,0,38).fill({color:0xd8c7ff,alpha:.025});
+      outer.circle(0,0,27).fill({color:0xffe8f4,alpha:.045});
       const ring=new Graphics();
-      ring.circle(0,0,22).stroke({width:1,color:0xffd7e7,alpha:.36});
-      c.addChild(glow,ring,core);
+      ring.circle(0,0,19).stroke({width:.8,color:0xf4ddff,alpha:.34});
+      ring.circle(0,0,30).stroke({width:.45,color:0xc4b1f4,alpha:.13});
+      const core=new Graphics();
+      core.star(0,0,6,8,2.2,0).fill({color:0xfff8ff,alpha:1});
+      c.addChild(outer,ring,core);
       c.eventMode='static';
       c.cursor='pointer';
-      c.hitArea={contains:(x,y)=>x*x+y*y<42*42};
+      c.hitArea={contains:(x,y)=>x*x+y*y<46*46};
       c.alpha=0;
       c.scale.set(.8);
       c._placement=p;
       c._opened=false;
       c._pulse=Math.random()*TAU;
-      c.on('pointertap',()=>{
-        if(c._opened||this.mode!=='galaxy')return;
-        c._opened=true;
-        c.eventMode='none';
-        gsap.timeline()
-          .to(c.scale,{x:1.55,y:1.55,duration:.3,ease:'power2.out'})
-          .to(c,{alpha:.18,duration:.45,ease:'power2.in'},'<')
-          .to(c.scale,{x:.35,y:.35,duration:.45,ease:'power2.in'},'<');
-        this.onStar?.(index);
-      });
+      c._index=index;
+      c.on('pointertap',()=>this.openStar(index));
       this.stars.push(c);
       this.root.addChild(c);
     });
+  }
+
+  openStar(index){
+    const c=this.stars[index];
+    if(!c||c._opened||this.mode!=='galaxy')return false;
+    c._opened=true;
+    c.eventMode='none';
+    gsap.timeline()
+      .to(c.scale,{x:1.85,y:1.85,duration:.24,ease:'power3.out'})
+      .to(c,{alpha:.1,duration:.62,ease:'power2.in'},'<+.03')
+      .to(c.scale,{x:.32,y:.32,duration:.62,ease:'power2.in'},'<');
+    this.onStar?.(index);
+    return true;
   }
 
   installInput(){
@@ -169,8 +177,8 @@ export class GalaxyEngine{
       if(!this.drag.active||this.mode!=='galaxy')return;
       const dx=e.global.x-this.drag.lastX;
       this.drag.lastX=e.global.x;
-      this.targetRotation+=dx*.0055;
-      this.drag.velocity=dx*.0018;
+      this.targetRotation+=dx*.0062;
+      this.drag.velocity=dx*.0021;
     });
     const release=()=>{this.drag.active=false};
     stage.on('pointerup',release);
@@ -182,44 +190,45 @@ export class GalaxyEngine{
     this.app.stage.hitArea=this.app.screen;
     const w=this.app.screen.width,h=this.app.screen.height;
     this.root.position.set(w/2,h/2);
-    const radius=Math.min(w,h)*.48;
-    const scale=clamp(radius/360,.72,1.62);
+    const radius=Math.min(w,h)*.5;
+    const scale=clamp(radius/360,.7,1.68);
     this.galaxy.scale.set(scale);
-    this.stars.forEach(c=>{
-      c.position.set((c._placement.x-.5)*w,(c._placement.y-.5)*h);
-    });
   }
 
   tick=(ticker)=>{
     if(!this.app)return;
     const dt=Math.min(ticker.deltaMS/1000,.034);
     this.targetRotation+=this.drag.velocity;
-    this.drag.velocity*=Math.pow(.93,dt*60);
-    this.rotation=lerp(this.rotation,this.targetRotation,1-Math.pow(.055,dt));
+    this.drag.velocity*=Math.pow(.925,dt*60);
+    this.rotation=lerp(this.rotation,this.targetRotation,1-Math.pow(.045,dt));
     const time=performance.now()/1000;
     const w=this.app.screen.width,h=this.app.screen.height;
-    const parallaxX=this.pointer.x*Math.min(24,w*.025);
-    const parallaxY=this.pointer.y*Math.min(18,h*.02);
+    const parallaxX=this.pointer.x*Math.min(28,w*.032);
+    const parallaxY=this.pointer.y*Math.min(20,h*.025);
+    const collapse=this.state.collapse;
 
-    if(this.mode==='galaxy'||this.mode==='morph'){
+    if(this.mode==='galaxy'||this.mode==='collapse'||this.mode==='morph'){
       for(let i=0;i<this.points.length;i++){
         const p=this.points[i],s=p.sprite;
-        const a=p.angle+this.rotation+p.speed*time*.17;
-        const breathing=1+Math.sin(time*.55+p.phase)*.018;
-        const gx=Math.cos(a)*p.distance*breathing+parallaxX*(p.distance/360);
-        const gy=Math.sin(a)*p.distance*.57+p.lift+parallaxY*(p.distance/360);
+        const a=p.angle+this.rotation+p.speed*time*.16;
+        const breathing=1+Math.sin(time*.51+p.phase)*.02;
+        let gx=Math.cos(a)*p.distance*breathing+parallaxX*(p.distance/360);
+        let gy=Math.sin(a)*p.distance*.55+p.lift+parallaxY*(p.distance/360);
+        gx*=1-collapse;
+        gy*=1-collapse;
         const m=this.state.morph;
         if(p.portrait){
           const px=p.portrait.x,py=p.portrait.y;
           s.x=lerp(gx,px,m);
           s.y=lerp(gy,py,m);
-          s.alpha=lerp((.22+Math.sin(time*1.9+p.phase)*.018)*this.state.intro,p.portrait.alpha,m);
-          s.tint=m>.55?p.portrait.tint:s.tint;
-          const targetScale=clamp(p.baseScale*(.72+p.portrait.alpha*.68),.12,.7);
-          const sc=lerp(p.baseScale,targetScale,m);
-          s.scale.set(sc);
+          s.alpha=lerp((.2+.48*(1-p.distance/430))*this.state.intro,p.portrait.alpha,m);
+          if(m>.5)s.tint=p.portrait.tint;
+          const targetScale=clamp(p.baseScale*(.7+p.portrait.alpha*.7),.12,.74);
+          s.scale.set(lerp(p.baseScale,targetScale,m));
         }else{
-          s.x=gx;s.y=gy;s.alpha=(.18+.48*(1-p.distance/430))*this.state.intro;
+          s.x=gx;s.y=gy;
+          s.alpha=clamp((.17+.48*(1-p.distance/430))*this.state.intro+collapse*.22,0,.94);
+          s.scale.set(p.baseScale*(1+collapse*.24));
         }
       }
     }
@@ -229,26 +238,53 @@ export class GalaxyEngine{
       for(const p of this.points){
         const s=p.sprite;
         const angle=p.seed+this.rotation;
-        const dist=(80+p.distance*1.7)*e;
+        const dist=(76+p.distance*1.74)*e;
         s.x=(p.portrait?.x||0)+Math.cos(angle)*dist;
         s.y=(p.portrait?.y||0)+Math.sin(angle)*dist;
         s.alpha=(1-e)*.92;
       }
     }
 
+    const baseR=Math.min(w,h);
     this.stars.forEach((c,i)=>{
-      if(c._opened)return;
-      c.alpha=clamp(this.state.intro*(.72+Math.sin(time*1.7+c._pulse)*.24),0,1);
-      const k=1+Math.sin(time*1.3+c._pulse)*.06;
-      c.scale.set(k);
-      c.rotation=Math.sin(time*.45+i)*.05;
+      const p=c._placement;
+      const a=p.angle+this.rotation*.78;
+      const depth=(Math.sin(a+.65)+1)/2;
+      const r=baseR*p.radius*(1-collapse);
+      const x=Math.cos(a)*r+parallaxX*(.32+depth*.3);
+      const y=Math.sin(a)*r*p.flatten+parallaxY*(.28+depth*.24);
+      const k=(.72+depth*.34)*(1-collapse*.35);
+      c.position.set(x,y);
+      if(!c._opened){
+        c.alpha=clamp(this.state.intro*(.56+depth*.33+Math.sin(time*1.6+c._pulse)*.1),0,1);
+        c.scale.set(k*(1+Math.sin(time*1.05+c._pulse)*.035));
+        c.rotation=Math.sin(time*.42+i)*.055;
+      }else if(this.mode==='collapse'){
+        c.alpha=.42*(1-collapse);
+      }
+      this.onStarLayout?.(i,{
+        x:w/2+x,
+        y:h/2+y,
+        scale:k,
+        alpha:c._opened ? .12 : c.alpha,
+        opened:c._opened,
+      });
     });
+  }
+
+  collapseToCore({onComplete}={}){
+    if(!this.app)return;
+    this.mode='collapse';
+    this.stars.forEach(c=>{c.eventMode='none';if(c._opened)gsap.to(c,{alpha:.42,duration:.25})});
+    gsap.killTweensOf(this.state);
+    gsap.fromTo(this.state,{collapse:0},{collapse:1,duration:1.45,ease:'power4.inOut',onComplete});
   }
 
   morphToPortrait(points,{onComplete}={}){
     if(!points?.length||!this.points.length)return;
     this.mode='morph';
-    const scale=Math.min(this.app.screen.width,this.app.screen.height)/Math.max(520,Math.min(this.app.screen.width,this.app.screen.height));
+    const minSide=Math.min(this.app.screen.width,this.app.screen.height);
+    const scale=minSide/Math.max(520,minSide);
     for(let i=0;i<this.points.length;i++){
       const source=points[i%points.length];
       this.points[i].portrait={
@@ -259,11 +295,11 @@ export class GalaxyEngine{
       };
     }
     gsap.killTweensOf(this.state);
-    gsap.fromTo(this.state,{morph:0},{morph:1,duration:2.6,ease:'power4.inOut',onComplete:()=>{
+    gsap.fromTo(this.state,{morph:0},{morph:1,duration:2.85,ease:'power4.inOut',onComplete:()=>{
       this.mode='portrait';
       onComplete?.();
     }});
-    this.stars.forEach(c=>gsap.to(c,{alpha:0,duration:.55}));
+    this.stars.forEach(c=>gsap.to(c,{alpha:0,duration:.42}));
   }
 
   explode({onComplete}={}){
@@ -276,11 +312,13 @@ export class GalaxyEngine{
     this.mode='galaxy';
     this.state.morph=0;
     this.state.explode=0;
+    this.state.collapse=0;
     this.rotation=0;this.targetRotation=0;
+    this.drag.velocity=0;this.drag.active=false;
     this.stars.forEach(c=>{
-      c._opened=false;c.eventMode='static';c.alpha=.8;c.scale.set(1);
+      c._opened=false;c.eventMode='static';c.alpha=.72;c.scale.set(1);
     });
-    this.points.forEach(p=>{p.portrait=null;p.sprite.alpha=.5});
+    this.points.forEach(p=>{p.portrait=null;p.sprite.alpha=.45});
   }
 
   destroy(){
