@@ -28,22 +28,6 @@ function ChainPull({onComplete}){
   </button>;
 }
 
-function MoveLamp({onComplete}){
-  const start=useRef(null),done=useRef(false);const [p,setP]=useState(0);
-  const down=e=>{if(done.current)return;start.current=e.clientX;e.currentTarget.setPointerCapture?.(e.pointerId)};
-  const move=e=>{
-    if(start.current==null||done.current)return;
-    const next=clamp(Math.abs(e.clientX-start.current)/150,0,1);setP(next);
-    if(next>.93){done.current=true;clickTone(80,.14,.015);setTimeout(onComplete,330)}
-  };
-  const up=()=>{start.current=null;if(!done.current&&p<.3)setP(0)};
-  const key=e=>{if(done.current||e.repeat||!(e.key==='Enter'||e.key===' '))return;e.preventDefault();done.current=true;setP(1);setTimeout(onComplete,300)};
-  return <button className="qr-move" style={{'--move':(p*72)+'px','--dim':String(1-p*.58)}} aria-label="Yorug‘likni chetga suring"
-    onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up} onKeyDown={key}>
-    <i/><span>yorug‘likni chetga suring</span>
-  </button>;
-}
-
 export function QuietRoomExperience({content:contentProp=null,embedded=false}){
   const content=useMemo(()=>contentProp||readUrlContent('apology-quiet'),[contentProp]);
   const [phase,setPhase]=useState('dark');
@@ -53,14 +37,10 @@ export function QuietRoomExperience({content:contentProp=null,embedded=false}){
     if(phase!=='listen')return;
     setLine(0);
     const timers=[500,2200,4100].map((ms,i)=>setTimeout(()=>{setLine(i+1);clickTone(250+i*35,.05,.005)},ms));
-    const next=setTimeout(()=>setPhase('move'),5900);
-    return()=>{timers.forEach(clearTimeout);clearTimeout(next)};
+    const next=setTimeout(()=>setPhase('blackout'),6500);
+    const final=setTimeout(()=>{clickTone(145,.16,.012);setPhase('finale')},7700);
+    return()=>{timers.forEach(clearTimeout);clearTimeout(next);clearTimeout(final)};
   },[phase]);
-
-  const darken=()=>{
-    setPhase('blackout');
-    setTimeout(()=>{clickTone(145,.16,.012);setPhase('finale')},1150);
-  };
 
   return <main className={'quiet-room '+(embedded?'is-embedded ':'')+'phase-'+phase}>
     <div className="qr-room" aria-hidden="true">
@@ -70,7 +50,7 @@ export function QuietRoomExperience({content:contentProp=null,embedded=false}){
       <div className="qr-light-cone"/>
     </div>
     <div className="qr-noise"/>
-    <header className="qr-chrome"><a href="?">emora<span>.</span></a><small>QUIET ROOM · APOLOGY 03</small><b>{phase==='dark'?'00':phase==='lit'?'01':phase==='listen'?'02':phase==='move'?'03':phase==='blackout'?'04':'05'}</b></header>
+    <header className="qr-chrome"><a href="?">emora<span>.</span></a><small>QUIET ROOM · APOLOGY 03</small><b>{phase==='dark'?'00':phase==='lit'?'01':phase==='listen'?'02':phase==='blackout'?'03':'04'}</b></header>
 
     <section className="qr-layer qr-dark">
       <div className="qr-whisper"><p>HECH NARSA DEMAY TURIB</p><h1>{content.message}</h1><span>Ba’zi gaplar yorug‘lik yoqilgandan keyin aytiladi.</span></div>
@@ -83,11 +63,6 @@ export function QuietRoomExperience({content:contentProp=null,embedded=false}){
         <div className="qr-lines">{content.paragraphs.map((x,i)=><span key={i} className={line>i?'show':''}>{x}</span>)}</div>
         <em>— shoshilmasdan, rost gap bilan</em>
       </article>
-    </section>
-
-    <section className="qr-layer qr-move-layer">
-      <div className="qr-move-copy"><p>ONE LAST THING</p><h2>Ba’zan yorug‘likni pasaytirib, gapni aniqroq ko‘rasan.</h2></div>
-      <MoveLamp onComplete={darken}/>
     </section>
 
     <section className="qr-layer qr-phosphor"><span>men shu yerdaman.</span></section>
