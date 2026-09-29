@@ -245,6 +245,32 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
     }});
   };
 
+  const shareExperience=async()=>{
+    const payload={title:cfg.title||'Emora',text:cfg.final||cfg.message,url:location.href};
+    try{
+      if(navigator.share){await navigator.share(payload);return}
+      await navigator.clipboard.writeText(location.href);
+      softTone(760,.09,.02);
+    }catch{}
+  };
+
+  const saveKeepsake=()=>{
+    const esc=s=>String(s||'').replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+    const quote=esc(cfg.final||cfg.message),name=esc(cfg.recipient||'');
+    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+      <defs><radialGradient id="g"><stop stop-color="#28171f"/><stop offset="1" stop-color="#08070a"/></radialGradient></defs>
+      <rect width="1080" height="1350" fill="url(#g)"/>
+      <text x="540" y="140" text-anchor="middle" fill="#b79ca8" font-family="Arial" font-size="20" letter-spacing="5">EMORA · PEARL LINEN</text>
+      <foreignObject x="120" y="360" width="840" height="430"><div xmlns="http://www.w3.org/1999/xhtml" style="font:64px Georgia,serif;line-height:1.08;text-align:center;color:#fff7f3;">${quote}</div></foreignObject>
+      <text x="540" y="1040" text-anchor="middle" fill="#e3a0b1" font-family="Georgia,serif" font-size="82" font-style="italic">${name}</text>
+      <circle cx="540" cy="1180" r="3" fill="#e3a0b1"/><circle cx="520" cy="1180" r="2" fill="#fff1ed"/><circle cx="560" cy="1180" r="2" fill="#fff1ed"/>
+    </svg>`;
+    const blob=new Blob([svg],{type:'image/svg+xml;charset=utf-8'});
+    const url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download='emora-pearl-'+(cfg.recipient||'keepsake').toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.svg';
+    document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1200);
+  };
+
   const toggleSound=()=>{
     setSoundOn(v=>{
       const next=!v;
@@ -334,7 +360,11 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
         <p>AND THIS IS THE ONLY LINE THAT MATTERS</p>
         <h2>{cfg.final}</h2>
         <Signature name={cfg.recipient} className="pm-final-name"/>
-        <button className="pm-final-restart" onClick={restart}>Boshidan ↺</button>
+        <div className="pm-final-actions">
+          {cfg.shareEnabled!==false&&<button onClick={shareExperience}>Ulashish</button>}
+          {cfg.saveEnabled!==false&&<button onClick={saveKeepsake}>Keepsake saqlash</button>}
+          <button className="pm-final-restart" onClick={restart}>Boshidan ↺</button>
+        </div>
       </div>
     </section>
   </main>;
