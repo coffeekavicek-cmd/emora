@@ -72,6 +72,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
   const [holding,setHolding]=useState(false);
   const [sealCracked,setSealCracked]=useState(false);
   const [inkCount,setInkCount]=useState(0);
+  const [inkReady,setInkReady]=useState(false);
   const [explored,setExplored]=useState(new Set());
   const [memoryUnlocked,setMemoryUnlocked]=useState(1);
   const [afterHolding,setAfterHolding]=useState(false);
@@ -180,21 +181,23 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
   };
 
   const revealInkParagraph=(next)=>{
+    setInkReady(false);
     setInkCount(next);
     softTone(300+next*58,.09,.018);
-    gsap.fromTo('.pm-letter-continue',{autoAlpha:0,y:8},{autoAlpha:1,y:0,duration:.55,delay:1.45,ease:'power2.out'});
+    setTimeout(()=>setInkReady(true),1550);
   };
 
   const startInkSequence=()=>{
+    setInkReady(false);
     setInkCount(0);
     setTimeout(()=>revealInkParagraph(1),620);
   };
 
   const continueLetter=()=>{
-    if(step!=='ink')return;
-    gsap.to('.pm-letter-continue',{autoAlpha:0,y:8,duration:.2});
+    if(step!=='ink'||!inkReady)return;
+    setInkReady(false);
     if(inkCount<3){
-      setTimeout(()=>revealInkParagraph(inkCount+1),260);
+      setTimeout(()=>revealInkParagraph(inkCount+1),280);
       return;
     }
     openMemories();
@@ -348,7 +351,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
   };
 
   const restart=()=>{
-    setPortraitReady(false);setExplored(new Set());setMemoryUnlocked(1);setAfterHolding(false);setInkCount(0);setSealCracked(false);setStep('intro');started.current=false;
+    setPortraitReady(false);setExplored(new Set());setMemoryUnlocked(1);setAfterHolding(false);setInkReady(false);setInkCount(0);setSealCracked(false);setStep('intro');started.current=false;
     particleEngine.current?.reset();sealEngine.current?.reset();
     const tl=gsap.timeline({defaults:{duration:.4}});
     tl.to([envelope.current,letter.current,memory.current,afterword.current,finale.current],{autoAlpha:0,pointerEvents:'none'})
@@ -408,7 +411,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
         </div>
         <p className="pm-signoff">— samimiyat bilan</p>
       </article>
-      <button className="pm-letter-continue pm-primary" onClick={continueLetter}>{inkCount<3?'Davomini o‘qish →':'Xotiralarni ochish →'}</button>
+      <button className={'pm-letter-continue pm-primary '+(inkReady?'ready':'')} disabled={!inkReady} onClick={continueLetter}>{inkCount<3?'Davomini o‘qish →':'Xotiralarni ochish →'}</button>
     </section>
 
     <section ref={memory} className="pm-layer pm-memory-layer">
