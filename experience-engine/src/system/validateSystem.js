@@ -1,5 +1,7 @@
 import { ARCHETYPE_RULES } from './archetypes.js';
 import { TEMPLATE_MANIFEST } from './templateManifest.js';
+import { editorFieldsFor } from './editorContract.js';
+import { runtimePlan } from './runtimeContract.js';
 
 const errors=[];
 const ids=new Set();
