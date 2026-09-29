@@ -8,6 +8,7 @@ const PearlPromiseExperience=lazy(()=>import('../proposal/PearlPromiseExperience
 const GalaxyExperience=lazy(()=>import('../galaxy/GalaxyExperience.jsx').then(m=>({default:m.GalaxyExperience})));
 const SilkHeritageExperience=lazy(()=>import('../wedding/SilkHeritageExperience.jsx').then(m=>({default:m.SilkHeritageExperience})));
 const MemoryReelExperience=lazy(()=>import('../birthday/MemoryReelExperience.jsx').then(m=>({default:m.MemoryReelExperience})));
+const AuroraPaperExperience=lazy(()=>import('../birthday/AuroraPaperExperience.jsx').then(m=>({default:m.AuroraPaperExperience})));
 const QuietRoomExperience=lazy(()=>import('../apology/QuietRoomExperience.jsx').then(m=>({default:m.QuietRoomExperience})));
 const RoseTheatreExperience=lazy(()=>import('../love/RoseTheatreExperience.jsx').then(m=>({default:m.RoseTheatreExperience})));
 const NightGardenExperience=lazy(()=>import('../wedding/NightGardenExperience.jsx').then(m=>({default:m.NightGardenExperience})));
@@ -76,6 +77,7 @@ function PreviewRuntime({template,content,media}){
   if(template.id==='love-galaxy')return <Suspense fallback={<div className="ce-runtime-loading">WebGL preview</div>}><GalaxyExperience content={content} embedded/></Suspense>;
   if(template.id==='wedding-silk')return <Suspense fallback={<div className="ce-runtime-loading">Silk preview</div>}><SilkHeritageExperience content={content} embedded/></Suspense>;
   if(template.id==='birthday-memory')return <Suspense fallback={<div className="ce-runtime-loading">Film preview</div>}><MemoryReelExperience content={content} media={media} embedded/></Suspense>;
+  if(template.id==='birthday-aurora')return <Suspense fallback={<div className="ce-runtime-loading">Aurora preview</div>}><AuroraPaperExperience content={content} embedded/></Suspense>;
   if(template.id==='apology-quiet')return <Suspense fallback={<div className="ce-runtime-loading">Quiet preview</div>}><QuietRoomExperience content={content} embedded/></Suspense>;
   if(template.id==='love-rose')return <Suspense fallback={<div className="ce-runtime-loading">Theatre preview</div>}><RoseTheatreExperience content={content} media={media} embedded/></Suspense>;
   if(template.id==='wedding-garden')return <Suspense fallback={<div className="ce-runtime-loading">Garden preview</div>}><NightGardenExperience content={content} embedded/></Suspense>;
