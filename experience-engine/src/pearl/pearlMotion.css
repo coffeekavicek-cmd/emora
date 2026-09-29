@@ -130,3 +130,17 @@
   .pm-intro .pm-signature{margin-top:2px;margin-bottom:9px}
   .pm-intro .pm-primary{margin-top:3px}
 }
+
+.pm-effort-copy{position:absolute;z-index:7;left:50%;top:45%;transform:translate(-50%,-50%);width:min(520px,88vw);text-align:center;pointer-events:none}
+.pm-effort-copy>span{display:block;font-size:8px;font-weight:850;letter-spacing:.22em;color:#9c8c95;margin-bottom:8px}
+.pm-effort-copy>strong{display:block;font:400 clamp(74px,16vw,168px)/.82 "Cormorant Garamond",Georgia,serif;letter-spacing:-.06em;color:#fff4ef;text-shadow:0 14px 60px rgba(0,0,0,.6)}
+.pm-effort-copy>p{margin:12px auto 0;max-width:300px;font:italic 400 17px/1.25 "Cormorant Garamond",Georgia,serif;color:#b7a6ad}
+.pm-effort-copy.phase-idle,.pm-effort-copy.phase-portrait{opacity:0;visibility:hidden}
+.pm-effort-copy.phase-counting{opacity:1;visibility:visible}
+.pm-effort-copy.phase-silence{opacity:0;visibility:visible}
+.step-converge .pm-particles{opacity:.18;visibility:visible}
+@media(max-width:720px){
+  .pm-effort-copy{top:43%}
+  .pm-effort-copy>strong{font-size:clamp(78px,22vw,110px)}
+  .pm-effort-copy>p{font-size:15px}
+}
