@@ -114,6 +114,7 @@ export function GalaxyExperience({content:contentProp=null,media=null,embedded=f
     setPortraitReady(false);
     morphQueuedRef.current=false;
     engineRef.current?.reset();
+    engineRef.current?.startExploration?.();
     setPhase('explore');
   };
 
@@ -203,7 +204,7 @@ export function GalaxyExperience({content:contentProp=null,media=null,embedded=f
     <section className={'gr-morph '+(['collapse','morphing','portrait'].includes(phase)?'visible':'')} aria-hidden={!['collapse','morphing','portrait'].includes(phase)}>
       <div className={'gr-portrait-copy '+(phase==='portrait'?'show':'')}>
         <p>{portrait?'Yulduzlar tanish qiyofaga aylandi':'Yulduzlar bitta ismga aylandi'}</p>
-        <h2>{config.recipient}</h2>
+        {portrait&&<h2>{config.recipient}</h2>}
         {phase==='portrait'&&<button className="gr-release" onClick={revealFinale}>qo‘yib yubor</button>}
       </div>
     </section>
