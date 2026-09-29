@@ -1,8 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-import { PearlSealEngine, playCrackSound } from './PearlSealEngine.js';
-import { GalaxyEngine } from '../galaxy/GalaxyEngine.js';
-import { createHeartPoints, samplePortraitFile } from '../galaxy/portraitSampler.js';
 import { readUrlContent } from '../system/contentModel.js';
 import './pearlMotion.css';
 
@@ -68,6 +65,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
   const memory=useRef(null),finale=useRef(null),particleHost=useRef(null);
   const p0=useRef(null),p1=useRef(null),p2=useRef(null);
   const sealEngine=useRef(null),particleEngine=useRef(null);
+  const sealInitPromise=useRef(null),particleInitPromise=useRef(null);
   const holdTimer=useRef(null),started=useRef(false);
   const [step,setStep]=useState('intro');
   const [holding,setHolding]=useState(false);
@@ -95,25 +93,40 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
     return()=>ctx.revert();
   },[]);
 
-  useEffect(()=>{
-    if(!sealHost.current)return;
-    const e=new PearlSealEngine(sealHost.current,{
-      onCrack:()=>{playCrackSound();setHolding(false)},
-      onSettled:()=>openEnvelope(),
-    });
-    sealEngine.current=e;e.init();
-    return()=>e.destroy();
-  },[]);
+  const ensureSealEngine=async()=>{
+    if(sealEngine.current)return sealEngine.current;
+    if(sealInitPromise.current)return sealInitPromise.current;
+    sealInitPromise.current=(async()=>{
+      const mod=await import('./PearlSealEngine.js');
+      if(!sealHost.current)return null;
+      const e=new mod.PearlSealEngine(sealHost.current,{
+        onCrack:()=>{mod.playCrackSound();setHolding(false)},
+        onSettled:()=>openEnvelope(),
+      });
+      sealEngine.current=e;
+      await e.init();
+      return e;
+    })().finally(()=>{sealInitPromise.current=null});
+    return sealInitPromise.current;
+  };
 
-  useEffect(()=>{
-    if(!particleHost.current)return;
-    const e=new GalaxyEngine(particleHost.current,{showStars:false,interactive:false,onReady:()=>{particleEngine.current=e}});
-    particleEngine.current=e;e.init();
-    return()=>e.destroy();
-  },[]);
+  const ensureParticleEngine=async()=>{
+    if(particleEngine.current)return particleEngine.current;
+    if(particleInitPromise.current)return particleInitPromise.current;
+    particleInitPromise.current=(async()=>{
+      const {GalaxyEngine}=await import('../galaxy/GalaxyEngine.js');
+      if(!particleHost.current)return null;
+      const e=new GalaxyEngine(particleHost.current,{showStars:false,interactive:false});
+      particleEngine.current=e;
+      await e.init();
+      return e;
+    })().finally(()=>{particleInitPromise.current=null});
+    return particleInitPromise.current;
+  };
 
-  const startRitual=()=>{
+  const startRitual=async()=>{
     if(started.current)return;started.current=true;softTone(520,.16,.035);
+    try{await ensureSealEngine()}catch{started.current=false;return}
     setStep('seal');
     const tl=gsap.timeline({defaults:{ease:'power3.inOut'}});
     tl.to(intro.current,{autoAlpha:0,scale:.985,duration:.55})
@@ -162,6 +175,8 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
 
   const openMemories=()=>{
     if(step!=='ink')return;
+    void import('../galaxy/GalaxyEngine.js');
+    void import('../galaxy/portraitSampler.js');
     setStep('memories');thump();
     const cards=[p0.current,p1.current,p2.current];
     const tl=gsap.timeline({defaults:{ease:'power4.out'}});
@@ -195,12 +210,17 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
   };
 
   const startPortrait=async()=>{
-    const host=particleHost.current,e=particleEngine.current;if(!host||!e)return;
+    const host=particleHost.current;if(!host)return;
+    const [sampler,e]=await Promise.all([
+      import('../galaxy/portraitSampler.js'),
+      ensureParticleEngine(),
+    ]);
+    if(!e)return;
     const rect=host.getBoundingClientRect();
     let points;
     const source=portrait||photos[2]||photos[0]||null;
-    try{points=source?await samplePortraitFile(source,{width:rect.width,height:rect.height,count:1650}):createHeartPoints(rect.width,rect.height,1650)}
-    catch{points=createHeartPoints(rect.width,rect.height,1650)}
+    try{points=source?await sampler.samplePortraitFile(source,{width:rect.width,height:rect.height,count:1650}):sampler.createHeartPoints(rect.width,rect.height,1650)}
+    catch{points=sampler.createHeartPoints(rect.width,rect.height,1650)}
     gsap.fromTo(particleHost.current,{autoAlpha:0,scale:1.12},{autoAlpha:1,scale:1,duration:.75,ease:'power3.out'});
     e.morphToPortrait(points,{onComplete:()=>{
       setPortraitReady(true);setStep('finale');
@@ -222,7 +242,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
     gsap.set('.pm-letter-continue,.pm-memory-release',{autoAlpha:0,y:10});
   };
 
-  useEffect(()=>()=>clearTimeout(holdTimer.current),[]);
+  useEffect(()=>()=>{clearTimeout(holdTimer.current);sealEngine.current?.destroy();particleEngine.current?.destroy()},[]);
 
   return <main ref={root} className={'pearl-motion '+(embedded?'is-embedded ':'')+'step-'+step}>
     <div className="pm-grain"/><div className="pm-vignette"/>
