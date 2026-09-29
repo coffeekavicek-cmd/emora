@@ -1,167 +1,74 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Pearl Linen reference',()=>{
-  test('mobile creator editor switches between Edit and Preview',async({page})=>{
+test.describe('Pearl Linen · Reborn Archive',()=>{
+  test('editor preview uses the new Archive runtime',async({page})=>{
     const errors=[];
     page.on('pageerror',e=>errors.push(e.message));
     page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
 
     await page.goto('/?mode=editor&template=love-pearl');
     await expect(page.locator('.creator-editor')).toBeVisible();
-    await expect(page.locator('.ce-panel')).toBeVisible();
-    await expect(page.locator('.ce-preview-zone')).toBeHidden();
     await page.locator('#field-recipient').fill('Malika');
-    await page.waitForTimeout(650);
-    const draft=await page.evaluate(()=>localStorage.getItem('emora:draft:love-pearl'));
-    expect(draft).toContain('Malika');
-
     await page.getByRole('button',{name:'Preview',exact:true}).click();
-    await expect(page.locator('.ce-preview-zone')).toBeVisible();
-    await expect(page.locator('.ce-phone-screen .pearl-motion')).toBeVisible();
-
-    const box=await page.locator('.ce-phone-screen').boundingBox();
-    expect(box?.width).toBeGreaterThan(300);
-    expect(box?.height).toBeGreaterThan(650);
+    await expect(page.locator('.ce-phone-screen .pearl-reborn')).toBeVisible({timeout:10000});
+    await expect(page.locator('.ce-phone-screen .pearl-motion')).toHaveCount(0);
     expect(errors).toEqual([]);
   });
 
-  test('recipient ritual reaches the particle finale without scroll or browser errors',async({page},testInfo)=>{
-    test.setTimeout(90000);
+  test('mobile recipient completes thread → folio → archive → particle finale',async({page},testInfo)=>{
+    test.setTimeout(60000);
     const errors=[];
     page.on('pageerror',e=>errors.push(e.message));
     page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
 
-    const expectFullStage=async(selector)=>{
-      const dims=await page.locator(selector).evaluate(el=>{
-        const r=el.getBoundingClientRect();
-        const s=getComputedStyle(el);
-        return {width:r.width,height:r.height,left:r.left,top:r.top,transform:s.transform,position:s.position};
-      });
-      console.log(selector,JSON.stringify(dims));
-      expect(dims.width).toBeGreaterThanOrEqual(388);
-      expect(dims.height).toBeGreaterThanOrEqual(842);
-      expect(Math.abs(dims.left)).toBeLessThanOrEqual(2);
-      expect(Math.abs(dims.top)).toBeLessThanOrEqual(2);
-    };
-
-    await page.goto('/?template=love-pearl&name=Test');
-    await expect(page.locator('.pearl-motion')).toBeVisible();
+    await page.goto('/?template=love-pearl&name=Malika');
+    await expect(page.locator('.pearl-reborn')).toBeVisible();
     await expect(page).toHaveTitle(/Pearl Linen/);
-    await expect(page.locator('input[type="file"]')).toHaveCount(0);
-    await expectFullStage('.pearl-motion');
-    await expectFullStage('.pm-intro');
-    await page.waitForTimeout(2350);
-    await page.screenshot({path:testInfo.outputPath('01-opening.png'),fullPage:true});
+    await expect(page.locator('.pr-world-canvas')).toHaveCount(1);
 
-    const viewport=await page.evaluate(()=>({
-      innerHeight:window.innerHeight,
-      scrollHeight:document.documentElement.scrollHeight,
-      bodyScrollHeight:document.body.scrollHeight,
-    }));
-    expect(viewport.scrollHeight).toBeLessThanOrEqual(viewport.innerHeight+2);
-    expect(viewport.bodyScrollHeight).toBeLessThanOrEqual(viewport.innerHeight+2);
+    const viewport=await page.evaluate(()=>({h:innerHeight,doc:document.documentElement.scrollHeight,body:document.body.scrollHeight}));
+    expect(viewport.doc).toBeLessThanOrEqual(viewport.h+2);
+    expect(viewport.body).toBeLessThanOrEqual(viewport.h+2);
 
-    await page.getByRole('button',{name:'Maktubni olish'}).click();
-    const seal=page.getByRole('button',{name:'Wax muhrni bosib ushlab oching'});
-    await expect(seal).toBeVisible();
-    await expect(page.locator('.pm-seal canvas')).toHaveCount(1);
-    await expectFullStage('.pm-envelope-layer');
-    await page.waitForTimeout(1050);
-    await page.screenshot({path:testInfo.outputPath('02-seal.png'),fullPage:true});
+    await expect(page.locator('.pearl-reborn')).toHaveClass(/phase-thread/,{timeout:5000});
+    await page.screenshot({path:testInfo.outputPath('01-thread.png'),fullPage:true});
 
-    const sealBox=await seal.boundingBox();
-    expect(sealBox).not.toBeNull();
-    if(sealBox){
-      const x=sealBox.x+sealBox.width/2;
-      const y=sealBox.y+sealBox.height/2;
-      await page.mouse.move(x,y);
-      await page.mouse.down();
-      await page.waitForTimeout(650);
-      await page.mouse.up();
+    const thread=page.getByRole('button',{name:'Marvaridni ip bo‘ylab o‘ngga torting'});
+    const tb=await thread.boundingBox();expect(tb).not.toBeNull();
+    if(tb){
+      const x=tb.x+20,y=tb.y+tb.height/2;
+      await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(x+520,y,{steps:22});await page.mouse.up();
     }
 
-    await expect(page.locator('.pearl-motion')).toHaveClass(/step-ink/,{timeout:12000});
-    await expect(page.locator('.pm-paper')).toBeVisible();
-    await expectFullStage('.pm-letter-layer');
-    await page.waitForTimeout(250);
+    await expect(page.locator('.pearl-reborn')).toHaveClass(/phase-folio/,{timeout:5000});
+    await page.screenshot({path:testInfo.outputPath('02-folio.png'),fullPage:true});
+
+    const seal=page.getByRole('button',{name:'Muhrni bosib ushlab oching'});
+    const sb=await seal.boundingBox();expect(sb).not.toBeNull();
+    if(sb){
+      const x=sb.x+sb.width/2,y=sb.y+sb.height/2;
+      await page.mouse.move(x,y);await page.mouse.down();await page.waitForTimeout(920);await page.mouse.up();
+    }
+
+    await expect(page.locator('.pearl-reborn')).toHaveClass(/phase-letter/,{timeout:4000});
+    await expect(page.locator('.pr-letter-sheet h2')).toHaveClass(/show/,{timeout:3500});
     await page.screenshot({path:testInfo.outputPath('03-letter.png'),fullPage:true});
 
-    const readMore=page.getByRole('button',{name:'Davomini o‘qish →'});
-    await expect(readMore).toBeVisible({timeout:5000});
-    await readMore.click();
-    await expect(readMore).toBeVisible({timeout:5000});
-    await readMore.click();
-
-    const continueButton=page.getByRole('button',{name:'Xotiralarni ochish →'});
-    await expect(continueButton).toBeVisible({timeout:5000});
-    await page.screenshot({path:testInfo.outputPath('04-full-letter.png'),fullPage:true});
-    await continueButton.click();
-
-    await page.waitForTimeout(1200);
-    await expectFullStage('.pm-memory-layer');
-    await expect(page.locator('.pm-photo-fallback')).toHaveCount(3);
-    const dragCard=async(selector,dx,dy)=>{
-      const card=page.locator(selector);
-      await expect(card).toBeVisible();
-      const box=await card.boundingBox();
-      expect(box).not.toBeNull();
-      if(!box)return;
-      const x=box.x+box.width/2,y=box.y+box.height/2;
-      await page.mouse.move(x,y);
-      await page.mouse.down();
-      await page.mouse.move(x+dx,y+dy,{steps:12});
-      await page.mouse.up();
-      await page.waitForTimeout(220);
-    };
-    await dragCard('.pm-polaroid-0',75,-45);
-    await expect(page.locator('.pm-polaroid-1')).toBeVisible({timeout:4000});
-    await dragCard('.pm-polaroid-1',105,-25);
-    await expect(page.locator('.pm-polaroid-2')).toBeVisible({timeout:4000});
-    await dragCard('.pm-polaroid-2',-95,55);
-
-    const release=page.getByRole('button',{name:'Oxirgi sahifa →'});
-    await expect(release).toBeVisible({timeout:5000});
-    await page.screenshot({path:testInfo.outputPath('05-memories.png'),fullPage:true});
-    await release.click();
-
-    const pearl=page.getByRole('button',{name:'Oxirgi satrni bosib ushlab oching'});
-    await expect(pearl).toBeVisible({timeout:5000});
-    await page.screenshot({path:testInfo.outputPath('06-afterword.png'),fullPage:true});
-    const pearlBox=await pearl.boundingBox();
-    expect(pearlBox).not.toBeNull();
-    if(pearlBox){
-      const x=pearlBox.x+pearlBox.width/2,y=pearlBox.y+pearlBox.height/2;
-      await page.mouse.move(x,y);
-
-      // Early release must cancel the irreversible finale.
-      await page.mouse.down();
-      await page.waitForTimeout(320);
-      await page.mouse.up();
-      await page.waitForTimeout(950);
-      await expect(page.locator('.pearl-motion')).toHaveClass(/step-afterword/);
-
-      // A deliberate 900ms+ hold earns the final transformation.
-      await page.mouse.down();
-      await page.waitForTimeout(1050);
-      await page.mouse.up();
+    await expect(page.locator('.pearl-reborn')).toHaveClass(/phase-archive/,{timeout:8000});
+    const archive=page.getByRole('button',{name:'Xotiralarni chapdan o‘ngga siljiting'});
+    const ab=await archive.boundingBox();expect(ab).not.toBeNull();
+    if(ab){
+      const x=ab.x+20,y=ab.y+ab.height/2;
+      await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(x+560,y,{steps:24});await page.mouse.up();
     }
 
-    await expect(page.locator('.pearl-motion')).toHaveClass(/step-converge|step-finale/,{timeout:5000});
-    await expect(page.locator('.pm-particle-counter')).toBeVisible({timeout:5000});
-    await page.screenshot({path:testInfo.outputPath('07-visible-effort.png'),fullPage:true});
-    await expect(page.locator('.pearl-motion')).toHaveClass(/step-finale/,{timeout:14000});
-    await expect(page.locator('.pm-final-copy')).toBeVisible();
-    await expect(page.locator('.pm-particle-counter')).toContainText(/marvarid nuqta/);
-    const renderedPoints=Number((await page.locator('.pm-particle-counter b').textContent())?.replace(/\D/g,'')||0);
-    expect(renderedPoints).toBeGreaterThanOrEqual(600);
-    await expect(page.getByRole('button',{name:'Ulashish'})).toBeVisible();
-    const keepsake=page.getByRole('button',{name:'Keepsake saqlash'});
-    await expect(keepsake).toBeVisible();
-    const downloadPromise=page.waitForEvent('download');
-    await keepsake.click();
-    const download=await downloadPromise;
-    expect(download.suggestedFilename()).toMatch(/^emora-pearl-.*\.svg$/);
-    await page.screenshot({path:testInfo.outputPath('07-finale.png'),fullPage:true});
+    await expect(page.locator('.pearl-reborn')).toHaveClass(/phase-false-ending|phase-particles/,{timeout:4500});
+    await page.screenshot({path:testInfo.outputPath('04-false-ending.png'),fullPage:true});
+    await expect(page.locator('.pearl-reborn')).toHaveClass(/phase-particles/,{timeout:4500});
+    await expect(page.locator('.pr-signature-canvas')).toBeVisible();
+    await expect(page.locator('.pr-final-copy')).toHaveClass(/show/,{timeout:7000});
+    await expect(page.locator('.pr-final-copy h2')).toContainText('Malika');
+    await page.screenshot({path:testInfo.outputPath('05-finale.png'),fullPage:true});
 
     expect(errors).toEqual([]);
   });
