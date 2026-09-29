@@ -16,16 +16,36 @@ function makeDotTexture(app,size=22){
 }
 
 function pointInGalaxy(i,total,radius){
-  const arm=i%4;
   const p=i/Math.max(1,total-1);
-  const distance=radius*(.08+Math.pow(p,.7)*.92);
-  const spiral=p*TAU*2.4+arm*(TAU/4);
-  const jitter=(Math.random()-.5)*Math.min(72,22+distance*.12);
+  const roll=Math.random();
+  let distance,angle,lift,layer;
+
+  if(roll<.58){
+    const arm=i%5;
+    distance=radius*(.07+Math.pow(p,.72)*.9)+(Math.random()-.5)*(24+radius*.06);
+    angle=p*TAU*2.05+arm*(TAU/5)+(Math.random()-.5)*.62;
+    lift=(Math.random()-.5)*(16+distance*.09);
+    layer='arm';
+  }else if(roll<.86){
+    const u=Math.sqrt(Math.random());
+    distance=radius*(.18+u*.98);
+    angle=Math.random()*TAU;
+    lift=(Math.random()-.5)*(32+distance*.15);
+    layer='dust';
+  }else{
+    distance=radius*Math.pow(Math.random(),1.8)*.32;
+    angle=Math.random()*TAU;
+    lift=(Math.random()-.5)*18;
+    layer='core';
+  }
+
   return{
-    distance:Math.max(8,distance+jitter),
-    angle:spiral+(Math.random()-.5)*.42,
-    lift:(Math.random()-.5)*(14+distance*.08),
-    speed:.08+Math.random()*.08,
+    distance:Math.max(5,distance),
+    angle,
+    lift,
+    layer,
+    depth:.55+Math.random()*.9,
+    speed:.05+Math.random()*.1,
     phase:Math.random()*TAU,
   };
 }
@@ -60,7 +80,7 @@ export class GalaxyEngine{
       backgroundAlpha:0,
       antialias:true,
       autoDensity:true,
-      resolution:Math.min(window.devicePixelRatio||1,2),
+      resolution:Math.min(window.devicePixelRatio||1,1.5),
       preference:'webgl',
       powerPreference:'high-performance',
     });
@@ -99,12 +119,12 @@ export class GalaxyEngine{
     for(let i=0;i<count;i++){
       const sprite=new Sprite(this.dotTexture);
       sprite.anchor.set(.5);
-      const size=.16+Math.random()*.46;
+      const meta=pointInGalaxy(i,count,360);
+      const size=meta.layer==='core'?.28+Math.random()*.48:meta.layer==='dust'?.08+Math.random()*.25:.14+Math.random()*.42;
       sprite.scale.set(size);
       sprite.alpha=0;
       const warm=Math.random();
       sprite.tint=warm>.88?0xffc3d8:warm>.62?0xdad4ff:0xffffff;
-      const meta=pointInGalaxy(i,count,360);
       meta.sprite=sprite;
       meta.baseScale=size;
       meta.portrait=null;
@@ -205,20 +225,21 @@ export class GalaxyEngine{
         const p=this.points[i],s=p.sprite;
         const a=p.angle+this.rotation+p.speed*time*.17;
         const breathing=1+Math.sin(time*.55+p.phase)*.018;
-        const gx=Math.cos(a)*p.distance*breathing+parallaxX*(p.distance/360);
-        const gy=Math.sin(a)*p.distance*.57+p.lift+parallaxY*(p.distance/360);
+        const depth=p.depth||1;
+        const gx=Math.cos(a)*p.distance*breathing+parallaxX*(p.distance/360)*depth;
+        const gy=Math.sin(a)*p.distance*(p.layer==='dust'?.68:.54)+p.lift+parallaxY*(p.distance/360)*depth;
         const m=this.state.morph;
         if(p.portrait){
           const px=p.portrait.x,py=p.portrait.y;
           s.x=lerp(gx,px,m);
           s.y=lerp(gy,py,m);
-          s.alpha=lerp((.22+Math.sin(time*1.9+p.phase)*.018)*this.state.intro,p.portrait.alpha,m);
+          s.alpha=lerp(((p.layer==='dust'?.08:p.layer==='core'?.42:.2)+Math.sin(time*(p.layer==='core'?1.1:1.9)+p.phase)*.018)*this.state.intro,p.portrait.alpha,m);
           s.tint=m>.55?p.portrait.tint:s.tint;
           const targetScale=clamp(p.baseScale*(.72+p.portrait.alpha*.68),.12,.7);
           const sc=lerp(p.baseScale,targetScale,m);
           s.scale.set(sc);
         }else{
-          s.x=gx;s.y=gy;s.alpha=(.18+.48*(1-p.distance/430))*this.state.intro;
+          s.x=gx;s.y=gy;s.alpha=((p.layer==='dust'?.07:p.layer==='core'?.36:.15)+.38*(1-p.distance/460))*this.state.intro;
         }
       }
     }
