@@ -40,7 +40,7 @@ function ReelSpin({onComplete}){
   };
   const up=()=>{start.current=null;if(!done.current&&p<.25)setP(0)};
   const key=e=>{if(done.current||e.repeat||!(e.key==='Enter'||e.key===' '))return;e.preventDefault();done.current=true;setP(1);setTimeout(onComplete,320)};
-  return <div className="mr-reel-rig" style={{'--turn':(p*820)+'deg','--feed':(p*100)+'%'}}>
+  return <div className="mr-reel-rig" style={{'--turn':(p*820)+'deg','--turn-neg':(-p*820)+'deg','--feed':(p*100)+'%'}}>
     <div className="mr-reel left">{Array.from({length:6},(_,i)=><i key={i}/>)}</div>
     <div className="mr-projector"><i/><b/><span/></div>
     <div className="mr-reel right">{Array.from({length:6},(_,i)=><i key={i}/>)}</div>
