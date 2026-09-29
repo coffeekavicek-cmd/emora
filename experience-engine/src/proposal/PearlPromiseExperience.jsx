@@ -143,7 +143,7 @@ function createScene(host,onReady){
 
 export function PearlPromiseExperience({content:contentProp=null,embedded=false}){
   const cfg=useMemo(()=>contentProp||readUrlContent('proposal-pearl'),[contentProp]);
-  const host=useRef(null),engine=useRef(null),holdTimer=useRef(null),drag=useRef(null);
+  const host=useRef(null),engine=useRef(null),holdStart=useRef(null),drag=useRef(null),rotationRef=useRef(0);
   const [phase,setPhase]=useState('intro');
   const [holding,setHolding]=useState(false);
   const [memory,setMemory]=useState(0);
@@ -162,8 +162,8 @@ export function PearlPromiseExperience({content:contentProp=null,embedded=false}
       if(!drag.current||phase!=='rotate')return;
       const dx=e.clientX-drag.current.x;
       drag.current.x=e.clientX;
-      const next=rotation+dx*.018;
-      setRotation(next);engine.current?.setRotation(next);
+      const next=rotationRef.current+dx*.018;
+      rotationRef.current=next;setRotation(next);engine.current?.setRotation(next);
       if(Math.abs(next)>=4.6){
         setPhase('engraving');drag.current=null;engine.current?.reveal();
         setTimeout(()=>{engine.current?.whiteout();setPhase('question')},1850);
@@ -171,21 +171,27 @@ export function PearlPromiseExperience({content:contentProp=null,embedded=false}
     };
     window.addEventListener('pointermove',move,{passive:true});
     return()=>window.removeEventListener('pointermove',move);
-  },[phase,rotation]);
+  },[phase]);
 
-  const startHold=()=>{
-    if(phase!=='intro')return;
-    clearTimeout(holdTimer.current);setHolding(true);tone(88,.08,.02);
-    holdTimer.current=setTimeout(()=>{
-      setHolding(false);setPhase('opening');engine.current?.open();
-      setTimeout(()=>{setPhase('memories');setMemory(1)},1600);
-      setTimeout(()=>setMemory(2),2800);
-      setTimeout(()=>setMemory(3),4000);
-      setTimeout(()=>setPhase('rotate'),5200);
-    },900);
+  const completeBoxHold=()=>{
+    holdStart.current=null;setHolding(false);setPhase('opening');engine.current?.open();
+    setTimeout(()=>{setPhase('memories');setMemory(1)},1600);
+    setTimeout(()=>setMemory(2),2800);
+    setTimeout(()=>setMemory(3),4000);
+    setTimeout(()=>setPhase('rotate'),5200);
   };
-  const stopHold=()=>{if(phase!=='intro')return;clearTimeout(holdTimer.current);setHolding(false)};
-  useEffect(()=>()=>clearTimeout(holdTimer.current),[]);
+  const startHold=e=>{
+    if(phase!=='intro'||holdStart.current!=null)return;
+    holdStart.current=Number(e?.timeStamp)||performance.now();
+    setHolding(true);tone(88,.08,.02);
+  };
+  const stopHold=e=>{
+    if(phase!=='intro'||holdStart.current==null)return;
+    const started=holdStart.current;
+    const ended=Number(e?.timeStamp)||performance.now();
+    holdStart.current=null;setHolding(false);
+    if(ended-started>=880)completeBoxHold();
+  };
 
   const down=e=>{
     if(phase!=='rotate')return;
@@ -194,6 +200,7 @@ export function PearlPromiseExperience({content:contentProp=null,embedded=false}
   const up=()=>{drag.current=null};
 
   const restart=()=>{
+    rotationRef.current=0;setRotation(0);setMemory(0);setHolding(false);holdStart.current=null;
     location.href=location.pathname+'?template=proposal-pearl&name='+encodeURIComponent(cfg.recipient)+'&final='+encodeURIComponent(cfg.final);
   };
 
@@ -208,8 +215,8 @@ export function PearlPromiseExperience({content:contentProp=null,embedded=false}
       <em>{cfg.recipient}</em>
       <button className={'pp-hold '+(holding?'holding':'')} aria-label="Uzuk qutisini bosib ushlab oching"
         onPointerDown={startHold} onPointerUp={stopHold} onPointerLeave={stopHold} onPointerCancel={stopHold}
-        onKeyDown={e=>{if((e.key==='Enter'||e.key===' ')&&!e.repeat){e.preventDefault();startHold()}}}
-        onKeyUp={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();stopHold()}}}>
+        onKeyDown={e=>{if((e.key==='Enter'||e.key===' ')&&!e.repeat){e.preventDefault();startHold(e)}}}
+        onKeyUp={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();stopHold(e)}}}>
         <i/><span>Qutini bosib ushlab turing</span><b>900ms</b>
       </button>
     </section>
