@@ -45,3 +45,5 @@
  .gr-finale h2{font-size:clamp(43px,11.5vw,60px)}.gr-finale em{font-size:32px}
 }
 @media(prefers-reduced-motion:reduce){.gr-grain,.gr-lines:before,.gr-lines:after,.gr-lines b,.gr-silence i{animation:none!important}.gr-discovery,.gr-portrait-copy,.gr-halo{transition:none!important}}
+
+.gr-explore.visible{pointer-events:none}
