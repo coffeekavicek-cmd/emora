@@ -41,7 +41,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     performance:{maxDpr:1.5,heavyLazyLoad:true},
   },
   {
-    id:'wedding-silk',dbSlug:'wedding-silk-heritage',name:'Silk Heritage',category:'wedding',releaseStatus:'concept',
+    id:'wedding-silk',dbSlug:'wedding-silk-heritage',name:'Silk Heritage',category:'wedding',releaseState:'motion-alpha',releaseStatus:'motion-alpha',
     archetype:A.EDITORIAL_STORY,navigation:N.PAGINATED,
     metaphor:'embroidered silk invitation',primaryMedia:'textile-editorial',
     signatureMoment:'A gold thread finishes the textile composition and reveals the couple and ceremony.',
