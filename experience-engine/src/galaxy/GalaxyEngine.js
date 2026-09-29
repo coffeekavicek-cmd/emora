@@ -69,6 +69,7 @@ export class GalaxyEngine{
     this.pointer={x:0,y:0};
     this.state={intro:0,morph:0,explode:0};
     this.mode='galaxy';
+    this.discoveryEnabled=false;
     this.destroyed=false;
     this.resizeObserver=null;
   }
@@ -258,11 +259,17 @@ export class GalaxyEngine{
 
     this.stars.forEach((c,i)=>{
       if(c._opened)return;
+      if(!this.discoveryEnabled){c.alpha=0;return}
       c.alpha=clamp(this.state.intro*(.72+Math.sin(time*1.7+c._pulse)*.24),0,1);
       const k=1+Math.sin(time*1.3+c._pulse)*.06;
       c.scale.set(k);
       c.rotation=Math.sin(time*.45+i)*.05;
     });
+  }
+
+  startExploration(){
+    this.discoveryEnabled=true;
+    this.stars.forEach(c=>{if(!c._opened)c.eventMode='static'});
   }
 
   morphToPortrait(points,{onComplete}={}){
@@ -294,6 +301,7 @@ export class GalaxyEngine{
   reset(){
     gsap.killTweensOf(this.state);
     this.mode='galaxy';
+    this.discoveryEnabled=false;
     this.state.morph=0;
     this.state.explode=0;
     this.rotation=0;this.targetRotation=0;
