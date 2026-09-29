@@ -179,3 +179,7 @@
   .pm-memory-kicker{top:66px}
   .pm-memory-note{bottom:62px}
 }
+
+.pm-letter-continue{transition:opacity .45s ease,transform .45s ease;pointer-events:none}
+.pm-letter-continue.ready{opacity:1!important;visibility:visible!important;transform:translate(-50%,0)!important;pointer-events:auto}
+.pm-letter-continue:disabled{pointer-events:none}
