@@ -10,6 +10,10 @@ test.describe('Pearl Linen reference',()=>{
     await expect(page.locator('.creator-editor')).toBeVisible();
     await expect(page.locator('.ce-panel')).toBeVisible();
     await expect(page.locator('.ce-preview-zone')).toBeHidden();
+    await page.locator('#field-recipient').fill('Malika');
+    await page.waitForTimeout(650);
+    const draft=await page.evaluate(()=>localStorage.getItem('emora:draft:love-pearl'));
+    expect(draft).toContain('Malika');
 
     await page.getByRole('button',{name:'Preview'}).click();
     await expect(page.locator('.ce-preview-zone')).toBeVisible();
@@ -109,6 +113,8 @@ test.describe('Pearl Linen reference',()=>{
     await release.click();
     await expect(page.locator('.pearl-motion')).toHaveClass(/step-finale/,{timeout:12000});
     await expect(page.locator('.pm-final-copy')).toBeVisible();
+    await expect(page.getByRole('button',{name:'Ulashish'})).toBeVisible();
+    await expect(page.getByRole('button',{name:'Keepsake saqlash'})).toBeVisible();
     await page.screenshot({path:testInfo.outputPath('04-finale.png'),fullPage:true});
 
     expect(errors).toEqual([]);
