@@ -125,6 +125,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
 
   const startHold=()=>{
     if(step!=='seal')return;
+    clearTimeout(holdTimer.current);
     setHolding(true);
     holdTimer.current=setTimeout(()=>sealEngine.current?.crack(),520);
   };
@@ -242,11 +243,16 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
         <div className="pm-sheet"><Signature name={cfg.recipient} className="pm-sheet-name"/><small>faqat sen uchun</small></div>
         <div className="pm-pocket"/>
         <div className="pm-flap"/>
-        <div ref={sealHost} className={'pm-seal '+(holding?'holding':'')}/>
+        <div ref={sealHost} className={'pm-seal '+(holding?'holding':'')}
+          role="button" tabIndex={0} aria-label="Wax muhrni bosib ushlab oching"
+          onPointerDown={startHold} onPointerUp={cancelHold} onPointerCancel={cancelHold} onPointerLeave={cancelHold}
+          onKeyDown={e=>{if((e.key==='Enter'||e.key===' ')&&!e.repeat){e.preventDefault();startHold()}}}
+          onKeyUp={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();cancelHold()}}}
+          onContextMenu={e=>e.preventDefault()}/>
       </div>
       <div className="pm-seal-copy">
-        <span>01 · THE SEAL</span><p>Muhrni bosib ushlab turing.</p>
-        <button onPointerDown={startHold} onPointerUp={cancelHold} onPointerCancel={cancelHold} onPointerLeave={cancelHold}><i/>520ms</button>
+        <span>01 · THE SEAL</span><p>Muhrning o‘zini bosib ushlab turing.</p>
+        <div className={'pm-hold-meter '+(holding?'holding':'')} aria-hidden="true"><i/></div>
       </div>
     </section>
 
