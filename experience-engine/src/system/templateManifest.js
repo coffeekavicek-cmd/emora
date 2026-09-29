@@ -59,7 +59,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     gestures:['light-lanterns','open-garden'],
     capabilities:[...commonInvite,C.RSVP,C.MAP,C.CALENDAR,C.MUSIC,C.PHOTOS,C.GUEST_LINKS],
     assets:{required:['garden-art','lantern-art'],optional:['flower-atlas','ambient-audio']},
-    finale:'firefly-name-bloom',engine:['pixi','gsap'],
+    finale:'firefly-name-bloom',engine:['canvas','css3d','gsap'],
     performance:{maxDpr:1.5,heavyLazyLoad:true},
   },
   {
