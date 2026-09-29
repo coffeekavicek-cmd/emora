@@ -233,6 +233,8 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
     const source=portrait||photos[2]||photos[0]||null;
     try{points=source?await sampler.samplePortraitFile(source,{width:rect.width,height:rect.height,count:1650}):sampler.createHeartPoints(rect.width,rect.height,1650)}
     catch{points=sampler.createHeartPoints(rect.width,rect.height,1650)}
+    const fit=source?1.1:1.24;
+    points=points.map(p=>({...p,x:p.x*fit,y:p.y*fit}));
     gsap.fromTo(particleHost.current,{autoAlpha:0,scale:1.12},{autoAlpha:1,scale:1,duration:.75,ease:'power3.out'});
     e.morphToPortrait(points,{onComplete:()=>{
       setPortraitReady(true);setStep('finale');
