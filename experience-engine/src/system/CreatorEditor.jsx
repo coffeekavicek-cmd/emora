@@ -4,6 +4,7 @@ import { editorSectionsFor } from './editorContract.js';
 import { contentToSearchParams, readUrlContent } from './contentModel.js';
 import { PearlMotionExperience } from '../pearl/PearlMotionExperience.jsx';
 import { EXPERIENCE_MAP } from '../rituals/registry.js';
+const PearlArchiveExperience=lazy(()=>import('../reborn/pearl/PearlArchiveExperience.jsx').then(m=>({default:m.PearlArchiveExperience})));
 const PearlPromiseExperience=lazy(()=>import('../proposal/PearlPromiseExperience.jsx').then(m=>({default:m.PearlPromiseExperience})));
 const CinemaProposalExperience=lazy(()=>import('../proposal/CinemaProposalExperience.jsx').then(m=>({default:m.CinemaProposalExperience})));
 const SkyPromiseExperience=lazy(()=>import('../proposal/SkyPromiseExperience.jsx').then(m=>({default:m.SkyPromiseExperience})));
@@ -77,7 +78,7 @@ function Section({title,fields,content,onChange,onMedia}){
 }
 
 function PreviewRuntime({template,content,media}){
-  if(template.id==='love-pearl')return <PearlMotionExperience content={content} media={media} embedded/>;
+  if(template.id==='love-pearl')return <Suspense fallback={<div className="ce-runtime-loading">Pearl Archive preview</div>}><PearlArchiveExperience content={content} embedded/></Suspense>;
   if(template.id==='proposal-pearl')return <Suspense fallback={<div className="ce-runtime-loading">3D preview</div>}><PearlPromiseExperience content={content} embedded/></Suspense>;
   if(template.id==='proposal-cinema')return <Suspense fallback={<div className="ce-runtime-loading">Cinema preview</div>}><CinemaProposalExperience content={content} media={media} embedded/></Suspense>;
   if(template.id==='proposal-sky')return <Suspense fallback={<div className="ce-runtime-loading">Sky preview</div>}><SkyPromiseExperience content={content} embedded/></Suspense>;
