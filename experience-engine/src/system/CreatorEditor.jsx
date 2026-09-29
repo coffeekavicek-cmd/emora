@@ -11,6 +11,7 @@ const MemoryReelExperience=lazy(()=>import('../birthday/MemoryReelExperience.jsx
 const QuietRoomExperience=lazy(()=>import('../apology/QuietRoomExperience.jsx').then(m=>({default:m.QuietRoomExperience})));
 const RoseTheatreExperience=lazy(()=>import('../love/RoseTheatreExperience.jsx').then(m=>({default:m.RoseTheatreExperience})));
 const NightGardenExperience=lazy(()=>import('../wedding/NightGardenExperience.jsx').then(m=>({default:m.NightGardenExperience})));
+const HeritageNaqshExperience=lazy(()=>import('../wedding/HeritageNaqshExperience.jsx').then(m=>({default:m.HeritageNaqshExperience})));
 const CinematicExperience=lazy(()=>import('../cinematic/CinematicExperience.jsx').then(m=>({default:m.CinematicExperience})));
 import './creatorEditor.css';
 
@@ -78,6 +79,7 @@ function PreviewRuntime({template,content,media}){
   if(template.id==='apology-quiet')return <Suspense fallback={<div className="ce-runtime-loading">Quiet preview</div>}><QuietRoomExperience content={content} embedded/></Suspense>;
   if(template.id==='love-rose')return <Suspense fallback={<div className="ce-runtime-loading">Theatre preview</div>}><RoseTheatreExperience content={content} media={media} embedded/></Suspense>;
   if(template.id==='wedding-garden')return <Suspense fallback={<div className="ce-runtime-loading">Garden preview</div>}><NightGardenExperience content={content} embedded/></Suspense>;
+  if(template.id==='wedding-naqsh')return <Suspense fallback={<div className="ce-runtime-loading">Naqsh preview</div>}><HeritageNaqshExperience content={content} embedded/></Suspense>;
   const definition=EXPERIENCE_MAP[template.id];
   if(!definition)return <div className="ce-runtime-loading">Runtime unavailable</div>;
   return <Suspense fallback={<div className="ce-runtime-loading">Experience preview</div>}><CinematicExperience definition={definition} content={content} embedded/></Suspense>;

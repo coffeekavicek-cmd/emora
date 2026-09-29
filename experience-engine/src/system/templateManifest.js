@@ -70,7 +70,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     gestures:['trace-pattern','rotate-medallion'],
     capabilities:[...commonInvite,C.RSVP,C.MAP,C.CALENDAR,C.MUSIC,C.GUEST_LINKS],
     assets:{required:['naqsh-vector-set'],optional:['paper-texture','music']},
-    finale:'completed-naqsh-invite',engine:['svg','gsap'],
+    finale:'completed-naqsh-invite',engine:['svg','css3d','gsap'],
     performance:{maxDpr:2,heavyLazyLoad:false},
   },
   {
