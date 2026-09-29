@@ -21,13 +21,14 @@ test.describe('Pearl Linen reference',()=>{
     expect(errors).toEqual([]);
   });
 
-  test('recipient ritual is no-scroll and wax seal opens into the letter',async({page})=>{
+  test('recipient ritual reaches the particle finale without scroll or browser errors',async({page},testInfo)=>{
     const errors=[];
     page.on('pageerror',e=>errors.push(e.message));
     page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
 
     await page.goto('/?template=love-pearl&name=Test');
     await expect(page.locator('.pearl-motion')).toBeVisible();
+    await page.screenshot({path:testInfo.outputPath('01-opening.png'),fullPage:true});
 
     const viewport=await page.evaluate(()=>({
       innerHeight:window.innerHeight,
@@ -41,6 +42,7 @@ test.describe('Pearl Linen reference',()=>{
     const seal=page.getByRole('button',{name:'Wax muhrni bosib ushlab oching'});
     await expect(seal).toBeVisible();
     await expect(page.locator('.pm-seal canvas')).toHaveCount(1);
+    await page.screenshot({path:testInfo.outputPath('02-seal.png'),fullPage:true});
 
     const sealBox=await seal.boundingBox();
     expect(sealBox).not.toBeNull();
@@ -55,6 +57,25 @@ test.describe('Pearl Linen reference',()=>{
 
     await expect(page.locator('.pearl-motion')).toHaveClass(/step-ink/,{timeout:12000});
     await expect(page.locator('.pm-paper')).toBeVisible();
+    await page.screenshot({path:testInfo.outputPath('03-letter.png'),fullPage:true});
+
+    const continueButton=page.getByRole('button',{name:'Xotiralarni ochish →'});
+    await expect(continueButton).toBeVisible({timeout:7000});
+    await continueButton.click();
+
+    for(const selector of ['.pm-polaroid-0','.pm-polaroid-1','.pm-polaroid-2']){
+      const card=page.locator(selector);
+      await expect(card).toBeVisible();
+      await card.click();
+    }
+
+    const release=page.getByRole('button',{name:'Bitta joyga yig‘ish →'});
+    await expect(release).toBeVisible({timeout:4000});
+    await release.click();
+    await expect(page.locator('.pearl-motion')).toHaveClass(/step-finale/,{timeout:12000});
+    await expect(page.locator('.pm-final-copy')).toBeVisible();
+    await page.screenshot({path:testInfo.outputPath('04-finale.png'),fullPage:true});
+
     expect(errors).toEqual([]);
   });
 });
