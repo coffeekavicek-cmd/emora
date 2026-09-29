@@ -182,13 +182,13 @@ export function PearlPromiseExperience({content:contentProp=null,embedded=false}
   };
   const startHold=e=>{
     if(phase!=='intro'||holdStart.current!=null)return;
-    holdStart.current=Number(e?.timeStamp)||performance.now();
+    holdStart.current=performance.now();
     setHolding(true);tone(88,.08,.02);
   };
   const stopHold=e=>{
     if(phase!=='intro'||holdStart.current==null)return;
     const started=holdStart.current;
-    const ended=Number(e?.timeStamp)||performance.now();
+    const ended=performance.now();
     holdStart.current=null;setHolding(false);
     if(ended-started>=880)completeBoxHold();
   };
