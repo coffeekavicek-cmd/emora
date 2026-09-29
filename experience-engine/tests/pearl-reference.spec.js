@@ -15,7 +15,7 @@ test.describe('Pearl Linen reference',()=>{
     const draft=await page.evaluate(()=>localStorage.getItem('emora:draft:love-pearl'));
     expect(draft).toContain('Malika');
 
-    await page.getByRole('button',{name:'Preview'}).click();
+    await page.getByRole('button',{name:'Preview',exact:true}).click();
     await expect(page.locator('.ce-preview-zone')).toBeVisible();
     await expect(page.locator('.ce-phone-screen .pearl-motion')).toBeVisible();
 
