@@ -114,7 +114,12 @@ test.describe('Pearl Linen reference',()=>{
     await expect(page.locator('.pearl-motion')).toHaveClass(/step-finale/,{timeout:12000});
     await expect(page.locator('.pm-final-copy')).toBeVisible();
     await expect(page.getByRole('button',{name:'Ulashish'})).toBeVisible();
-    await expect(page.getByRole('button',{name:'Keepsake saqlash'})).toBeVisible();
+    const keepsake=page.getByRole('button',{name:'Keepsake saqlash'});
+    await expect(keepsake).toBeVisible();
+    const downloadPromise=page.waitForEvent('download');
+    await keepsake.click();
+    const download=await downloadPromise;
+    expect(download.suggestedFilename()).toMatch(/^emora-pearl-.*\.svg$/);
     await page.screenshot({path:testInfo.outputPath('04-finale.png'),fullPage:true});
 
     expect(errors).toEqual([]);
