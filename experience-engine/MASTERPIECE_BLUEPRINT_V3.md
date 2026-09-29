@@ -188,9 +188,9 @@ Never: typewriter effect called “ink”.
 ## APOLOGY 03 — Quiet Room
 World: nearly black room, desk, lamp and sealed note.
 Camera: darkness → narrow light pool → close paper.
-Gesture: pull lamp chain; move lamp/light once.
+Gesture: pull lamp chain once.
 Depth: CSS 3D room planes + volumetric light cone illusion.
-Story: darkness/room tone; chain physically swings; warm pool reveals note; three lines arrive with deliberate silence; user shifts light; blackout; one phosphor line remains; warm light returns.
+Story: darkness/room tone; chain physically swings; warm pool reveals note; three lines arrive with deliberate silence; the light retreats by itself; blackout; one phosphor line remains; warm light returns.
 Finale: intimate final apology, no spectacle.
 Never: over-animate an emotional minimal scene.
 
