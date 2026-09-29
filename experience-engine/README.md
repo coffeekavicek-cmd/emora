@@ -55,3 +55,7 @@ Pearl Linen now runs as a dedicated flagship ritual informed by the public inter
 ## Pearl storyboard motion
 
 Pearl Linen now follows the approved six-frame Figma storyboard as one continuous material transition: handwriting → seal fracture → letter rise → ink reveal → draggable polaroids → particle portrait.
+
+## Pearl reference editor
+
+Ideal System V1 reference implementation. Creator mode: `?mode=editor&template=love-pearl`. Recipient mode: `?template=love-pearl`. Supabase dev catalog slug: `love-pearl-linen`.
