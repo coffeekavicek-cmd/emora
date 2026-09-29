@@ -76,13 +76,13 @@ export class PearlArchiveWorld{
       clearcoat:1,clearcoatRoughness:.03,iridescence:1,iridescenceIOR:1.35,iridescenceThicknessRange:[150,520]
     });
     const pearl=new THREE.Mesh(new THREE.SphereGeometry(this.mobile?.34:.28,this.mobile?24:40,this.mobile?18:32),pearlMat);
-    pearl.position.set(this.mobile?-1.22:-3.2,.46,.6);scene.add(pearl);this.pearl=pearl;
+    pearl.position.set(this.mobile?-.78:-3.2,.46,.6);scene.add(pearl);this.pearl=pearl;
     const halo=new THREE.Mesh(new THREE.SphereGeometry(.43,20,14),new THREE.MeshBasicMaterial({color:0xd9c8ff,transparent:true,opacity:.035,side:THREE.BackSide}));
     pearl.add(halo);
 
     const pts=[];
-    const startX=this.mobile?-1.22:-3.2;
-    const spanX=this.mobile?2.44:6.35;
+    const startX=this.mobile?-.78:-3.2;
+    const spanX=this.mobile?1.56:6.35;
     for(let i=0;i<220;i++){
       const t=i/219;
       const x=startX+t*spanX;
@@ -176,11 +176,11 @@ export class PearlArchiveWorld{
 
   igniteFinale(){
     this.phase='finale';
-    this.folio.visible=false;this.pearl.visible=true;this.pearl.scale.set(.18,.18,.18);this.pearl.position.set(0,-1.7,.2);
+    this.folio.visible=false;this.pearl.visible=true;this.pearl.scale.set(.18,.18,.18);this.pearl.position.set(0,-1.15,.2);
     gsap.to(this.renderer,{toneMappingExposure:1.45,duration:1.1,ease:'power3.out'});
     gsap.to(this.key,{intensity:6.5,duration:1.0});gsap.to(this.rim,{intensity:40,duration:1.0});gsap.to(this.warm,{intensity:35,duration:1.0});
-    gsap.to(this.pearl.position,{y:.7,duration:1.3,ease:'expo.out'});
-    gsap.to(this.pearl.scale,{x:.82,y:.82,z:.82,duration:1.3,ease:'back.out(1.6)'});
+    gsap.to(this.pearl.position,{y:1.15,duration:1.3,ease:'expo.out'});
+    gsap.to(this.pearl.scale,{x:.46,y:.46,z:.46,duration:1.3,ease:'back.out(1.6)'});
   }
 
   tick(time=0){
