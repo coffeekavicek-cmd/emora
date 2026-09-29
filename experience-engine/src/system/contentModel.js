@@ -44,9 +44,34 @@ export function contentToSearchParams(content){
   (content.paragraphs||[]).forEach((x,i)=>put('m'+(i+1),x));
   (content.captions||[]).forEach((x,i)=>put('c'+(i+1),x));
   put('final',content.final);
-  put('lock',content.wordLock);
   if(content.responseEnabled===false)p.set('response','0');
   if(content.shareEnabled===false)p.set('share','0');
   if(content.saveEnabled===false)p.set('save','0');
   return p;
+}
+
+
+export function splitPublishPayload(content){
+  const publicContent={
+    title:content.title,
+    recipient:content.recipient,
+    message:content.message,
+    language:content.language,
+    guestGreeting:content.guestGreeting,
+    paragraphs:content.paragraphs||[],
+    captions:content.captions||[],
+    final:content.final,
+    responseEnabled:content.responseEnabled!==false,
+    shareEnabled:content.shareEnabled!==false,
+    saveEnabled:content.saveEnabled!==false,
+  };
+  const privateSettings={
+    hasWordLock:Boolean(content.wordLock),
+    // Raw lock value must be sent only to an authenticated server/edge function
+    // for hashing or protected storage. It must never be embedded in public URLs.
+  };
+  const serverOnly={
+    wordLock:content.wordLock||'',
+  };
+  return {publicContent,privateSettings,serverOnly};
 }
