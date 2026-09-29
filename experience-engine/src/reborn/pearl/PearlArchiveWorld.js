@@ -6,7 +6,7 @@ const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 export class PearlArchiveWorld{
   constructor(host){
     this.host=host;this.renderer=null;this.scene=null;this.camera=null;this.pearl=null;this.thread=null;
-    this.folio=null;this.cloth=null;this.pointer={x:0,y:0};this.targetPointer={x:0,y:0};this.threadProgress=0;
+    this.folio=null;this.cloth=null;this.parallax={x:0,y:0};this.targetPointer={x:0,y:0};this.threadProgress=0;
     this.archiveProgress=0;this.phase='thread';this.destroyed=false;this.ro=null;this.last=0;this.mobile=false;
     this.tick=this.tick.bind(this);
   }
@@ -75,15 +75,17 @@ export class PearlArchiveWorld{
       color:0xfffaf2,metalness:0,roughness:.12,transmission:.15,thickness:1.2,ior:1.46,
       clearcoat:1,clearcoatRoughness:.03,iridescence:1,iridescenceIOR:1.35,iridescenceThicknessRange:[150,520]
     });
-    const pearl=new THREE.Mesh(new THREE.SphereGeometry(.28,this.mobile?24:40,this.mobile?18:32),pearlMat);
-    pearl.position.set(-3.2,.46,.6);scene.add(pearl);this.pearl=pearl;
+    const pearl=new THREE.Mesh(new THREE.SphereGeometry(this.mobile?.34:.28,this.mobile?24:40,this.mobile?18:32),pearlMat);
+    pearl.position.set(this.mobile?-1.22:-3.2,.46,.6);scene.add(pearl);this.pearl=pearl;
     const halo=new THREE.Mesh(new THREE.SphereGeometry(.43,20,14),new THREE.MeshBasicMaterial({color:0xd9c8ff,transparent:true,opacity:.035,side:THREE.BackSide}));
     pearl.add(halo);
 
     const pts=[];
+    const startX=this.mobile?-1.22:-3.2;
+    const spanX=this.mobile?2.44:6.35;
     for(let i=0;i<220;i++){
       const t=i/219;
-      const x=-3.2+t*6.35;
+      const x=startX+t*spanX;
       const y=.13+Math.sin(t*Math.PI*2.3)*.11;
       const z=.48+Math.sin(t*Math.PI*1.25)*.16;
       pts.push(new THREE.Vector3(x,y,z));
@@ -178,20 +180,20 @@ export class PearlArchiveWorld{
     gsap.to(this.renderer,{toneMappingExposure:1.45,duration:1.1,ease:'power3.out'});
     gsap.to(this.key,{intensity:6.5,duration:1.0});gsap.to(this.rim,{intensity:40,duration:1.0});gsap.to(this.warm,{intensity:35,duration:1.0});
     gsap.to(this.pearl.position,{y:.7,duration:1.3,ease:'expo.out'});
-    gsap.to(this.pearl.scale,{x:1.25,y:1.25,z:1.25,duration:1.3,ease:'back.out(1.6)'});
+    gsap.to(this.pearl.scale,{x:.82,y:.82,z:.82,duration:1.3,ease:'back.out(1.6)'});
   }
 
   tick(time=0){
     if(this.destroyed||!this.renderer||document.hidden)return;
     if(this.mobile&&time-this.last<32)return;this.last=time;
     const t=time*.001;
-    this.pointer.x+=(this.targetPointer.x-this.pointer.x)*.04;this.pointer.y+=(this.targetPointer.y-this.pointer.y)*.04;
+    this.parallax.x+=(this.targetPointer.x-this.parallax.x)*.04;this.parallax.y+=(this.targetPointer.y-this.parallax.y)*.04;
     this.cloth.material.uniforms.uTime.value=t;
     if(this.phase==='thread'){
-      this.camera.position.x=this.pointer.x*.12;this.camera.position.y=2.7+this.pointer.y*.08;this.camera.lookAt(0,.12,0);
+      this.camera.position.x=this.parallax.x*.12;this.camera.position.y=2.7+this.parallax.y*.08;this.camera.lookAt(0,.12,0);
       this.pearl.rotation.y=t*.3;this.pearl.rotation.x=t*.17;
     }else if(this.phase==='folio'||this.phase==='letter'||this.phase==='archive'){
-      this.folio.rotation.y=this.pointer.x*.018;this.folio.rotation.x=-.08+this.pointer.y*.012;
+      this.folio.rotation.y=this.parallax.x*.018;this.folio.rotation.x=-.08+this.parallax.y*.012;
     }else if(this.phase==='finale'){
       this.pearl.rotation.y=t*.42;this.pearl.rotation.x=Math.sin(t*.7)*.08;
     }
