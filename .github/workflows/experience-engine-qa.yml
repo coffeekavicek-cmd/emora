@@ -11,7 +11,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -26,14 +26,24 @@ jobs:
       - name: Production build
         working-directory: experience-engine
         run: npm run build
-      - name: Verify single-screen production bundle
+      - name: Verify production bundle
         working-directory: experience-engine
         run: |
           test -f dist/index.html
           grep -q "assets/" dist/index.html
           test "$(find dist/assets -type f | wc -l)" -ge 2
+      - name: Install Chromium for browser QA
+        working-directory: experience-engine
+        run: npx playwright install --with-deps chromium
+      - name: Mobile browser interaction QA
+        working-directory: experience-engine
+        run: npm run test:browser
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: emora-experience-engine-dist
-          path: experience-engine/dist/
+          name: emora-experience-engine-qa
+          path: |
+            experience-engine/dist/
+            experience-engine/playwright-report/
+            experience-engine/test-results/
           retention-days: 7
