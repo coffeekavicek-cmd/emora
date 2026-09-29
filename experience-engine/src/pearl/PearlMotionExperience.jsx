@@ -211,18 +211,36 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
     tl.to(paper.current,{scale:.87,y:-110,rotation:-2,autoAlpha:.22,filter:'blur(2px)',duration:.9,ease:'power3.inOut'})
       .set(memory.current,{autoAlpha:1,pointerEvents:'auto'},'-=.42')
       .fromTo('.pm-memory-kicker',{autoAlpha:0,y:-12},{autoAlpha:1,y:0,duration:.55},'-=.1')
-      .fromTo(p0.current,{autoAlpha:0,y:-250,x:-80,rotation:-16,scale:.72},
-        {autoAlpha:1,y:0,x:0,rotation:-5,scale:1,duration:.95,ease:'back.out(1.12)'},'-=.15')
+      .fromTo(p0.current,{autoAlpha:0,y:-250,x:-80,xPercent:-50,yPercent:-52,rotation:-16,scale:.72},
+        {autoAlpha:1,y:0,x:0,xPercent:-50,yPercent:-52,rotation:-2,scale:1,duration:.95,ease:'back.out(1.12)'},'-=.15')
       .call(()=>thump(),null,'<+.12');
   };
 
   const unlockMemory=(index)=>{
-    const card=[p0.current,p1.current,p2.current][index];
-    if(!card)return;
+    const cards=[p0.current,p1.current,p2.current];
+    const card=cards[index];if(!card)return;
+    if(index===1){
+      gsap.to(p0.current,{x:0,y:0,xPercent:-96,yPercent:-46,rotation:-8,scale:.84,duration:.72,ease:'power3.inOut'});
+    }
+    if(index===2){
+      gsap.to(p0.current,{x:0,y:0,xPercent:-101,yPercent:-44,rotation:-9,scale:.78,duration:.68,ease:'power3.inOut'});
+      gsap.to(p1.current,{x:0,y:0,xPercent:-78,yPercent:-52,rotation:-3,scale:.84,duration:.68,ease:'power3.inOut'});
+    }
     setMemoryUnlocked(index+1);
-    gsap.fromTo(card,{autoAlpha:0,y:-260,x:(index===1?70:-55),rotation:index===1?13:17,scale:.72},
-      {autoAlpha:1,y:0,x:0,rotation:(index-1)*5,scale:1,duration:.95,ease:'back.out(1.12)'});
+    gsap.fromTo(card,
+      {autoAlpha:0,y:-260,x:index===1?70:-55,xPercent:-50,yPercent:-52,rotation:index===1?11:15,scale:.72},
+      {autoAlpha:1,y:0,x:0,xPercent:-50,yPercent:-52,rotation:0,scale:1,duration:.95,ease:'back.out(1.12)'});
     thump();
+  };
+
+  const settleMemories=()=>{
+    const cards=[p0.current,p1.current,p2.current];
+    const targets=[
+      {xPercent:-103,yPercent:-45,rotation:-9,scale:.8,zIndex:3},
+      {xPercent:-50,yPercent:-55,rotation:0,scale:.84,zIndex:4},
+      {xPercent:3,yPercent:-45,rotation:9,scale:.8,zIndex:3},
+    ];
+    cards.forEach((card,i)=>gsap.to(card,{x:0,y:0,...targets[i],duration:.82,ease:'power3.inOut'}));
   };
 
   const markExplored=i=>{
@@ -230,7 +248,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
     const next=new Set(explored);next.add(i);setExplored(next);
     if(i===0)setTimeout(()=>unlockMemory(1),650);
     if(i===1)setTimeout(()=>unlockMemory(2),650);
-    if(next.size===3)setTimeout(()=>gsap.to('.pm-memory-release',{autoAlpha:1,y:0,duration:.6,ease:'power2.out'}),700);
+    if(next.size===3)setTimeout(()=>{settleMemories();gsap.to('.pm-memory-release',{autoAlpha:1,y:0,duration:.6,delay:.55,ease:'power2.out'})},450);
   };
 
   const openAfterword=()=>{
@@ -238,7 +256,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
     setStep('afterword');softTone(210,.18,.028);
     const cards=[p0.current,p1.current,p2.current];
     const tl=gsap.timeline({defaults:{ease:'power4.inOut'}});
-    tl.to(cards,{x:0,y:0,rotation:0,scale:.64,filter:'blur(1px)',duration:.75,stagger:.05})
+    tl.to(cards,{x:0,y:0,xPercent:-50,yPercent:-50,rotation:0,scale:.56,filter:'blur(1px)',duration:.75,stagger:.05})
       .to(cards,{xPercent:(i)=>i===0?28:i===2?-28:0,yPercent:(i)=>i===1?3:9,autoAlpha:.24,duration:.72},'+=.08')
       .to(memory.current,{autoAlpha:.16,duration:.45},'<')
       .set(afterword.current,{autoAlpha:1,pointerEvents:'auto'},'-=.18')
