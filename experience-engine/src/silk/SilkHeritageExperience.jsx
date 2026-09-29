@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { readUrlContent } from '../system/contentModel.js';
 import './silkHeritage.css';
 
 const ART='https://emora-v10-fifteen-experiences-production.up.railway.app/assets/silk-heritage-original.jpg';
@@ -16,8 +17,8 @@ function formatDate(value){
   };
 }
 
-export function SilkHeritageExperience({content,media=null,embedded=false}){
-  const cfg=content||{};
+export function SilkHeritageExperience({content:contentProp=null,media=null,embedded=false}){
+  const cfg=useMemo(()=>contentProp||readUrlContent('wedding-silk'),[contentProp]);
   const root=useRef(null);
   const pointer=useRef(null);
   const [veil,setVeil]=useState(0);
