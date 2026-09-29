@@ -59,3 +59,46 @@ export async function samplePortraitFile(file,{width,height,count=1100}){
   }
   return points;
 }
+
+
+export function createNamePoints(text,width,height,count=1450){
+  const label=String(text||'EMORA').trim().slice(0,22)||'EMORA';
+  const canvas=document.createElement('canvas');
+  const w=clamp(Math.round(Math.min(width*0.86,760)),320,760);
+  const h=clamp(Math.round(Math.min(height*0.34,300)),180,320);
+  canvas.width=w;canvas.height=h;
+  const ctx=canvas.getContext('2d',{willReadFrequently:true});
+  ctx.clearRect(0,0,w,h);
+  const size=clamp(Math.round(w/(Math.max(4,label.length)*.57)),58,150);
+  ctx.font=`italic 500 ${size}px Georgia, "Times New Roman", serif`;
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+  ctx.fillStyle='#ffffff';
+  ctx.shadowColor='#ffffff';
+  ctx.shadowBlur=2;
+  ctx.fillText(label,w/2,h/2);
+  const data=ctx.getImageData(0,0,w,h).data;
+  const candidates=[];
+  const step=Math.max(1,Math.floor(Math.min(w,h)/120));
+  for(let y=0;y<h;y+=step){
+    for(let x=0;x<w;x+=step){
+      const a=data[(y*w+x)*4+3]/255;
+      if(a<.15)continue;
+      candidates.push({x:x-w/2,y:y-h/2,alpha:clamp(.45+a*.62,.45,1)});
+    }
+  }
+  if(!candidates.length)return createHeartPoints(width,height,count);
+  const points=[];
+  const stride=Math.max(1,candidates.length/count);
+  for(let i=0;i<count;i++){
+    const p=candidates[Math.floor((i*stride+Math.random()*stride)%candidates.length)];
+    const warm=Math.random();
+    points.push({
+      x:p.x+(Math.random()-.5)*1.8,
+      y:p.y+(Math.random()-.5)*1.8,
+      alpha:p.alpha,
+      tint:warm>.82?0xe8a7b7:(warm>.34?0xffeee8:0xfffaf3),
+    });
+  }
+  return points;
+}
