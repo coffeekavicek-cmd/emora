@@ -206,14 +206,13 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
     void import('../galaxy/portraitSampler.js');
     setStep('memories');setMemoryUnlocked(1);setExplored(new Set());thump();
     const cards=[p0.current,p1.current,p2.current];
-    gsap.set(cards,{autoAlpha:0,pointerEvents:'none'});
+    gsap.set(cards,{autoAlpha:0});
     const tl=gsap.timeline({defaults:{ease:'power4.out'}});
     tl.to(paper.current,{scale:.87,y:-110,rotation:-2,autoAlpha:.22,filter:'blur(2px)',duration:.9,ease:'power3.inOut'})
       .set(memory.current,{autoAlpha:1,pointerEvents:'auto'},'-=.42')
       .fromTo('.pm-memory-kicker',{autoAlpha:0,y:-12},{autoAlpha:1,y:0,duration:.55},'-=.1')
       .fromTo(p0.current,{autoAlpha:0,y:-250,x:-80,rotation:-16,scale:.72},
         {autoAlpha:1,y:0,x:0,rotation:-5,scale:1,duration:.95,ease:'back.out(1.12)'},'-=.15')
-      .set(p0.current,{pointerEvents:'auto'})
       .call(()=>thump(),null,'<+.12');
   };
 
@@ -222,7 +221,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
     if(!card)return;
     setMemoryUnlocked(index+1);
     gsap.fromTo(card,{autoAlpha:0,y:-260,x:(index===1?70:-55),rotation:index===1?13:17,scale:.72},
-      {autoAlpha:1,y:0,x:0,rotation:(index-1)*5,scale:1,duration:.95,ease:'back.out(1.12)',onComplete:()=>gsap.set(card,{pointerEvents:'auto'})});
+      {autoAlpha:1,y:0,x:0,rotation:(index-1)*5,scale:1,duration:.95,ease:'back.out(1.12)'});
     thump();
   };
 
