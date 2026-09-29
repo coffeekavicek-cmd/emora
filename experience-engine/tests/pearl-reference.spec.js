@@ -43,6 +43,7 @@ test.describe('Pearl Linen reference',()=>{
     await expect(page.locator('.pearl-motion')).toBeVisible();
     await expectFullStage('.pearl-motion');
     await expectFullStage('.pm-intro');
+    await page.waitForTimeout(2350);
     await page.screenshot({path:testInfo.outputPath('01-opening.png'),fullPage:true});
 
     const viewport=await page.evaluate(()=>({
