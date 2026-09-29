@@ -30,7 +30,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     performance:{maxDpr:1.75,heavyLazyLoad:true},
   },
   {
-    id:'love-galaxy',dbSlug:'love-galaxy-confession',name:'Galaxy Confession',category:'love',releaseStatus:'concept',
+    id:'love-galaxy',dbSlug:'love-galaxy-confession',name:'Galaxy Confession',category:'love',releaseState:'review',releaseStatus:'review',
     archetype:A.LIVING_WORLD,navigation:N.WORLD,
     metaphor:'interactive galaxy of personal words',primaryMedia:'webgl-world',
     signatureMoment:'The manipulable galaxy collapses into the recipient portrait.',
