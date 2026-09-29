@@ -56,7 +56,7 @@ function DraggablePolaroid({index,src,caption,onExplore,cardRef,locked=false}){
   };
   return <button ref={cardRef} aria-hidden={locked} tabIndex={locked?-1:0} className={'pm-polaroid pm-polaroid-'+index+(locked?' locked':'')}
     onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up}>
-    <img src={src} alt=""/>
+    {src?<img src={src} alt=""/>:<div className={'pm-photo-fallback pm-photo-fallback-'+index} aria-hidden="true"><i/><i/><i/></div>}
     <span>{caption}</span><b>0{index+1}</b>
   </button>;
 }
@@ -90,13 +90,13 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
   },[music]);
   useEffect(()=>()=>{if(music&&typeof music!=='string'&&musicUrl)URL.revokeObjectURL(musicUrl)},[music,musicUrl]);
   const photoUrls=useMemo(()=>{
-    if(!photos.length)return [FALLBACK,FALLBACK,FALLBACK];
+    if(!photos.length)return [null,null,null];
     return [0,1,2].map(i=>{
       const item=photos[i%photos.length];
       return typeof item==='string'?item:URL.createObjectURL(item);
     });
   },[photos]);
-  useEffect(()=>()=>{photoUrls.forEach((u,i)=>{if(photos.length&&typeof photos[i%photos.length]!=='string'&&u!==FALLBACK)URL.revokeObjectURL(u)})},[photos,photoUrls]);
+  useEffect(()=>()=>{photoUrls.forEach((u,i)=>{if(u&&photos.length&&typeof photos[i%photos.length]!=='string'&&u!==FALLBACK)URL.revokeObjectURL(u)})},[photos,photoUrls]);
 
   useEffect(()=>{
     const node=root.current;if(!node)return;
@@ -466,7 +466,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
 
     <section ref={finale} className="pm-layer pm-finale-layer">
       <div ref={particleHost} className="pm-particles"/>
-      <div className="pm-particle-counter" aria-live="polite"><b ref={counterRef}>0</b><span>real render qilingan marvarid nuqta · bitta xotira</span></div>
+      <div className="pm-particle-counter" aria-live="polite"><b ref={counterRef}>0</b><span>marvarid nuqta · bitta xotira</span></div>
       <div className={'pm-final-copy '+(portraitReady?'ready':'')}>
         <p>AND THIS IS THE ONLY LINE THAT MATTERS</p>
         <h2>{cfg.final}</h2>
