@@ -38,8 +38,13 @@ export function QuietRoomExperience({content:contentProp=null,embedded=false}){
     setLine(0);
     const timers=[500,2200,4100].map((ms,i)=>setTimeout(()=>{setLine(i+1);clickTone(250+i*35,.05,.005)},ms));
     const next=setTimeout(()=>setPhase('blackout'),6500);
-    const final=setTimeout(()=>{clickTone(145,.16,.012);setPhase('finale')},7700);
-    return()=>{timers.forEach(clearTimeout);clearTimeout(next);clearTimeout(final)};
+    return()=>{timers.forEach(clearTimeout);clearTimeout(next)};
+  },[phase]);
+
+  useEffect(()=>{
+    if(phase!=='blackout')return;
+    const timer=setTimeout(()=>{clickTone(145,.16,.012);setPhase('finale')},1200);
+    return()=>clearTimeout(timer);
   },[phase]);
 
   return <main className={'quiet-room '+(embedded?'is-embedded ':'')+'phase-'+phase}>
