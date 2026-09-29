@@ -18,6 +18,10 @@ function Loading(){
 function App(){
   const params=new URLSearchParams(location.search);
   const slug=selectedSlug();
+  const metaTemplate=TEMPLATE_BY_ID[slug];
+  document.title=params.get('mode')==='editor'
+    ? `EMORA · ${metaTemplate?.name||'Creator'} Editor`
+    : `EMORA · ${metaTemplate?.name||'Experiences'}`;
 
   let content;
   if(params.get('mode')==='editor'){
