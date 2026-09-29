@@ -8,6 +8,7 @@ const FIELD_LIBRARY = Object.freeze({
     {key:'language',type:'language',label:'Til'},
   ],
   event: [
+    {key:'coupleNames',type:'text',label:'Ismlar',max:100},
     {key:'eventDate',type:'datetime',label:'Sana va vaqt'},
     {key:'venueName',type:'text',label:'Joy nomi',max:100},
     {key:'venueAddress',type:'text',label:'Manzil',max:180},
