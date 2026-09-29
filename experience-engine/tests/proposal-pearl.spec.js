@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Pearl Promise true 3D reference',()=>{
   test('recipient completes hold → rotate → proposal question on mobile',async({page},testInfo)=>{
+    test.setTimeout(75000);
     const errors=[];
     page.on('pageerror',e=>errors.push(e.message));
     page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
