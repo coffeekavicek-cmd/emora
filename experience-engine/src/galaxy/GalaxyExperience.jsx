@@ -138,7 +138,7 @@ export function GalaxyExperience({content:contentProp=null,media=null,embedded=f
     if(audioRef.current&&musicUrl){
       audioRef.current.volume=0;audioRef.current.loop=true;
       audioRef.current.play().then(()=>{
-        const target=soundOn?.28:0;
+        const target=soundOn ? .28:0;
         const start=performance.now();
         const fade=()=>{
           if(!audioRef.current)return;
@@ -202,7 +202,7 @@ export function GalaxyExperience({content:contentProp=null,media=null,embedded=f
   const toggleSound=()=>{
     setSoundOn(v=>{
       const next=!v;
-      if(audioRef.current)audioRef.current.volume=next?.28:0;
+      if(audioRef.current)audioRef.current.volume=next ? .28 : 0;
       return next;
     });
   };
