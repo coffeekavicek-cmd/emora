@@ -27,7 +27,7 @@ function Signature({name,className=''}) {
   </span>;
 }
 
-function DraggablePolaroid({index,src,caption,onExplore,cardRef}){
+function DraggablePolaroid({index,src,caption,onExplore,cardRef,locked=false}){
   const pointer=useRef(null);
   const dragged=useRef(false);
   const pos=useRef({x:0,y:0});
@@ -39,6 +39,7 @@ function DraggablePolaroid({index,src,caption,onExplore,cardRef}){
     gsap.set(cardRef.current,{x:pos.current.x,y:pos.current.y,rotation:(index-1)*5+dx*.018});
   };
   const down=e=>{
+    if(locked)return;
     const t=cardRef.current;if(!t)return;
     const x=Number(gsap.getProperty(t,'x'))||0,y=Number(gsap.getProperty(t,'y'))||0;
     pointer.current={x:e.clientX,y:e.clientY,ox:x,oy:y};dragged.current=false;
@@ -52,7 +53,7 @@ function DraggablePolaroid({index,src,caption,onExplore,cardRef}){
     onExplore(index);
     gsap.to(cardRef.current,{scale:1,zIndex:1,duration:.32,ease:'power2.out'});
   };
-  return <button ref={cardRef} className={'pm-polaroid pm-polaroid-'+index}
+  return <button ref={cardRef} aria-hidden={locked} tabIndex={locked?-1:0} className={'pm-polaroid pm-polaroid-'+index+(locked?' locked':'')}
     onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up}>
     <img src={src} alt=""/>
     <span>{caption}</span><b>0{index+1}</b>
@@ -62,16 +63,19 @@ function DraggablePolaroid({index,src,caption,onExplore,cardRef}){
 export function PearlMotionExperience({content:contentProp=null,media=null,embedded=false}){
   const cfg=useMemo(()=>contentProp||readUrlContent('love-pearl'),[contentProp]);
   const root=useRef(null),intro=useRef(null),envelope=useRef(null),letter=useRef(null),paper=useRef(null),sealHost=useRef(null);
-  const memory=useRef(null),finale=useRef(null),particleHost=useRef(null),audioRef=useRef(null);
+  const memory=useRef(null),afterword=useRef(null),finale=useRef(null),particleHost=useRef(null),audioRef=useRef(null),counterRef=useRef(null);
   const p0=useRef(null),p1=useRef(null),p2=useRef(null);
   const sealEngine=useRef(null),particleEngine=useRef(null);
   const sealInitPromise=useRef(null),particleInitPromise=useRef(null);
-  const holdTimer=useRef(null),started=useRef(false);
+  const holdTimer=useRef(null),afterHoldTimer=useRef(null),started=useRef(false);
   const [step,setStep]=useState('intro');
   const [holding,setHolding]=useState(false);
   const [sealCracked,setSealCracked]=useState(false);
   const [inkCount,setInkCount]=useState(0);
+  const [inkReady,setInkReady]=useState(false);
   const [explored,setExplored]=useState(new Set());
+  const [memoryUnlocked,setMemoryUnlocked]=useState(1);
+  const [afterHolding,setAfterHolding]=useState(false);
   const [portraitReady,setPortraitReady]=useState(false);
   const [soundOn,setSoundOn]=useState(true);
 
@@ -94,7 +98,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
 
   useEffect(()=>{
     const ctx=gsap.context(()=>{
-      gsap.set([envelope.current,letter.current,memory.current,finale.current],{autoAlpha:0,pointerEvents:'none'});
+      gsap.set([envelope.current,letter.current,memory.current,afterword.current,finale.current],{autoAlpha:0,pointerEvents:'none'});
       gsap.fromTo('.pm-intro-copy',{autoAlpha:0,y:22},{autoAlpha:1,y:0,duration:1.05,ease:'power3.out',delay:.15});
       gsap.fromTo('.pm-paper-stack',{autoAlpha:0,y:34,rotation:8},{autoAlpha:1,y:0,rotation:3,duration:1.25,ease:'power4.out',delay:.35});
     },root);
@@ -176,48 +180,109 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
       .call(()=>{setStep('ink');startInkSequence()});
   };
 
+  const revealInkParagraph=(next)=>{
+    setInkReady(false);
+    setInkCount(next);
+    softTone(300+next*58,.09,.018);
+    setTimeout(()=>setInkReady(true),1550);
+  };
+
   const startInkSequence=()=>{
+    setInkReady(false);
     setInkCount(0);
-    [0,1,2].forEach((_,i)=>setTimeout(()=>{
-      setInkCount(i+1);softTone(300+i*70,.08,.018);
-    },520+i*1180));
-    setTimeout(()=>{
-      gsap.to('.pm-letter-continue',{autoAlpha:1,y:0,duration:.5,ease:'power2.out'});
-    },4050);
+    setTimeout(()=>revealInkParagraph(1),620);
+  };
+
+  const continueLetter=()=>{
+    if(step!=='ink'||!inkReady)return;
+    setInkReady(false);
+    if(inkCount<3){
+      setTimeout(()=>revealInkParagraph(inkCount+1),280);
+      return;
+    }
+    openMemories();
   };
 
   const openMemories=()=>{
     if(step!=='ink')return;
     void import('../galaxy/GalaxyEngine.js');
     void import('../galaxy/portraitSampler.js');
-    setStep('memories');thump();
+    setStep('memories');setMemoryUnlocked(1);setExplored(new Set());thump();
     const cards=[p0.current,p1.current,p2.current];
+    gsap.set(cards,{autoAlpha:0});
     const tl=gsap.timeline({defaults:{ease:'power4.out'}});
-    tl.to(paper.current,{scale:.87,y:-110,rotation:-2,autoAlpha:.26,filter:'blur(2px)',duration:.75,ease:'power3.inOut'})
-      .set(memory.current,{autoAlpha:1,pointerEvents:'auto'},'-=.35')
-      .fromTo('.pm-memory-kicker',{autoAlpha:0,y:-12},{autoAlpha:1,y:0,duration:.45},'-=.1');
-    cards.forEach((c,i)=>{
-      tl.fromTo(c,{autoAlpha:0,y:-220-(i*35),x:(i-1)*65,rotation:(i-1)*18,scale:.78},
-        {autoAlpha:1,y:0,x:0,rotation:(i-1)*5,scale:1,duration:.75,ease:'back.out(1.18)'},i===0?'-=.15':'-=.48');
-      tl.call(()=>thump(),null,'<+.08');
-    });
+    tl.to(paper.current,{scale:.87,y:-110,rotation:-2,autoAlpha:.22,filter:'blur(2px)',duration:.9,ease:'power3.inOut'})
+      .set(memory.current,{autoAlpha:1,pointerEvents:'auto'},'-=.42')
+      .fromTo('.pm-memory-kicker',{autoAlpha:0,y:-12},{autoAlpha:1,y:0,duration:.55},'-=.1')
+      .fromTo(p0.current,{autoAlpha:0,y:-250,x:-80,xPercent:-50,yPercent:-52,rotation:-16,scale:.72},
+        {autoAlpha:1,y:0,x:0,xPercent:-50,yPercent:-52,rotation:-2,scale:1,duration:.95,ease:'back.out(1.12)'},'-=.15')
+      .call(()=>thump(),null,'<+.12');
   };
 
-  const markExplored=i=>setExplored(prev=>{
-    const next=new Set(prev);next.add(i);
-    if(next.size===3)setTimeout(()=>gsap.to('.pm-memory-release',{autoAlpha:1,y:0,duration:.5,ease:'power2.out'}),250);
-    return next;
-  });
+  const unlockMemory=(index)=>{
+    const cards=[p0.current,p1.current,p2.current];
+    const card=cards[index];if(!card)return;
+    if(index===1){
+      gsap.to(p0.current,{x:0,y:0,xPercent:-96,yPercent:-46,rotation:-8,scale:.84,duration:.72,ease:'power3.inOut'});
+    }
+    if(index===2){
+      gsap.to(p0.current,{x:0,y:0,xPercent:-101,yPercent:-44,rotation:-9,scale:.78,duration:.68,ease:'power3.inOut'});
+      gsap.to(p1.current,{x:0,y:0,xPercent:-78,yPercent:-52,rotation:-3,scale:.84,duration:.68,ease:'power3.inOut'});
+    }
+    setMemoryUnlocked(index+1);
+    gsap.fromTo(card,
+      {autoAlpha:0,y:-260,x:index===1?70:-55,xPercent:-50,yPercent:-52,rotation:index===1?11:15,scale:.72},
+      {autoAlpha:1,y:0,x:0,xPercent:-50,yPercent:-52,rotation:0,scale:1,duration:.95,ease:'back.out(1.12)'});
+    thump();
+  };
 
-  const buildFinale=async()=>{
-    if(step!=='memories')return;
-    setStep('converge');softTone(180,.14,.04);
+  const settleMemories=()=>{
+    const cards=[p0.current,p1.current,p2.current];
+    const targets=[
+      {xPercent:-103,yPercent:-45,rotation:-9,scale:.8,zIndex:3},
+      {xPercent:-50,yPercent:-55,rotation:0,scale:.84,zIndex:4},
+      {xPercent:3,yPercent:-45,rotation:9,scale:.8,zIndex:3},
+    ];
+    cards.forEach((card,i)=>gsap.to(card,{x:0,y:0,...targets[i],duration:.82,ease:'power3.inOut'}));
+  };
+
+  const markExplored=i=>{
+    if(explored.has(i))return;
+    const next=new Set(explored);next.add(i);setExplored(next);
+    if(i===0)setTimeout(()=>unlockMemory(1),650);
+    if(i===1)setTimeout(()=>unlockMemory(2),650);
+    if(next.size===3)setTimeout(()=>{settleMemories();gsap.to('.pm-memory-release',{autoAlpha:1,y:0,duration:.6,delay:.55,ease:'power2.out'})},450);
+  };
+
+  const openAfterword=()=>{
+    if(step!=='memories'||explored.size<3)return;
+    setStep('afterword');softTone(210,.18,.028);
     const cards=[p0.current,p1.current,p2.current];
     const tl=gsap.timeline({defaults:{ease:'power4.inOut'}});
-    cards.forEach((c,i)=>tl.to(c,{x:0,y:0,rotation:0,scale:.72,filter:'blur(1px)',duration:.7},i?'<+.06':0));
-    tl.to(cards,{xPercent:(i)=>i===0?38:i===2?-38:0,yPercent:(i)=>i===1?0:6,scale:.42,autoAlpha:0,duration:.7,stagger:.04},'+=.1')
-      .to(memory.current,{backgroundColor:'#08070a',duration:.5},'-=.55')
-      .set(finale.current,{autoAlpha:1,pointerEvents:'auto'},'-=.35')
+    tl.to(cards,{x:0,y:0,xPercent:-50,yPercent:-50,rotation:0,scale:.56,filter:'blur(1px)',duration:.75,stagger:.05})
+      .to(cards,{xPercent:(i)=>i===0?28:i===2?-28:0,yPercent:(i)=>i===1?3:9,autoAlpha:.24,duration:.72},'+=.08')
+      .to(memory.current,{autoAlpha:.16,duration:.45},'<')
+      .set(afterword.current,{autoAlpha:1,pointerEvents:'auto'},'-=.18')
+      .fromTo('.pm-afterword-sheet',{y:120,rotationX:-14,scale:.86,autoAlpha:0},{y:0,rotationX:0,scale:1,autoAlpha:1,duration:1.05,ease:'power4.out'})
+      .fromTo('.pm-afterword-copy',{autoAlpha:0,y:16},{autoAlpha:1,y:0,duration:.8},'-=.35');
+  };
+
+  const startAfterHold=()=>{
+    if(step!=='afterword')return;
+    clearTimeout(afterHoldTimer.current);setAfterHolding(true);
+    afterHoldTimer.current=setTimeout(()=>{setAfterHolding(false);buildFinale()},900);
+  };
+  const cancelAfterHold=()=>{if(step!=='afterword')return;clearTimeout(afterHoldTimer.current);setAfterHolding(false)};
+
+  const buildFinale=async()=>{
+    if(step!=='afterword')return;
+    setStep('converge');softTone(165,.2,.045);
+    const tl=gsap.timeline({defaults:{ease:'power4.inOut'}});
+    tl.to('.pm-afterword-copy',{autoAlpha:0,y:-18,duration:.35})
+      .to('.pm-afterword-sheet',{scale:.83,y:-36,autoAlpha:.12,duration:.75})
+      .to(afterword.current,{autoAlpha:0,pointerEvents:'none',duration:.32},'-=.2')
+      .to(memory.current,{autoAlpha:0,pointerEvents:'none',duration:.3},'<')
+      .set(finale.current,{autoAlpha:1,pointerEvents:'auto'},'-=.05')
       .to(letter.current,{autoAlpha:0,duration:.3},'<')
       .call(()=>startPortrait());
   };
@@ -236,7 +301,13 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
     catch{points=sampler.createHeartPoints(rect.width,rect.height,1350)}
     const fit=source?1.1:1.0;
     points=points.map(p=>({...p,x:p.x*fit,y:p.y*fit}));
-    gsap.fromTo(particleHost.current,{autoAlpha:0,scale:1.12},{autoAlpha:1,scale:1,duration:.75,ease:'power3.out'});
+    const counter={value:0},target=e.points?.length||760;
+    if(counterRef.current)counterRef.current.textContent='0';
+    gsap.fromTo('.pm-particle-counter',{autoAlpha:0,y:10},{autoAlpha:1,y:0,duration:.45});
+    gsap.to(counter,{value:target,duration:2.55,ease:'power2.out',onUpdate:()=>{
+      if(counterRef.current)counterRef.current.textContent=Math.round(counter.value).toLocaleString('uz-UZ');
+    }});
+    gsap.fromTo(particleHost.current,{autoAlpha:0,scale:1.12},{autoAlpha:1,scale:1,duration:.85,ease:'power3.out'});
     e.morphToPortrait(points,{onComplete:()=>{
       setPortraitReady(true);setStep('finale');
       softTone(660,.32,.035);
@@ -280,10 +351,10 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
   };
 
   const restart=()=>{
-    setPortraitReady(false);setExplored(new Set());setInkCount(0);setSealCracked(false);setStep('intro');started.current=false;
+    setPortraitReady(false);setExplored(new Set());setMemoryUnlocked(1);setAfterHolding(false);setInkReady(false);setInkCount(0);setSealCracked(false);setStep('intro');started.current=false;
     particleEngine.current?.reset();sealEngine.current?.reset();
     const tl=gsap.timeline({defaults:{duration:.4}});
-    tl.to([envelope.current,letter.current,memory.current,finale.current],{autoAlpha:0,pointerEvents:'none'})
+    tl.to([envelope.current,letter.current,memory.current,afterword.current,finale.current],{autoAlpha:0,pointerEvents:'none'})
       .set(intro.current,{autoAlpha:1,pointerEvents:'auto',scale:1})
       .fromTo('.pm-intro-copy',{autoAlpha:0,y:18},{autoAlpha:1,y:0,duration:.7})
       .fromTo('.pm-paper-stack',{autoAlpha:0,y:22},{autoAlpha:1,y:0,duration:.8},'<+.08');
@@ -291,13 +362,13 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
     gsap.set('.pm-letter-continue,.pm-memory-release',{autoAlpha:0,y:10});
   };
 
-  useEffect(()=>()=>{clearTimeout(holdTimer.current);sealEngine.current?.destroy();particleEngine.current?.destroy();audioRef.current?.pause()},[]);
+  useEffect(()=>()=>{clearTimeout(holdTimer.current);clearTimeout(afterHoldTimer.current);sealEngine.current?.destroy();particleEngine.current?.destroy();audioRef.current?.pause()},[]);
 
   return <main ref={root} className={'pearl-motion '+(embedded?'is-embedded ':'')+'step-'+step}>
     {musicUrl&&<audio ref={audioRef} src={musicUrl} preload="metadata"/>}
     <div className="pm-grain"/><div className="pm-vignette"/>
     <header className="pm-chrome"><a href="?">emora<span>.</span></a><small>PEARL LINEN · FLAGSHIP</small>
-      <div className="pm-chrome-actions">{musicUrl&&<button className="pm-sound" onClick={toggleSound} aria-label={soundOn?'Ovozni o‘chirish':'Ovozni yoqish'}>{soundOn?'SOUND ON':'SOUND OFF'}</button>}<b>{step==='intro'?'00':step==='seal'?'01':step==='letter-rise'?'02':step==='ink'?'03':step==='memories'?'04':step==='converge'?'05':'06'}</b></div>
+      <div className="pm-chrome-actions">{musicUrl&&<button className="pm-sound" onClick={toggleSound} aria-label={soundOn?'Ovozni o‘chirish':'Ovozni yoqish'}>{soundOn?'SOUND ON':'SOUND OFF'}</button>}<b>{step==='intro'?'00':step==='seal'?'01':step==='letter-rise'?'02':step==='ink'?'03':step==='memories'?'04':step==='afterword'?'05':step==='converge'?'06':'07'}</b></div>
     </header>
 
     <section ref={intro} className="pm-layer pm-intro">
@@ -340,22 +411,42 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
         </div>
         <p className="pm-signoff">— samimiyat bilan</p>
       </article>
-      <button className="pm-letter-continue pm-primary" onClick={openMemories}>Xotiralarni ochish →</button>
+      <button className={'pm-letter-continue pm-primary '+(inkReady?'ready':'')} disabled={!inkReady} onClick={continueLetter}>{inkCount<3?'Davomini o‘qish →':'Xotiralarni ochish →'}</button>
     </section>
 
     <section ref={memory} className="pm-layer pm-memory-layer">
       <p className="pm-memory-kicker">THREE THINGS I KEEP</p>
       <div className="pm-memory-desk">
-        <DraggablePolaroid index={0} src={photoUrls[0]} caption={cfg.captions[0]} onExplore={markExplored} cardRef={p0}/>
-        <DraggablePolaroid index={1} src={photoUrls[1]} caption={cfg.captions[1]} onExplore={markExplored} cardRef={p1}/>
-        <DraggablePolaroid index={2} src={photoUrls[2]} caption={cfg.captions[2]} onExplore={markExplored} cardRef={p2}/>
+        <DraggablePolaroid index={0} src={photoUrls[0]} caption={cfg.captions[0]} onExplore={markExplored} cardRef={p0} locked={memoryUnlocked<1}/>
+        <DraggablePolaroid index={1} src={photoUrls[1]} caption={cfg.captions[1]} onExplore={markExplored} cardRef={p1} locked={memoryUnlocked<2}/>
+        <DraggablePolaroid index={2} src={photoUrls[2]} caption={cfg.captions[2]} onExplore={markExplored} cardRef={p2} locked={memoryUnlocked<3}/>
       </div>
-      <p className="pm-memory-note">{explored.size<3?'Uchalasiga ham tegib ko‘ring':'uchta xotira · bitta odam'}</p>
-      <button className="pm-memory-release pm-primary" onClick={buildFinale}>Bitta joyga yig‘ish →</button>
+      <p className="pm-memory-note">{explored.size<3?`${explored.size}/3 · xotirani qo‘lingiz bilan oching`:'uchta xotira · bitta odam'}</p>
+      <button className="pm-memory-release pm-primary" onClick={openAfterword}>Oxirgi sahifa →</button>
+    </section>
+
+    <section ref={afterword} className="pm-layer pm-afterword-layer">
+      <article className="pm-afterword-sheet">
+        <div className="pm-paper-fiber"/>
+        <div className="pm-afterword-copy">
+          <p>ONE MORE THING</p>
+          <h2>Yana bitta narsa bor.</h2>
+          <span>Bu qismni shoshilmay och.</span>
+          <button className={'pm-pearl-hold '+(afterHolding?'holding':'')}
+            aria-label="Oxirgi satrni bosib ushlab oching"
+            onPointerDown={startAfterHold} onPointerUp={cancelAfterHold} onPointerCancel={cancelAfterHold} onPointerLeave={cancelAfterHold}
+            onKeyDown={e=>{if((e.key==='Enter'||e.key===' ')&&!e.repeat){e.preventDefault();startAfterHold()}}}
+            onKeyUp={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();cancelAfterHold()}}}>
+            <i/><b>900ms</b>
+          </button>
+          <small>marvaridni bosib ushlab turing</small>
+        </div>
+      </article>
     </section>
 
     <section ref={finale} className="pm-layer pm-finale-layer">
       <div ref={particleHost} className="pm-particles"/>
+      <div className="pm-particle-counter"><b ref={counterRef}>0</b><span>marvarid nuqta · bitta xotira</span></div>
       <div className={'pm-final-copy '+(portraitReady?'ready':'')}>
         <p>AND THIS IS THE ONLY LINE THAT MATTERS</p>
         <h2>{cfg.final}</h2>

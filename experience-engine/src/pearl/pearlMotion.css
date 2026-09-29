@@ -130,3 +130,56 @@
   .pm-intro .pm-signature{margin-top:2px;margin-bottom:9px}
   .pm-intro .pm-primary{margin-top:3px}
 }
+
+
+/* Deep Ritual V2 */
+.pm-polaroid.locked{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+.pm-afterword-layer{z-index:47;display:grid;place-items:center;padding:74px 18px 42px;background:radial-gradient(circle at 50% 42%,rgba(221,202,179,.48),rgba(41,29,23,.88) 74%);perspective:1200px}
+.pm-afterword-layer:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(7deg,rgba(255,255,255,.018) 0 1px,transparent 1px 8px);mix-blend-mode:soft-light}
+.pm-afterword-sheet{position:relative;width:min(650px,88vw);min-height:min(70svh,610px);display:grid;place-items:center;padding:clamp(30px,5vw,64px);background:#f3e8d8;color:#392f29;border:1px solid rgba(91,67,43,.16);box-shadow:0 38px 100px rgba(18,11,8,.5),inset 0 1px rgba(255,255,255,.6);transform-style:preserve-3d;overflow:hidden}
+.pm-afterword-sheet:after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,rgba(115,80,46,.05),transparent 28%,rgba(255,255,255,.11) 52%,transparent 68%);pointer-events:none}
+.pm-afterword-copy{position:relative;z-index:3;width:min(450px,100%);display:flex;flex-direction:column;align-items:center;text-align:center}
+.pm-afterword-copy>p{margin:0 0 22px;font-size:8px;font-weight:850;letter-spacing:.22em;color:#9b8472}
+.pm-afterword-copy>h2{margin:0;font:400 clamp(52px,6.2vw,84px)/.9 "Cormorant Garamond",Georgia,serif;letter-spacing:-.055em;text-wrap:balance}
+.pm-afterword-copy>span{margin-top:18px;font:italic 400 21px/1.2 "Cormorant Garamond",Georgia,serif;color:#77675c}
+.pm-afterword-copy>small{margin-top:12px;font-size:7px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:#917c6d}
+.pm-pearl-hold{position:relative;width:96px;height:96px;margin-top:34px;border:0;border-radius:50%;background:
+  radial-gradient(circle at 34% 28%,#fffaf5 0 8%,#eee2d8 18%,#d6beb2 51%,#aa8179 76%,#6f4b49 100%);
+  box-shadow:0 18px 30px rgba(72,48,39,.25),inset 0 4px 10px rgba(255,255,255,.75),inset 0 -12px 18px rgba(89,51,46,.18);cursor:pointer;overflow:hidden;transform:translateZ(0);transition:transform .18s,box-shadow .18s}
+.pm-pearl-hold:before{content:"";position:absolute;left:24%;top:17%;width:30%;height:16%;border-radius:50%;background:rgba(255,255,255,.72);filter:blur(3px);transform:rotate(-24deg)}
+.pm-pearl-hold>i{position:absolute;left:0;bottom:0;width:100%;height:0;background:linear-gradient(to top,rgba(143,38,60,.42),rgba(143,38,60,.05));transition:height .9s linear}
+.pm-pearl-hold> b{position:absolute;left:50%;bottom:13px;transform:translateX(-50%);font:700 7px/1 monospace;letter-spacing:.08em;color:#6a5250;opacity:.66}
+.pm-pearl-hold.holding{transform:scale(.965);box-shadow:0 8px 20px rgba(72,48,39,.2),inset 0 3px 12px rgba(255,255,255,.6),inset 0 -8px 18px rgba(89,51,46,.22)}
+.pm-pearl-hold.holding>i{height:100%}
+.pm-particle-counter{position:absolute;z-index:9;left:50%;top:78px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;min-width:220px;opacity:0;visibility:hidden;pointer-events:none}
+.pm-particle-counter>b{font:400 clamp(34px,5vw,55px)/1 "Cormorant Garamond",Georgia,serif;color:#f3d9e0;font-variant-numeric:tabular-nums;text-shadow:0 0 24px rgba(232,163,181,.16)}
+.pm-particle-counter>span{margin-top:5px;font-size:7px;font-weight:850;letter-spacing:.16em;text-transform:uppercase;color:#998590}
+.step-finale .pm-particle-counter{opacity:.72}
+.step-converge .pm-final-copy{opacity:0!important;visibility:hidden!important}
+.pm-memory-note{font-variant-numeric:tabular-nums}
+
+@media(max-width:720px){
+ .pm-afterword-layer{padding:62px 10px 28px}
+ .pm-afterword-sheet{width:94vw;min-height:73svh;padding:28px 23px}
+ .pm-afterword-copy>p{margin-bottom:16px}
+ .pm-afterword-copy>h2{font-size:clamp(48px,13vw,64px)}
+ .pm-afterword-copy>span{font-size:19px}
+ .pm-pearl-hold{width:88px;height:88px;margin-top:28px}
+ .pm-particle-counter{top:61px}
+ .pm-particle-counter>b{font-size:40px}
+ .pm-particle-counter>span{font-size:6px}
+}
+
+/* Deep Ritual V2 memory composition */
+@media(max-width:720px){
+  .pm-polaroid{width:min(49vw,192px);height:min(43svh,330px);padding:8px 8px 39px}
+  .pm-polaroid span{font-size:14px;line-height:1.05;padding:0 3px}
+  .pm-polaroid-0,.pm-polaroid-1,.pm-polaroid-2{transform:none}
+  .pm-memory-desk{height:65svh}
+  .pm-memory-kicker{top:66px}
+  .pm-memory-note{bottom:62px}
+}
+
+.pm-letter-continue{transition:opacity .45s ease,transform .45s ease;pointer-events:none}
+.pm-letter-continue.ready{opacity:1!important;visibility:visible!important;transform:translate(-50%,0)!important;pointer-events:auto}
+.pm-letter-continue:disabled{pointer-events:none}
