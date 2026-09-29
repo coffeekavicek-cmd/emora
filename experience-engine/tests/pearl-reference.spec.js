@@ -41,6 +41,8 @@ test.describe('Pearl Linen reference',()=>{
 
     await page.goto('/?template=love-pearl&name=Test');
     await expect(page.locator('.pearl-motion')).toBeVisible();
+    await expect(page).toHaveTitle(/Pearl Linen/);
+    await expect(page.locator('input[type="file"]')).toHaveCount(0);
     await expectFullStage('.pearl-motion');
     await expectFullStage('.pm-intro');
     await page.waitForTimeout(2350);
