@@ -8,6 +8,7 @@ const PearlPromiseExperience=lazy(()=>import('../proposal/PearlPromiseExperience
 const GalaxyExperience=lazy(()=>import('../galaxy/GalaxyExperience.jsx').then(m=>({default:m.GalaxyExperience})));
 const SilkHeritageExperience=lazy(()=>import('../wedding/SilkHeritageExperience.jsx').then(m=>({default:m.SilkHeritageExperience})));
 const MemoryReelExperience=lazy(()=>import('../birthday/MemoryReelExperience.jsx').then(m=>({default:m.MemoryReelExperience})));
+const QuietRoomExperience=lazy(()=>import('../apology/QuietRoomExperience.jsx').then(m=>({default:m.QuietRoomExperience})));
 const CinematicExperience=lazy(()=>import('../cinematic/CinematicExperience.jsx').then(m=>({default:m.CinematicExperience})));
 import './creatorEditor.css';
 
@@ -72,6 +73,7 @@ function PreviewRuntime({template,content,media}){
   if(template.id==='love-galaxy')return <Suspense fallback={<div className="ce-runtime-loading">WebGL preview</div>}><GalaxyExperience content={content} embedded/></Suspense>;
   if(template.id==='wedding-silk')return <Suspense fallback={<div className="ce-runtime-loading">Silk preview</div>}><SilkHeritageExperience content={content} embedded/></Suspense>;
   if(template.id==='birthday-memory')return <Suspense fallback={<div className="ce-runtime-loading">Film preview</div>}><MemoryReelExperience content={content} media={media} embedded/></Suspense>;
+  if(template.id==='apology-quiet')return <Suspense fallback={<div className="ce-runtime-loading">Quiet preview</div>}><QuietRoomExperience content={content} embedded/></Suspense>;
   const definition=EXPERIENCE_MAP[template.id];
   if(!definition)return <div className="ce-runtime-loading">Runtime unavailable</div>;
   return <Suspense fallback={<div className="ce-runtime-loading">Experience preview</div>}><CinematicExperience definition={definition} content={content} embedded/></Suspense>;
