@@ -4,7 +4,16 @@ import { RitualArtifact } from '../rituals/RitualExperience.jsx';
 import { CINEMATIC_SCENARIOS } from './cinematicScenarios.js';
 import './cinematic.css';
 
-function personalize(base){
+function personalize(base,contentProp=null){
+  if(contentProp){
+    return{
+      ...base,
+      recipient:contentProp.recipient||'Sen uchun',
+      intro:contentProp.message||base.intro,
+      messages:(contentProp.paragraphs||base.messages||[]).slice(0,3),
+      final:contentProp.final||base.final,
+    };
+  }
   const q=new URLSearchParams(location.search);
   const read=(k,f,m=180)=>String(q.get(k)||'').trim().slice(0,m)||f;
   return{
@@ -152,8 +161,8 @@ function Afterglow({experience,scenario,onRestart}){
   </div>;
 }
 
-export function CinematicExperience({definition}){
-  const experience=useMemo(()=>personalize(definition),[definition]);
+export function CinematicExperience({definition,content:contentProp=null,embedded=false}){
+  const experience=useMemo(()=>personalize(definition,contentProp),[definition,contentProp]);
   const scenario=CINEMATIC_SCENARIOS[definition.slug];
   const [phase,setPhase]=useState('opening');
   const [live,setLive]=useState('');
@@ -166,7 +175,7 @@ export function CinematicExperience({definition}){
     gsap.to(active,{opacity:0,scale:.975,filter:'blur(10px)',duration:.42,ease:'power2.in',onComplete:()=>{setLive('');setPhase(next)}});
   };
 
-  return <main className={'cinematic experience-'+experience.slug+' ritual-'+experience.ritual+' phase-'+phase}>
+  return <main className={'cinematic '+(embedded?'is-embedded ':'')+'experience-'+experience.slug+' ritual-'+experience.ritual+' phase-'+phase}>
     <div className="cin-world" aria-hidden="true"><img src={experience.art} alt="" /><i/><b/></div>
     <header className="cin-chrome"><a href="?">emora<span>.</span></a><small>{experience.group} · {experience.name}</small><b>{
       {opening:'00',primary:'01',memory:'02',secondary:'03',turn:'04',finale:'05',afterglow:'06'}[phase]
