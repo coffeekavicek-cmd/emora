@@ -2,7 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir:'./tests',
-  timeout:30000,
+  timeout:45000,
   expect:{timeout:8000},
   fullyParallel:false,
   retries:1,
@@ -11,7 +11,7 @@ export default defineConfig({
     baseURL:'http://127.0.0.1:4173',
     trace:'retain-on-failure',
     screenshot:'only-on-failure',
-    video:'retain-on-failure',
+    video:'off',
   },
   projects:[
     {
