@@ -69,6 +69,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
   const holdTimer=useRef(null),started=useRef(false);
   const [step,setStep]=useState('intro');
   const [holding,setHolding]=useState(false);
+  const [sealCracked,setSealCracked]=useState(false);
   const [inkCount,setInkCount]=useState(0);
   const [explored,setExplored]=useState(new Set());
   const [portraitReady,setPortraitReady]=useState(false);
@@ -107,7 +108,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
       const mod=await import('./PearlSealEngine.js');
       if(!sealHost.current)return null;
       const e=new mod.PearlSealEngine(sealHost.current,{
-        onCrack:()=>{mod.playCrackSound();setHolding(false)},
+        onCrack:()=>{mod.playCrackSound();setHolding(false);setSealCracked(true)},
         onSettled:()=>openEnvelope(),
       });
       sealEngine.current=e;
@@ -253,7 +254,7 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
   };
 
   const restart=()=>{
-    setPortraitReady(false);setExplored(new Set());setInkCount(0);setStep('intro');started.current=false;
+    setPortraitReady(false);setExplored(new Set());setInkCount(0);setSealCracked(false);setStep('intro');started.current=false;
     particleEngine.current?.reset();sealEngine.current?.reset();
     const tl=gsap.timeline({defaults:{duration:.4}});
     tl.to([envelope.current,letter.current,memory.current,finale.current],{autoAlpha:0,pointerEvents:'none'})
@@ -288,12 +289,14 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
         <div className="pm-sheet"><Signature name={cfg.recipient} className="pm-sheet-name"/><small>faqat sen uchun</small></div>
         <div className="pm-pocket"/>
         <div className="pm-flap"/>
-        <div ref={sealHost} className={'pm-seal '+(holding?'holding':'')}
+        <div ref={sealHost} className={'pm-seal '+(holding?'holding ':'')+(sealCracked?'cracked':'')}
           role="button" tabIndex={0} aria-label="Wax muhrni bosib ushlab oching"
           onPointerDown={startHold} onPointerUp={cancelHold} onPointerCancel={cancelHold} onPointerLeave={cancelHold}
           onKeyDown={e=>{if((e.key==='Enter'||e.key===' ')&&!e.repeat){e.preventDefault();startHold()}}}
           onKeyUp={e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();cancelHold()}}}
-          onContextMenu={e=>e.preventDefault()}/>
+          onContextMenu={e=>e.preventDefault()}>
+          <span className="pm-seal-initial">{(cfg.recipient||'E').trim().charAt(0).toUpperCase()}</span>
+        </div>
       </div>
       <div className="pm-seal-copy">
         <span>01 · THE SEAL</span><p>Muhrning o‘zini bosib ushlab turing.</p>
