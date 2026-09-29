@@ -3,6 +3,7 @@ import { TEMPLATE_BY_ID } from './templateManifest.js';
 import { editorSectionsFor } from './editorContract.js';
 import { contentToSearchParams, readUrlContent } from './contentModel.js';
 import { PearlMotionExperience } from '../pearl/PearlMotionExperience.jsx';
+import { PearlPromiseExperience } from '../proposal/PearlPromiseExperience.jsx';
 import './creatorEditor.css';
 
 function Field({field,value,onChange,onMedia}){
@@ -138,7 +139,7 @@ export function CreatorEditor({templateId='love-pearl'}){
       <div className="ce-scroll">
         <Section title="Content" fields={sections.content.filter(f=>!['title'].includes(f.key))} content={content} onChange={update} onMedia={updateMedia}/>
         <section className="ce-section">
-          <div className="ce-section-title"><span>Pearl letter</span><i/></div>
+          <div className="ce-section-title"><span>{template.id==='proposal-pearl'?'Proposal story':'Pearl letter'}</span><i/></div>
           {content.paragraphs.map((x,i)=><label className="ce-field" key={'m'+i}><span>{i+1}-paragraf</span><textarea value={x} onChange={e=>setContent(p=>({...p,paragraphs:p.paragraphs.map((v,n)=>n===i?e.target.value:v)}))}/></label>)}
           {content.captions.map((x,i)=><label className="ce-field" key={'c'+i}><span>{i+1}-polaroid izohi</span><input value={x} onChange={e=>setContent(p=>({...p,captions:p.captions.map((v,n)=>n===i?e.target.value:v)}))}/></label>)}
           <label className="ce-field"><span>Final jumla</span><textarea value={content.final} onChange={e=>setContent(p=>({...p,final:e.target.value}))}/></label>
@@ -161,7 +162,7 @@ export function CreatorEditor({templateId='love-pearl'}){
     <section className="ce-preview-zone">
       <div className="ce-preview-head"><div><small>LIVE RECIPIENT PREVIEW</small><b>390 × 844</b></div><span>manifest-driven</span></div>
       <div className="ce-phone">
-        <div className="ce-phone-screen"><PearlMotionExperience content={content} media={media} embedded/></div>
+        <div className="ce-phone-screen">{template.id==='proposal-pearl'?<PearlPromiseExperience content={content} embedded/>:<PearlMotionExperience content={content} media={media} embedded/>}</div>
       </div>
       <div className="ce-preview-note">
         <b>Signature moment</b>
