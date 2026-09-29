@@ -109,7 +109,7 @@ export function CreatorEditor({templateId='love-pearl'}){
     <aside className="ce-panel">
       <header className="ce-header"><a href="?">emora<span>.</span></a><div><small>REFERENCE EDITOR</small><b>{template.name}</b></div></header>
       <div className="ce-manifest">
-        <span>{template.archetype}</span><span>{template.navigation}</span>
+        <span>{template.archetype}</span><span>{template.navigation}</span><span className="ce-release">{template.releaseState||'concept'}</span>
         <p>{template.signatureMoment}</p>
       </div>
       <div className="ce-scroll">
