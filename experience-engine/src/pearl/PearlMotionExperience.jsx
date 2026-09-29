@@ -62,7 +62,7 @@ function DraggablePolaroid({index,src,caption,onExplore,cardRef}){
 export function PearlMotionExperience({content:contentProp=null,media=null,embedded=false}){
   const cfg=useMemo(()=>contentProp||readUrlContent('love-pearl'),[contentProp]);
   const root=useRef(null),intro=useRef(null),envelope=useRef(null),letter=useRef(null),paper=useRef(null),sealHost=useRef(null);
-  const memory=useRef(null),finale=useRef(null),particleHost=useRef(null);
+  const memory=useRef(null),finale=useRef(null),particleHost=useRef(null),audioRef=useRef(null);
   const p0=useRef(null),p1=useRef(null),p2=useRef(null);
   const sealEngine=useRef(null),particleEngine=useRef(null);
   const sealInitPromise=useRef(null),particleInitPromise=useRef(null);
@@ -72,9 +72,16 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
   const [inkCount,setInkCount]=useState(0);
   const [explored,setExplored]=useState(new Set());
   const [portraitReady,setPortraitReady]=useState(false);
+  const [soundOn,setSoundOn]=useState(true);
 
   const photos=media?.photos||[];
   const portrait=media?.portrait||null;
+  const music=media?.music||null;
+  const musicUrl=useMemo(()=>{
+    if(!music)return '';
+    return typeof music==='string'?music:URL.createObjectURL(music);
+  },[music]);
+  useEffect(()=>()=>{if(music&&typeof music!=='string'&&musicUrl)URL.revokeObjectURL(musicUrl)},[music,musicUrl]);
   const photoUrls=useMemo(()=>{
     if(!photos.length)return [FALLBACK,FALLBACK,FALLBACK];
     return [0,1,2].map(i=>{
@@ -126,6 +133,11 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
 
   const startRitual=async()=>{
     if(started.current)return;started.current=true;softTone(520,.16,.035);
+    if(audioRef.current&&musicUrl){
+      audioRef.current.volume=0;
+      audioRef.current.loop=true;
+      audioRef.current.play().then(()=>gsap.to(audioRef.current,{volume:soundOn?.32:0,duration:1.4,ease:'power2.out'})).catch(()=>{});
+    }
     try{await ensureSealEngine()}catch{started.current=false;return}
     setStep('seal');
     const tl=gsap.timeline({defaults:{ease:'power3.inOut'}});
@@ -230,6 +242,14 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
     }});
   };
 
+  const toggleSound=()=>{
+    setSoundOn(v=>{
+      const next=!v;
+      if(audioRef.current)gsap.to(audioRef.current,{volume:next?.32:0,duration:.35});
+      return next;
+    });
+  };
+
   const restart=()=>{
     setPortraitReady(false);setExplored(new Set());setInkCount(0);setStep('intro');started.current=false;
     particleEngine.current?.reset();sealEngine.current?.reset();
@@ -242,11 +262,14 @@ export function PearlMotionExperience({content:contentProp=null,media=null,embed
     gsap.set('.pm-letter-continue,.pm-memory-release',{autoAlpha:0,y:10});
   };
 
-  useEffect(()=>()=>{clearTimeout(holdTimer.current);sealEngine.current?.destroy();particleEngine.current?.destroy()},[]);
+  useEffect(()=>()=>{clearTimeout(holdTimer.current);sealEngine.current?.destroy();particleEngine.current?.destroy();audioRef.current?.pause()},[]);
 
   return <main ref={root} className={'pearl-motion '+(embedded?'is-embedded ':'')+'step-'+step}>
+    {musicUrl&&<audio ref={audioRef} src={musicUrl} preload="metadata"/>}
     <div className="pm-grain"/><div className="pm-vignette"/>
-    <header className="pm-chrome"><a href="?">emora<span>.</span></a><small>PEARL LINEN · FLAGSHIP</small><b>{step==='intro'?'00':step==='seal'?'01':step==='letter-rise'?'02':step==='ink'?'03':step==='memories'?'04':step==='converge'?'05':'06'}</b></header>
+    <header className="pm-chrome"><a href="?">emora<span>.</span></a><small>PEARL LINEN · FLAGSHIP</small>
+      <div className="pm-chrome-actions">{musicUrl&&<button className="pm-sound" onClick={toggleSound} aria-label={soundOn?'Ovozni o‘chirish':'Ovozni yoqish'}>{soundOn?'SOUND ON':'SOUND OFF'}</button>}<b>{step==='intro'?'00':step==='seal'?'01':step==='letter-rise'?'02':step==='ink'?'03':step==='memories'?'04':step==='converge'?'05':'06'}</b></div>
+    </header>
 
     <section ref={intro} className="pm-layer pm-intro">
       <div className="pm-intro-copy">
