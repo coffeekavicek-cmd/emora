@@ -149,7 +149,7 @@ function createScene(host,onReady){
 
 export function PearlPromiseExperience({content:contentProp=null,embedded=false}){
   const cfg=useMemo(()=>contentProp||readUrlContent('proposal-pearl'),[contentProp]);
-  const host=useRef(null),engine=useRef(null),holdTimer=useRef(null),drag=useRef(null),rotationRef=useRef(0);
+  const host=useRef(null),engine=useRef(null),holdTimer=useRef(null),holdStartedAt=useRef(null),drag=useRef(null),rotationRef=useRef(0);
   const [phase,setPhase]=useState('intro');
   const [holding,setHolding]=useState(false);
   const [memory,setMemory]=useState(0);
@@ -158,7 +158,7 @@ export function PearlPromiseExperience({content:contentProp=null,embedded=false}
   useEffect(()=>{
     if(!host.current)return;
     engine.current=createScene(host.current);
-    return()=>{if(holdTimer.current!=null)clearTimeout(holdTimer.current);engine.current?.destroy()};
+    return()=>{if(holdTimer.current!=null)clearTimeout(holdTimer.current);holdStartedAt.current=null;engine.current?.destroy()};
   },[]);
 
   useEffect(()=>{
@@ -180,23 +180,25 @@ export function PearlPromiseExperience({content:contentProp=null,embedded=false}
   },[phase]);
 
   const completeBoxHold=()=>{
-    holdTimer.current=null;setHolding(false);setPhase('opening');engine.current?.open();
+    holdTimer.current=null;holdStartedAt.current=null;setHolding(false);setPhase('opening');engine.current?.open();
     setTimeout(()=>{setPhase('memories');setMemory(1)},1600);
     setTimeout(()=>setMemory(2),2800);
     setTimeout(()=>setMemory(3),4000);
     setTimeout(()=>setPhase('rotate'),5200);
   };
   const startHold=()=>{
-    if(phase!=='intro'||holdTimer.current!=null)return;
+    if(phase!=='intro'||holdTimer.current!=null||holdStartedAt.current!=null)return;
+    holdStartedAt.current=performance.now();
     setHolding(true);tone(88,.08,.02);
     holdTimer.current=setTimeout(()=>completeBoxHold(),900);
   };
   const stopHold=()=>{
-    if(holdTimer.current!=null){
-      clearTimeout(holdTimer.current);
-      holdTimer.current=null;
-    }
+    const started=holdStartedAt.current;
+    const elapsed=started==null?0:performance.now()-started;
+    if(holdTimer.current!=null){clearTimeout(holdTimer.current);holdTimer.current=null}
+    holdStartedAt.current=null;
     setHolding(false);
+    if(phase==='intro'&&elapsed>=850)completeBoxHold();
   };
 
   const down=e=>{
@@ -206,7 +208,7 @@ export function PearlPromiseExperience({content:contentProp=null,embedded=false}
   const up=()=>{drag.current=null};
 
   const restart=()=>{
-    rotationRef.current=0;setRotation(0);setMemory(0);setHolding(false);if(holdTimer.current!=null)clearTimeout(holdTimer.current);holdTimer.current=null;
+    rotationRef.current=0;setRotation(0);setMemory(0);setHolding(false);if(holdTimer.current!=null)clearTimeout(holdTimer.current);holdTimer.current=null;holdStartedAt.current=null;
     location.href=location.pathname+'?template=proposal-pearl&name='+encodeURIComponent(cfg.recipient)+'&final='+encodeURIComponent(cfg.final);
   };
 
