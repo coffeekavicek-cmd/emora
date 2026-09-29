@@ -9,6 +9,7 @@ const ExperienceGallery=lazy(()=>import('./rituals/Gallery.jsx').then(m=>({defau
 const CreatorEditor=lazy(()=>import('./system/CreatorEditor.jsx').then(m=>({default:m.CreatorEditor})));
 const PearlMotionExperience=lazy(()=>import('./pearl/PearlMotionExperience.jsx').then(m=>({default:m.PearlMotionExperience})));
 const GalaxyExperience=lazy(()=>import('./galaxy/GalaxyExperience.jsx').then(m=>({default:m.GalaxyExperience})));
+const SilkHeritageExperience=lazy(()=>import('./silk/SilkHeritageExperience.jsx').then(m=>({default:m.SilkHeritageExperience})));
 const CinematicExperience=lazy(()=>import('./cinematic/CinematicExperience.jsx').then(m=>({default:m.CinematicExperience})));
 
 function Loading(){
@@ -36,6 +37,7 @@ function App(){
 
   if(slug==='gallery')return <ExperienceGallery/>;
   if(slug==='love-pearl')return <PearlMotionExperience/>;
+  if(slug==='wedding-silk')return <SilkHeritageExperience content={null}/>;
 
   const definition=EXPERIENCE_MAP[slug];
   if(!definition)return <ExperienceGallery/>;
