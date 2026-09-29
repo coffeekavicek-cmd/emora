@@ -5,7 +5,7 @@ import { EXPERIENCE_MAP, selectedSlug } from './rituals/registry.js';
 import './styles.css';
 import './rituals/rituals.css';
 
-const PearlMotionExperience=lazy(()=>import('./pearl/PearlMotionExperience.jsx').then(m=>({default:m.PearlMotionExperience})));
+const PearlArchiveExperience=lazy(()=>import('./reborn/pearl/PearlArchiveExperience.jsx').then(m=>({default:m.PearlArchiveExperience})));
 const GalaxyExperience=lazy(()=>import('./galaxy/GalaxyExperience.jsx').then(m=>({default:m.GalaxyExperience})));
 const PearlPromiseExperience=lazy(()=>import('./proposal/PearlPromiseExperience.jsx').then(m=>({default:m.PearlPromiseExperience})));
 const CinemaProposalExperience=lazy(()=>import('./proposal/CinemaProposalExperience.jsx').then(m=>({default:m.CinemaProposalExperience})));
@@ -40,7 +40,7 @@ function App(){
     return <CreatorEditor templateId={templateId}/>;
   }
   if(slug==='gallery')return <ExperienceGallery/>;
-  if(slug==='love-pearl')return <PearlMotionExperience/>;
+  if(slug==='love-pearl')return <PearlArchiveExperience/>;
   if(slug==='proposal-pearl')return <PearlPromiseExperience/>;
   if(slug==='proposal-cinema')return <CinemaProposalExperience/>;
   if(slug==='proposal-sky')return <SkyPromiseExperience/>;
