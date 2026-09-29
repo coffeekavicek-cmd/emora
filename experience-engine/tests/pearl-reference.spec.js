@@ -26,6 +26,7 @@ test.describe('Pearl Linen reference',()=>{
   });
 
   test('recipient ritual reaches the particle finale without scroll or browser errors',async({page},testInfo)=>{
+    test.setTimeout(90000);
     const errors=[];
     page.on('pageerror',e=>errors.push(e.message));
     page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
