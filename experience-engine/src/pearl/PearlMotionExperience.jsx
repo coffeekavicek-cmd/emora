@@ -50,7 +50,7 @@ function DraggablePolaroid({index,src,caption,onExplore,cardRef}){
     if(!pointer.current)return;
     pointer.current=null;
     onExplore(index);
-    gsap.to(cardRef.current,{scale:1,zIndex:index===1?4:3,duration:.28,ease:'power2.out'});
+    gsap.to(cardRef.current,{scale:1,zIndex:1,duration:.32,ease:'power2.out'});
   };
   return <button ref={cardRef} className={'pm-polaroid pm-polaroid-'+index}
     onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up}>
