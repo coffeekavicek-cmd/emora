@@ -169,3 +169,13 @@
  .pm-particle-counter>b{font-size:40px}
  .pm-particle-counter>span{font-size:6px}
 }
+
+/* Deep Ritual V2 memory composition */
+@media(max-width:720px){
+  .pm-polaroid{width:min(49vw,192px);height:min(43svh,330px);padding:8px 8px 39px}
+  .pm-polaroid span{font-size:14px;line-height:1.05;padding:0 3px}
+  .pm-polaroid-0,.pm-polaroid-1,.pm-polaroid-2{transform:none}
+  .pm-memory-desk{height:65svh}
+  .pm-memory-kicker{top:66px}
+  .pm-memory-note{bottom:62px}
+}
