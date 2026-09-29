@@ -57,7 +57,11 @@ function PullSilk({onComplete}){
     if(done.current||e.repeat||!(e.key==='Enter'||e.key===' '))return;
     e.preventDefault();done.current=true;setP(1);silkTone(470,.14,.025);setTimeout(onComplete,420);
   };
-  return <div className="sh-pull-ritual" style={{'--pull':p}}>
+  return <div className="sh-pull-ritual" style={{
+    '--pull-left':(-p*31)+'%','--pull-right':(p*31)+'%',
+    '--pull-left-rot':(p*15)+'deg','--pull-right-rot':(-p*15)+'deg',
+    '--pull-handle':(p*70)+'px','--pull-opacity':String(.1+p*.9)
+  }}>
     <div className="sh-fold sh-fold-left"><i/><b/></div>
     <div className="sh-fold sh-fold-right"><i/><b/></div>
     <div className="sh-thread-preview" aria-hidden="true"><span/><i/><b/></div>
@@ -90,7 +94,10 @@ function KnotGesture({onComplete}){
     if(done.current||e.repeat||!(e.key==='Enter'||e.key===' '))return;
     e.preventDefault();done.current=true;setP(1);silkTone(620,.18,.022);setTimeout(onComplete,500);
   };
-  return <div className="sh-knot" style={{'--knot':p}}>
+  return <div className="sh-knot" style={{
+    '--knot-line':(p*8)+'%','--knot-size':(22+p*42)+'px','--knot-rot':(p*140)+'deg',
+    '--knot-opacity':String(.18+p*.82),'--knot-glow':(p*38)+'px','--knot-progress':(p*100)+'%'
+  }}>
     <div className="sh-knot-lines" aria-hidden="true"><i/><b/><span/></div>
     <button aria-label="Oltin iplarni birlashtiring" onPointerDown={down} onPointerMove={move}
       onPointerUp={up} onPointerCancel={up} onKeyDown={keyboard}>
