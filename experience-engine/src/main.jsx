@@ -7,7 +7,6 @@ import './rituals/rituals.css';
 
 const PearlMotionExperience=lazy(()=>import('./pearl/PearlMotionExperience.jsx').then(m=>({default:m.PearlMotionExperience})));
 const GalaxyExperience=lazy(()=>import('./galaxy/GalaxyExperience.jsx').then(m=>({default:m.GalaxyExperience})));
-const SilkHeritageExperience=lazy(()=>import('./silk/SilkHeritageExperience.jsx').then(m=>({default:m.SilkHeritageExperience})));
 const PearlPromiseExperience=lazy(()=>import('./proposal/PearlPromiseExperience.jsx').then(m=>({default:m.PearlPromiseExperience})));
 const SilkHeritageExperience=lazy(()=>import('./wedding/SilkHeritageExperience.jsx').then(m=>({default:m.SilkHeritageExperience})));
 const MemoryReelExperience=lazy(()=>import('./birthday/MemoryReelExperience.jsx').then(m=>({default:m.MemoryReelExperience})));
@@ -36,7 +35,6 @@ function App(){
   }
   if(slug==='gallery')return <ExperienceGallery/>;
   if(slug==='love-pearl')return <PearlMotionExperience/>;
-  if(slug==='wedding-silk')return <SilkHeritageExperience definition={EXPERIENCE_MAP[slug]}/>;
   if(slug==='proposal-pearl')return <PearlPromiseExperience/>;
   if(slug==='wedding-silk')return <SilkHeritageExperience/>;
   if(slug==='birthday-memory')return <MemoryReelExperience/>;
