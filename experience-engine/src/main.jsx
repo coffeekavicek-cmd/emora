@@ -10,6 +10,7 @@ const GalaxyExperience=lazy(()=>import('./galaxy/GalaxyExperience.jsx').then(m=>
 const PearlPromiseExperience=lazy(()=>import('./proposal/PearlPromiseExperience.jsx').then(m=>({default:m.PearlPromiseExperience})));
 const SilkHeritageExperience=lazy(()=>import('./wedding/SilkHeritageExperience.jsx').then(m=>({default:m.SilkHeritageExperience})));
 const MemoryReelExperience=lazy(()=>import('./birthday/MemoryReelExperience.jsx').then(m=>({default:m.MemoryReelExperience})));
+const AuroraPaperExperience=lazy(()=>import('./birthday/AuroraPaperExperience.jsx').then(m=>({default:m.AuroraPaperExperience})));
 const QuietRoomExperience=lazy(()=>import('./apology/QuietRoomExperience.jsx').then(m=>({default:m.QuietRoomExperience})));
 const RoseTheatreExperience=lazy(()=>import('./love/RoseTheatreExperience.jsx').then(m=>({default:m.RoseTheatreExperience})));
 const NightGardenExperience=lazy(()=>import('./wedding/NightGardenExperience.jsx').then(m=>({default:m.NightGardenExperience})));
@@ -38,6 +39,7 @@ function App(){
   if(slug==='proposal-pearl')return <PearlPromiseExperience/>;
   if(slug==='wedding-silk')return <SilkHeritageExperience/>;
   if(slug==='birthday-memory')return <MemoryReelExperience/>;
+  if(slug==='birthday-aurora')return <AuroraPaperExperience/>;
   if(slug==='apology-quiet')return <QuietRoomExperience/>;
   if(slug==='love-rose')return <RoseTheatreExperience/>;
   if(slug==='wedding-garden')return <NightGardenExperience/>;
