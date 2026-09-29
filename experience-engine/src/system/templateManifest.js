@@ -19,7 +19,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     performance:{maxDpr:1.75,heavyLazyLoad:true},
   },
   {
-    id:'love-pearl',dbSlug:'love-pearl-linen',name:'Pearl Linen',category:'love',releaseStatus:'motion-alpha',
+    id:'love-pearl',dbSlug:'love-pearl-linen',name:'Pearl Linen',category:'love',releaseStatus:'review',
     archetype:A.RITUAL_OBJECT,navigation:N.RITUAL,
     metaphor:'handwritten private letter',primaryMedia:'paper',
     signatureMoment:'The seal fractures, the same letter slowly reveals ink and memories, then one final pearl hold dissolves the paper world into a portrait.',
@@ -30,7 +30,7 @@ export const TEMPLATE_MANIFEST = Object.freeze([
     performance:{maxDpr:1.75,heavyLazyLoad:true},
   },
   {
-    id:'love-galaxy',dbSlug:'love-galaxy-confession',name:'Galaxy Confession',category:'love',releaseStatus:'concept',
+    id:'love-galaxy',dbSlug:'love-galaxy-confession',name:'Galaxy Confession',category:'love',releaseStatus:'review',
     archetype:A.LIVING_WORLD,navigation:N.WORLD,
     metaphor:'interactive galaxy of personal words',primaryMedia:'webgl-world',
     signatureMoment:'The manipulable galaxy collapses into the recipient portrait.',
