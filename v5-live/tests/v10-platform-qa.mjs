@@ -48,6 +48,28 @@ try{
     const editorTime=await page.locator('#eventClock').inputValue();
     if(editorTime!=='17:30')failures.push('Event time input did not retain edited value');
    }
+   if(groups[i]==='proposal'&&first==='proposal-pearl-promise'){
+    try{
+     await page.waitForFunction(()=>{const x=document.querySelector('#proposalPearlExtra');return x&&!x.classList.contains('hidden')},{timeout:4000});
+     const dateHidden=await page.locator('#dateField').evaluate(e=>e.classList.contains('hidden'));
+     if(!dateHidden)failures.push('Pearl Promise editor should hide irrelevant event date');
+     const labels=await page.locator('#proposalPearlExtra .field > label:first-child').allTextContents();
+     if(!labels.some(x=>x.includes('1-SABAB'))||!labels.some(x=>x.includes('2-SABAB'))||!labels.some(x=>x.includes('3-SABAB')))failures.push('Pearl Promise 3-reason editor labels are incomplete: '+labels.join(' | '));
+     await page.locator('#mistake').fill('QA sabab bir');
+     await page.locator('#repair').fill('QA sabab ikki');
+     await page.locator('#venue').fill('QA sabab uch');
+     await page.locator('#letter').fill('QA haqiqiy va’da matni');
+     await page.locator('#finalQuestion').fill('QA, menga turmushga chiqasanmi?');
+     await page.waitForTimeout(650);
+     await page.frameLocator('#studioIframe').locator('.pp-reason-text').first().waitFor({timeout:8000,state:'attached'});
+     const reasons=await page.frameLocator('#studioIframe').locator('.pp-reason-text').allTextContents();
+     if(reasons.join(' | ')!=='QA sabab bir | QA sabab ikki | QA sabab uch')failures.push('Pearl editor reasons did not reach live experience: '+reasons.join(' | '));
+     const vow=await page.frameLocator('#studioIframe').locator('.pp-vow-text').textContent();
+     if(vow!=='QA haqiqiy va’da matni')failures.push('Pearl promise text did not reach live experience: '+vow);
+     const question=await page.frameLocator('#studioIframe').locator('.pp-question-title').textContent();
+     if(question!=='QA, menga turmushga chiqasanmi?')failures.push('Pearl final question did not reach live experience: '+question);
+    }catch(e){failures.push('Pearl Promise Creator Studio integration failed: '+e.message)}
+   }
    const image=await page.locator('#templateCards .card-art').first().evaluate(e=>getComputedStyle(e).backgroundImage);
    if(!image.includes('/assets/'))failures.push(groups[i]+' catalog visuals are not first-party assets');
   }
@@ -65,7 +87,7 @@ try{
  }
  if(errors.length)failures.push('Homepage browser exceptions: '+errors.join(' | '));
 }finally{await page.close();await browser.close()}
-const report={passed:failures.length===0,failures,checkedGroups:5,expectedTemplates:15,checks:['category-first','three independent templates per category','editor category selection','live iframe name update','real wedding input','permanent catalog art','browser exceptions','private upload controls and auth gate']};
+const report={passed:failures.length===0,failures,checkedGroups:5,expectedTemplates:15,checks:['category-first','three independent templates per category','editor category selection','live iframe name update','real wedding input','Pearl Promise three reasons/promise/final editor roundtrip','permanent catalog art','browser exceptions','private upload controls and auth gate']};
 await fs.writeFile(path.join(folder,'platform-summary.json'),JSON.stringify(report,null,2));
 console.log(JSON.stringify(report,null,2));
 if(!report.passed)process.exitCode=1;
