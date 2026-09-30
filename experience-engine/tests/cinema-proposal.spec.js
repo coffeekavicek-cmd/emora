@@ -1,44 +1,39 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Cinema Proposal dedicated film ritual',()=>{
-  test('mobile recipient starts projector → scrubs film → reaches proposal question',async({page},testInfo)=>{
+test.describe('Cinema Proposal Reborn private screening',()=>{
+  test('mobile recipient tears ticket → scrubs film → reaches proposal question',async({page},testInfo)=>{
+    test.setTimeout(45000);
     const errors=[];
     page.on('pageerror',e=>errors.push(e.message));
     page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
 
     await page.goto('/?template=proposal-cinema&name=Malika');
-    await expect(page.locator('.cinema-proposal')).toBeVisible();
+    await expect(page.locator('.cinema-proposal-reborn')).toBeVisible();
     await expect(page).toHaveTitle(/Cinema Proposal/);
-
     const viewport=await page.evaluate(()=>({h:innerHeight,doc:document.documentElement.scrollHeight,body:document.body.scrollHeight}));
-    expect(viewport.doc).toBeLessThanOrEqual(viewport.h+2);
-    expect(viewport.body).toBeLessThanOrEqual(viewport.h+2);
-    await page.screenshot({path:testInfo.outputPath('01-cinema-theatre.png'),fullPage:true});
+    expect(viewport.doc).toBeLessThanOrEqual(viewport.h+2);expect(viewport.body).toBeLessThanOrEqual(viewport.h+2);
+    await page.screenshot({path:testInfo.outputPath('01-cinema-reborn-ticket.png'),fullPage:true});
 
-    await page.getByRole('button',{name:/Proyektorni yoqish/}).click();
-    await expect(page.locator('.cinema-proposal')).toHaveClass(/phase-montage/,{timeout:2500});
-    await expect(page.locator('.cinema-proposal')).toHaveClass(/phase-scrub/,{timeout:6000});
+    const ticket=page.getByRole('button',{name:'Biletni yirtib kinoni boshlang'});const tb=await ticket.boundingBox();expect(tb).not.toBeNull();
+    if(tb){const x=tb.x+20,y=tb.y+tb.height/2;await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(x+245,y,{steps:18});await page.mouse.up()}
+    await expect(page.locator('.cinema-proposal-reborn')).toHaveClass(/phase-projector|phase-reel/,{timeout:3500});
+    await expect(page.locator('.cinema-proposal-reborn')).toHaveClass(/phase-reel/,{timeout:4500});
 
-    const scrub=page.getByRole('button',{name:'Film lentasini o‘ngga suring'});
-    const box=await scrub.boundingBox();expect(box).not.toBeNull();
-    if(box){
-      const x=box.x+20,y=box.y+box.height/2;
-      await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(x+280,y,{steps:16});await page.mouse.up();
-    }
-
-    await expect(page.locator('.cinema-proposal')).toHaveClass(/phase-jam|phase-burn/,{timeout:4000});
-    await page.screenshot({path:testInfo.outputPath('02-cinema-jam.png'),fullPage:true});
-    await expect(page.locator('.cinema-proposal')).toHaveClass(/phase-question/,{timeout:7000});
-    await expect(page.locator('.cp-question h2')).toContainText('ha');
-    await expect(page.locator('.cp-question em')).toContainText('Malika');
-    await page.screenshot({path:testInfo.outputPath('03-cinema-question.png'),fullPage:true});
+    const scrub=page.getByRole('button',{name:'Film xotiralarini o‘ngga suring'});const sb=await scrub.boundingBox();expect(sb).not.toBeNull();
+    if(sb){const x=sb.x+20,y=sb.y+sb.height/2;await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(x+360,y,{steps:20});await page.mouse.up()}
+    await expect(page.locator('.cinema-proposal-reborn')).toHaveClass(/phase-jam/,{timeout:3500});
+    await page.screenshot({path:testInfo.outputPath('02-cinema-reborn-jam.png'),fullPage:true});
+    await expect(page.locator('.cinema-proposal-reborn')).toHaveClass(/phase-question/,{timeout:5000});
+    await expect(page.locator('.cpr-question h2')).toBeVisible();
+    await expect(page.locator('.cpr-question em')).toContainText('Malika');
+    await page.screenshot({path:testInfo.outputPath('03-cinema-reborn-question.png'),fullPage:true});
     expect(errors).toEqual([]);
   });
 
-  test('editor preview uses Cinema Proposal runtime',async({page})=>{
+  test('Reborn editor previews Cinema Proposal Reborn',async({page})=>{
     await page.goto('/?mode=editor&template=proposal-cinema');
-    await page.getByRole('button',{name:'Preview',exact:true}).click();
-    await expect(page.locator('.ce-phone-screen .cinema-proposal')).toBeVisible({timeout:10000});
-    await expect(page.locator('.ce-phone-screen .cinematic')).toHaveCount(0);
+    await expect(page.locator('.reborn-editor')).toBeVisible();
+    await expect(page.locator('.re-screen .cinema-proposal-reborn')).toBeVisible({timeout:10000});
+    await expect(page.locator('.re-screen .cinema-proposal')).toHaveCount(0);
   });
 });
