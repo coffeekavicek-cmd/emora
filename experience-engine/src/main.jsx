@@ -12,7 +12,7 @@ const SilkHeritageReborn=lazy(()=>import('./reborn/silk/SilkHeritageReborn.jsx')
 const GalaxyConfessionReborn=lazy(()=>import('./reborn/galaxy/GalaxyConfessionReborn.jsx').then(m=>({default:m.GalaxyConfessionReborn})));
 const QuietRoomReborn=lazy(()=>import('./reborn/quiet/QuietRoomReborn.jsx').then(m=>({default:m.QuietRoomReborn})));
 const PearlPromiseReborn=lazy(()=>import('./reborn/proposal/PearlPromiseReborn.jsx').then(m=>({default:m.PearlPromiseReborn})));
-const CinemaProposalExperience=lazy(()=>import('./proposal/CinemaProposalExperience.jsx').then(m=>({default:m.CinemaProposalExperience})));
+const CinemaProposalReborn=lazy(()=>import('./reborn/proposal/CinemaProposalReborn.jsx').then(m=>({default:m.CinemaProposalReborn})));
 const SkyPromiseExperience=lazy(()=>import('./proposal/SkyPromiseExperience.jsx').then(m=>({default:m.SkyPromiseExperience})));
 const AuroraPaperExperience=lazy(()=>import('./birthday/AuroraPaperExperience.jsx').then(m=>({default:m.AuroraPaperExperience})));
 const BalloonDreamExperience=lazy(()=>import('./birthday/BalloonDreamExperience.jsx').then(m=>({default:m.BalloonDreamExperience})));
@@ -47,7 +47,7 @@ function App(){
   if(slug==='love-galaxy')return <GalaxyConfessionReborn/>;
   if(slug==='apology-quiet')return <QuietRoomReborn/>;
   if(slug==='proposal-pearl')return <PearlPromiseReborn/>;
-  if(slug==='proposal-cinema')return <CinemaProposalExperience/>;
+  if(slug==='proposal-cinema')return <CinemaProposalReborn/>;
   if(slug==='proposal-sky')return <SkyPromiseExperience/>;
   if(slug==='birthday-aurora')return <AuroraPaperExperience/>;
   if(slug==='birthday-balloon')return <BalloonDreamExperience/>;
