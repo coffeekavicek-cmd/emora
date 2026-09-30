@@ -1,0 +1,46 @@
+name: EMORA — Rose Theatre QA
+on:
+  push:
+    branches: [emora-v10-fifteen-experiences]
+    paths:
+      - .github/workflows/rose-qa.yml
+      - v5-live/templates/v10-love-rose.html
+      - v5-live/templates/v10-rose-theatre.js
+      - v5-live/templates/v10-rose-theatre-bootstrap.js
+      - v5-live/templates/v10-rose-theatre.css
+      - v5-live/tests/v10-rose-theatre-qa.mjs
+      - v5-live/server.mjs
+  workflow_dispatch:
+jobs:
+  rose-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Chromium and Playwright
+        run: |
+          npm install --prefix v5-live --no-save playwright@1.55.0
+          cd v5-live && npx playwright install --with-deps chromium
+      - name: Start validated EMORA server
+        run: |
+          PORT=3000 node v5-live/server.mjs > /tmp/emora-server.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3000/health >/dev/null; then break; fi
+            sleep 1
+          done
+          cat /tmp/emora-server.log
+          curl --fail --silent --show-error http://127.0.0.1:3000/health
+          curl --fail --silent --show-error --head http://127.0.0.1:3000/templates/v10-love-rose.html
+      - name: Test Rose Theatre flagship ritual
+        run: node v5-live/tests/v10-rose-theatre-qa.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: emora-rose-theatre-qa
+          path: v5-live/qa-v10-results/
+          retention-days: 7
