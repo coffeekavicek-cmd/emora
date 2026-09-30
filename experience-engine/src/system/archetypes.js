@@ -62,6 +62,7 @@ export const PRODUCT_CAPABILITIES = Object.freeze({
   CALENDAR: 'calendar',
   MUSIC: 'music',
   PHOTOS: 'photos',
+  VIDEO: 'video',
   PORTRAIT: 'portrait',
   SAVE: 'save',
   SHARE: 'share',
