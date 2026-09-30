@@ -18,10 +18,28 @@ function HoldPop({onDone}){
 
 function useBalloonPhysics(nodes){
  const api=useRef(null);
- useEffect(()=>{let dead=false,raf=0,world=null;const active=[false,false,false];const started=performance.now();
-  (async()=>{try{const mod=await import('@dimforge/rapier3d-compat');const RAPIER=mod.default||mod;await RAPIER.init();if(dead)return;world=new RAPIER.World({x:0,y:-.7,z:0});const bodies=[0,1,2].map((_,i)=>{const body=world.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(0,0,0).setGravityScale(0).setLinearDamping(.18).setAngularDamping(.28));world.createCollider(RAPIER.ColliderDesc.ball(.48).setRestitution(.3),body);nodes.current[i]?.classList.add('physics-bound');return body});
+ useEffect(()=>{let dead=false,raf=0,world=null;const active=[false,false,false];
+  (async()=>{try{
+   const mod=await import('@dimforge/rapier3d-compat');const RAPIER=mod.default||mod;await RAPIER.init();if(dead)return;
+   world=new RAPIER.World({x:0,y:-.7,z:0});
+   const bodies=[0,1,2].map((_,i)=>{
+    const body=world.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(0,0,0).setGravityScale(0).setLinearDamping(.18).setAngularDamping(.28));
+    world.createCollider(RAPIER.ColliderDesc.ball(.48).setRestitution(.3),body);
+    const el=nodes.current[i];if(el){el.classList.add('physics-bound');el.style.setProperty('--phys-x','0px');el.style.setProperty('--phys-y','0px');el.style.setProperty('--phys-r','0deg')}
+    return body;
+   });
    api.current={release(i){if(active[i])return;active[i]=true;const body=bodies[i];body.setGravityScale(-1.55,true);body.setLinvel({x:(i-1)*.34+(Math.random()-.5)*.14,y:1.42+Math.random()*.28,z:0},true);body.setAngvel({x:0,y:0,z:(i-1)*.72+(Math.random()-.5)*.35},true)}};
-   const tick=()=>{if(dead)return;const t=(performance.now()-started)*.001;for(let i=0;i<3;i++){const body=bodies[i];if(!active[i]){body.setTranslation({x:Math.sin(t*1.3+i*1.7)*.08,y:Math.sin(t*1.05+i)*.07,z:0},true);body.setLinvel({x:0,y:0,z:0},true)}const p=body.translation(),r=body.rotation(),angle=2*Math.atan2(r.z,r.w)*180/Math.PI,el=nodes.current[i];if(el){el.style.setProperty('--phys-x',`${p.x*28}px`);el.style.setProperty('--phys-y',`${-p.y*32}px`);el.style.setProperty('--phys-r',`${angle}deg`)}}world.step();raf=requestAnimationFrame(tick)};tick();
+   const tick=()=>{
+    if(dead)return;
+    for(let i=0;i<3;i++)if(!active[i]){const body=bodies[i];body.setTranslation({x:0,y:0,z:0},true);body.setLinvel({x:0,y:0,z:0},true);body.setAngvel({x:0,y:0,z:0},true)}
+    world.step();
+    for(let i=0;i<3;i++){
+     const body=bodies[i],p=body.translation(),r=body.rotation(),angle=2*Math.atan2(r.z,r.w)*180/Math.PI,el=nodes.current[i];
+     if(el){el.style.setProperty('--phys-x',`${p.x*28}px`);el.style.setProperty('--phys-y',`${-p.y*32}px`);el.style.setProperty('--phys-r',`${angle}deg`)}
+    }
+    raf=requestAnimationFrame(tick)
+   };
+   tick();
   }catch{api.current=null}})();
   return()=>{dead=true;cancelAnimationFrame(raf);api.current=null;try{world?.free?.()}catch{}};
  },[nodes]);
