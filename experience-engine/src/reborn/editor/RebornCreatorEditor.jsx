@@ -39,6 +39,7 @@ export function RebornCreatorEditor({templateId='love-pearl'}){
   const [cloudNote,setCloudNote]=useState(supabaseConfigured?'Cloud tekshirilmoqda…':'Cloud env yo‘q · local preview');
   const [siteId,setSiteId]=useState(initialSiteId);
   const [siteSlug,setSiteSlug]=useState(null);
+  const [siteStatus,setSiteStatus]=useState('draft');
   const [saving,setSaving]=useState(false);
   const [savedAt,setSavedAt]=useState(null);
   const [plans,setPlans]=useState([]);
@@ -52,6 +53,8 @@ export function RebornCreatorEditor({templateId='love-pearl'}){
   const previewName=PREVIEW_NAME[activeTemplateId]||template.name;
   const mediaReady=Boolean(media.music||content.musicPreset)&&media.photos.length>0&&Boolean(media.video);
   const paidOrder=orders.find(x=>x.status==='paid');
+  const processingOrder=orders.find(x=>x.status==='processing');
+  const projectLocked=siteStatus==='published'||Boolean(processingOrder);
 
   useEffect(()=>{
     if(!supabaseConfigured)return;
@@ -69,9 +72,20 @@ export function RebornCreatorEditor({templateId='love-pearl'}){
       if(!alive)return;
       if(draft.site.edition!==activeTemplateId){setCloudNote('Bu draft boshqa flagship uchun yaratilgan');return}
       setContent(p=>({...p,...draft.site.content,templateId:activeTemplateId,musicVolume:p.musicVolume??.55}));
-      setMedia(draft.media);setSiteSlug(draft.site.slug);setOrders(orderRows);setSavedAt(draft.site.updated_at);
+      setMedia(draft.media);
+      setSiteSlug(draft.site.slug);
+      setSiteStatus(draft.site.status||'draft');
+      setOrders(orderRows);
+      setSavedAt(draft.site.updated_at);
       if(draft.site.status==='published')setPublishedUrl(`${location.origin}${location.pathname}?site=${encodeURIComponent(draft.site.slug)}`);
-      setCloudNote(new URLSearchParams(location.search).get('checkout')==='return'?'Payment status yangilandi':'Draft cloud’dan yuklandi');
+      else setPublishedUrl(null);
+      const returned=new URLSearchParams(location.search).get('checkout')==='return';
+      const active=orderRows.find(x=>x.status==='processing');
+      const paid=orderRows.find(x=>x.status==='paid');
+      if(draft.site.status==='published')setCloudNote('Published · loyiha read-only');
+      else if(paid)setCloudNote('Payment tasdiqlangan · publish tayyor');
+      else if(active)setCloudNote('Payment processing · edit vaqtincha qulflangan');
+      else setCloudNote(returned?'Payment status yangilandi':'Draft cloud’dan yuklandi');
     }).catch(e=>alive&&setCloudNote(e.message));
     return()=>{alive=false};
   },[session,siteId,activeTemplateId]);
@@ -79,17 +93,19 @@ export function RebornCreatorEditor({templateId='love-pearl'}){
   const login=async()=>{try{const sent=await sendMagicLink(email);setCloudNote(`${sent} ga kirish linki yuborildi`)}catch(e){setCloudNote(e.message)}};
   const logout=async()=>{try{await signOutCloud();setSession(null);setCloudNote('Accountdan chiqildi')}catch(e){setCloudNote(e.message)}};
   const save=async()=>{
+    if(projectLocked){setCloudNote(siteStatus==='published'?'Published loyiha read-only.':'Payment processing paytida edit yopiq.');return}
     if(!session){setCloudNote('Saqlash uchun avval email bilan kiring');return}
     setSaving(true);setCloudNote('Cloud’ga saqlanmoqda…');
     try{
       const row=await saveDraft({siteId,templateId:activeTemplateId,content:{...content,templateId:activeTemplateId}});
       const nextMedia=await saveDraftMedia({siteId:row.id,media});
-      setSiteId(row.id);setSiteSlug(row.slug);setSavedAt(row.updated_at);setMedia(nextMedia);
+      setSiteId(row.id);setSiteSlug(row.slug);setSiteStatus(row.status||'draft');setSavedAt(row.updated_at);setMedia(nextMedia);
       const q=new URLSearchParams(location.search);q.set('site',row.id);history.replaceState(null,'',location.pathname+'?'+q.toString());
       setOrders(await listOrders(row.id));setCloudNote('Draft va media real cloud’da saqlandi ✓');
     }catch(e){setCloudNote(e.message)}finally{setSaving(false)}
   };
   const checkout=async provider=>{
+    if(projectLocked){setCloudNote(siteStatus==='published'?'Bu loyiha allaqachon published.':'Aktiv payment tugamaguncha yangi checkout ochilmaydi.');return}
     if(!session){setCloudNote('To‘lov uchun avval email bilan kiring');return}
     if(!siteId){setCloudNote('To‘lovdan oldin draftni saqlang');return}
     if(!mediaReady){setCloudNote('To‘lovdan oldin rasm + video + musiqa tayyor bo‘lsin');return}
@@ -97,12 +113,16 @@ export function RebornCreatorEditor({templateId='love-pearl'}){
     try{const data=await beginCheckout({siteId,planCode,provider});location.assign(data.checkoutUrl)}catch(e){setCloudNote(e.message);setCheckoutBusy(false)}
   };
   const publish=async()=>{
-    if(!siteId||!paidOrder)return;
+    if(!siteId||!paidOrder||siteStatus==='published')return;
     setCheckoutBusy(true);setCloudNote('Media public storage’ga ko‘chirilmoqda…');
-    try{const data=await publishPaidSite(siteId);setPublishedUrl(data.url);setCloudNote('Published ✓ unique link tayyor');setOrders(await listOrders(siteId))}catch(e){setCloudNote(e.message)}finally{setCheckoutBusy(false)}
+    try{
+      const data=await publishPaidSite(siteId);
+      setPublishedUrl(data.url);setSiteStatus('published');setCloudNote('Published ✓ unique link tayyor');setOrders(await listOrders(siteId));
+    }catch(e){setCloudNote(e.message)}finally{setCheckoutBusy(false)}
   };
 
-  return <main className={'reborn-editor tab-'+tab}>
+  const lockClass=siteStatus==='published'?' is-published':processingOrder?' is-processing':'';
+  return <main className={'reborn-editor tab-'+tab+lockClass}>
     <nav className="re-tabs"><button className={tab==='edit'?'active':''} onClick={()=>setTab('edit')}>Edit</button><button className={tab==='preview'?'active':''} onClick={()=>setTab('preview')}>Preview</button></nav>
     <aside className="re-panel">
       <header><a href="?">emora<span>.</span></a><div><small>FLAGSHIP CREATOR · 5/5</small><b>{previewName}</b></div></header>
@@ -111,8 +131,9 @@ export function RebornCreatorEditor({templateId='love-pearl'}){
           {!supabaseConfigured&&<p>Production Supabase env topilmadi. Preview local ishlaydi.</p>}
           {supabaseConfigured&&!session&&<><label><span>Email</span><input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@example.com"/></label><button type="button" onClick={login}>Kirish linkini yuborish</button></>}
           {session&&<div className="re-cloud-user"><span>{session.user.email||'EMORA user'}</span><button type="button" onClick={logout}>Chiqish</button></div>}
+          {projectLocked&&<div className={'re-lock-note '+(siteStatus==='published'?'published':'processing')}><b>{siteStatus==='published'?'PUBLISHED · READ ONLY':'PAYMENT PROCESSING'}</b><span>{siteStatus==='published'?'Live versiya o‘zgarmaydi. Yangi tahrir uchun keyingi revision flow ishlatiladi.':'Provider tranzaksiyasi tugamaguncha story va media o‘zgarmaydi.'}</span></div>}
           <div className="re-cloud-status"><b>{cloudNote}</b>{siteId&&<span>ID · {siteId.slice(0,8)}…</span>}{siteSlug&&<span>slug · {siteSlug}</span>}{savedAt&&<span>saved · {new Date(savedAt).toLocaleString()}</span>}</div>
-          <button type="button" className="re-save" onClick={save} disabled={!supabaseConfigured||saving}>{saving?'Saqlanmoqda…':'Save real draft'}</button>
+          <button type="button" className="re-save" onClick={save} disabled={!supabaseConfigured||saving||projectLocked}>{projectLocked?'Project locked':saving?'Saqlanmoqda…':'Save real draft'}</button>
         </section>
 
         <section><h3>Story</h3><label><span>Qabul qiluvchi</span><input value={content.recipient||''} onChange={e=>set('recipient',e.target.value)}/></label><label><span>Asosiy matn</span><textarea value={content.message||''} onChange={e=>set('message',e.target.value)}/></label>{(content.paragraphs||[]).slice(0,3).map((x,i)=><label key={i}><span>{i+1}-beat</span><textarea value={x||''} onChange={e=>setArray('paragraphs',i,e.target.value)}/></label>)}<label><span>Final</span><textarea value={content.final||''} onChange={e=>set('final',e.target.value)}/></label></section>
@@ -130,12 +151,13 @@ export function RebornCreatorEditor({templateId='love-pearl'}){
         <section><h3>Captions</h3>{(content.captions||[]).slice(0,3).map((x,i)=><label key={i}><span>{i+1}-caption</span><input value={x||''} onChange={e=>setArray('captions',i,e.target.value)}/></label>)}</section>
 
         <section className="re-checkout"><h3>Checkout</h3>
-          <p>{paidOrder?'To‘lov tasdiqlangan. Publish gate ochiq.':siteId?'Draft tayyor. Provider order serverda yaratiladi.':'Avval draftni saqlang.'}</p>
-          <label><span>Tarif</span><select value={planCode} onChange={e=>setPlanCode(e.target.value)}>{plans.length?plans.map(x=><option value={x.code} key={x.code}>{x.name} · {money(x.price_uzs)}</option>):<><option value="starter">Template · 49 990 UZS</option><option value="plus">Template + AI · 69 990 UZS</option><option value="custom">Custom AI · 199 990 UZS</option></>}</select></label>
-          {!paidOrder&&<div className="re-pay-providers"><button type="button" disabled={!siteId||!session||!mediaReady||checkoutBusy} onClick={()=>checkout('click')}>CLICK</button><button type="button" disabled={!siteId||!session||!mediaReady||checkoutBusy} onClick={()=>checkout('payme')}>PAYME</button></div>}
-          {paidOrder&&<button type="button" className="re-publish" disabled={checkoutBusy} onClick={publish}>{checkoutBusy?'Publishing…':'Publish paid site'}</button>}
+          <p>{siteStatus==='published'?'Published. Unique recipient link tayyor.':paidOrder?'To‘lov tasdiqlangan. Publish gate ochiq.':processingOrder?`${processingOrder.provider?.toUpperCase()} payment processing. Edit vaqtincha qulflangan.`:siteId?'Draft tayyor. Provider order serverda yaratiladi.':'Avval draftni saqlang.'}</p>
+          {siteStatus!=='published'&&!processingOrder&&!paidOrder&&<label><span>Tarif</span><select value={planCode} onChange={e=>setPlanCode(e.target.value)}>{plans.length?plans.map(x=><option value={x.code} key={x.code}>{x.name} · {money(x.price_uzs)}</option>):<><option value="starter">Template · 49 990 UZS</option><option value="plus">Template + AI · 69 990 UZS</option><option value="custom">Custom AI · 199 990 UZS</option></>}</select></label>}
+          {siteStatus!=='published'&&!paidOrder&&!processingOrder&&<div className="re-pay-providers"><button type="button" disabled={!siteId||!session||!mediaReady||checkoutBusy} onClick={()=>checkout('click')}>CLICK</button><button type="button" disabled={!siteId||!session||!mediaReady||checkoutBusy} onClick={()=>checkout('payme')}>PAYME</button></div>}
+          {processingOrder&&<div className="re-payment-state"><b>PROCESSING</b><span>{processingOrder.provider?.toUpperCase()} · {money(processingOrder.amount_uzs)}</span></div>}
+          {paidOrder&&siteStatus!=='published'&&<button type="button" className="re-publish" disabled={checkoutBusy} onClick={publish}>{checkoutBusy?'Publishing…':'Publish paid site'}</button>}
           {publishedUrl&&<a className="re-live-link" href={publishedUrl} target="_blank" rel="noreferrer">OPEN UNIQUE LINK ↗</a>}
-          <small>{paidOrder?`PAID · ${money(paidOrder.amount_uzs)} · ${paidOrder.provider?.toUpperCase()}`:'Merchant credential bo‘lmasa server payment URL bermaydi — fake success yo‘q.'}</small>
+          <small>{siteStatus==='published'?'Live versiya client edit’dan himoyalangan.':paidOrder?`PAID · ${money(paidOrder.amount_uzs)} · ${paidOrder.provider?.toUpperCase()}`:processingOrder?'Provider callback statusni yakunlaydi.':'Merchant credential bo‘lmasa server payment URL bermaydi — fake success yo‘q.'}</small>
         </section>
       </div>
     </aside>
