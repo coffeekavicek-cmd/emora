@@ -14,9 +14,7 @@
   {
     "name": "desktop",
     "viewport": "1440x900",
-    "passed": false,
-    "failures": [
-      "Test exception: vow completion: expected chapter-5, got chapter-4"
-    ]
+    "passed": true,
+    "failures": []
   }
 ]
