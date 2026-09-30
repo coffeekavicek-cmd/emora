@@ -68,13 +68,34 @@ try{
      if(vow!=='QA haqiqiy va’da matni')failures.push('Pearl promise text did not reach live experience: '+vow);
      const question=await page.frameLocator('#studioIframe').locator('.pp-question-title').textContent();
      if(question!=='QA, menga turmushga chiqasanmi?')failures.push('Pearl final question did not reach live experience: '+question);
-    }catch(e){failures.push('Pearl Promise Creator Studio integration failed: '+e.message)}
+
+     await page.locator('#type').selectOption('proposal-cinema');
+     await page.waitForTimeout(550);
+     await page.waitForFunction(()=>{const x=document.querySelector('#proposalCinemaExtra');return x&&!x.classList.contains('hidden')},{timeout:5000});
+     const cinemaDateHidden=await page.locator('#dateField').evaluate(e=>e.classList.contains('hidden'));
+     if(!cinemaDateHidden)failures.push('Cinema Proposal editor should hide irrelevant event date');
+     const cinemaLabels=await page.locator('#memoryTitle,#caption1,#caption2,#caption3,#videoUrl,#letter,#finalQuestion').evaluateAll(nodes=>nodes.map(n=>n.closest('.field')?.querySelector('label')?.textContent||''));
+     if(!cinemaLabels.some(x=>x.includes('FILM NOMI'))||!cinemaLabels.some(x=>x.includes('01-KADR'))||!cinemaLabels.some(x=>x.includes('VOICE-OVER'))||!cinemaLabels.some(x=>x.includes('FINAL SCENE')))failures.push('Cinema Proposal editor labels are incomplete: '+cinemaLabels.join(' | '));
+     await page.locator('#memoryTitle').fill('QA BIZNING FILMIMIZ');
+     await page.locator('#caption1').fill('QA birinchi kadr');await page.locator('#caption2').fill('QA ikkinchi kadr');await page.locator('#caption3').fill('QA uchinchi kadr');
+     await page.locator('#letter').fill('QA cinema voice-over matni');
+     await page.locator('#finalQuestion').fill('QA CINEMA FINAL SAVOL?');
+     await page.waitForTimeout(750);
+     await page.frameLocator('#studioIframe').locator('.cp-movie-title').first().waitFor({timeout:9000,state:'attached'});
+     const cinemaTitle=await page.frameLocator('#studioIframe').locator('.cp-movie-title').first().textContent();
+     if(cinemaTitle!=='QA BIZNING FILMIMIZ')failures.push('Cinema movie title did not reach live experience: '+cinemaTitle);
+     const cinemaFrames=await page.frameLocator('#studioIframe').locator('.cp-frame-caption').allTextContents();
+     if(cinemaFrames.join(' | ')!=='QA birinchi kadr | QA ikkinchi kadr | QA uchinchi kadr')failures.push('Cinema frame captions did not reach live experience: '+cinemaFrames.join(' | '));
+     const cinemaVoice=await page.frameLocator('#studioIframe').locator('.cp-voice-text').textContent();
+     if(cinemaVoice!=='QA cinema voice-over matni')failures.push('Cinema voice-over did not reach live experience: '+cinemaVoice);
+     const cinemaFinal=await page.frameLocator('#studioIframe').locator('.cp-final-title').textContent();
+     if(cinemaFinal!=='QA CINEMA FINAL SAVOL?')failures.push('Cinema final question did not reach live experience: '+cinemaFinal);
+    }catch(e){failures.push('Proposal flagship Creator Studio integration failed: '+e.message)}
    }
    const image=await page.locator('#templateCards .card-art').first().evaluate(e=>getComputedStyle(e).backgroundImage);
    if(!image.includes('/assets/'))failures.push(groups[i]+' catalog visuals are not first-party assets');
   }
  }
- // Anonymous visitors can preview but must authenticate before uploading private media.
  const uploads=await page.locator('[data-media-upload]').count();
  if(uploads!==5)failures.push('Expected five private file upload inputs, got '+uploads);
  const imagePicker=page.locator('[data-media-upload="photo1"]');
@@ -87,7 +108,7 @@ try{
  }
  if(errors.length)failures.push('Homepage browser exceptions: '+errors.join(' | '));
 }finally{await page.close();await browser.close()}
-const report={passed:failures.length===0,failures,checkedGroups:5,expectedTemplates:15,checks:['category-first','three independent templates per category','editor category selection','live iframe name update','real wedding input','Pearl Promise three reasons/promise/final editor roundtrip','permanent catalog art','browser exceptions','private upload controls and auth gate']};
+const report={passed:failures.length===0,failures,checkedGroups:5,expectedTemplates:15,checks:['category-first','three independent templates per category','editor category selection','live iframe name update','real wedding input','Pearl Promise three reasons/promise/final editor roundtrip','Cinema Proposal film/frames/voice-over/final editor roundtrip','permanent catalog art','browser exceptions','private upload controls and auth gate']};
 await fs.writeFile(path.join(folder,'platform-summary.json'),JSON.stringify(report,null,2));
 console.log(JSON.stringify(report,null,2));
 if(!report.passed)process.exitCode=1;
