@@ -9,7 +9,7 @@ const PearlArchiveReborn=lazy(()=>import('./reborn/pearl/PearlArchiveReborn.jsx'
 const MemoryReelReborn=lazy(()=>import('./reborn/memory/MemoryReelReborn.jsx').then(m=>({default:m.MemoryReelReborn})));
 const InkRegretReborn=lazy(()=>import('./reborn/ink/InkRegretReborn.jsx').then(m=>({default:m.InkRegretReborn})));
 const SilkHeritageReborn=lazy(()=>import('./reborn/silk/SilkHeritageReborn.jsx').then(m=>({default:m.SilkHeritageReborn})));
-const GalaxyExperience=lazy(()=>import('./galaxy/GalaxyExperience.jsx').then(m=>({default:m.GalaxyExperience})));
+const GalaxyConfessionReborn=lazy(()=>import('./reborn/galaxy/GalaxyConfessionReborn.jsx').then(m=>({default:m.GalaxyConfessionReborn})));
 const PearlPromiseExperience=lazy(()=>import('./proposal/PearlPromiseExperience.jsx').then(m=>({default:m.PearlPromiseExperience})));
 const CinemaProposalExperience=lazy(()=>import('./proposal/CinemaProposalExperience.jsx').then(m=>({default:m.CinemaProposalExperience})));
 const SkyPromiseExperience=lazy(()=>import('./proposal/SkyPromiseExperience.jsx').then(m=>({default:m.SkyPromiseExperience})));
@@ -44,6 +44,7 @@ function App(){
   if(slug==='birthday-memory')return <MemoryReelReborn/>;
   if(slug==='apology-ink')return <InkRegretReborn/>;
   if(slug==='wedding-silk')return <SilkHeritageReborn/>;
+  if(slug==='love-galaxy')return <GalaxyConfessionReborn/>;
   if(slug==='proposal-pearl')return <PearlPromiseExperience/>;
   if(slug==='proposal-cinema')return <CinemaProposalExperience/>;
   if(slug==='proposal-sky')return <SkyPromiseExperience/>;
@@ -56,7 +57,6 @@ function App(){
   if(slug==='wedding-naqsh')return <HeritageNaqshExperience/>;
   const definition=EXPERIENCE_MAP[slug];
   if(!definition)return <ExperienceGallery/>;
-  if(definition.ritual==='galaxy')return <GalaxyExperience/>;
   return <CinematicExperience definition={definition}/>;
 }
 
