@@ -196,17 +196,17 @@
       "imageLoaded": true,
       "img": {
         "x": 40.294288635253906,
-        "y": 522.008056640625,
+        "y": 521.008056640625,
         "right": 349.70569610595703,
-        "bottom": 996.820068359375,
+        "bottom": 995.820068359375,
         "width": 309.4114074707031,
         "height": 474.81201171875
       },
       "button": {
         "x": 92.953125,
-        "y": 436.03125,
+        "y": 435.03125,
         "right": 297.03125,
-        "bottom": 486.03125,
+        "bottom": 485.03125,
         "width": 204.078125,
         "height": 50
       },
@@ -214,9 +214,9 @@
         "x": 22,
         "y": 192,
         "right": 368,
-        "bottom": 317.78125,
+        "bottom": 316.78125,
         "width": 346,
-        "height": 125.78125
+        "height": 124.78125
       },
       "frame": null,
       "frameRadius": null,
@@ -443,11 +443,11 @@
         "height": 823.9385986328125
       },
       "button": {
-        "x": 104.40625,
+        "x": 102.6875,
         "y": 398.984375,
-        "right": 285.59375,
+        "right": 287.296875,
         "bottom": 447.984375,
-        "width": 181.1875,
+        "width": 184.609375,
         "height": 49
       },
       "headline": {
@@ -684,17 +684,17 @@
       "imageLoaded": true,
       "img": {
         "x": -14.897984504699707,
-        "y": 395.94012451171875,
+        "y": 438.15887451171875,
         "right": 404.8979444503784,
-        "bottom": 1237.684814453125,
+        "bottom": 1279.903564453125,
         "width": 419.7959289550781,
         "height": 841.7446899414062
       },
       "button": {
         "x": 110.625,
-        "y": 373.8125,
+        "y": 416.03125,
         "right": 279.375,
-        "bottom": 422.8125,
+        "bottom": 465.03125,
         "width": 168.75,
         "height": 49
       },
@@ -702,15 +702,15 @@
         "x": 22,
         "y": 234.1875,
         "right": 368,
-        "bottom": 276.40625,
+        "bottom": 318.625,
         "width": 346,
-        "height": 42.21875
+        "height": 84.4375
       },
       "frame": {
         "x": -6.8249969482421875,
-        "y": 412.12750244140625,
+        "y": 454.34625244140625,
         "right": 396.8250274658203,
-        "bottom": 1221.49755859375,
+        "bottom": 1263.71630859375,
         "width": 403.6500244140625,
         "height": 809.3700561523438
       },
@@ -801,9 +801,14 @@
     "template": "proposal-cinema",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
-    "exceptions": [],
+    "passed": false,
+    "failures": [
+      "Test exception: locator.textContent: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#coverTitle')\n",
+      "Browser JS exception(s): Cannot set properties of null (setting 'textContent')"
+    ],
+    "exceptions": [
+      "Cannot set properties of null (setting 'textContent')"
+    ],
     "layout": {
       "imageLoaded": true,
       "img": {
@@ -856,8 +861,7 @@
       "before": "chapter-1",
       "after": "chapter-2",
       "scrollY": 0
-    },
-    "videoRoundtripChecked": true
+    }
   },
   {
     "template": "proposal-sky",
@@ -877,11 +881,11 @@
         "height": 837.6978759765625
       },
       "button": {
-        "x": 106.953125,
+        "x": 108,
         "y": 416.03125,
-        "right": 283.046875,
+        "right": 282,
         "bottom": 465.03125,
-        "width": 176.09375,
+        "width": 174,
         "height": 49
       },
       "headline": {
@@ -1242,19 +1246,19 @@
       },
       "button": {
         "x": 100.796875,
-        "y": 628.125,
-        "right": 279.796875,
-        "bottom": 681.125,
-        "width": 179,
+        "y": 670.078125,
+        "right": 276.125,
+        "bottom": 723.078125,
+        "width": 175.328125,
         "height": 53
       },
       "headline": {
         "x": 100.796875,
-        "y": 293.6875,
+        "y": 251.71875,
         "right": 663.203125,
-        "bottom": 461.53125,
+        "bottom": 503.484375,
         "width": 562.40625,
-        "height": 167.84375
+        "height": 251.765625
       },
       "frame": {
         "x": 651.3731689453125,
@@ -1304,17 +1308,17 @@
       },
       "button": {
         "x": 74.875,
-        "y": 702.515625,
+        "y": 703.015625,
         "right": 304.5625,
-        "bottom": 758.515625,
+        "bottom": 759.015625,
         "width": 229.6875,
         "height": 56
       },
       "headline": {
         "x": 74.875,
-        "y": 282.578125,
+        "y": 282.078125,
         "right": 726.625,
-        "bottom": 516.34375,
+        "bottom": 515.84375,
         "width": 651.75,
         "height": 233.765625
       },
@@ -1359,9 +1363,9 @@
       "button": {
         "x": 72,
         "y": 634.328125,
-        "right": 247.328125,
+        "right": 251.671875,
         "bottom": 687.328125,
-        "width": 175.328125,
+        "width": 179.671875,
         "height": 53
       },
       "headline": {
@@ -1482,19 +1486,19 @@
       },
       "button": {
         "x": 100.796875,
-        "y": 670.078125,
-        "right": 276.125,
-        "bottom": 723.078125,
-        "width": 175.328125,
+        "y": 614.25,
+        "right": 280.484375,
+        "bottom": 667.25,
+        "width": 179.6875,
         "height": 53
       },
       "headline": {
         "x": 100.796875,
-        "y": 251.71875,
+        "y": 307.5625,
         "right": 663.203125,
-        "bottom": 503.484375,
+        "bottom": 475.40625,
         "width": 562.40625,
-        "height": 251.765625
+        "height": 167.84375
       },
       "frame": {
         "x": 651.3731689453125,
