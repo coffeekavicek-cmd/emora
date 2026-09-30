@@ -20,21 +20,21 @@ function useBalloonPhysics(nodes){
  const api=useRef(null);
  useEffect(()=>{let dead=false,raf=0,world=null;const active=[false,false,false];
   (async()=>{try{
-   const mod=await import('@dimforge/rapier3d-compat');const RAPIER=mod.default||mod;await RAPIER.init();if(dead)return;
-   world=new RAPIER.World({x:0,y:-.7,z:0});
+   const mod=await import('@dimforge/rapier2d');const RAPIER=mod.default||mod;await RAPIER.init();if(dead)return;
+   world=new RAPIER.World({x:0,y:-.7});
    const bodies=[0,1,2].map((_,i)=>{
-    const body=world.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(0,0,0).setGravityScale(0).setLinearDamping(.18).setAngularDamping(.28));
+    const body=world.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(0,0).setGravityScale(0).setLinearDamping(.18).setAngularDamping(.28));
     world.createCollider(RAPIER.ColliderDesc.ball(.48).setRestitution(.3),body);
     const el=nodes.current[i];if(el){el.classList.add('physics-bound');el.style.setProperty('--phys-x','0px');el.style.setProperty('--phys-y','0px');el.style.setProperty('--phys-r','0deg')}
     return body;
    });
-   api.current={release(i){if(active[i])return;active[i]=true;const body=bodies[i];body.setGravityScale(-1.55,true);body.setLinvel({x:(i-1)*.34+(Math.random()-.5)*.14,y:1.42+Math.random()*.28,z:0},true);body.setAngvel({x:0,y:0,z:(i-1)*.72+(Math.random()-.5)*.35},true)}};
+   api.current={release(i){if(active[i])return;active[i]=true;const body=bodies[i];body.setGravityScale(-1.55,true);body.setLinvel({x:(i-1)*.34+(Math.random()-.5)*.14,y:1.42+Math.random()*.28},true);body.setAngvel((i-1)*.72+(Math.random()-.5)*.35,true)}};
    const tick=()=>{
     if(dead)return;
-    for(let i=0;i<3;i++)if(!active[i]){const body=bodies[i];body.setTranslation({x:0,y:0,z:0},true);body.setLinvel({x:0,y:0,z:0},true);body.setAngvel({x:0,y:0,z:0},true)}
+    for(let i=0;i<3;i++)if(!active[i]){const body=bodies[i];body.setTranslation({x:0,y:0},true);body.setLinvel({x:0,y:0},true);body.setAngvel(0,true)}
     world.step();
     for(let i=0;i<3;i++){
-     const body=bodies[i],p=body.translation(),r=body.rotation(),angle=2*Math.atan2(r.z,r.w)*180/Math.PI,el=nodes.current[i];
+     const body=bodies[i],p=body.translation(),angle=body.rotation()*180/Math.PI,el=nodes.current[i];
      if(el){el.style.setProperty('--phys-x',`${p.x*28}px`);el.style.setProperty('--phys-y',`${-p.y*32}px`);el.style.setProperty('--phys-r',`${angle}deg`)}
     }
     raf=requestAnimationFrame(tick)
