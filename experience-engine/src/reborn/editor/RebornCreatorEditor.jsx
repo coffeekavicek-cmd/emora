@@ -12,8 +12,9 @@ const InkRegretReborn=lazy(()=>import('../ink/InkRegretReborn.jsx').then(m=>({de
 const QuietRoomReborn=lazy(()=>import('../quiet/QuietRoomReborn.jsx').then(m=>({default:m.QuietRoomReborn})));
 const SilkHeritageReborn=lazy(()=>import('../silk/SilkHeritageReborn.jsx').then(m=>({default:m.SilkHeritageReborn})));
 const PearlPromiseReborn=lazy(()=>import('../proposal/PearlPromiseReborn.jsx').then(m=>({default:m.PearlPromiseReborn})));
+const CinemaProposalReborn=lazy(()=>import('../proposal/CinemaProposalReborn.jsx').then(m=>({default:m.CinemaProposalReborn})));
 
-const REBORN_IDS=new Set(['love-pearl','love-galaxy','birthday-memory','apology-ink','apology-quiet','wedding-silk','proposal-pearl']);
+const REBORN_IDS=new Set(['love-pearl','love-galaxy','birthday-memory','apology-ink','apology-quiet','wedding-silk','proposal-pearl','proposal-cinema']);
 
 function Preview({templateId,content,media}){
   if(templateId==='love-pearl')return <PearlArchiveReborn content={content} media={media} embedded/>;
@@ -23,6 +24,7 @@ function Preview({templateId,content,media}){
   if(templateId==='apology-quiet')return <QuietRoomReborn content={content} media={media} embedded/>;
   if(templateId==='wedding-silk')return <SilkHeritageReborn content={content} media={media} embedded/>;
   if(templateId==='proposal-pearl')return <PearlPromiseReborn content={content} media={media} embedded/>;
+  if(templateId==='proposal-cinema')return <CinemaProposalReborn content={content} media={media} embedded/>;
   return null;
 }
 
@@ -31,14 +33,14 @@ export function RebornCreatorEditor({templateId='love-pearl'}){
   const template=TEMPLATE_BY_ID[templateId];
   const base=useMemo(()=>readUrlContent(templateId),[templateId]);
   const [content,setContent]=useState(()=>({...base,musicPreset:base.musicPreset||({
-    'love-pearl':'Nocturne','love-galaxy':'Dream','birthday-memory':'Cinema','apology-ink':'Nocturne','apology-quiet':'Nocturne','wedding-silk':'Heritage','proposal-pearl':'Cinema'
+    'love-pearl':'Nocturne','love-galaxy':'Dream','birthday-memory':'Cinema','apology-ink':'Nocturne','apology-quiet':'Nocturne','wedding-silk':'Heritage','proposal-pearl':'Cinema','proposal-cinema':'Cinema'
   }[templateId]||'Dream'),musicVolume:base.musicVolume??.55}));
   const [media,setMedia]=useState({photos:[],portrait:null,music:null,video:null});
   const [tab,setTab]=useState('edit');
   const set=(key,value)=>setContent(p=>({...p,[key]:value}));
   const setArray=(key,index,value)=>setContent(p=>({...p,[key]:(p[key]||[]).map((v,i)=>i===index?value:v)}));
   const previewName={
-    'love-pearl':'Pearl Archive','love-galaxy':'Galaxy Confession','birthday-memory':'Memory Reel','apology-ink':'Ink Regret','apology-quiet':'Quiet Room','wedding-silk':'Silk Heritage','proposal-pearl':'Pearl Promise'
+    'love-pearl':'Pearl Archive','love-galaxy':'Galaxy Confession','birthday-memory':'Memory Reel','apology-ink':'Ink Regret','apology-quiet':'Quiet Room','wedding-silk':'Silk Heritage','proposal-pearl':'Pearl Promise','proposal-cinema':'Cinema Proposal'
   }[templateId];
   const mediaReady=Boolean(media.music||content.musicPreset)&&media.photos.length>0&&Boolean(media.video);
 
