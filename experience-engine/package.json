@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@dimforge/rapier2d": "0.21.0",
+    "@supabase/supabase-js": "2.117.2",
     "gsap": "3.15.0",
     "pixi.js": "8.21.0",
     "three": "0.186.1",
