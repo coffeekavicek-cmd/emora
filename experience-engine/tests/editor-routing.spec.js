@@ -1,16 +1,20 @@
 import { test, expect } from '@playwright/test';
 
+async function openPreview(page,template){
+  await page.goto('/?mode=editor&template='+template);
+  await expect(page.locator('.reborn-editor')).toBeVisible();
+  await page.getByRole('button',{name:'Preview',exact:true}).click();
+}
+
 test.describe('Reborn Creator runtime routing',()=>{
   test('Galaxy editor uses Galaxy Confession Reborn',async({page})=>{
-    await page.goto('/?mode=editor&template=love-galaxy');
-    await expect(page.locator('.reborn-editor')).toBeVisible();
+    await openPreview(page,'love-galaxy');
     await expect(page.locator('.re-screen .galaxy-confession-reborn')).toBeVisible({timeout:10000});
     await expect(page.locator('.re-screen .cinematic')).toHaveCount(0);
   });
 
   test('Silk editor uses Silk Heritage Reborn',async({page})=>{
-    await page.goto('/?mode=editor&template=wedding-silk');
-    await expect(page.locator('.reborn-editor')).toBeVisible();
+    await openPreview(page,'wedding-silk');
     await expect(page.locator('.re-screen .silk-heritage-reborn')).toBeVisible({timeout:10000});
     await expect(page.locator('.re-screen .cinematic')).toHaveCount(0);
   });
