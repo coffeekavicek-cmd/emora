@@ -34,8 +34,9 @@ function Field({field,value,onChange,onMedia}){
     </label>;
   }
   if(field.type==='images'){
-    return <label className="ce-field ce-file"><span>{field.label}</span><em>3 tagacha</em>
-      <input {...common} type="file" accept="image/*" multiple onChange={e=>onMedia('photos',Array.from(e.target.files||[]).slice(0,3))}/>
+    const max=field.maxItems||10;
+    return <label className="ce-field ce-file"><span>{field.label}</span><em>{max} tagacha</em>
+      <input {...common} type="file" accept="image/*" multiple onChange={e=>onMedia('photos',Array.from(e.target.files||[]).slice(0,max))}/>
     </label>;
   }
   if(field.type==='image'){
@@ -44,8 +45,13 @@ function Field({field,value,onChange,onMedia}){
     </label>;
   }
   if(field.type==='audio'){
-    return <label className="ce-field ce-file"><span>{field.label}</span><em>audio</em>
+    return <label className="ce-field ce-file"><span>{field.label}</span><em>MP3 / audio</em>
       <input {...common} type="file" accept="audio/*" onChange={e=>onMedia('music',e.target.files?.[0]||null)}/>
+    </label>;
+  }
+  if(field.type==='video'){
+    return <label className="ce-field ce-file"><span>{field.label}</span><em>MP4 / video</em>
+      <input {...common} type="file" accept="video/*" onChange={e=>onMedia('video',e.target.files?.[0]||null)}/>
     </label>;
   }
   if(field.type==='select'){
@@ -77,24 +83,24 @@ function Section({title,fields,content,onChange,onMedia}){
 }
 
 function PreviewRuntime({template,content,media}){
-  if(template.id==='love-pearl')return <Suspense fallback={<div className="ce-runtime-loading">Pearl Archive preview</div>}><PearlArchiveExperience content={content} embedded/></Suspense>;
-  if(template.id==='proposal-pearl')return <Suspense fallback={<div className="ce-runtime-loading">3D preview</div>}><PearlPromiseExperience content={content} embedded/></Suspense>;
+  if(template.id==='love-pearl')return <Suspense fallback={<div className="ce-runtime-loading">Pearl Archive preview</div>}><PearlArchiveExperience content={content} media={media} embedded/></Suspense>;
+  if(template.id==='proposal-pearl')return <Suspense fallback={<div className="ce-runtime-loading">3D preview</div>}><PearlPromiseExperience content={content} media={media} embedded/></Suspense>;
   if(template.id==='proposal-cinema')return <Suspense fallback={<div className="ce-runtime-loading">Cinema preview</div>}><CinemaProposalExperience content={content} media={media} embedded/></Suspense>;
-  if(template.id==='proposal-sky')return <Suspense fallback={<div className="ce-runtime-loading">Sky preview</div>}><SkyPromiseExperience content={content} embedded/></Suspense>;
-  if(template.id==='love-galaxy')return <Suspense fallback={<div className="ce-runtime-loading">WebGL preview</div>}><GalaxyExperience content={content} embedded/></Suspense>;
-  if(template.id==='wedding-silk')return <Suspense fallback={<div className="ce-runtime-loading">Silk preview</div>}><SilkHeritageExperience content={content} embedded/></Suspense>;
+  if(template.id==='proposal-sky')return <Suspense fallback={<div className="ce-runtime-loading">Sky preview</div>}><SkyPromiseExperience content={content} media={media} embedded/></Suspense>;
+  if(template.id==='love-galaxy')return <Suspense fallback={<div className="ce-runtime-loading">WebGL preview</div>}><GalaxyExperience content={content} media={media} embedded/></Suspense>;
+  if(template.id==='wedding-silk')return <Suspense fallback={<div className="ce-runtime-loading">Silk preview</div>}><SilkHeritageExperience content={content} media={media} embedded/></Suspense>;
   if(template.id==='birthday-memory')return <Suspense fallback={<div className="ce-runtime-loading">Film preview</div>}><MemoryReelExperience content={content} media={media} embedded/></Suspense>;
-  if(template.id==='birthday-aurora')return <Suspense fallback={<div className="ce-runtime-loading">Aurora preview</div>}><AuroraPaperExperience content={content} embedded/></Suspense>;
+  if(template.id==='birthday-aurora')return <Suspense fallback={<div className="ce-runtime-loading">Aurora preview</div>}><AuroraPaperExperience content={content} media={media} embedded/></Suspense>;
   if(template.id==='birthday-balloon')return <Suspense fallback={<div className="ce-runtime-loading">Balloon preview</div>}><BalloonDreamExperience content={content} media={media} embedded/></Suspense>;
-  if(template.id==='apology-quiet')return <Suspense fallback={<div className="ce-runtime-loading">Quiet preview</div>}><QuietRoomExperience content={content} embedded/></Suspense>;
-  if(template.id==='apology-rain')return <Suspense fallback={<div className="ce-runtime-loading">Rain preview</div>}><AfterRainExperience content={content} definition={EXPERIENCE_MAP[template.id]} embedded/></Suspense>;
-  if(template.id==='apology-ink')return <Suspense fallback={<div className="ce-runtime-loading">Ink preview</div>}><InkRegretExperience content={content} embedded/></Suspense>;
+  if(template.id==='apology-quiet')return <Suspense fallback={<div className="ce-runtime-loading">Quiet preview</div>}><QuietRoomExperience content={content} media={media} embedded/></Suspense>;
+  if(template.id==='apology-rain')return <Suspense fallback={<div className="ce-runtime-loading">Rain preview</div>}><AfterRainExperience content={content} media={media} definition={EXPERIENCE_MAP[template.id]} embedded/></Suspense>;
+  if(template.id==='apology-ink')return <Suspense fallback={<div className="ce-runtime-loading">Ink preview</div>}><InkRegretExperience content={content} media={media} embedded/></Suspense>;
   if(template.id==='love-rose')return <Suspense fallback={<div className="ce-runtime-loading">Theatre preview</div>}><RoseTheatreExperience content={content} media={media} embedded/></Suspense>;
-  if(template.id==='wedding-garden')return <Suspense fallback={<div className="ce-runtime-loading">Garden preview</div>}><NightGardenExperience content={content} embedded/></Suspense>;
-  if(template.id==='wedding-naqsh')return <Suspense fallback={<div className="ce-runtime-loading">Naqsh preview</div>}><HeritageNaqshExperience content={content} embedded/></Suspense>;
+  if(template.id==='wedding-garden')return <Suspense fallback={<div className="ce-runtime-loading">Garden preview</div>}><NightGardenExperience content={content} media={media} embedded/></Suspense>;
+  if(template.id==='wedding-naqsh')return <Suspense fallback={<div className="ce-runtime-loading">Naqsh preview</div>}><HeritageNaqshExperience content={content} media={media} embedded/></Suspense>;
   const definition=EXPERIENCE_MAP[template.id];
   if(!definition)return <div className="ce-runtime-loading">Runtime unavailable</div>;
-  return <Suspense fallback={<div className="ce-runtime-loading">Experience preview</div>}><CinematicExperience definition={definition} content={content} embedded/></Suspense>;
+  return <Suspense fallback={<div className="ce-runtime-loading">Experience preview</div>}><CinematicExperience definition={definition} content={content} media={media} embedded/></Suspense>;
 }
 
 export function CreatorEditor({templateId='love-pearl'}){
@@ -114,7 +120,7 @@ export function CreatorEditor({templateId='love-pearl'}){
     saveEnabled:true,
     shareEnabled:true,
   }));
-  const [media,setMedia]=useState({photos:[],portrait:null,music:null});
+  const [media,setMedia]=useState({photos:[],portrait:null,music:null,video:null});
   const [copied,setCopied]=useState(false);
   const [mobileView,setMobileView]=useState('edit');
   const [savedAt,setSavedAt]=useState(null);
@@ -167,7 +173,7 @@ export function CreatorEditor({templateId='love-pearl'}){
       <button className={mobileView==='preview'?'active':''} onClick={()=>setMobileView('preview')}>Preview</button>
     </nav>
     <aside className="ce-panel">
-      <header className="ce-header"><a href="?">emora<span>.</span></a><div><small>REFERENCE EDITOR</small><b>{template.name}</b><em>{savedAt?'Draft saqlandi':'Draft'}</em></div></header>
+      <header className="ce-header"><a href="?">emora<span>.</span></a><div><small>REBORN EDITOR</small><b>{template.name}</b><em>{savedAt?'Draft saqlandi':'Draft'}</em></div></header>
       <div className="ce-manifest">
         <span>{template.archetype}</span><span>{template.navigation}</span><span className="ce-release">{template.releaseStatus||'concept'}</span>
         <p>{template.signatureMoment}</p>
@@ -181,10 +187,11 @@ export function CreatorEditor({templateId='love-pearl'}){
           <label className="ce-field"><span>Final jumla</span><textarea value={content.final} onChange={e=>setContent(p=>({...p,final:e.target.value}))}/></label>
         </section>
         <Section title="Media" fields={sections.media.filter(f=>!['photoCaptions'].includes(f.key))} content={content} onChange={update} onMedia={updateMedia}/>
-        {(media.photos.length||media.portrait||media.music)&&<div className="ce-media-status"><p>Media hozir live preview uchun local. Publish pipeline ulangach recipient linkka upload qilinadi.</p>
-          <div><span>Xotira rasmlari</span><b>{media.photos.length||0}/3</b></div>
+        {(media.photos.length||media.portrait||media.music||media.video)&&<div className="ce-media-status"><p>Media live previewga ulandi. Publish bosqichida fayllar storage’ga yuklanadi va recipient link bilan birga saqlanadi.</p>
+          <div><span>Rasmlar</span><b>{media.photos.length||0}/10</b></div>
           <div><span>Final portret</span><b>{media.portrait?'tayyor':'—'}</b></div>
-          <div><span>Musiqa</span><b>{media.music?'tayyor':'—'}</b></div>
+          <div><span>Musiqa</span><b>{media.music?'custom':content.musicPreset||'preset'}</b></div>
+          <div><span>Video</span><b>{media.video?'tayyor':'—'}</b></div>
         </div>}
         <Section title="Guest actions" fields={sections.guests} content={content} onChange={update} onMedia={updateMedia}/>
         <Section title="Access" fields={sections.access} content={content} onChange={update} onMedia={updateMedia}/>
@@ -196,7 +203,7 @@ export function CreatorEditor({templateId='love-pearl'}){
     </aside>
 
     <section className="ce-preview-zone">
-      <div className="ce-preview-head"><div><small>LIVE RECIPIENT PREVIEW</small><b>390 × 844</b></div><span>manifest-driven</span></div>
+      <div className="ce-preview-head"><div><small>LIVE RECIPIENT PREVIEW</small><b>390 × 844</b></div><span>reborn media-ready</span></div>
       <div className="ce-phone">
         <div className="ce-phone-screen"><PreviewRuntime template={template} content={content} media={media}/></div>
       </div>
