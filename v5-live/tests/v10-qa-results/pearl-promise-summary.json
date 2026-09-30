@@ -1,0 +1,26 @@
+[
+  {
+    "name": "mobile",
+    "viewport": "390x844",
+    "passed": false,
+    "failures": [
+      "Test exception: locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#chapter-4 .pp-vow-footer .v10-cta')\n    - locator resolved to <button type=\"button\" class=\"v10-cta\">Eng muhim lahzaga  →</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not stable\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not stable\n    - retrying click action\n      - waiting 100ms\n    - waiting for element to be visible, enabled and stable\n    - element is not stable\n  56 × retrying click action\n       - waiting 500ms\n       - waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - <video controls=\"\" preload=\"none\" playsinline=\"\" class=\"v10-video\" src=\"https://example.invalid/pearl-promise-qa.mp4\"></video> from <div class=\"v10-video-box pp-vow-video\">…</div> subtree intercepts pointer events\n  - retrying click action\n    - waiting 500ms\n"
+    ]
+  },
+  {
+    "name": "small",
+    "viewport": "360x740",
+    "passed": false,
+    "failures": [
+      "Test exception: locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#chapter-4 .pp-vow-footer .v10-cta')\n    - locator resolved to <button type=\"button\" class=\"v10-cta\">Eng muhim lahzaga  →</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not stable\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not stable\n    - retrying click action\n      - waiting 100ms\n    - waiting for element to be visible, enabled and stable\n    - element is not stable\n  56 × retrying click action\n       - waiting 500ms\n       - waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - <video controls=\"\" preload=\"none\" playsinline=\"\" class=\"v10-video\" src=\"https://example.invalid/pearl-promise-qa.mp4\"></video> from <div class=\"v10-video-box pp-vow-video\">…</div> subtree intercepts pointer events\n  - retrying click action\n    - waiting 500ms\n"
+    ]
+  },
+  {
+    "name": "desktop",
+    "viewport": "1440x900",
+    "passed": false,
+    "failures": [
+      "Test exception: locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#chapter-4 .pp-vow-footer .v10-cta')\n    - locator resolved to <button type=\"button\" class=\"v10-cta\">Eng muhim lahzaga  →</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not stable\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not stable\n    - retrying click action\n      - waiting 100ms\n    - waiting for element to be visible, enabled and stable\n    - element is not stable\n  56 × retrying click action\n       - waiting 500ms\n       - waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - <video controls=\"\" preload=\"none\" playsinline=\"\" class=\"v10-video\" src=\"https://example.invalid/pearl-promise-qa.mp4\"></video> from <div class=\"v10-video-box pp-vow-video\">…</div> subtree intercepts pointer events\n  - retrying click action\n    - waiting 500ms\n"
+    ]
+  }
+]
