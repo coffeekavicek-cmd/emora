@@ -9,6 +9,21 @@ if(IS_PEARL){
  style.dataset.pearlLayoutFix='v1';
  style.textContent='.v10-proposal-pearl .pp-vow-video{position:relative!important;inset:auto!important;right:auto!important;bottom:auto!important;flex:0 1 auto}.v10-proposal-pearl .pp-vow-footer{position:relative;z-index:12;flex:0 0 auto}';
  document.head.append(style);
+
+ // V11 locks stage transitions briefly. If a fast user taps the Pearl vow CTA
+ // during that lock, replay the intent once the transition is free instead of
+ // silently losing the tap. If the normal click already advanced, this does nothing.
+ document.addEventListener('click',event=>{
+  const button=event.target instanceof Element?event.target.closest('.pp-vow-footer .v10-cta'):null;
+  if(!button)return;
+  const active=document.querySelector('#main > .v11-stage-active');
+  if(active?.id!=='chapter-4')return;
+  setTimeout(()=>{
+   if(document.querySelector('#main > .v11-stage-active')?.id!=='chapter-4')return;
+   window.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowRight',code:'ArrowRight',bubbles:true,cancelable:true}));
+  },950);
+ },true);
+
  addEventListener('message',event=>{
   if(event.origin!==location.origin||!event.data||event.data.type==='emora:pearl-normalized'||!event.data.config)return;
   if(typeof event.data.type!=='string'||!event.data.type.startsWith('emora:'))return;
