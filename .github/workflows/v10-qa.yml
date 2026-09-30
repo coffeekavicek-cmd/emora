@@ -9,6 +9,7 @@ on:
       - v5-live/tests/v10-media.test.mjs
       - v5-live/tests/v10-pearl-promise-qa.mjs
       - v5-live/tests/v10-cinema-proposal-qa.mjs
+      - v5-live/tests/v10-sky-promise-qa.mjs
       - v5-live/templates/v10-**
       - v5-live/templates/v11-stage.css
       - v5-live/templates/silk-heritage.**
@@ -57,30 +58,24 @@ jobs:
         run: node v5-live/tests/v10-pearl-promise-qa.mjs
       - name: Test Cinema Proposal flagship ritual end-to-end
         run: node v5-live/tests/v10-cinema-proposal-qa.mjs
+      - name: Test Sky Promise flagship ritual end-to-end
+        run: node v5-live/tests/v10-sky-promise-qa.mjs
       - name: Test category-first discovery and the live creator editor
         run: node v5-live/tests/v10-platform-qa.mjs
       - name: Preserve review evidence
         if: always()
         run: |
           mkdir -p v5-live/tests/v10-qa-results
-          if [ -f v5-live/qa-v10-results/summary.json ]; then
-            cp v5-live/qa-v10-results/summary.json v5-live/tests/v10-qa-results/summary.json
-          fi
-          for summary in pearl-promise-summary.json cinema-proposal-summary.json platform-summary.json; do
-            if [ -f "v5-live/qa-v10-results/$summary" ]; then
-              cp "v5-live/qa-v10-results/$summary" v5-live/tests/v10-qa-results/
-            fi
+          if [ -f v5-live/qa-v10-results/summary.json ]; then cp v5-live/qa-v10-results/summary.json v5-live/tests/v10-qa-results/summary.json; fi
+          for summary in pearl-promise-summary.json cinema-proposal-summary.json sky-promise-summary.json platform-summary.json; do
+            if [ -f "v5-live/qa-v10-results/$summary" ]; then cp "v5-live/qa-v10-results/$summary" v5-live/tests/v10-qa-results/; fi
           done
           if [ -f v5-live/qa-v10-results/platform-home.png ]; then cp v5-live/qa-v10-results/platform-home.png v5-live/tests/v10-qa-results/; fi
           for name in love-rose wedding-silk birthday-aurora apology-rain proposal-pearl; do
-            if [ -f "v5-live/qa-v10-results/mobile-$name-intro.png" ]; then
-              cp "v5-live/qa-v10-results/mobile-$name-intro.png" v5-live/tests/v10-qa-results/
-            fi
+            if [ -f "v5-live/qa-v10-results/mobile-$name-intro.png" ]; then cp "v5-live/qa-v10-results/mobile-$name-intro.png" v5-live/tests/v10-qa-results/; fi
           done
-          for name in pearl-mobile-intro.png pearl-mobile-reasons.png pearl-mobile-proposal.png pearl-small-intro.png pearl-small-reasons.png pearl-small-proposal.png pearl-desktop-intro.png pearl-desktop-reasons.png pearl-desktop-proposal.png cinema-mobile-intro.png cinema-mobile-trailer.png cinema-mobile-frames.png cinema-mobile-proposal.png cinema-small-intro.png cinema-small-trailer.png cinema-small-frames.png cinema-small-proposal.png cinema-desktop-intro.png cinema-desktop-trailer.png cinema-desktop-frames.png cinema-desktop-proposal.png; do
-            if [ -f "v5-live/qa-v10-results/$name" ]; then
-              cp "v5-live/qa-v10-results/$name" v5-live/tests/v10-qa-results/
-            fi
+          for name in pearl-mobile-intro.png pearl-mobile-reasons.png pearl-mobile-proposal.png pearl-small-intro.png pearl-small-reasons.png pearl-small-proposal.png pearl-desktop-intro.png pearl-desktop-reasons.png pearl-desktop-proposal.png cinema-mobile-intro.png cinema-mobile-trailer.png cinema-mobile-frames.png cinema-mobile-proposal.png cinema-small-intro.png cinema-small-trailer.png cinema-small-frames.png cinema-small-proposal.png cinema-desktop-intro.png cinema-desktop-trailer.png cinema-desktop-frames.png cinema-desktop-proposal.png sky-mobile-intro.png sky-mobile-dreams.png sky-mobile-proposal.png sky-small-intro.png sky-small-dreams.png sky-small-proposal.png sky-desktop-intro.png sky-desktop-dreams.png sky-desktop-proposal.png; do
+            if [ -f "v5-live/qa-v10-results/$name" ]; then cp "v5-live/qa-v10-results/$name" v5-live/tests/v10-qa-results/; fi
           done
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
