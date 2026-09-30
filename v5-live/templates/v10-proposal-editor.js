@@ -2,7 +2,7 @@
    Reuses persisted legacy text slots without changing the projects table contract.
    Pearl gets 3 reasons + promise-oriented labels; Apology/Wedding restore instantly. */
 const $=s=>document.querySelector(s);
-const type=$('#type'),storyExtras=$('#storyExtras'),apology=$('#apologyExtra'),wedding=$('#weddingExtra');
+const type=$('#type'),storyExtras=$('#storyExtras'),apology=$('#apologyExtra'),wedding=$('#weddingExtra'),previewLabel=$('#previewLabel');
 const mistake=$('#mistake'),repair=$('#repair'),venue=$('#venue'),letter=$('#letter'),finalQuestion=$('#finalQuestion'),dateField=$('#dateField');
 if(type&&storyExtras&&apology&&wedding&&mistake&&repair&&venue&&letter&&finalQuestion){
  const mistakeField=mistake.closest('.field'),repairField=repair.closest('.field'),venueField=venue.closest('.field');
@@ -40,6 +40,6 @@ if(type&&storyExtras&&apology&&wedding&&mistake&&repair&&venue&&letter&&finalQue
  const schedule=()=>queueMicrotask(sync);
  document.addEventListener('input',schedule,true);document.addEventListener('change',schedule,true);
  type.addEventListener('change',schedule);
- new MutationObserver(schedule).observe(type,{attributes:true,attributeFilter:['value']});
+ if(previewLabel)new MutationObserver(schedule).observe(previewLabel,{childList:true,subtree:true,characterData:true});
  sync();
 }
