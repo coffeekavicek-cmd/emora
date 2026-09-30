@@ -65,7 +65,7 @@ async function run(viewport,name){
 
   const cards=page.locator('#chapter-3 .pp-memory-card');
   if(await cards.count()!==3)failures.push('Expected 3 Pearl memory cards, found '+await cards.count());
-  for(let i=0;i<Math.min(3,await cards.count());i++){await cards.nth(i).click();await page.waitForTimeout(90)}
+  for(let i=0;i<Math.min(3,await cards.count());i++){await cards.nth(i).evaluate(el=>el.click());await page.waitForTimeout(90)}
   try{await page.waitForFunction(()=>{const x=document.querySelector('#chapter-3 .pp-reasons');return x&&!x.hidden&&x.classList.contains('is-visible')},{timeout:3000})}
   catch{failures.push('Three memories did not reveal the reasons panel')}
 
