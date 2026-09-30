@@ -18,6 +18,8 @@ export function readUrlContent(templateId='love-pearl'){
     venueName:read('venue','',100),
     venueAddress:read('address','',180),
     mapLocation:read('map','',240),
+    musicPreset:read('music','Nocturne',24),
+    musicStart:Number(read('musicStart','0',16))||0,
     paragraphs:[
       read('m1',defaults.paragraphs[0],240),
       read('m2',defaults.paragraphs[1],240),
@@ -54,6 +56,8 @@ export function contentToSearchParams(content){
   put('venue',content.venueName);
   put('address',content.venueAddress);
   put('map',content.mapLocation);
+  put('music',content.musicPreset);
+  put('musicStart',content.musicStart);
   (content.paragraphs||[]).forEach((x,i)=>put('m'+(i+1),x));
   (content.captions||[]).forEach((x,i)=>put('c'+(i+1),x));
   put('final',content.final);
@@ -66,7 +70,6 @@ export function contentToSearchParams(content){
   return p;
 }
 
-
 export function splitPublishPayload(content){
   const publicContent={
     title:content.title,
@@ -78,6 +81,8 @@ export function splitPublishPayload(content){
     venueName:content.venueName||'',
     venueAddress:content.venueAddress||'',
     mapLocation:content.mapLocation||'',
+    musicPreset:content.musicPreset||'Nocturne',
+    musicStart:Number(content.musicStart)||0,
     paragraphs:content.paragraphs||[],
     captions:content.captions||[],
     final:content.final,
@@ -90,8 +95,6 @@ export function splitPublishPayload(content){
   };
   const privateSettings={
     hasWordLock:Boolean(content.wordLock),
-    // Raw lock value must be sent only to an authenticated server/edge function
-    // for hashing or protected storage. It must never be embedded in public URLs.
   };
   const serverOnly={
     wordLock:content.wordLock||'',
