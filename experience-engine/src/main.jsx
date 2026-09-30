@@ -23,6 +23,7 @@ const SkyPromiseReborn=lazy(()=>import('./reborn/proposal/SkyPromiseReborn.jsx')
 const CinematicExperience=lazy(()=>import('./cinematic/CinematicExperience.jsx').then(m=>({default:m.CinematicExperience})));
 const ExperienceGallery=lazy(()=>import('./rituals/Gallery.jsx').then(m=>({default:m.ExperienceGallery})));
 const RebornCreatorEditor=lazy(()=>import('./reborn/editor/RebornCreatorEditor.jsx').then(m=>({default:m.RebornCreatorEditor})));
+const PublishedSite=lazy(()=>import('./reborn/published/PublishedSite.jsx').then(m=>({default:m.PublishedSite})));
 
 function Loading(){
   return <div style={{position:'fixed',inset:0,display:'grid',placeItems:'center',background:'#0b0a0d',color:'#d8ccd2',font:'12px Inter,system-ui',letterSpacing:'.14em'}}>EMORA</div>;
@@ -39,6 +40,8 @@ function App(){
     const templateId=TEMPLATE_BY_ID[slug]?slug:'love-pearl';
     return <RebornCreatorEditor templateId={templateId}/>;
   }
+  const publishedSlug=params.get('site');
+  if(publishedSlug)return <PublishedSite slug={publishedSlug}/>;
   if(slug==='gallery')return <ExperienceGallery/>;
   if(slug==='love-pearl')return <PearlArchiveReborn/>;
   if(slug==='love-galaxy')return <GalaxyConfessionReborn/>;
