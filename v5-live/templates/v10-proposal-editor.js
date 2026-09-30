@@ -1,6 +1,6 @@
-/* EMORA Creator Studio · proposal flagship field adapter.
-   Pearl reuses three persisted text slots as reasons. Cinema and Sky keep the base
-   schema but give shared fields flagship-specific meaning. No database migration. */
+/* EMORA Creator Studio · flagship field adapters.
+   Proposal flagships and Quiet Room reuse the current persisted schema with
+   template-specific labels. No database migration. */
 const $=s=>document.querySelector(s);
 const type=$('#type'),storyExtras=$('#storyExtras'),apology=$('#apologyExtra'),wedding=$('#weddingExtra'),previewLabel=$('#previewLabel');
 const mistake=$('#mistake'),repair=$('#repair'),venue=$('#venue'),letter=$('#letter'),finalQuestion=$('#finalQuestion'),dateField=$('#dateField');
@@ -15,6 +15,8 @@ if(type&&storyExtras&&apology&&wedding&&mistake&&repair&&venue&&letter&&finalQue
  const cinemaNote=document.createElement('div');cinemaNote.className='lang-note';cinemaNote.textContent='CINEMA PROPOSAL · Film nomi, 3 ta sahna, personal trailer/video, voice-over va final savol private-premiere ssenariysiga ulanadi.';cinema.append(cinemaNote);pearl.after(cinema);
  const sky=document.createElement('div');sky.id='proposalSkyExtra';sky.className='hidden';
  const skyNote=document.createElement('div');skyNote.className='lang-note';skyNote.textContent='SKY PROMISE · Osmon nomi, 3 ta kelajak orzusi, optional video, constellation va’da va final savol sunset-to-stars ritualiga ulanadi.';sky.append(skyNote);cinema.after(sky);
+ const quiet=document.createElement('div');quiet.id='apologyQuietExtra';quiet.className='hidden';
+ const quietNote=document.createElement('div');quietNote.className='lang-note';quietNote.textContent='QUIET ROOM · Bosimsiz apology ritual: aniq xato → tinglash → yozilmay qolgan gap → konkret tuzatish → 3 ta teng final javob. Video ixtiyoriy va autoplay qilinmaydi.';quiet.append(quietNote);sky.after(quiet);
  const originals=new Map();
  const remember=(field,fallback)=>{if(!field)return;const label=field.closest('.field')?.querySelector('label');originals.set(field,{label:label?.textContent||fallback,placeholder:field.placeholder})};
  remember(mistake,'XATONI TAN OLISH');remember(repair,'AMALIY TUZATISH REJASI');remember(venue,'TO‘Y MANZILI');remember(letter,'MAKTUB / ASOSIY HIKOYA · UZ');remember(finalQuestion,'YAKUNIY SAVOL / TABRIK');remember(memoryTitle,'XOTIRALAR BO‘LIMI NOMI');captions.forEach((f,i)=>remember(f,(i+1)+'-XOTIRA MATNI'));remember(videoUrl,'VIDEO URL · IXTIYORIY');
@@ -25,7 +27,7 @@ if(type&&storyExtras&&apology&&wedding&&mistake&&repair&&venue&&letter&&finalQue
  function restoreExtras(){home(mistakeField,mistakeMarker);home(repairField,repairMarker);home(venueField,venueMarker);[mistake,repair,venue].forEach(resetField);pearl.classList.add('hidden')}
  function sync(){
   const value=type.value,proposal=value.startsWith('proposal-');
-  resetCommon();cinema.classList.add('hidden');sky.classList.add('hidden');
+  resetCommon();cinema.classList.add('hidden');sky.classList.add('hidden');quiet.classList.add('hidden');
   if(dateField)dateField.classList.toggle('hidden',value.startsWith('apology-')||proposal);
   if(value==='proposal-pearl-promise'){
    pearl.classList.remove('hidden');pearl.append(mistakeField,repairField,venueField);
@@ -36,6 +38,18 @@ if(type&&storyExtras&&apology&&wedding&&mistake&&repair&&venue&&letter&&finalQue
    setField(finalQuestion,'ENG MUHIM SAVOL','Masalan: Dilnoza, menga turmushga chiqasanmi?');return;
   }
   restoreExtras();
+  if(value==='apology-quiet-room'){
+   quiet.classList.remove('hidden');
+   setField(memoryTitle,'XONA / KIRISH SATRI','Masalan: Shovqinsiz bir suhbat');
+   setField(mistake,'ANIQ TAN OLISH · BAHONASIZ','Nimani noto‘g‘ri qilganingizni bitta aniq fikr bilan yozing.');
+   setField(repair,'MEN BOSHQA NIMA QILAMAN','Keyingi safar amalda nimani boshqacha qilishingizni yozing.');
+   setField(captions[0],'TINGLASH SATRI · 01','Masalan: Sening hislaringni inkor qilmayman.');
+   setField(captions[1],'TINGLASH SATRI · 02','Masalan: Javobni hozir berishing shart emas.');
+   setField(captions[2],'TINGLASH SATRI · 03','Masalan: Chegaralaringni hurmat qilaman.');
+   setField(letter,'YOZILMAY QOLGAN GAPLAR · UZ','Ko‘ndirish emas — aytilishi kerak bo‘lgan samimiy gaplarni yozing...');
+   setField(videoUrl,'IXTIYORIY VIDEO · AUTOPLAY YO‘Q','https://...mp4');
+   setField(finalQuestion,'FINAL · HURMATLI YAKUN','Masalan: Sening vaqting va qaroring muhim.');return;
+  }
   if(value==='proposal-cinema'){
    cinema.classList.remove('hidden');
    setField(memoryTitle,'FILM NOMI / TAGLINE','Masalan: Bizning filmimiz');
