@@ -1,0 +1,3 @@
+/* Sky Promise interaction guard: V11 ritual hints are visual only and must never intercept CTA input. */
+.v10-proposal-sky .v11-ritual-cue{pointer-events:none!important;user-select:none}
+.v10-proposal-sky .sp-constellation-next,.v10-proposal-sky .sp-dreams-next{position:relative;z-index:12}
