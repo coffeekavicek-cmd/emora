@@ -9,7 +9,7 @@ const premiumKeys=["love-rose","love-pearl","love-galaxy","wedding-garden","wedd
 const mediaNames=new Set(["site-hero","love-rose","love-pearl","love-galaxy","wedding-garden","wedding-naqsh","birthday-aurora","birthday-balloon","birthday-memory","apology-rain","apology-ink","apology-quiet","proposal-pearl","proposal-cinema","proposal-sky"]);
 const legacy={"love-rose":"love-rose","love-pearl":"love-pearl","wedding-garden":"wedding-garden","birthday-aurora":"birthday-aurora","apology-rain":"apology-rain","proposal-pearl":"proposal-pearl"};
 const templateFiles=['wedding-silk.html',...premiumKeys.map(k=>'v10-'+k+'.html')];
-const jsFiles=['silk-heritage.js','v10-data.js','v10-main.js','v10-media.js','v10-pearl-promise.js','v10-pearl-promise-bootstrap.js','v10-pearl-promise-config.js','v10-cinema-proposal.js','v10-cinema-proposal-bootstrap.js','v10-proposal-editor.js'];
+const jsFiles=['silk-heritage.js','v10-data.js','v10-main.js','v10-media.js','v10-pearl-promise.js','v10-pearl-promise-bootstrap.js','v10-pearl-promise-config.js','v10-cinema-proposal.js','v10-cinema-proposal-bootstrap.js','v10-cinema-compat.js','v10-proposal-editor.js'];
 const cssFiles=['silk-heritage.css','silk-motion.css','silk-stage.css','v10-core.css','v10-ritual-layouts.css','v10-love.css','v10-wedding.css','v10-birthday.css','v10-apology.css','v10-proposal.css','v10-motion.css','v11-stage.css','v10-pearl-promise.css','v10-cinema-proposal.css'];
 await Promise.all([...templateFiles,...jsFiles,...cssFiles].map(f=>fs.access(path.join(ROOT,'templates',f))));
 await Promise.all(['silk-heritage-original.jpg',...mediaNames].map(f=>fs.access(path.join(ROOT,'assets',f.endsWith('.jpg')?f:f+'.png'))));
