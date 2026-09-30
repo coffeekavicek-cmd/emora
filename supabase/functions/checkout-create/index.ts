@@ -55,13 +55,34 @@ Deno.serve(async(req:Request)=>{
     if(!siteId||!planCode||!["click","payme"].includes(provider))return json({error:"invalid_request"},400);
 
     const [{data:site,error:siteError},{data:plan,error:planError}]=await Promise.all([
-      admin.from("sites").select("id,owner_id,edition,status").eq("id",siteId).single(),
+      admin.from("sites").select("id,owner_id,edition,status,content").eq("id",siteId).single(),
       admin.from("plans").select("code,name,price_uzs,active").eq("code",planCode).eq("active",true).single(),
     ]);
     if(siteError||!site)return json({error:"site_not_found"},404);
     if(site.owner_id!==userData.user.id)return json({error:"forbidden"},403);
     if(planError||!plan)return json({error:"plan_not_found"},404);
-    if(site.status==="published")return json({error:"already_published"},409);
+    if(site.status!=="draft")return json({error:site.status==="published"?"already_published":"invalid_site_state"},409);
+
+    const {data:paidOrder,error:paidError}=await admin.from("orders")
+      .select("id,status,provider,amount_uzs,plan_code")
+      .eq("site_id",siteId)
+      .eq("owner_id",userData.user.id)
+      .eq("status","paid")
+      .order("paid_at",{ascending:false})
+      .limit(1)
+      .maybeSingle();
+    if(paidError)throw paidError;
+    if(paidOrder)return json({error:"already_paid",orderId:paidOrder.id,planCode:paidOrder.plan_code,provider:paidOrder.provider},409);
+
+    const {data:mediaRows,error:mediaError}=await admin.from("site_media").select("kind").eq("site_id",siteId);
+    if(mediaError)throw mediaError;
+    const mediaKinds=new Set((mediaRows||[]).map((x:any)=>String(x.kind)));
+    const content=(site.content||{}) as Record<string,unknown>;
+    const missing:string[]=[];
+    if(!mediaKinds.has("photo"))missing.push("photo");
+    if(!mediaKinds.has("video"))missing.push("video");
+    if(!mediaKinds.has("music")&&!String(content.musicPreset||"").trim())missing.push("music");
+    if(missing.length)return json({error:"media_incomplete",missing},422);
 
     if(provider==="click"){
       const serviceId=Deno.env.get("CLICK_SERVICE_ID");
@@ -80,8 +101,6 @@ Deno.serve(async(req:Request)=>{
         .select("id,site_id,plan_code,amount_uzs,currency,provider,status")
         .eq("owner_id",userData.user.id)
         .eq("site_id",siteId)
-        .eq("plan_code",plan.code)
-        .eq("provider",provider)
         .in("status",["pending","processing"])
         .order("created_at",{ascending:false});
       if(error)throw error;
@@ -90,7 +109,7 @@ Deno.serve(async(req:Request)=>{
 
     let activeOrders=await findActive();
     let processing=activeOrders.find(x=>x.status==="processing");
-    if(processing&&provider==="payme"){
+    if(processing?.provider==="payme"){
       const {data:payment,error:paymentError}=await admin.from("payments")
         .select("id,provider_created_at_ms,state")
         .eq("order_id",processing.id)
@@ -114,9 +133,17 @@ Deno.serve(async(req:Request)=>{
         processing=activeOrders.find(x=>x.status==="processing");
       }
     }
-    if(processing)return json({error:"payment_in_progress",orderId:processing.id,provider},409);
+    if(processing)return json({error:"payment_in_progress",orderId:processing.id,provider:processing.provider},409);
 
-    let order=activeOrders.find(x=>x.status==="pending");
+    let pending=activeOrders.find(x=>x.status==="pending");
+    if(pending&&(pending.provider!==provider||pending.plan_code!==plan.code||Number(pending.amount_uzs)!==Number(plan.price_uzs))){
+      const {error:cancelError}=await admin.from("orders").update({status:"cancelled"}).eq("id",pending.id).eq("status","pending");
+      if(cancelError)throw cancelError;
+      activeOrders=await findActive();
+      pending=activeOrders.find(x=>x.status==="pending");
+    }
+
+    let order=pending;
     let reused=Boolean(order);
     if(!order){
       const {data:created,error:orderError}=await admin.from("orders").insert({
@@ -130,9 +157,10 @@ Deno.serve(async(req:Request)=>{
       if(orderError?.code==="23505"){
         const raced=await findActive();
         const racedProcessing=raced.find(x=>x.status==="processing");
-        if(racedProcessing)return json({error:"payment_in_progress",orderId:racedProcessing.id,provider},409);
-        order=raced.find(x=>x.status==="pending");
-        if(!order)throw orderError;
+        if(racedProcessing)return json({error:"payment_in_progress",orderId:racedProcessing.id,provider:racedProcessing.provider},409);
+        const racedPending=raced.find(x=>x.status==="pending");
+        if(!racedPending||racedPending.provider!==provider||racedPending.plan_code!==plan.code)return json({error:"checkout_conflict"},409);
+        order=racedPending;
         reused=true;
       }else if(orderError){
         throw orderError;
@@ -142,7 +170,6 @@ Deno.serve(async(req:Request)=>{
       }
     }
 
-    if(Number(order.amount_uzs)!==Number(plan.price_uzs))return json({error:"order_amount_stale"},409);
     const checkoutUrl=makeCheckoutUrl(provider,order,site.edition,siteId);
     return json({order,checkoutUrl,reused});
   }catch(error){
