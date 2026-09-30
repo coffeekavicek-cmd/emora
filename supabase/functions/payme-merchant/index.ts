@@ -47,6 +47,33 @@ Deno.serve(async(req:Request)=>{
       return data;
     };
 
+    const revokePublicMediaAfterRefund=async(orderId:string)=>{
+      try{
+        const {data:order,error:orderError}=await admin.from("orders").select("id,site_id,owner_id,status").eq("id",orderId).maybeSingle();
+        if(orderError||!order?.site_id)return;
+        const {data:otherPaid,error:paidError}=await admin.from("orders").select("id").eq("site_id",order.site_id).eq("status","paid").neq("id",order.id).limit(1);
+        if(paidError)throw paidError;
+        if((otherPaid||[]).length)return;
+
+        await admin.from("sites").update({status:"draft",published_at:null}).eq("id",order.site_id).eq("status","published");
+        const {data:rows,error:mediaError}=await admin.from("site_media").select("id,kind,bucket_id,object_path").eq("site_id",order.site_id).eq("bucket_id","emora-published");
+        if(mediaError)throw mediaError;
+
+        for(const row of rows||[]){
+          const {data:blob,error:downloadError}=await admin.storage.from("emora-published").download(row.object_path);
+          if(downloadError||!blob){console.warn("refund_media_download_failed",row.id,downloadError?.message);continue}
+          const {error:uploadError}=await admin.storage.from("emora-drafts").upload(row.object_path,blob,{contentType:blob.type||undefined,cacheControl:"3600",upsert:true});
+          if(uploadError){console.warn("refund_media_restore_failed",row.id,uploadError.message);continue}
+          const {error:updateError}=await admin.from("site_media").update({bucket_id:"emora-drafts"}).eq("id",row.id).eq("bucket_id","emora-published");
+          if(updateError){console.warn("refund_media_db_failed",row.id,updateError.message);continue}
+          const {error:removeError}=await admin.storage.from("emora-published").remove([row.object_path]);
+          if(removeError)console.warn("refund_public_remove_failed",row.id,removeError.message);
+        }
+      }catch(error){
+        console.warn("refund_publication_cleanup_failed",error);
+      }
+    };
+
     const expireIfTimedOut=async(payment:any)=>{
       if(!payment||payment.state!=="processing")return payment;
       const createdAt=Number(payment.provider_created_at_ms)||toMs(payment.created_at);
@@ -153,7 +180,9 @@ Deno.serve(async(req:Request)=>{
         if(current&&(current.state==="cancelled"||current.state==="refunded"))return rpcResult(id,{transaction:String(current.id),cancel_time:current.provider_cancelled_at_ms||toMs(current.updated_at),state:paymeState(current)});
         return rpcError(id,-31008,msg("Невозможно выполнить операцию","Operatsiyani bajarib bo‘lmaydi","Operation cannot be performed"));
       }
-      await admin.from("orders").update({status:orderState}).eq("id",cancelled.order_id);
+      const {error:orderUpdateError}=await admin.from("orders").update({status:orderState}).eq("id",cancelled.order_id);
+      if(orderUpdateError)throw orderUpdateError;
+      if(wasPerformed)await revokePublicMediaAfterRefund(String(cancelled.order_id));
       return rpcResult(id,{transaction:String(cancelled.id),cancel_time:now,state:wasPerformed?-2:-1});
     }
 
