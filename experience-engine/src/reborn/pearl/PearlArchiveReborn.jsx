@@ -3,6 +3,7 @@ import { readUrlContent } from '../../system/contentModel.js';
 import { ExperienceSoundscape, ExperienceVideo, useExperienceMedia } from '../media/ExperienceMedia.jsx';
 import { PearlArchiveExperience } from './PearlArchiveExperience.jsx';
 import './pearlArchiveMedia.css';
+import './pearlFlagshipPolish.css';
 
 export function PearlArchiveReborn({content:contentProp=null,media={},embedded=false}){
   const content=useMemo(()=>contentProp||readUrlContent('love-pearl'),[contentProp]);
