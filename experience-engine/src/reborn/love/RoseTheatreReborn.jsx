@@ -2,6 +2,7 @@ import { useMemo, useRef, useState } from 'react';
 import { readUrlContent } from '../../system/contentModel.js';
 import { ExperienceSoundscape, ExperienceVideo, useExperienceMedia } from '../media/ExperienceMedia.jsx';
 import './roseTheatreReborn.css';
+import './roseTheatreV2.css';
 
 const FALLBACKS=['https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?auto=format&fit=crop&w=1200&q=80','https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80','https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=1200&q=80'];
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
