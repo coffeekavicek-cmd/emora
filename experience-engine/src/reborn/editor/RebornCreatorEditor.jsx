@@ -2,7 +2,7 @@ import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { TEMPLATE_BY_ID } from '../../system/templateManifest.js';
 import { readUrlContent } from '../../system/contentModel.js';
 import { supabaseConfigured } from '../../system/supabaseClient.js';
-import { getCloudSession, loadDraft, loadPlans, listOrders, onCloudAuthChange, saveDraft, saveDraftMedia, sendMagicLink, signOutCloud } from '../../system/projectPersistence.js';
+import { beginCheckout, getCloudSession, loadDraft, loadPlans, listOrders, onCloudAuthChange, publishPaidSite, saveDraft, saveDraftMedia, sendMagicLink, signOutCloud } from '../../system/projectPersistence.js';
 import { MUSIC_PRESETS } from '../media/ExperienceMedia.jsx';
 import { FLAGSHIP_SET } from '../flagships.js';
 import './rebornCreatorEditor.css';
@@ -44,6 +44,8 @@ export function RebornCreatorEditor({templateId='love-pearl'}){
   const [plans,setPlans]=useState([]);
   const [orders,setOrders]=useState([]);
   const [planCode,setPlanCode]=useState('starter');
+  const [checkoutBusy,setCheckoutBusy]=useState(false);
+  const [publishedUrl,setPublishedUrl]=useState(null);
 
   const set=(key,value)=>setContent(p=>({...p,[key]:value}));
   const setArray=(key,index,value)=>setContent(p=>({...p,[key]:(p[key]||[]).map((v,i)=>i===index?value:v)}));
@@ -62,24 +64,19 @@ export function RebornCreatorEditor({templateId='love-pearl'}){
 
   useEffect(()=>{
     if(!session||!siteId||!supabaseConfigured)return;
-    let alive=true;
-    setCloudNote('Draft yuklanmoqda…');
+    let alive=true;setCloudNote('Draft yuklanmoqda…');
     Promise.all([loadDraft(siteId),listOrders(siteId)]).then(([draft,orderRows])=>{
       if(!alive)return;
       if(draft.site.edition!==activeTemplateId){setCloudNote('Bu draft boshqa flagship uchun yaratilgan');return}
       setContent(p=>({...p,...draft.site.content,templateId:activeTemplateId,musicVolume:p.musicVolume??.55}));
-      setMedia(draft.media);
-      setSiteSlug(draft.site.slug);
-      setOrders(orderRows);
-      setSavedAt(draft.site.updated_at);
-      setCloudNote('Draft cloud’dan yuklandi');
+      setMedia(draft.media);setSiteSlug(draft.site.slug);setOrders(orderRows);setSavedAt(draft.site.updated_at);
+      if(draft.site.status==='published')setPublishedUrl(`${location.origin}${location.pathname}?site=${encodeURIComponent(draft.site.slug)}`);
+      setCloudNote(new URLSearchParams(location.search).get('checkout')==='return'?'Payment status yangilandi':'Draft cloud’dan yuklandi');
     }).catch(e=>alive&&setCloudNote(e.message));
     return()=>{alive=false};
   },[session,siteId,activeTemplateId]);
 
-  const login=async()=>{
-    try{const sent=await sendMagicLink(email);setCloudNote(`${sent} ga kirish linki yuborildi`)}catch(e){setCloudNote(e.message)}
-  };
+  const login=async()=>{try{const sent=await sendMagicLink(email);setCloudNote(`${sent} ga kirish linki yuborildi`)}catch(e){setCloudNote(e.message)}};
   const logout=async()=>{try{await signOutCloud();setSession(null);setCloudNote('Accountdan chiqildi')}catch(e){setCloudNote(e.message)}};
   const save=async()=>{
     if(!session){setCloudNote('Saqlash uchun avval email bilan kiring');return}
@@ -89,9 +86,20 @@ export function RebornCreatorEditor({templateId='love-pearl'}){
       const nextMedia=await saveDraftMedia({siteId:row.id,media});
       setSiteId(row.id);setSiteSlug(row.slug);setSavedAt(row.updated_at);setMedia(nextMedia);
       const q=new URLSearchParams(location.search);q.set('site',row.id);history.replaceState(null,'',location.pathname+'?'+q.toString());
-      const orderRows=await listOrders(row.id);setOrders(orderRows);
-      setCloudNote('Draft va media real cloud’da saqlandi ✓');
+      setOrders(await listOrders(row.id));setCloudNote('Draft va media real cloud’da saqlandi ✓');
     }catch(e){setCloudNote(e.message)}finally{setSaving(false)}
+  };
+  const checkout=async provider=>{
+    if(!session){setCloudNote('To‘lov uchun avval email bilan kiring');return}
+    if(!siteId){setCloudNote('To‘lovdan oldin draftni saqlang');return}
+    if(!mediaReady){setCloudNote('To‘lovdan oldin rasm + video + musiqa tayyor bo‘lsin');return}
+    setCheckoutBusy(true);setCloudNote(`${provider.toUpperCase()} checkout tayyorlanmoqda…`);
+    try{const data=await beginCheckout({siteId,planCode,provider});location.assign(data.checkoutUrl)}catch(e){setCloudNote(e.message);setCheckoutBusy(false)}
+  };
+  const publish=async()=>{
+    if(!siteId||!paidOrder)return;
+    setCheckoutBusy(true);setCloudNote('Media public storage’ga ko‘chirilmoqda…');
+    try{const data=await publishPaidSite(siteId);setPublishedUrl(data.url);setCloudNote('Published ✓ unique link tayyor');setOrders(await listOrders(siteId))}catch(e){setCloudNote(e.message)}finally{setCheckoutBusy(false)}
   };
 
   return <main className={'reborn-editor tab-'+tab}>
@@ -111,21 +119,23 @@ export function RebornCreatorEditor({templateId='love-pearl'}){
         {template.category==='wedding'&&<section><h3>Event</h3><label><span>Sana / vaqt</span><input type="datetime-local" value={content.eventDate||''} onChange={e=>set('eventDate',e.target.value)}/></label><label><span>Joy nomi</span><input value={content.venueName||''} onChange={e=>set('venueName',e.target.value)}/></label><label><span>Manzil</span><input value={content.venueAddress||''} onChange={e=>set('venueAddress',e.target.value)}/></label></section>}
         <section className="re-media"><h3>Media · required</h3>
           <label><span>Musiqa preset</span><select value={content.musicPreset} onChange={e=>set('musicPreset',e.target.value)}>{MUSIC_PRESETS.map(x=><option key={x}>{x}</option>)}</select></label>
-          <label className="file"><span>Custom musiqa</span><input type="file" accept="audio/*" onChange={e=>setMedia(p=>({...p,music:e.target.files?.[0]||null}))}/><em>{media.music?.name||'preset ishlaydi · MP3/M4A optional'}</em></label>
+          <label className="file"><span>Custom musiqa</span><input type="file" accept="audio/*" onChange={e=>setMedia(p=>({...p,music:e.target.files?.[0]||null}))}/><em>{typeof media.music==='string'?'cloud music ✓':media.music?.name||'preset ishlaydi · MP3/M4A optional'}</em></label>
           <label><span>Music start (sec)</span><input type="number" min="0" value={content.musicStart||0} onChange={e=>set('musicStart',Number(e.target.value)||0)}/></label>
           <label><span>Music volume</span><input type="range" min="0" max="1" step="0.05" value={content.musicVolume??.55} onChange={e=>set('musicVolume',Number(e.target.value))}/><em>{Math.round((content.musicVolume??.55)*100)}%</em></label>
           <label className="file"><span>Rasmlar</span><input type="file" accept="image/*" multiple onChange={e=>setMedia(p=>({...p,photos:Array.from(e.target.files||[]).slice(0,10)}))}/><em>{media.photos.length}/10 · kamida 3 tavsiya</em></label>
-          <label className="file"><span>Asosiy video</span><input type="file" accept="video/*" onChange={e=>setMedia(p=>({...p,video:e.target.files?.[0]||null}))}/><em>{media.video?.name||'MP4 / MOV · 1 video'}</em></label>
-          <label className="file"><span>Final portret</span><input type="file" accept="image/*" onChange={e=>setMedia(p=>({...p,portrait:e.target.files?.[0]||null}))}/><em>{media.portrait?.name||'optional'}</em></label>
+          <label className="file"><span>Asosiy video</span><input type="file" accept="video/*" onChange={e=>setMedia(p=>({...p,video:e.target.files?.[0]||null}))}/><em>{typeof media.video==='string'?'cloud video ✓':media.video?.name||'MP4 / MOV · 1 video'}</em></label>
+          <label className="file"><span>Final portret</span><input type="file" accept="image/*" onChange={e=>setMedia(p=>({...p,portrait:e.target.files?.[0]||null}))}/><em>{typeof media.portrait==='string'?'cloud portrait ✓':media.portrait?.name||'optional'}</em></label>
           <div className={'re-media-check '+(mediaReady?'ready':'')}><span>Musiqa {media.music||content.musicPreset?'✓':'—'}</span><span>Rasm {media.photos.length?'✓':'—'}</span><span>Video {media.video?'✓':'—'}</span><b>{mediaReady?'MEDIA READY':'MEDIA TO‘LDIRING'}</b></div>
         </section>
         <section><h3>Captions</h3>{(content.captions||[]).slice(0,3).map((x,i)=><label key={i}><span>{i+1}-caption</span><input value={x||''} onChange={e=>setArray('captions',i,e.target.value)}/></label>)}</section>
 
         <section className="re-checkout"><h3>Checkout</h3>
-          <p>{paidOrder?'To‘lov tasdiqlangan. Publish gate ochiq.':siteId?'Draft tayyor. Real payment order backend orqali yaratiladi.':'Avval draftni saqlang.'}</p>
+          <p>{paidOrder?'To‘lov tasdiqlangan. Publish gate ochiq.':siteId?'Draft tayyor. Provider order serverda yaratiladi.':'Avval draftni saqlang.'}</p>
           <label><span>Tarif</span><select value={planCode} onChange={e=>setPlanCode(e.target.value)}>{plans.length?plans.map(x=><option value={x.code} key={x.code}>{x.name} · {money(x.price_uzs)}</option>):<><option value="starter">Template · 49 990 UZS</option><option value="plus">Template + AI · 69 990 UZS</option><option value="custom">Custom AI · 199 990 UZS</option></>}</select></label>
-          <div className="re-pay-providers"><button type="button" disabled>CLICK</button><button type="button" disabled>PAYME</button></div>
-          <small>{paidOrder?`PAID · ${money(paidOrder.amount_uzs)}`:'Merchant credentials ulanmaguncha payment tugmalari aktiv bo‘lmaydi — fake success yo‘q.'}</small>
+          {!paidOrder&&<div className="re-pay-providers"><button type="button" disabled={!siteId||!session||!mediaReady||checkoutBusy} onClick={()=>checkout('click')}>CLICK</button><button type="button" disabled={!siteId||!session||!mediaReady||checkoutBusy} onClick={()=>checkout('payme')}>PAYME</button></div>}
+          {paidOrder&&<button type="button" className="re-publish" disabled={checkoutBusy} onClick={publish}>{checkoutBusy?'Publishing…':'Publish paid site'}</button>}
+          {publishedUrl&&<a className="re-live-link" href={publishedUrl} target="_blank" rel="noreferrer">OPEN UNIQUE LINK ↗</a>}
+          <small>{paidOrder?`PAID · ${money(paidOrder.amount_uzs)} · ${paidOrder.provider?.toUpperCase()}`:'Merchant credential bo‘lmasa server payment URL bermaydi — fake success yo‘q.'}</small>
         </section>
       </div>
     </aside>
