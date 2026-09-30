@@ -16,6 +16,40 @@ function categoryFor(templateId='love-pearl'){
   return 'love';
 }
 
+const ERROR_COPY={
+  unauthorized:'Sessiya tugagan. Email orqali qayta kiring.',
+  forbidden:'Bu loyihaga kirish huquqi yo‘q.',
+  site_not_found:'Loyiha topilmadi.',
+  plan_not_found:'Tarif topilmadi yoki vaqtincha o‘chirilgan.',
+  already_published:'Bu loyiha allaqachon publish qilingan.',
+  already_paid:'Bu loyiha uchun to‘lov allaqachon tasdiqlangan.',
+  payment_in_progress:'To‘lov jarayoni allaqachon boshlangan. Avval shu tranzaksiyani yakunlang.',
+  checkout_conflict:'Checkout holati o‘zgardi. Loyihani qayta ochib urinib ko‘ring.',
+  order_amount_stale:'Tarif narxi yangilangan. Checkout’ni qaytadan boshlang.',
+  invalid_site_state:'Loyiha holati hozir checkout uchun mos emas.',
+  payment_required:'Publish uchun tasdiqlangan to‘lov kerak.',
+  publish_conflict:'Publish bir vaqtda boshqa so‘rov bilan yakunlangan. Sahifani qayta oching.',
+  invalid_media_bucket:'Media holati noto‘g‘ri. Draftni qayta saqlab ko‘ring.',
+  internal_error:'Serverda xatolik yuz berdi. Qayta urinib ko‘ring.',
+};
+
+async function functionErrorMessage(error,{provider=null,fallback='Server xatosi'}={}){
+  let payload=null;
+  try{
+    const response=error?.context;
+    if(response?.clone)payload=await response.clone().json();
+    else if(response?.json)payload=await response.json();
+  }catch{}
+  const code=payload?.error;
+  if(code==='merchant_not_configured')return `${String(provider||payload?.provider||'payment').toUpperCase()} merchant credentiallari hali ulanmagan.`;
+  if(code==='media_incomplete'){
+    const label={photo:'rasm',video:'video',music:'musiqa'};
+    const missing=(payload?.missing||[]).map(x=>label[x]||x).join(', ');
+    return `Davom etish uchun media yetishmayapti${missing?`: ${missing}`:''}.`;
+  }
+  return ERROR_COPY[code]||error?.message||fallback;
+}
+
 export async function getCloudSession(){
   const client=requireSupabase();
   const {data,error}=await client.auth.getSession();
@@ -139,11 +173,7 @@ export async function beginCheckout({siteId,planCode,provider}){
   if(!siteId)throw new Error('Avval draftni saqlang.');
   if(!['click','payme'].includes(provider))throw new Error('Payment provider noto‘g‘ri.');
   const {data,error}=await client.functions.invoke('checkout-create',{body:{siteId,planCode,provider}});
-  if(error){
-    let message=error.message||'Checkout xatosi';
-    try{const body=await error.context?.json?.();if(body?.error==='merchant_not_configured')message=`${provider.toUpperCase()} merchant credentiallari hali ulanmagan`;else if(body?.error)message=body.error}catch{}
-    throw new Error(message);
-  }
+  if(error)throw new Error(await functionErrorMessage(error,{provider,fallback:'Checkout xatosi'}));
   if(!data?.checkoutUrl)throw new Error('Payment URL olinmadi.');
   return data;
 }
@@ -151,10 +181,6 @@ export async function beginCheckout({siteId,planCode,provider}){
 export async function publishPaidSite(siteId){
   const client=requireSupabase();await ensureSession();
   const {data,error}=await client.functions.invoke('publish-site',{body:{siteId}});
-  if(error){
-    let message=error.message||'Publish xatosi';
-    try{const body=await error.context?.json?.();if(body?.error==='payment_required')message='Publish uchun tasdiqlangan to‘lov kerak';else if(body?.error)message=body.error}catch{}
-    throw new Error(message);
-  }
+  if(error)throw new Error(await functionErrorMessage(error,{fallback:'Publish xatosi'}));
   return data;
 }
