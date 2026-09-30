@@ -6,23 +6,23 @@ import './styles.css';
 import './rituals/rituals.css';
 
 const PearlArchiveExperience=lazy(()=>import('./reborn/pearl/PearlArchiveExperience.jsx').then(m=>({default:m.PearlArchiveExperience})));
+const MemoryReelReborn=lazy(()=>import('./reborn/memory/MemoryReelReborn.jsx').then(m=>({default:m.MemoryReelReborn})));
+const InkRegretReborn=lazy(()=>import('./reborn/ink/InkRegretReborn.jsx').then(m=>({default:m.InkRegretReborn})));
+const SilkHeritageReborn=lazy(()=>import('./reborn/silk/SilkHeritageReborn.jsx').then(m=>({default:m.SilkHeritageReborn})));
 const GalaxyExperience=lazy(()=>import('./galaxy/GalaxyExperience.jsx').then(m=>({default:m.GalaxyExperience})));
 const PearlPromiseExperience=lazy(()=>import('./proposal/PearlPromiseExperience.jsx').then(m=>({default:m.PearlPromiseExperience})));
 const CinemaProposalExperience=lazy(()=>import('./proposal/CinemaProposalExperience.jsx').then(m=>({default:m.CinemaProposalExperience})));
 const SkyPromiseExperience=lazy(()=>import('./proposal/SkyPromiseExperience.jsx').then(m=>({default:m.SkyPromiseExperience})));
-const SilkHeritageExperience=lazy(()=>import('./wedding/SilkHeritageExperience.jsx').then(m=>({default:m.SilkHeritageExperience})));
-const MemoryReelExperience=lazy(()=>import('./birthday/MemoryReelExperience.jsx').then(m=>({default:m.MemoryReelExperience})));
 const AuroraPaperExperience=lazy(()=>import('./birthday/AuroraPaperExperience.jsx').then(m=>({default:m.AuroraPaperExperience})));
 const BalloonDreamExperience=lazy(()=>import('./birthday/BalloonDreamExperience.jsx').then(m=>({default:m.BalloonDreamExperience})));
 const QuietRoomExperience=lazy(()=>import('./apology/QuietRoomExperience.jsx').then(m=>({default:m.QuietRoomExperience})));
 const AfterRainExperience=lazy(()=>import('./apology/AfterRainExperience.jsx').then(m=>({default:m.AfterRainExperience})));
-const InkRegretExperience=lazy(()=>import('./apology/InkRegretExperience.jsx').then(m=>({default:m.InkRegretExperience})));
 const RoseTheatreExperience=lazy(()=>import('./love/RoseTheatreExperience.jsx').then(m=>({default:m.RoseTheatreExperience})));
 const NightGardenExperience=lazy(()=>import('./wedding/NightGardenExperience.jsx').then(m=>({default:m.NightGardenExperience})));
 const HeritageNaqshExperience=lazy(()=>import('./wedding/HeritageNaqshExperience.jsx').then(m=>({default:m.HeritageNaqshExperience})));
 const CinematicExperience=lazy(()=>import('./cinematic/CinematicExperience.jsx').then(m=>({default:m.CinematicExperience})));
 const ExperienceGallery=lazy(()=>import('./rituals/Gallery.jsx').then(m=>({default:m.ExperienceGallery})));
-const CreatorEditor=lazy(()=>import('./system/CreatorEditor.jsx').then(m=>({default:m.CreatorEditor})));
+const RebornCreatorEditor=lazy(()=>import('./reborn/editor/RebornCreatorEditor.jsx').then(m=>({default:m.RebornCreatorEditor})));
 
 function Loading(){
   return <div style={{position:'fixed',inset:0,display:'grid',placeItems:'center',background:'#0b0a0d',color:'#d8ccd2',font:'12px Inter,system-ui',letterSpacing:'.14em'}}>EMORA</div>;
@@ -37,20 +37,20 @@ function App(){
   },[slug]);
   if(params.get('mode')==='editor'){
     const templateId=TEMPLATE_BY_ID[slug]?slug:'love-pearl';
-    return <CreatorEditor templateId={templateId}/>;
+    return <RebornCreatorEditor templateId={templateId}/>;
   }
   if(slug==='gallery')return <ExperienceGallery/>;
   if(slug==='love-pearl')return <PearlArchiveExperience/>;
+  if(slug==='birthday-memory')return <MemoryReelReborn/>;
+  if(slug==='apology-ink')return <InkRegretReborn/>;
+  if(slug==='wedding-silk')return <SilkHeritageReborn/>;
   if(slug==='proposal-pearl')return <PearlPromiseExperience/>;
   if(slug==='proposal-cinema')return <CinemaProposalExperience/>;
   if(slug==='proposal-sky')return <SkyPromiseExperience/>;
-  if(slug==='wedding-silk')return <SilkHeritageExperience/>;
-  if(slug==='birthday-memory')return <MemoryReelExperience/>;
   if(slug==='birthday-aurora')return <AuroraPaperExperience/>;
   if(slug==='birthday-balloon')return <BalloonDreamExperience/>;
   if(slug==='apology-quiet')return <QuietRoomExperience/>;
   if(slug==='apology-rain')return <AfterRainExperience definition={EXPERIENCE_MAP[slug]}/>;
-  if(slug==='apology-ink')return <InkRegretExperience/>;
   if(slug==='love-rose')return <RoseTheatreExperience/>;
   if(slug==='wedding-garden')return <NightGardenExperience/>;
   if(slug==='wedding-naqsh')return <HeritageNaqshExperience/>;
