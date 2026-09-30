@@ -4,7 +4,7 @@ import { editorFieldsFor } from './editorContract.js';
 import { runtimePlan } from './runtimeContract.js';
 import { contentToSearchParams, splitPublishPayload } from './contentModel.js';
 import { ART_DIRECTION, QUALITY_CONTRACT } from './artDirectionManifest.js';
-import { CINEMATIC_SCENARIOS } from '../cinematic/cinematicScenarios.js';
+import { REBORN_SCENARIOS_V2 } from '../reborn/scenarios/rebornScenariosV2.js';
 
 const errors=[];
 const ids=new Set();
@@ -23,13 +23,9 @@ for(const t of TEMPLATE_MANIFEST){
   if(!ARCHETYPE_RULES[t.archetype])errors.push(`${t.id}: unknown archetype ${t.archetype}`);
   const rule=ARCHETYPE_RULES[t.archetype];
   if(rule){
-    if(!rule.preferredNavigation.includes(t.navigation)){
-      errors.push(`${t.id}: navigation ${t.navigation} conflicts with archetype ${t.archetype}`);
-    }
+    if(!rule.preferredNavigation.includes(t.navigation))errors.push(`${t.id}: navigation ${t.navigation} conflicts with archetype ${t.archetype}`);
     const n=t.gestures?.length||0;
-    if(n<rule.gestures.min||n>rule.gestures.max){
-      errors.push(`${t.id}: ${n} gestures outside ${rule.gestures.min}-${rule.gestures.max} budget`);
-    }
+    if(n<rule.gestures.min||n>rule.gestures.max)errors.push(`${t.id}: ${n} gestures outside ${rule.gestures.min}-${rule.gestures.max} budget`);
   }
 
   if(!t.signatureMoment||t.signatureMoment.length<24)errors.push(`${t.id}: signature moment is missing/too vague`);
@@ -49,26 +45,20 @@ for(const t of TEMPLATE_MANIFEST){
 
   const art=ART_DIRECTION[t.id];
   if(!art)errors.push(`${t.id}: missing art-direction contract`);
-  else{
-    for(const key of ['render','camera','material','hero','finale','signature3d','lighting','sound','silenceBeat','antiGeneric']){
-      if(!art[key])errors.push(`${t.id}: art-direction field ${key} is missing`);
-    }
+  else for(const key of ['render','camera','material','hero','finale','signature3d','lighting','sound','silenceBeat','antiGeneric']){
+    if(!art[key])errors.push(`${t.id}: art-direction field ${key} is missing`);
   }
 }
 
 const expected=15;
-const securityProbe={
-  templateId:'love-pearl',recipient:'Test',message:'Hello',language:'uz',guestGreeting:'Hi',
-  paragraphs:['a','b','c'],captions:['1','2','3'],final:'bye',wordLock:'secret-token',
-};
+const securityProbe={templateId:'love-pearl',recipient:'Test',message:'Hello',language:'uz',guestGreeting:'Hi',paragraphs:['a','b','c'],captions:['1','2','3'],final:'bye',wordLock:'secret-token'};
 const publicParams=contentToSearchParams(securityProbe).toString();
 if(publicParams.includes('secret-token'))errors.push('Sensitive word lock leaked into public URL');
 const split=splitPublishPayload(securityProbe);
 if(JSON.stringify(split.publicContent).includes('secret-token'))errors.push('Sensitive word lock leaked into public content');
 
-if(Object.keys(ART_DIRECTION).length!==expected){
-  errors.push(`Expected ${expected} art-direction entries, found ${Object.keys(ART_DIRECTION).length}`);
-}
+if(Object.keys(ART_DIRECTION).length!==expected)errors.push(`Expected ${expected} art-direction entries, found ${Object.keys(ART_DIRECTION).length}`);
+if(Object.keys(REBORN_SCENARIOS_V2).length!==expected)errors.push(`Expected ${expected} Reborn V2 scenarios, found ${Object.keys(REBORN_SCENARIOS_V2).length}`);
 if(QUALITY_CONTRACT.maxMeaningfulGestures!==3)errors.push('Quality contract gesture budget must stay at 3');
 if(QUALITY_CONTRACT.noDocumentScroll!==true)errors.push('Quality contract must forbid document scroll');
 if(QUALITY_CONTRACT.finalSceneMustTransformWorld!==true)errors.push('Quality contract must require world-transforming finales');
@@ -77,33 +67,37 @@ if(QUALITY_CONTRACT.deliberateSilenceBeforeFinale!==true)errors.push('Quality co
 if(QUALITY_CONTRACT.reducedMotionRequired!==true)errors.push('Quality contract must require reduced-motion support');
 
 for(const t of TEMPLATE_MANIFEST){
-  const scenario=CINEMATIC_SCENARIOS[t.id];
-  if(!scenario){errors.push(`${t.id}: missing cinematic scenario`);continue}
-  if(scenario.beats?.length!==8)errors.push(`${t.id}: masterpiece scenario must contain exactly 8 beats`);
-  const beatTypes=new Set((scenario.beats||[]).map(x=>x.type));
-  for(const required of ['opening','gesture','turn','finale','afterglow']){
-    if(!beatTypes.has(required))errors.push(`${t.id}: scenario missing ${required} beat`);
+  const scenario=REBORN_SCENARIOS_V2[t.id];
+  if(!scenario){errors.push(`${t.id}: missing Reborn V2 scenario`);continue}
+  for(const key of ['title','world','hook','mediaRole','secondary','finale']){
+    if(!scenario[key]||String(scenario[key]).length<12)errors.push(`${t.id}: Reborn V2 field ${key} is missing/too vague`);
   }
-  if(!scenario.secondary)errors.push(`${t.id}: missing secondary/signature interaction`);
-  if(!scenario.finale)errors.push(`${t.id}: missing scenario finale`);
+  if(!Array.isArray(scenario.engine)||scenario.engine.length<2)errors.push(`${t.id}: Reborn V2 needs at least two declared engines`);
+  if(scenario.beats?.length!==8)errors.push(`${t.id}: Reborn V2 scenario must contain exactly 8 beats`);
+  const beatTypes=new Set((scenario.beats||[]).map(x=>x.type));
+  for(const required of ['opening','gesture','turn','finale','afterglow'])if(!beatTypes.has(required))errors.push(`${t.id}: Reborn V2 scenario missing ${required} beat`);
+  const gestures=(scenario.beats||[]).filter(x=>x.type==='gesture');
+  if(gestures.length<1||gestures.length>3)errors.push(`${t.id}: Reborn V2 must use 1-3 meaningful gestures`);
+  for(const beat of gestures){
+    if(!beat.gesture)errors.push(`${t.id}/${beat.id}: gesture id missing`);
+    if(!beat.consequence||beat.consequence.length<12)errors.push(`${t.id}/${beat.id}: physical consequence missing/too vague`);
+  }
+  const turn=(scenario.beats||[]).find(x=>x.type==='turn');
+  if(!turn?.copy||turn.copy.length<24)errors.push(`${t.id}: false-ending/turn beat is too weak`);
+  const finale=(scenario.beats||[]).find(x=>x.type==='finale');
+  if(!finale?.copy||finale.copy.length<28)errors.push(`${t.id}: world-transforming finale is too weak`);
+  if(!/photo|video|media|uploaded|rasm|film|memory/i.test(scenario.mediaRole))errors.push(`${t.id}: mediaRole must explicitly integrate user media`);
 }
 
-if(TEMPLATE_MANIFEST.length!==expected){
-  errors.push(`Expected ${expected} templates, found ${TEMPLATE_MANIFEST.length}`);
-}
+if(TEMPLATE_MANIFEST.length!==expected)errors.push(`Expected ${expected} templates, found ${TEMPLATE_MANIFEST.length}`);
 
 if(errors.length){
-  console.error('\nEMORA System V1 validation FAILED\n');
+  console.error('\nEMORA Reborn V2 validation FAILED\n');
   for(const e of errors)console.error(' - '+e);
   process.exit(1);
 }
 
-const byArchetype=Object.groupBy
-  ? Object.groupBy(TEMPLATE_MANIFEST,x=>x.archetype)
-  : TEMPLATE_MANIFEST.reduce((a,x)=>((a[x.archetype]??=[]).push(x),a),{});
-
-console.log('EMORA System V1 validation OK');
+const byArchetype=Object.groupBy?Object.groupBy(TEMPLATE_MANIFEST,x=>x.archetype):TEMPLATE_MANIFEST.reduce((a,x)=>((a[x.archetype]??=[]).push(x),a),{});
+console.log('EMORA Reborn V2 validation OK');
 console.log('templates:',TEMPLATE_MANIFEST.length);
-for(const [key,value] of Object.entries(byArchetype)){
-  console.log(`  ${key}: ${value.length}`);
-}
+for(const [key,value] of Object.entries(byArchetype))console.log(`  ${key}: ${value.length}`);
