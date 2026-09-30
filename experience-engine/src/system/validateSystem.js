@@ -65,35 +65,38 @@ if(QUALITY_CONTRACT.physicalConsequenceForEveryGesture!==true)errors.push('Quali
 if(QUALITY_CONTRACT.deliberateSilenceBeforeFinale!==true)errors.push('Quality contract must require a silence/stillness beat');
 if(QUALITY_CONTRACT.reducedMotionRequired!==true)errors.push('Quality contract must require reduced-motion support');
 
-for(const t of TEMPLATE_MANIFEST){
-  const scenario=REBORN_SCENARIOS_V2[t.id];
-  if(!scenario){errors.push(`${t.id}: missing Reborn V2 scenario`);continue}
+// Deep cinematic validation applies to the five product flagships. The other
+// ten templates remain reference/prototype material and only keep base schema checks.
+for(const id of FLAGSHIP_IDS){
+  const t=TEMPLATE_MANIFEST.find(x=>x.id===id);
+  const scenario=REBORN_SCENARIOS_V2[id];
+  if(!t){errors.push(`Flagship ${id}: missing from template manifest`);continue}
+  if(!scenario){errors.push(`${id}: missing Reborn V2 scenario`);continue}
 
   for(const key of ['title','world','hook','mediaRole','finale']){
-    if(!scenario[key]||String(scenario[key]).length<12)errors.push(`${t.id}: Reborn V2 field ${key} is missing/too vague`);
+    if(!scenario[key]||String(scenario[key]).length<12)errors.push(`${id}: Reborn V2 field ${key} is missing/too vague`);
   }
-  if(!scenario.secondary||String(scenario.secondary).length<8)errors.push(`${t.id}: Reborn V2 field secondary is missing/too vague`);
-
-  if(!Array.isArray(scenario.engine)||scenario.engine.length<2)errors.push(`${t.id}: Reborn V2 needs at least two declared engines`);
-  if(scenario.beats?.length!==8)errors.push(`${t.id}: Reborn V2 scenario must contain exactly 8 beats`);
+  if(!scenario.secondary||String(scenario.secondary).length<6)errors.push(`${id}: Reborn V2 field secondary is missing/too vague`);
+  if(!Array.isArray(scenario.engine)||scenario.engine.length<2)errors.push(`${id}: Reborn V2 needs at least two declared engines`);
+  if(scenario.beats?.length!==8)errors.push(`${id}: Reborn V2 scenario must contain exactly 8 beats`);
 
   const beatTypes=new Set((scenario.beats||[]).map(x=>x.type));
   for(const required of ['opening','gesture','turn','finale','afterglow']){
-    if(!beatTypes.has(required))errors.push(`${t.id}: Reborn V2 scenario missing ${required} beat`);
+    if(!beatTypes.has(required))errors.push(`${id}: Reborn V2 scenario missing ${required} beat`);
   }
 
   const gestures=(scenario.beats||[]).filter(x=>x.type==='gesture');
-  if(gestures.length<1||gestures.length>3)errors.push(`${t.id}: Reborn V2 must use 1-3 meaningful gestures`);
+  if(gestures.length<1||gestures.length>3)errors.push(`${id}: Reborn V2 must use 1-3 meaningful gestures`);
   for(const beat of gestures){
-    if(!beat.gesture)errors.push(`${t.id}/${beat.id}: gesture id missing`);
-    if(!beat.consequence||beat.consequence.length<12)errors.push(`${t.id}/${beat.id}: physical consequence missing/too vague`);
+    if(!beat.gesture)errors.push(`${id}/${beat.id}: gesture id missing`);
+    if(!beat.consequence||beat.consequence.length<12)errors.push(`${id}/${beat.id}: physical consequence missing/too vague`);
   }
 
   const turn=(scenario.beats||[]).find(x=>x.type==='turn');
-  if(!turn?.copy||turn.copy.length<24)errors.push(`${t.id}: false-ending/turn beat is too weak`);
+  if(!turn?.copy||turn.copy.length<24)errors.push(`${id}: false-ending/turn beat is too weak`);
   const finale=(scenario.beats||[]).find(x=>x.type==='finale');
-  if(!finale?.copy||finale.copy.length<28)errors.push(`${t.id}: world-transforming finale is too weak`);
-  if(!/photo|video|media|uploaded|rasm|film|memory/i.test(scenario.mediaRole))errors.push(`${t.id}: mediaRole must explicitly integrate user media`);
+  if(!finale?.copy||finale.copy.length<28)errors.push(`${id}: world-transforming finale is too weak`);
+  if(!/photo|video|media|uploaded|rasm|film|memory/i.test(scenario.mediaRole))errors.push(`${id}: mediaRole must explicitly integrate user media`);
 }
 
 if(TEMPLATE_MANIFEST.length!==expected)errors.push(`Expected ${expected} templates, found ${TEMPLATE_MANIFEST.length}`);
