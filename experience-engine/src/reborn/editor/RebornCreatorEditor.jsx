@@ -9,11 +9,13 @@ const PearlArchiveReborn=lazy(()=>import('../pearl/PearlArchiveReborn.jsx').then
 const MemoryReelReborn=lazy(()=>import('../memory/MemoryReelReborn.jsx').then(m=>({default:m.MemoryReelReborn})));
 const InkRegretReborn=lazy(()=>import('../ink/InkRegretReborn.jsx').then(m=>({default:m.InkRegretReborn})));
 const SilkHeritageReborn=lazy(()=>import('../silk/SilkHeritageReborn.jsx').then(m=>({default:m.SilkHeritageReborn})));
+const GalaxyConfessionReborn=lazy(()=>import('../galaxy/GalaxyConfessionReborn.jsx').then(m=>({default:m.GalaxyConfessionReborn})));
 
-const REBORN_IDS=new Set(['love-pearl','birthday-memory','apology-ink','wedding-silk']);
+const REBORN_IDS=new Set(['love-pearl','love-galaxy','birthday-memory','apology-ink','wedding-silk']);
 
 function Preview({templateId,content,media}){
   if(templateId==='love-pearl')return <PearlArchiveReborn content={content} media={media} embedded/>;
+  if(templateId==='love-galaxy')return <GalaxyConfessionReborn content={content} media={media} embedded/>;
   if(templateId==='birthday-memory')return <MemoryReelReborn content={content} media={media} embedded/>;
   if(templateId==='apology-ink')return <InkRegretReborn content={content} media={media} embedded/>;
   if(templateId==='wedding-silk')return <SilkHeritageReborn content={content} media={media} embedded/>;
@@ -25,14 +27,14 @@ export function RebornCreatorEditor({templateId='love-pearl'}){
   const template=TEMPLATE_BY_ID[templateId];
   const base=useMemo(()=>readUrlContent(templateId),[templateId]);
   const [content,setContent]=useState(()=>({...base,musicPreset:base.musicPreset||({
-    'love-pearl':'Nocturne','birthday-memory':'Cinema','apology-ink':'Nocturne','wedding-silk':'Heritage'
+    'love-pearl':'Nocturne','love-galaxy':'Dream','birthday-memory':'Cinema','apology-ink':'Nocturne','wedding-silk':'Heritage'
   }[templateId]||'Dream'),musicVolume:base.musicVolume??.55}));
   const [media,setMedia]=useState({photos:[],portrait:null,music:null,video:null});
   const [tab,setTab]=useState('edit');
   const set=(key,value)=>setContent(p=>({...p,[key]:value}));
   const setArray=(key,index,value)=>setContent(p=>({...p,[key]:(p[key]||[]).map((v,i)=>i===index?value:v)}));
   const previewName={
-    'love-pearl':'Pearl Archive','birthday-memory':'Memory Reel','apology-ink':'Ink Regret','wedding-silk':'Silk Heritage'
+    'love-pearl':'Pearl Archive','love-galaxy':'Galaxy Confession','birthday-memory':'Memory Reel','apology-ink':'Ink Regret','wedding-silk':'Silk Heritage'
   }[templateId];
   const mediaReady=Boolean(media.music||content.musicPreset)&&media.photos.length>0&&Boolean(media.video);
 
