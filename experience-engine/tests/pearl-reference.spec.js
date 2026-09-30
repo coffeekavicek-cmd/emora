@@ -7,11 +7,11 @@ test.describe('Pearl Linen · Reborn Archive',()=>{
     page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
 
     await page.goto('/?mode=editor&template=love-pearl');
-    await expect(page.locator('.creator-editor')).toBeVisible();
-    await page.locator('#field-recipient').fill('Malika');
+    await expect(page.locator('.reborn-editor')).toBeVisible();
+    await page.locator('.re-panel input').first().fill('Malika');
     await page.getByRole('button',{name:'Preview',exact:true}).click();
-    await expect(page.locator('.ce-phone-screen .pearl-reborn')).toBeVisible({timeout:10000});
-    await expect(page.locator('.ce-phone-screen .pearl-motion')).toHaveCount(0);
+    await expect(page.locator('.re-screen .pearl-reborn')).toBeVisible({timeout:10000});
+    await expect(page.locator('.re-screen .pearl-motion')).toHaveCount(0);
     expect(errors).toEqual([]);
   });
 
