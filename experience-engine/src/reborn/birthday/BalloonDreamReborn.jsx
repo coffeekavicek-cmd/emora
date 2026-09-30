@@ -3,6 +3,7 @@ import { readUrlContent } from '../../system/contentModel.js';
 import { ExperienceSoundscape, ExperienceVideo, useExperienceMedia } from '../media/ExperienceMedia.jsx';
 import './balloonDreamReborn.css';
 import './balloonPhysics.css';
+import './balloonFlagshipPolish.css';
 
 const FALLBACKS=['https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80','https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80','https://images.unsplash.com/photo-1490730141103-6cac27aaab94?auto=format&fit=crop&w=1200&q=80'];
 function pulse(strong=false){try{navigator.vibrate?.(strong?[10,20,16]:[5])}catch{}}
