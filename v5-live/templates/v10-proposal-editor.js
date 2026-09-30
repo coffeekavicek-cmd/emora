@@ -1,6 +1,6 @@
 /* EMORA Creator Studio · proposal flagship field adapter.
-   Pearl reuses three persisted text slots as reasons. Cinema keeps the base schema
-   but gives the shared fields film-specific meaning. No database migration needed. */
+   Pearl reuses three persisted text slots as reasons. Cinema and Sky keep the base
+   schema but give shared fields flagship-specific meaning. No database migration. */
 const $=s=>document.querySelector(s);
 const type=$('#type'),storyExtras=$('#storyExtras'),apology=$('#apologyExtra'),wedding=$('#weddingExtra'),previewLabel=$('#previewLabel');
 const mistake=$('#mistake'),repair=$('#repair'),venue=$('#venue'),letter=$('#letter'),finalQuestion=$('#finalQuestion'),dateField=$('#dateField');
@@ -10,9 +10,11 @@ if(type&&storyExtras&&apology&&wedding&&mistake&&repair&&venue&&letter&&finalQue
  const mistakeMarker=document.createComment('emora-mistake-home'),repairMarker=document.createComment('emora-repair-home'),venueMarker=document.createComment('emora-venue-home');
  mistakeField.before(mistakeMarker);repairField.before(repairMarker);venueField.before(venueMarker);
  const pearl=document.createElement('div');pearl.id='proposalPearlExtra';pearl.className='hidden';
- const pearlNote=document.createElement('div');pearlNote.className='lang-note';pearlNote.textContent='PEARL PROMISE · 3 ta sabab savoldan oldin alohida ochiladi. Umumiy “Maktub” maydoni bu shablonda sizning haqiqiy va’dangiz sifatida ishlaydi.';pearl.append(pearlNote);storyExtras.after(pearl);
+ const pearlNote=document.createElement('div');pearlNote.className='lang-note';pearlNote.textContent='PEARL PROMISE · 3 ta sabab savoldan oldin alohida ochiladi. “Maktub” maydoni bu shablonda haqiqiy va’da sifatida ishlaydi.';pearl.append(pearlNote);storyExtras.after(pearl);
  const cinema=document.createElement('div');cinema.id='proposalCinemaExtra';cinema.className='hidden';
- const cinemaNote=document.createElement('div');cinemaNote.className='lang-note';cinemaNote.textContent='CINEMA PROPOSAL · Film nomi, 3 ta sahna, personal trailer/video, voice-over matni va final savol bitta private-premiere ssenariysiga ulanadi.';cinema.append(cinemaNote);pearl.after(cinema);
+ const cinemaNote=document.createElement('div');cinemaNote.className='lang-note';cinemaNote.textContent='CINEMA PROPOSAL · Film nomi, 3 ta sahna, personal trailer/video, voice-over va final savol private-premiere ssenariysiga ulanadi.';cinema.append(cinemaNote);pearl.after(cinema);
+ const sky=document.createElement('div');sky.id='proposalSkyExtra';sky.className='hidden';
+ const skyNote=document.createElement('div');skyNote.className='lang-note';skyNote.textContent='SKY PROMISE · Osmon nomi, 3 ta kelajak orzusi, optional video, constellation va’da va final savol sunset-to-stars ritualiga ulanadi.';sky.append(skyNote);cinema.after(sky);
  const originals=new Map();
  const remember=(field,fallback)=>{if(!field)return;const label=field.closest('.field')?.querySelector('label');originals.set(field,{label:label?.textContent||fallback,placeholder:field.placeholder})};
  remember(mistake,'XATONI TAN OLISH');remember(repair,'AMALIY TUZATISH REJASI');remember(venue,'TO‘Y MANZILI');remember(letter,'MAKTUB / ASOSIY HIKOYA · UZ');remember(finalQuestion,'YAKUNIY SAVOL / TABRIK');remember(memoryTitle,'XOTIRALAR BO‘LIMI NOMI');captions.forEach((f,i)=>remember(f,(i+1)+'-XOTIRA MATNI'));remember(videoUrl,'VIDEO URL · IXTIYORIY');
@@ -23,7 +25,7 @@ if(type&&storyExtras&&apology&&wedding&&mistake&&repair&&venue&&letter&&finalQue
  function restoreExtras(){home(mistakeField,mistakeMarker);home(repairField,repairMarker);home(venueField,venueMarker);[mistake,repair,venue].forEach(resetField);pearl.classList.add('hidden')}
  function sync(){
   const value=type.value,proposal=value.startsWith('proposal-');
-  resetCommon();cinema.classList.add('hidden');
+  resetCommon();cinema.classList.add('hidden');sky.classList.add('hidden');
   if(dateField)dateField.classList.toggle('hidden',value.startsWith('apology-')||proposal);
   if(value==='proposal-pearl-promise'){
    pearl.classList.remove('hidden');pearl.append(mistakeField,repairField,venueField);
@@ -31,8 +33,7 @@ if(type&&storyExtras&&apology&&wedding&&mistake&&repair&&venue&&letter&&finalQue
    setField(repair,'NEGA SEN? · 2-SABAB','Masalan: Yonimda o‘zim bo‘la oladigan inson — sensan.');
    setField(venue,'NEGA SEN? · 3-SABAB','Masalan: Kelajagimni tasavvur qilganimda, unda doim sen borsan.');
    setField(letter,'MENING VA’DAM · UZ','Unga aytmoqchi bo‘lgan haqiqiy va’dangizni yozing...');
-   setField(finalQuestion,'ENG MUHIM SAVOL','Masalan: Dilnoza, menga turmushga chiqasanmi?');
-   return;
+   setField(finalQuestion,'ENG MUHIM SAVOL','Masalan: Dilnoza, menga turmushga chiqasanmi?');return;
   }
   restoreExtras();
   if(value==='proposal-cinema'){
@@ -41,7 +42,15 @@ if(type&&storyExtras&&apology&&wedding&&mistake&&repair&&venue&&letter&&finalQue
    setField(captions[0],'01-KADR NOMI','Masalan: Birinchi uchrashuv');setField(captions[1],'02-KADR NOMI','Masalan: Sevimli sahnam');setField(captions[2],'03-KADR NOMI','Masalan: Men tanlagan kelajak');
    setField(videoUrl,'PERSONAL TRAILER / VIDEO · IXTIYORIY','https://...mp4');
    setField(letter,'VOICE-OVER / SHAXSIY MONOLOG · UZ','Final sahnadan oldin aytiladigan eng shaxsiy gaplaringiz...');
-   setField(finalQuestion,'FINAL SCENE · ENG MUHIM SAVOL','Masalan: Dilnoza, menga turmushga chiqasanmi?');
+   setField(finalQuestion,'FINAL SCENE · ENG MUHIM SAVOL','Masalan: Dilnoza, menga turmushga chiqasanmi?');return;
+  }
+  if(value==='proposal-sky-promise'){
+   sky.classList.remove('hidden');
+   setField(memoryTitle,'OSMON / CONSTELLATION NOMI','Masalan: Bizning osmonimiz');
+   setField(captions[0],'01-KELAJAK ORZUSI','Masalan: Birga uyg‘onadigan oddiy tonglar.');setField(captions[1],'02-KELAJAK ORZUSI','Masalan: Birga ko‘radigan yangi shaharlar.');setField(captions[2],'03-KELAJAK ORZUSI','Masalan: Birga qarib boradigan sokin uy.');
+   setField(videoUrl,'SKY MEMORY / VIDEO · IXTIYORIY','https://...mp4');
+   setField(letter,'CONSTELLATION VA’DA · UZ','Birga qurmoqchi bo‘lgan hayotingiz haqidagi eng samimiy va’dani yozing...');
+   setField(finalQuestion,'OXIRGI YULDUZ · ENG MUHIM SAVOL','Masalan: Dilnoza, kelajagimizni birga quramizmi?');
   }
  }
  const schedule=()=>queueMicrotask(sync);
