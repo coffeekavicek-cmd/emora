@@ -1,7 +1,7 @@
-name: EMORA Experience Engine · 15 Ritual QA
+name: EMORA Reborn · 5 Flagship QA
 on:
   push:
-    branches: [emora-experience-engine-galaxy-v1, emora-experience-engine-all-15-v1, emora-pearl-linen-flagship-v1, emora-cinematic-scenarios-v3, emora-pearl-storyboard-motion-v1, emora-ideal-system-v1, emora-reference-pearl-v1, emora-pearl-deep-ritual-v2, emora-pearl-masterpiece-v3, emora-reborn-v1]
+    branches: [emora-reborn-v1]
     paths:
       - experience-engine/**
       - .github/workflows/experience-engine-qa.yml
@@ -9,7 +9,7 @@ on:
 permissions:
   contents: read
 jobs:
-  build:
+  flagship-build:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -32,16 +32,16 @@ jobs:
           test -f dist/index.html
           grep -q "assets/" dist/index.html
           test "$(find dist/assets -type f | wc -l)" -ge 2
-      - name: Install Chromium for browser QA
+      - name: Install Chromium for flagship browser QA
         working-directory: experience-engine
         run: npx playwright install --with-deps chromium
-      - name: Mobile browser interaction QA
+      - name: Five flagship mobile interaction QA
         working-directory: experience-engine
-        run: npm run test:browser
+        run: npx playwright test tests/pearl-reference.spec.js tests/silk-heritage.spec.js tests/balloon-dream.spec.js tests/after-rain.spec.js tests/proposal-pearl.spec.js
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: emora-experience-engine-qa
+          name: emora-five-flagship-qa
           path: |
             experience-engine/dist/
             experience-engine/playwright-report/
