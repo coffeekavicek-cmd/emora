@@ -5,7 +5,7 @@ import { EXPERIENCE_MAP, selectedSlug } from './rituals/registry.js';
 import './styles.css';
 import './rituals/rituals.css';
 
-const PearlArchiveExperience=lazy(()=>import('./reborn/pearl/PearlArchiveExperience.jsx').then(m=>({default:m.PearlArchiveExperience})));
+const PearlArchiveReborn=lazy(()=>import('./reborn/pearl/PearlArchiveReborn.jsx').then(m=>({default:m.PearlArchiveReborn})));
 const MemoryReelReborn=lazy(()=>import('./reborn/memory/MemoryReelReborn.jsx').then(m=>({default:m.MemoryReelReborn})));
 const InkRegretReborn=lazy(()=>import('./reborn/ink/InkRegretReborn.jsx').then(m=>({default:m.InkRegretReborn})));
 const SilkHeritageReborn=lazy(()=>import('./reborn/silk/SilkHeritageReborn.jsx').then(m=>({default:m.SilkHeritageReborn})));
@@ -40,7 +40,7 @@ function App(){
     return <RebornCreatorEditor templateId={templateId}/>;
   }
   if(slug==='gallery')return <ExperienceGallery/>;
-  if(slug==='love-pearl')return <PearlArchiveExperience/>;
+  if(slug==='love-pearl')return <PearlArchiveReborn/>;
   if(slug==='birthday-memory')return <MemoryReelReborn/>;
   if(slug==='apology-ink')return <InkRegretReborn/>;
   if(slug==='wedding-silk')return <SilkHeritageReborn/>;
