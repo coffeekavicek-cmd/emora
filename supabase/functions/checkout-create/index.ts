@@ -8,6 +8,7 @@ const cors={
 };
 const json=(body:unknown,status=200)=>new Response(JSON.stringify(body),{status,headers:{...cors,"Content-Type":"application/json"}});
 const appUrl=Deno.env.get("EMORA_PUBLIC_URL")||"https://emora-reborn-v1-production.up.railway.app";
+const PAYME_TIMEOUT_MS=43_200_000;
 
 type CheckoutOrder={id:string;site_id:string;plan_code:string;amount_uzs:number;currency:string;provider:string;status:string};
 
@@ -74,20 +75,48 @@ Deno.serve(async(req:Request)=>{
       if(!merchantId||!login||!key)return json({error:"merchant_not_configured",provider:"payme"},503);
     }
 
-    const {data:activeOrders,error:activeError}=await admin.from("orders")
-      .select("id,site_id,plan_code,amount_uzs,currency,provider,status")
-      .eq("owner_id",userData.user.id)
-      .eq("site_id",siteId)
-      .eq("plan_code",plan.code)
-      .eq("provider",provider)
-      .in("status",["pending","processing"])
-      .order("created_at",{ascending:false});
-    if(activeError)throw activeError;
+    const findActive=async()=>{
+      const {data,error}=await admin.from("orders")
+        .select("id,site_id,plan_code,amount_uzs,currency,provider,status")
+        .eq("owner_id",userData.user.id)
+        .eq("site_id",siteId)
+        .eq("plan_code",plan.code)
+        .eq("provider",provider)
+        .in("status",["pending","processing"])
+        .order("created_at",{ascending:false});
+      if(error)throw error;
+      return (data||[]) as CheckoutOrder[];
+    };
 
-    const processing=(activeOrders||[]).find((x:any)=>x.status==="processing");
+    let activeOrders=await findActive();
+    let processing=activeOrders.find(x=>x.status==="processing");
+    if(processing&&provider==="payme"){
+      const {data:payment,error:paymentError}=await admin.from("payments")
+        .select("id,provider_created_at_ms,state")
+        .eq("order_id",processing.id)
+        .eq("provider","payme")
+        .eq("state","processing")
+        .order("created_at",{ascending:false})
+        .limit(1)
+        .maybeSingle();
+      if(paymentError)throw paymentError;
+      if(payment?.provider_created_at_ms&&Date.now()-Number(payment.provider_created_at_ms)>=PAYME_TIMEOUT_MS){
+        const now=Date.now();
+        const {data:expired,error:expireError}=await admin.from("payments")
+          .update({state:"cancelled",provider_cancelled_at_ms:now,provider_reason:"4"})
+          .eq("id",payment.id)
+          .eq("state","processing")
+          .select("id")
+          .maybeSingle();
+        if(expireError)throw expireError;
+        if(expired)await admin.from("orders").update({status:"cancelled"}).eq("id",processing.id).eq("status","processing");
+        activeOrders=await findActive();
+        processing=activeOrders.find(x=>x.status==="processing");
+      }
+    }
     if(processing)return json({error:"payment_in_progress",orderId:processing.id,provider},409);
 
-    let order=(activeOrders||[]).find((x:any)=>x.status==="pending") as CheckoutOrder|undefined;
+    let order=activeOrders.find(x=>x.status==="pending");
     let reused=Boolean(order);
     if(!order){
       const {data:created,error:orderError}=await admin.from("orders").insert({
@@ -98,9 +127,19 @@ Deno.serve(async(req:Request)=>{
         provider,
         status:"pending",
       }).select("id,site_id,plan_code,amount_uzs,currency,provider,status").single();
-      if(orderError)throw orderError;
-      order=created as CheckoutOrder;
-      reused=false;
+      if(orderError?.code==="23505"){
+        const raced=await findActive();
+        const racedProcessing=raced.find(x=>x.status==="processing");
+        if(racedProcessing)return json({error:"payment_in_progress",orderId:racedProcessing.id,provider},409);
+        order=raced.find(x=>x.status==="pending");
+        if(!order)throw orderError;
+        reused=true;
+      }else if(orderError){
+        throw orderError;
+      }else{
+        order=created as CheckoutOrder;
+        reused=false;
+      }
     }
 
     if(Number(order.amount_uzs)!==Number(plan.price_uzs))return json({error:"order_amount_stale"},409);
