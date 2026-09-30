@@ -1,0 +1,165 @@
+/* EMORA V10 · Sky Promise flagship layer.
+   Sunset gate → dusk ritual → three future dreams → constellation promise → proposal. */
+const ROOT=document.getElementById('experience');
+const TEMPLATE=document.documentElement.dataset.template;
+if(TEMPLATE!=='proposal-sky'||!ROOT) throw new Error('Sky Promise layer loaded on the wrong template');
+
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const el=(tag,cls,text)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=String(text);return n};
+const clean=v=>typeof v==='string'?v.trim():'';
+const FALLBACK='/assets/proposal-sky.png';
+let pendingVideo=null;
+let custom={recipient:'',sender:'',skyTitle:'',dreams:[],promiseText:'',finalQuestion:''};
+
+function activeStage(){return $('#main > .v11-stage-active')?.id||''}
+function advanceSafe(expected){
+ const fire=()=>window.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowRight',code:'ArrowRight',bubbles:true,cancelable:true}));
+ fire();setTimeout(()=>{if(activeStage()===expected)fire()},reduced?80:950);
+}
+function twinkle(target,count=14){
+ if(reduced||!target)return;
+ const r=target.getBoundingClientRect(),wrap=el('span','sp-twinkles');
+ wrap.style.setProperty('--cx',(r.left+r.width/2)+'px');wrap.style.setProperty('--cy',(r.top+r.height/2)+'px');
+ for(let i=0;i<count;i++){
+  const p=el('i');const a=(Math.PI*2*i/count)+(Math.random()-.5)*.3,d=28+Math.random()*90;
+  p.style.setProperty('--x',Math.cos(a)*d+'px');p.style.setProperty('--y',Math.sin(a)*d+'px');p.style.setProperty('--delay',(Math.random()*.16)+'s');wrap.append(p);
+ }
+ document.body.append(wrap);setTimeout(()=>wrap.remove(),1200);
+}
+function makeStars(count=54,cls='sp-stars'){
+ const field=el('div',cls);field.setAttribute('aria-hidden','true');
+ for(let i=0;i<count;i++){
+  const s=el('i');s.style.setProperty('--x',(Math.random()*100).toFixed(2)+'%');s.style.setProperty('--y',(Math.random()*78).toFixed(2)+'%');s.style.setProperty('--d',(1.8+Math.random()*3.6).toFixed(2)+'s');s.style.setProperty('--delay',(Math.random()*4).toFixed(2)+'s');s.style.setProperty('--size',(1+Math.random()*2.4).toFixed(2)+'px');field.append(s);
+ }
+ return field;
+}
+function compatCover(copy){
+ const compat=el('div','sp-compat');compat.setAttribute('aria-hidden','true');
+ const t=el('span','');t.id='coverTitle';t.textContent=clean($('#introHeadline')?.textContent)||'Bir osmon ostida — abadiy.';
+ const n=el('span','v10-cover-name',clean($('#introName')?.textContent)||'SIZ UCHUN');
+ const d=el('span','v10-cover-desc','Quyosh botishidan yulduzlargacha — bu osmon faqat ikkimiz uchun.');
+ compat.append(t,n,d);copy.append(compat);
+}
+function updateCustom(){
+ $$('.sp-dream-text').forEach((node,i)=>{const v=clean(custom.dreams[i]);if(v)node.textContent=v});
+ const promise=$('.sp-promise-text');if(promise&&clean(custom.promiseText))promise.textContent=custom.promiseText;
+ const final=$('.sp-final-title');if(final&&clean(custom.finalQuestion))final.textContent=custom.finalQuestion;
+ const title=$('.sp-sky-name');if(title)title.textContent=clean(custom.skyTitle)||'Bizning osmonimiz';
+ const guest=$('.sp-sunset-name');if(guest)guest.textContent=clean(custom.recipient)||'SIZ UCHUN';
+ const by=$('.sp-sunset-by');if(by)by.textContent=clean(custom.sender)?'FROM '+custom.sender.toUpperCase():'EMORA SKY PROMISE';
+}
+
+function enhanceIntro(){
+ const intro=$('.v10-proposal-sky .v10-intro'),frame=intro&&$('.v10-visual-frame',intro);
+ if(!intro||!frame||intro.dataset.skyFlagship==='1')return;
+ intro.dataset.skyFlagship='1';
+ const sky=el('div','sp-intro-sky');sky.setAttribute('aria-hidden','true');sky.append(makeStars(36,'sp-intro-stars'),el('i','sp-intro-moon'),el('i','sp-intro-horizon'));
+ frame.append(sky);
+}
+
+function enhanceGate(){
+ const sec=$('.v10-proposal-sky #chapter-1'),inner=sec&&$('.v10-story-cover-inner',sec);
+ if(!sec||!inner||sec.dataset.skyFlagship==='1')return;
+ sec.dataset.skyFlagship='1';sec.classList.add('sp-gate-stage');
+ const copy=el('div','sp-gate-copy');
+ copy.append(el('p','v10-eyebrow','01 / SUNSET GATE'),el('h1','sp-gate-title','Avval kunni tugatamiz.'),el('p','sp-gate-lead','Quyosh botgach, osmonimizda uchta yulduz paydo bo‘ladi. Har biri — birga qurmoqchi bo‘lgan kelajagimizdan bir parcha.'));
+ const by=el('small','sp-sunset-by','EMORA SKY PROMISE'),name=el('strong','sp-sunset-name','SIZ UCHUN');
+ const pass=el('div','sp-sunset-pass');pass.append(by,el('span','','ONE SKY · TWO HEARTS'),name);
+ const scene=el('div','sp-sunset-scene');scene.setAttribute('aria-hidden','true');
+ const stars=makeStars(34,'sp-gate-stars'),sun=el('i','sp-sun'),horizon=el('i','sp-horizon'),cloudA=el('i','sp-cloud a'),cloudB=el('i','sp-cloud b');scene.append(stars,sun,horizon,cloudA,cloudB);
+ const action=el('button','v10-cta sp-sunset-action','Quyoshni botirish  ↓');action.type='button';
+ action.addEventListener('click',()=>{
+  if(sec.classList.contains('is-sunset'))return;sec.classList.add('is-sunset');action.disabled=true;action.textContent='OSMON OCHILYAPTI…';twinkle(scene,10);
+  setTimeout(()=>advanceSafe('chapter-1'),reduced?120:1400);
+ });
+ copy.append(pass,action);compatCover(copy);inner.replaceChildren(copy,scene);updateCustom();
+}
+
+function enhanceDusk(){
+ const sec=$('.v10-proposal-sky #chapter-2'),inner=sec&&$('.v10-scene-inner',sec);
+ if(!sec||!inner||sec.dataset.skyFlagship==='1')return;
+ sec.dataset.skyFlagship='1';sec.classList.add('sp-dusk-stage');
+ pendingVideo=$('.v10-video-box',inner)||pendingVideo;if(pendingVideo)pendingVideo.remove();
+ const eye=el('p','v10-eyebrow','02 / BLUE HOUR'),title=el('h2','v10-scene-title sp-scene-title','Kun bilan tun orasidagi eng sokin daqiqa.');
+ const dome=el('div','sp-dusk-dome');dome.append(makeStars(48,'sp-dusk-stars'),el('i','sp-crescent'),el('i','sp-dusk-glow'));
+ const note=el('div','sp-dusk-note');note.append(el('small','','UNDER THE SAME SKY'),el('strong','sp-sky-name','Bizning osmonimiz'),el('p','','Birinchi yulduzga teg. Keyin qolgan ikkitasi yo‘lni o‘zi ko‘rsatadi.'));
+ const action=el('button','v10-cta sp-dusk-next','Birinchi yulduzni yoqish  ✦');action.type='button';
+ action.addEventListener('click',()=>{sec.classList.add('is-lit');twinkle(dome,16);setTimeout(()=>advanceSafe('chapter-2'),reduced?120:900)});
+ inner.replaceChildren(eye,title,el('p','v10-scene-intro sp-lead','Bu bosqichda savol yo‘q. Faqat osmon va kelajakka oid uchta niyat.'),dome,note,action);updateCustom();
+}
+
+function enhanceDreams(){
+ const sec=$('.v10-proposal-sky #chapter-3'),inner=sec&&$('.v10-scene-inner',sec);
+ if(!sec||!inner||sec.dataset.skyFlagship==='1')return;
+ sec.dataset.skyFlagship='1';sec.classList.add('sp-dreams-stage');
+ const defaults=['Birga uyg‘onadigan oddiy tonglar.','Birga ko‘radigan yangi shaharlar.','Birga qarib boradigan sokin uy.'];
+ const sky=el('div','sp-dream-sky');sky.append(makeStars(58,'sp-dream-field'));
+ const opened=new Set();
+ const positions=[['18%','58%'],['51%','28%'],['79%','61%']];
+ for(let i=0;i<3;i++){
+  const star=el('button','sp-dream-star star-'+(i+1));star.type='button';star.style.left=positions[i][0];star.style.top=positions[i][1];star.setAttribute('aria-label',(i+1)+'-kelajak orzusini ochish');
+  const core=el('span','sp-star-core'),card=el('span','sp-dream-card');card.append(el('small','','DREAM 0'+(i+1)),el('strong','sp-dream-text',clean(custom.dreams[i])||defaults[i]));star.append(core,card);
+  star.addEventListener('click',()=>{opened.add(i);star.classList.add('is-open');twinkle(star,8);if(opened.size===3){lineSvg.classList.add('is-drawn');continueBtn.hidden=false;requestAnimationFrame(()=>continueBtn.classList.add('is-visible'))}});sky.append(star);
+ }
+ const lineSvg=document.createElementNS('http://www.w3.org/2000/svg','svg');lineSvg.setAttribute('class','sp-dream-lines');lineSvg.setAttribute('viewBox','0 0 100 100');lineSvg.setAttribute('preserveAspectRatio','none');
+ for(const [x1,y1,x2,y2] of [[18,58,51,28],[51,28,79,61]]){const l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('x1',x1);l.setAttribute('y1',y1);l.setAttribute('x2',x2);l.setAttribute('y2',y2);lineSvg.append(l)}sky.append(lineSvg);
+ const continueBtn=el('button','v10-cta sp-dreams-next','Yulduzlarni birlashtirish  →');continueBtn.type='button';continueBtn.hidden=true;continueBtn.addEventListener('click',()=>advanceSafe('chapter-3'));
+ inner.replaceChildren(el('p','v10-eyebrow','03 / THREE FUTURES'),el('h2','v10-scene-title sp-scene-title','Kelajak haqida uchta orzu.'),el('p','v10-scene-intro sp-lead','Har bir yulduzni och. Uchinchisidan keyin ular bitta constellationga aylanadi.'),sky,continueBtn);updateCustom();
+}
+
+function enhanceConstellation(){
+ const sec=$('.v10-proposal-sky #chapter-4'),inner=sec&&$('.v10-scene-inner',sec);
+ if(!sec||!inner||sec.dataset.skyFlagship==='1')return;
+ const existing=clean($('.v10-letter-body',inner)?.textContent);
+ sec.dataset.skyFlagship='1';sec.classList.add('sp-constellation-stage');
+ const field=el('div','sp-constellation');field.append(makeStars(68,'sp-constellation-stars'));
+ const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 100 62');svg.setAttribute('class','sp-constellation-svg');
+ const pts=[[18,39],[34,19],[50,35],[66,19],[82,39],[50,54]];
+ pts.forEach(([x,y],i)=>{const c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('cx',x);c.setAttribute('cy',y);c.setAttribute('r','1.2');c.setAttribute('class','point p'+i);svg.append(c)});
+ [[0,1],[1,2],[2,3],[3,4],[4,5],[5,0],[2,5]].forEach(([a,b])=>{const l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('x1',pts[a][0]);l.setAttribute('y1',pts[a][1]);l.setAttribute('x2',pts[b][0]);l.setAttribute('y2',pts[b][1]);svg.append(l)});
+ field.append(svg,el('span','sp-constellation-name',clean(custom.skyTitle)||'Bizning osmonimiz'));
+ const promise=el('blockquote','sp-promise');promise.append(el('span','sp-promise-mark','“'),el('p','sp-promise-text',clean(custom.promiseText)||existing||'Men senga mukammal kelajakni va’da qilolmayman. Lekin qaysi osmon ostida bo‘lishimizdan qat’i nazar, o‘sha kelajakni sen bilan qurishni tanlayman.'),el('footer','sp-promise-sign',clean(custom.sender)||'Samimiyat bilan'));
+ const media=el('div','sp-sky-media');
+ if(pendingVideo){pendingVideo.classList.add('sp-sky-video');media.append(pendingVideo);pendingVideo=null}else media.hidden=true;
+ const action=el('button','v10-cta sp-constellation-next','Oxirgi yulduzga o‘tish  →');action.type='button';action.addEventListener('click',()=>advanceSafe('chapter-4'));
+ inner.replaceChildren(el('p','v10-eyebrow','04 / OUR CONSTELLATION'),el('h2','v10-scene-title sp-scene-title','Uch orzu endi bitta yo‘l.'),el('p','v10-scene-intro sp-lead','Yulduzlar orasidagi chiziqlar — tayyor taqdir emas. Bu birga tanlaydigan yo‘limiz.'),field,promise,media,action);updateCustom();
+ requestAnimationFrame(()=>sec.classList.add('is-formed'));
+}
+
+function enhanceFinale(){
+ const sec=$('.v10-proposal-sky #chapter-5'),inner=sec&&$('.v10-scene-inner',sec);
+ if(!sec||!inner||sec.dataset.skyFlagship==='1')return;
+ sec.dataset.skyFlagship='1';sec.classList.add('sp-final-stage');
+ const eye=$('.v10-eyebrow',inner),title=$('.v10-scene-title',inner),copy=$('.v10-finale-copy',inner),actions=$('.v10-final-actions',inner),feedback=$('.v10-final-feedback',inner),again=$('.v10-final-repeat',inner);
+ if(!title||!actions)return;title.classList.add('sp-final-title');if(clean(custom.finalQuestion))title.textContent=custom.finalQuestion;
+ const universe=el('div','sp-final-universe');universe.append(makeStars(82,'sp-final-stars'),el('i','sp-final-moon'));
+ const lastStar=el('button','sp-last-star');lastStar.type='button';lastStar.setAttribute('aria-label','Oxirgi yulduzni yoqish');lastStar.append(el('span','','✦'),el('small','','LAST STAR'));universe.append(lastStar);
+ const question=el('div','sp-question');question.hidden=true;if(eye)question.append(eye);question.append(title);if(copy)question.append(copy);question.append(actions);if(feedback)question.append(feedback);if(again)question.append(again);
+ inner.replaceChildren(universe,question);
+ lastStar.addEventListener('click',()=>{
+  if(sec.classList.contains('is-revealed'))return;sec.classList.add('is-revealed');lastStar.disabled=true;twinkle(lastStar,26);
+  setTimeout(()=>{question.hidden=false;requestAnimationFrame(()=>question.classList.add('is-visible'));title.tabIndex=-1;title.focus({preventScroll:true})},reduced?120:1500);
+ });
+ const yes=$('.v10-cta',actions);if(yes)yes.addEventListener('click',()=>{sec.classList.add('is-accepted');twinkle(question,30)});
+ updateCustom();
+}
+
+function enhanceAll(){
+ enhanceIntro();enhanceGate();enhanceDusk();enhanceDreams();enhanceConstellation();enhanceFinale();updateCustom();
+ document.body.classList.add('sp-flagship-ready');
+ window.__EMORA_SKY_PROMISE__={version:1,flagship:true,sequence:['sunset-gate','blue-hour','three-dreams','constellation','last-star','proposal']};
+}
+
+addEventListener('message',event=>{
+ if(event.origin!==location.origin||!event.data||typeof event.data.type!=='string'||!event.data.type.startsWith('emora:')||!event.data.config)return;
+ const cfg=event.data.config;
+ custom={
+  recipient:clean(cfg.recipient)||clean(cfg.name1),sender:clean(cfg.sender)||clean(cfg.name2),skyTitle:clean(cfg.memoryTitle)||clean(cfg.skyTitle),
+  dreams:Array.isArray(cfg.captions)?cfg.captions.slice(0,3).map(clean):[],promiseText:clean(cfg.promiseText)||clean(cfg.letter),finalQuestion:clean(cfg.finalQuestion)||clean(cfg.final)
+ };
+ requestAnimationFrame(()=>requestAnimationFrame(()=>{enhanceAll();updateCustom()}));
+});
+
+enhanceAll();
