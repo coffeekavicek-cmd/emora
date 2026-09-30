@@ -32,12 +32,13 @@ jobs:
           test -f dist/index.html
           grep -q "assets/" dist/index.html
           test "$(find dist/assets -type f | wc -l)" -ge 2
+          ! grep -R -E "SUPABASE_SERVICE_ROLE_KEY|CLICK_SECRET_KEY|PAYME_KEY" dist
       - name: Install Chromium for flagship browser QA
         working-directory: experience-engine
         run: npx playwright install --with-deps chromium
       - name: Five flagship mobile interaction QA
         working-directory: experience-engine
-        run: npx playwright test tests/pearl-reference.spec.js tests/silk-heritage.spec.js tests/balloon-dream.spec.js tests/after-rain.spec.js tests/proposal-pearl.spec.js
+        run: npx playwright test tests/pearl-reference.spec.js tests/silk-heritage.spec.js tests/balloon-dream.spec.js tests/after-rain.spec.js tests/proposal-pearl.spec.js tests/cloud-routing.spec.js
       - uses: actions/upload-artifact@v4
         if: always()
         with:
