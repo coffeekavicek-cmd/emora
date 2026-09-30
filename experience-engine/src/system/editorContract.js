@@ -7,6 +7,13 @@ const FIELD_LIBRARY = Object.freeze({
     {key:'message',type:'textarea',label:'Asosiy matn',max:1200},
     {key:'language',type:'language',label:'Til'},
   ],
+  universalMedia: [
+    {key:'musicPreset',type:'select',label:'Musiqa preset',options:['Nocturne','Cinema','Dream','Heritage']},
+    {key:'music',type:'audio',label:'Custom musiqa'},
+    {key:'musicStart',type:'number',label:'Musiqa boshlanish nuqtasi',min:0},
+    {key:'photos',type:'images',label:'Rasmlar',maxItems:10},
+    {key:'video',type:'video',label:'Asosiy video'},
+  ],
   event: [
     {key:'eventDate',type:'datetime',label:'Sana va vaqt'},
     {key:'venueName',type:'text',label:'Joy nomi',max:100},
@@ -16,17 +23,14 @@ const FIELD_LIBRARY = Object.freeze({
     {key:'guestGreeting',type:'text',label:'Shaxsiy salomlashuv',max:120},
   ],
   [C.PHOTOS]: [
-    {key:'photos',type:'images',label:'Rasmlar',maxItems:6},
-    {key:'photoCaptions',type:'text-list',label:'Rasm izohlari',maxItems:6,max:90},
+    {key:'photoCaptions',type:'text-list',label:'Rasm izohlari',maxItems:10,max:90},
   ],
   [C.PORTRAIT]: [
     {key:'portrait',type:'image',label:'Final portret uchun rasm'},
     {key:'portraitParticle',type:'select',label:'Portret materiali',options:['hearts','name','dots']},
   ],
-  [C.MUSIC]: [
-    {key:'music',type:'audio',label:'Fon musiqasi'},
-    {key:'musicStart',type:'number',label:'Boshlanish nuqtasi',min:0},
-  ],
+  [C.MUSIC]: [],
+  [C.VIDEO]: [],
   [C.RSVP]: [
     {key:'rsvpEnabled',type:'boolean',label:'RSVP yoqilsin'},
     {key:'rsvpQuestion',type:'text',label:'RSVP savoli',max:140},
@@ -61,7 +65,7 @@ const FIELD_LIBRARY = Object.freeze({
 const WEDDING_CATEGORIES=new Set(['wedding']);
 
 export function editorFieldsFor(template){
-  const fields=[...FIELD_LIBRARY.core];
+  const fields=[...FIELD_LIBRARY.core,...FIELD_LIBRARY.universalMedia];
   if(WEDDING_CATEGORIES.has(template.category))fields.push(...FIELD_LIBRARY.event);
 
   for(const cap of template.capabilities||[]){
@@ -79,7 +83,7 @@ export function editorFieldsFor(template){
 
 export function editorSectionsFor(template){
   const fields=editorFieldsFor(template);
-  const mediaKeys=new Set(['photos','photoCaptions','portrait','portraitParticle','music','musicStart']);
+  const mediaKeys=new Set(['photos','photoCaptions','portrait','portraitParticle','music','musicPreset','musicStart','video']);
   const accessKeys=new Set(['openAt','wordLock','guestLinksEnabled']);
   const guestKeys=new Set(['rsvpEnabled','rsvpQuestion','responseEnabled','responsePrompt','mapLocation','calendarEnabled']);
 
