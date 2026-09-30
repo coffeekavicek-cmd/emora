@@ -9,6 +9,30 @@ const cors={
 const json=(body:unknown,status=200)=>new Response(JSON.stringify(body),{status,headers:{...cors,"Content-Type":"application/json"}});
 const appUrl=Deno.env.get("EMORA_PUBLIC_URL")||"https://emora-reborn-v1-production.up.railway.app";
 
+type CheckoutOrder={id:string;site_id:string;plan_code:string;amount_uzs:number;currency:string;provider:string;status:string};
+
+function makeCheckoutUrl(provider:string,order:CheckoutOrder,edition:string,siteId:string){
+  const returnUrl=`${appUrl}/?mode=editor&template=${encodeURIComponent(edition)}&site=${encodeURIComponent(siteId)}&checkout=return`;
+  if(provider==="click"){
+    const u=new URL("https://my.click.uz/services/pay");
+    u.searchParams.set("service_id",Deno.env.get("CLICK_SERVICE_ID")!);
+    u.searchParams.set("merchant_id",Deno.env.get("CLICK_MERCHANT_ID")!);
+    u.searchParams.set("amount",String(order.amount_uzs));
+    u.searchParams.set("transaction_param",order.id);
+    u.searchParams.set("return_url",returnUrl);
+    return u.toString();
+  }
+  const params=[
+    `m=${Deno.env.get("PAYME_MERCHANT_ID")!}`,
+    `ac.order_id=${order.id}`,
+    `a=${order.amount_uzs*100}`,
+    "l=uz",
+    `c=${returnUrl}`,
+    "ct=1500",
+  ].join(";");
+  return `https://checkout.paycom.uz/${btoa(params)}`;
+}
+
 Deno.serve(async(req:Request)=>{
   if(req.method==="OPTIONS")return new Response("ok",{headers:cors});
   if(req.method!=="POST")return json({error:"method_not_allowed"},405);
@@ -50,38 +74,38 @@ Deno.serve(async(req:Request)=>{
       if(!merchantId||!login||!key)return json({error:"merchant_not_configured",provider:"payme"},503);
     }
 
-    const {data:order,error:orderError}=await admin.from("orders").insert({
-      owner_id:userData.user.id,
-      site_id:siteId,
-      plan_code:plan.code,
-      amount_uzs:plan.price_uzs,
-      provider,
-      status:"pending",
-    }).select("id,site_id,plan_code,amount_uzs,currency,provider,status").single();
-    if(orderError)throw orderError;
+    const {data:activeOrders,error:activeError}=await admin.from("orders")
+      .select("id,site_id,plan_code,amount_uzs,currency,provider,status")
+      .eq("owner_id",userData.user.id)
+      .eq("site_id",siteId)
+      .eq("plan_code",plan.code)
+      .eq("provider",provider)
+      .in("status",["pending","processing"])
+      .order("created_at",{ascending:false});
+    if(activeError)throw activeError;
 
-    const returnUrl=`${appUrl}/?mode=editor&template=${encodeURIComponent(site.edition)}&site=${encodeURIComponent(siteId)}&checkout=return`;
-    let checkoutUrl="";
-    if(provider==="click"){
-      const u=new URL("https://my.click.uz/services/pay");
-      u.searchParams.set("service_id",Deno.env.get("CLICK_SERVICE_ID")!);
-      u.searchParams.set("merchant_id",Deno.env.get("CLICK_MERCHANT_ID")!);
-      u.searchParams.set("amount",String(order.amount_uzs));
-      u.searchParams.set("transaction_param",order.id);
-      u.searchParams.set("return_url",returnUrl);
-      checkoutUrl=u.toString();
-    }else{
-      const params=[
-        `m=${Deno.env.get("PAYME_MERCHANT_ID")!}`,
-        `ac.order_id=${order.id}`,
-        `a=${order.amount_uzs*100}`,
-        "l=uz",
-        `c=${returnUrl}`,
-        "ct=1500",
-      ].join(";");
-      checkoutUrl=`https://checkout.paycom.uz/${btoa(params)}`;
+    const processing=(activeOrders||[]).find((x:any)=>x.status==="processing");
+    if(processing)return json({error:"payment_in_progress",orderId:processing.id,provider},409);
+
+    let order=(activeOrders||[]).find((x:any)=>x.status==="pending") as CheckoutOrder|undefined;
+    let reused=Boolean(order);
+    if(!order){
+      const {data:created,error:orderError}=await admin.from("orders").insert({
+        owner_id:userData.user.id,
+        site_id:siteId,
+        plan_code:plan.code,
+        amount_uzs:plan.price_uzs,
+        provider,
+        status:"pending",
+      }).select("id,site_id,plan_code,amount_uzs,currency,provider,status").single();
+      if(orderError)throw orderError;
+      order=created as CheckoutOrder;
+      reused=false;
     }
-    return json({order,checkoutUrl});
+
+    if(Number(order.amount_uzs)!==Number(plan.price_uzs))return json({error:"order_amount_stale"},409);
+    const checkoutUrl=makeCheckoutUrl(provider,order,site.edition,siteId);
+    return json({order,checkoutUrl,reused});
   }catch(error){
     console.error(error);
     return json({error:"internal_error"},500);
