@@ -1,40 +1,35 @@
 import { useEffect } from 'react';
 import { EXPERIENCES } from './registry.js';
+import { FLAGSHIP_SET } from '../reborn/flagships.js';
 import './gallery.css';
 
-const symbol={
- curtain:'✦',envelope:'✉',galaxy:'✧',silk:'⌁',garden:'✺',naqsh:'◇',gift:'□',balloons:'○',
- reel:'◉',rain:'╱',ink:'●',lamp:'◐',ring:'◇',cinema:'▣',sky:'✦'
-};
+const symbol={curtain:'✦',envelope:'✉',galaxy:'✧',silk:'⌁',garden:'✺',naqsh:'◇',gift:'□',balloons:'○',reel:'◉',rain:'╱',ink:'●',lamp:'◐',ring:'◇',cinema:'▣',sky:'✦'};
 
 export function ExperienceGallery(){
- useEffect(()=>{
-  const prev=document.body.style.touchAction;
-  document.body.style.touchAction='pan-y';
-  return()=>{document.body.style.touchAction=prev};
- },[]);
+ useEffect(()=>{const prev=document.body.style.touchAction;document.body.style.touchAction='pan-y';return()=>{document.body.style.touchAction=prev}},[]);
+ const experiences=EXPERIENCES.filter(x=>FLAGSHIP_SET.has(x.slug));
  const groups=['LOVE','WEDDING','BIRTHDAY','APOLOGY','PROPOSAL'];
  return <main className="template-gallery">
    <header className="gallery-hero">
      <a className="gallery-brand" href="?">emora<span>.</span></a>
-     <p>EXPERIENCE ENGINE · 15 RITUALS</p>
-     <h1>Har bir his uchun<br/><em>alohida olam.</em></h1>
-     <div className="gallery-note">Template tanlang. Har biri 100svh, scrollsiz va o‘z interaction ritualiga ega.</div>
+     <p>FLAGSHIP EXPERIENCE ENGINE · 5 WORLDS</p>
+     <h1>Besh his.<br/><em>Besh alohida olam.</em></h1>
+     <div className="gallery-note">Har yo‘nalish uchun bitta flagship. Har biri music + photo + video bilan ishlaydi va o‘zining fizik interaction dramaturgiyasiga ega.</div>
    </header>
    <div className="gallery-groups">
-    {groups.map(group=><section key={group} className="gallery-group">
+    {groups.map(group=>{const item=experiences.find(x=>x.group===group);if(!item)return null;return <section key={group} className="gallery-group">
       <div className="group-label"><span>{group}</span><i/></div>
       <div className="gallery-grid">
-       {EXPERIENCES.filter(x=>x.group===group).map((x,i)=><a className={'experience-card tone-card-'+x.tone} href={'?template='+x.slug} key={x.slug}>
-         <div className={'card-art card-'+x.ritual}>
-           <img src={x.art} alt="" /><span className="card-art-veil"/><span className="card-orbit"/><b>{symbol[x.ritual]}</b>
+       <a className={'experience-card tone-card-'+item.tone} href={'?template='+item.slug}>
+         <div className={'card-art card-'+item.ritual}>
+           <img src={item.art} alt="" /><span className="card-art-veil"/><span className="card-orbit"/><b>{symbol[item.ritual]}</b>
            {Array.from({length:6},(_,n)=><i key={n} style={{'--n':n}}/>)}
          </div>
-         <div className="card-copy"><small>0{i+1} · {x.group}</small><h2>{x.name}</h2><p>{x.ritual==='galaxy'?'WebGL particles · portrait morph':x.instruction}</p></div>
+         <div className="card-copy"><small>FLAGSHIP · {item.group}</small><h2>{item.name}</h2><p>{item.instruction}</p></div>
          <span className="card-arrow">↗</span>
-       </a>)}
+       </a>
       </div>
-    </section>)}
+    </section>})}
    </div>
  </main>;
 }
