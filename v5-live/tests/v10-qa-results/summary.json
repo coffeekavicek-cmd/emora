@@ -79,11 +79,11 @@
         "height": 434.572998046875
       },
       "button": {
-        "x": 114.390625,
+        "x": 116.28125,
         "y": 358.78125,
-        "right": 276.59375,
+        "right": 274.703125,
         "bottom": 407.78125,
-        "width": 162.203125,
+        "width": 158.421875,
         "height": 49
       },
       "headline": {
@@ -801,9 +801,14 @@
     "template": "proposal-cinema",
     "device": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": [],
-    "exceptions": [],
+    "passed": false,
+    "failures": [
+      "Test exception: locator.textContent: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#coverTitle')\n",
+      "Browser JS exception(s): Cannot set properties of null (setting 'textContent')"
+    ],
+    "exceptions": [
+      "Cannot set properties of null (setting 'textContent')"
+    ],
     "layout": {
       "imageLoaded": true,
       "img": {
@@ -856,8 +861,7 @@
       "before": "chapter-1",
       "after": "chapter-2",
       "scrollY": 0
-    },
-    "videoRoundtripChecked": true
+    }
   },
   {
     "template": "proposal-sky",
