@@ -14,10 +14,8 @@
   {
     "name": "desktop",
     "viewport": "1440x900",
-    "passed": false,
-    "failures": [
-      "Test exception: locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#chapter-4 .qr-unsaid-actions button').first()\n    - locator resolved to <button type=\"button\" class=\"qr-choice\">Javob variantlariga o‘tish</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not stable\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not stable\n    - retrying click action\n      - waiting 100ms\n    56 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - <img loading=\"lazy\" class=\"qr-memory-photo\" alt=\"Ixtiyoriy shaxsiy xotira\" src=\"/assets/apology-quiet.png\"/> from <div class=\"qr-media\">…</div> subtree intercepts pointer events\n     - retrying click action\n       - waiting 500ms\n"
-    ]
+    "passed": true,
+    "failures": []
   },
   {
     "name": "early-exit",

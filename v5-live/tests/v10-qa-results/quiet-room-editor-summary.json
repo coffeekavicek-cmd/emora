@@ -1,0 +1,12 @@
+{
+  "passed": false,
+  "failures": [
+    "Mistake text did not round-trip"
+  ],
+  "checks": [
+    "Quiet Room labels",
+    "date hidden",
+    "recipient/title/mistake/repair/listening/letter/final roundtrip",
+    "browser exceptions"
+  ]
+}

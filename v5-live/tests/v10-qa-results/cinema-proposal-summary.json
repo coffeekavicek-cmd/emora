@@ -14,11 +14,7 @@
   {
     "name": "desktop",
     "viewport": "1440x900",
-    "passed": false,
-    "failures": [
-      "Personal trailer must exist once; found 0",
-      "Trailer video not placed inside cinema screen exactly once: 0",
-      "Browser JS exception(s): Cannot set properties of null (setting 'textContent')"
-    ]
+    "passed": true,
+    "failures": []
   }
 ]
