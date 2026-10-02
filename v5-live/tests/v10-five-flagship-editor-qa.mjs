@@ -5,7 +5,7 @@ const base=process.env.EMORA_QA_BASE||'http://127.0.0.1:3000';
 const folder=path.resolve('v5-live/qa-v10-results');await fs.mkdir(folder,{recursive:true});
 const browser=await chromium.launch({headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
 const page=await browser.newPage({viewport:{width:1440,height:1000}});const failures=[],errors=[];page.on('pageerror',e=>errors.push(e.message));
-const label=async id=>page.locator('#'+id).locator('xpath=ancestor::*[contains(@class,"field")][1]//label').textContent();
+const label=async id=>page.locator('#'+id).evaluate(el=>el.closest('.field')?.querySelector(':scope > label')?.textContent||'');
 async function choose(slug){await page.selectOption('#type',slug);await page.dispatchEvent('#type','change');await page.waitForTimeout(180)}
 async function expectLabel(id,expected,context){const got=(await label(id))?.trim();if(got!==expected)failures.push(context+' '+id+' label: '+got+' != '+expected)}
 try{
