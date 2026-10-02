@@ -1,6 +1,6 @@
 /* EMORA Creator Studio · flagship field adapters.
-   Proposal flagships and Quiet Room reuse the current persisted schema with
-   template-specific labels. No database migration. */
+   The five current flagship experiences reuse the persisted schema with
+   template-specific labels. Proposal variants stay supported without DB migration. */
 const $=s=>document.querySelector(s);
 const type=$('#type'),storyExtras=$('#storyExtras'),apology=$('#apologyExtra'),wedding=$('#weddingExtra'),previewLabel=$('#previewLabel');
 const mistake=$('#mistake'),repair=$('#repair'),venue=$('#venue'),letter=$('#letter'),finalQuestion=$('#finalQuestion'),dateField=$('#dateField');
@@ -27,8 +27,26 @@ if(type&&storyExtras&&apology&&wedding&&mistake&&repair&&venue&&letter&&finalQue
  function restoreExtras(){home(mistakeField,mistakeMarker);home(repairField,repairMarker);home(venueField,venueMarker);[mistake,repair,venue].forEach(resetField);pearl.classList.add('hidden')}
  function sync(){
   const value=type.value,proposal=value.startsWith('proposal-');
-  resetCommon();cinema.classList.add('hidden');sky.classList.add('hidden');quiet.classList.add('hidden');
+  resetCommon();restoreExtras();cinema.classList.add('hidden');sky.classList.add('hidden');quiet.classList.add('hidden');
   if(dateField)dateField.classList.toggle('hidden',value.startsWith('apology-')||proposal);
+  if(value==='love-rose-theatre'){
+   setField(memoryTitle,'SPEKTAKL / HIKOYA NOMI','Masalan: Bizning hikoyamiz');
+   setField(captions[0],'ACT I · BIRINCHI KADR','Masalan: Birinchi uchrashuv — hammasi oddiy boshlangan edi.');
+   setField(captions[1],'ACT II · SEVIMLI LAHZA','Masalan: Shu kadrni yana ko‘rishni istayman.');
+   setField(captions[2],'ACT III · DAVOMI','Masalan: Eng yaxshi sahnalar hali yozilmagan.');
+   setField(videoUrl,'PRIVATE SCREENING · VIDEO','https://...mp4');
+   setField(letter,'LIVE CONFESSION · UZ','Ssenariysiz, chin dildan aytiladigan shaxsiy gap...');
+   setField(finalQuestion,'ENCORE · FINAL SAVOL','Masalan: Bu hikoyani birga davom ettiramizmi?');return;
+  }
+  if(value==='birthday-aurora-paper'){
+   setField(memoryTitle,'MEMORY CONTACT SHEET · NOMI','Masalan: Sening eng chiroyli kadrlaring');
+   setField(captions[0],'01-TILAK','Birinchi haqiqiy tilak...');
+   setField(captions[1],'02-TILAK','Ikkinchi haqiqiy tilak...');
+   setField(captions[2],'03-TILAK','Uchinchi haqiqiy tilak...');
+   setField(videoUrl,'PRIVATE BIRTHDAY FILM · VIDEO','https://...mp4');
+   setField(letter,'BIRTHDAY LETTER · UZ','Template gap emas — aynan shu odamga yozilgan tabrik...');
+   setField(finalQuestion,'FINAL WISH · OXIRGI SATR','Masalan: Bugun hamma nur seniki.');return;
+  }
   if(value==='proposal-pearl-promise'){
    pearl.classList.remove('hidden');pearl.append(mistakeField,repairField,venueField);
    setField(mistake,'NEGA SEN? · 1-SABAB','Masalan: Sen bilan oddiy kun ham xotiraga aylanadi.');
@@ -37,7 +55,6 @@ if(type&&storyExtras&&apology&&wedding&&mistake&&repair&&venue&&letter&&finalQue
    setField(letter,'MENING VA’DAM · UZ','Unga aytmoqchi bo‘lgan haqiqiy va’dangizni yozing...');
    setField(finalQuestion,'ENG MUHIM SAVOL','Masalan: Dilnoza, menga turmushga chiqasanmi?');return;
   }
-  restoreExtras();
   if(value==='apology-quiet-room'){
    quiet.classList.remove('hidden');
    setField(memoryTitle,'XONA / KIRISH SATRI','Masalan: Shovqinsiz bir suhbat');
@@ -49,6 +66,15 @@ if(type&&storyExtras&&apology&&wedding&&mistake&&repair&&venue&&letter&&finalQue
    setField(letter,'YOZILMAY QOLGAN GAPLAR · UZ','Ko‘ndirish emas — aytilishi kerak bo‘lgan samimiy gaplarni yozing...');
    setField(videoUrl,'IXTIYORIY VIDEO · AUTOPLAY YO‘Q','https://...mp4');
    setField(finalQuestion,'FINAL · HURMATLI YAKUN','Masalan: Sening vaqting va qaroring muhim.');return;
+  }
+  if(value==='wedding-silk-heritage'){
+   setField(memoryTitle,'LOVE STORY / BO‘LIM NOMI','Masalan: Bizning hikoyamiz');
+   setField(captions[0],'01-XOTIRA','Birinchi uchrashuv yoki muhim sana...');
+   setField(captions[1],'02-XOTIRA','Ikkinchi muhim lahza...');
+   setField(captions[2],'03-XOTIRA','To‘ygacha olib kelgan lahza...');
+   setField(videoUrl,'LOVE STORY VIDEO · IXTIYORIY','https://...mp4');
+   setField(letter,'MEHMON UCHUN SHAXSIY TAKLIF · UZ','Mehmoningizga atalgan samimiy taklif matni...');
+   setField(finalQuestion,'OILA DUOSI / YAKUNIY SATR','Masalan: Quvonchimizga sherik bo‘ling.');return;
   }
   if(value==='proposal-cinema'){
    cinema.classList.remove('hidden');
