@@ -1,0 +1,73 @@
+name: EMORA — 5 flagship experiences QA
+on:
+  push:
+    branches: [emora-v10-fifteen-experiences]
+    paths:
+      - .github/workflows/flagship-five-qa.yml
+      - v5-live/server.mjs
+      - v5-live/templates/v10-rose-theatre.**
+      - v5-live/templates/v10-love-rose.html
+      - v5-live/templates/v10-aurora-paper.**
+      - v5-live/templates/v10-birthday-aurora.html
+      - v5-live/templates/v10-quiet-room.**
+      - v5-live/templates/v10-apology-quiet.html
+      - v5-live/templates/v10-pearl-promise.**
+      - v5-live/templates/v10-proposal-pearl.html
+      - v5-live/templates/silk-heritage.**
+      - v5-live/templates/silk-motion.css
+      - v5-live/templates/silk-stage.css
+      - v5-live/templates/wedding-silk.html
+      - v5-live/templates/v10-core.css
+      - v5-live/templates/v10-motion.css
+      - v5-live/templates/v11-stage.css
+      - v5-live/tests/v10-rose-theatre-qa.mjs
+      - v5-live/tests/v10-aurora-paper-qa.mjs
+      - v5-live/tests/v10-quiet-room-qa.mjs
+      - v5-live/tests/v10-pearl-promise-qa.mjs
+      - v5-live/tests/silk-visual-qa.mjs
+  workflow_dispatch:
+concurrency:
+  group: emora-five-flagships
+  cancel-in-progress: true
+jobs:
+  flagship-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Chromium and Playwright
+        run: |
+          npm install --prefix v5-live --no-save playwright@1.55.0
+          cd v5-live && npx playwright install --with-deps chromium
+      - name: Start validated EMORA server
+        run: |
+          PORT=3000 node v5-live/server.mjs > /tmp/emora-five.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3000/health >/dev/null; then break; fi
+            sleep 1
+          done
+          cat /tmp/emora-five.log
+          curl --fail --silent --show-error http://127.0.0.1:3000/health
+      - name: Love — Rose Theatre
+        run: node v5-live/tests/v10-rose-theatre-qa.mjs
+      - name: Birthday — Aurora Paper
+        run: node v5-live/tests/v10-aurora-paper-qa.mjs
+      - name: Apology — Quiet Room
+        run: node v5-live/tests/v10-quiet-room-qa.mjs
+      - name: Proposal — Pearl Promise
+        run: node v5-live/tests/v10-pearl-promise-qa.mjs
+      - name: Wedding — Silk Heritage
+        run: node v5-live/tests/silk-visual-qa.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: emora-five-flagships-qa
+          path: |
+            v5-live/qa-v10-results/
+            v5-live/qa-silk-artifacts/
+          retention-days: 7
