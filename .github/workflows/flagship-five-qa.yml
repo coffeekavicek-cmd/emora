@@ -5,6 +5,7 @@ on:
     paths:
       - .github/workflows/flagship-five-qa.yml
       - v5-live/server.mjs
+      - v5-live/templates/v10-proposal-editor.js
       - v5-live/templates/v10-rose-theatre.**
       - v5-live/templates/v10-love-rose.html
       - v5-live/templates/v10-aurora-paper.**
@@ -20,6 +21,7 @@ on:
       - v5-live/templates/v10-core.css
       - v5-live/templates/v10-motion.css
       - v5-live/templates/v11-stage.css
+      - v5-live/tests/v10-five-flagship-editor-qa.mjs
       - v5-live/tests/v10-rose-theatre-qa.mjs
       - v5-live/tests/v10-aurora-paper-qa.mjs
       - v5-live/tests/v10-quiet-room-qa.mjs
@@ -53,6 +55,8 @@ jobs:
           done
           cat /tmp/emora-five.log
           curl --fail --silent --show-error http://127.0.0.1:3000/health
+      - name: Creator Studio — flagship field adapters
+        run: node v5-live/tests/v10-five-flagship-editor-qa.mjs
       - name: Love — Rose Theatre
         run: node v5-live/tests/v10-rose-theatre-qa.mjs
       - name: Birthday — Aurora Paper
