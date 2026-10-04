@@ -59,3 +59,7 @@ Pearl Linen now follows the approved six-frame Figma storyboard as one continuou
 ## Pearl reference editor
 
 Ideal System V1 reference implementation. Creator mode: `?mode=editor&template=love-pearl`. Recipient mode: `?template=love-pearl`. Supabase dev catalog slug: `love-pearl-linen`.
+
+## Galaxy living-world reference
+
+Ideal System V1 Living World reference. Creator mode: `?mode=editor&template=love-galaxy`. Recipient mode: `?template=love-galaxy`. Guest mode contains no media-upload controls; portrait/music belong to creator media.
