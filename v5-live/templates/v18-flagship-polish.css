@@ -1,0 +1,43 @@
+/* EMORA V18 · five-flagship ritual polish
+   One scene = one emotional beat. Cleaner framing, stronger depth, less UI noise. */
+html[data-group] body:before{content:"";position:fixed;inset:0;z-index:80;pointer-events:none;opacity:.18;mix-blend-mode:soft-light;background-image:radial-gradient(rgba(255,255,255,.35) .55px,transparent .55px);background-size:7px 7px;mask-image:linear-gradient(to bottom,transparent 0,#000 12%,#000 88%,transparent 100%)}
+html[data-group] .v10-chrome{height:54px!important;padding-inline:clamp(14px,3vw,34px)!important;background:linear-gradient(to bottom,rgba(20,15,16,.56),rgba(20,15,16,.05))!important;border:0!important;backdrop-filter:blur(12px)!important}
+html[data-template="birthday-aurora"] .v10-chrome,html[data-template="proposal-pearl"] .v10-chrome,html[data-template="wedding-silk"] .v10-chrome{background:linear-gradient(to bottom,rgba(255,252,246,.9),rgba(255,252,246,.1))!important}
+html[data-group] .v10-progress{top:52px!important;height:1px!important;opacity:.5}
+html[data-group] .v10-main>section{padding-top:68px!important;padding-bottom:18px!important}
+html[data-group] .v10-scene-inner,html[data-group] .v10-story-cover-inner{width:min(1180px,calc(100% - 32px));max-height:calc(100svh - 86px)}
+html[data-group] .v10-eyebrow{font-size:8px!important;letter-spacing:.26em!important;opacity:.72}
+html[data-group] .v10-scene-title{font-size:clamp(46px,6.4vw,88px)!important;letter-spacing:-.045em!important;max-width:880px}
+html[data-group] .v10-scene-intro{font-size:clamp(12px,1.2vw,16px)!important;max-width:650px!important;opacity:.78}
+html[data-group] .v10-cta,html[data-group] .v11-next{min-height:48px!important;border-radius:999px!important;padding:12px 21px!important;letter-spacing:.11em!important;box-shadow:0 14px 34px rgba(0,0,0,.12)!important;transition:transform .22s ease,box-shadow .22s ease,filter .22s ease!important}
+html[data-group] .v10-cta:hover,html[data-group] .v11-next:hover{transform:translateY(-2px)!important;box-shadow:0 20px 46px rgba(0,0,0,.18)!important;filter:brightness(1.04)}
+html[data-group] .v10-cta:active,html[data-group] .v11-next:active{transform:scale(.98)!important}
+.v18-ritual-progress{position:fixed;z-index:79;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;gap:7px;padding:7px 10px;border-radius:999px;background:rgba(15,12,13,.24);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.14);pointer-events:none}
+.v18-ritual-progress i{display:block;width:5px;height:5px;border-radius:999px;background:rgba(255,255,255,.34);transition:width .35s ease,background .35s ease,transform .35s ease}
+.v18-ritual-progress i.active{width:22px;background:#fff;transform:scaleY(1.15)}
+html[data-template="birthday-aurora"] .v18-ritual-progress,html[data-template="proposal-pearl"] .v18-ritual-progress,html[data-template="wedding-silk"] .v18-ritual-progress{background:rgba(255,250,243,.58);border-color:rgba(92,68,60,.12)}
+html[data-template="birthday-aurora"] .v18-ritual-progress i,html[data-template="proposal-pearl"] .v18-ritual-progress i,html[data-template="wedding-silk"] .v18-ritual-progress i{background:rgba(95,72,65,.28)}
+html[data-template="birthday-aurora"] .v18-ritual-progress i.active,html[data-template="proposal-pearl"] .v18-ritual-progress i.active,html[data-template="wedding-silk"] .v18-ritual-progress i.active{background:#7d4c55}
+.v18-ambient{position:fixed;inset:-8%;z-index:0;pointer-events:none;opacity:.6;transform:translate3d(calc((var(--v18-x,.5) - .5)*16px),calc((var(--v18-y,.5) - .5)*16px),0);transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+html[data-template="love-rose"] .v18-ambient{background:radial-gradient(circle at 22% 28%,rgba(163,35,60,.2),transparent 28%),radial-gradient(circle at 79% 64%,rgba(255,194,153,.08),transparent 24%)}
+html[data-template="birthday-aurora"] .v18-ambient{background:radial-gradient(circle at 18% 20%,rgba(255,210,147,.2),transparent 28%),radial-gradient(circle at 80% 70%,rgba(197,111,123,.12),transparent 25%)}
+html[data-template="apology-quiet"] .v18-ambient{background:radial-gradient(circle at 68% 28%,rgba(201,165,111,.12),transparent 20%),radial-gradient(circle at 25% 74%,rgba(76,105,109,.11),transparent 28%)}
+html[data-template="proposal-pearl"] .v18-ambient{background:radial-gradient(circle at 25% 25%,rgba(255,233,196,.28),transparent 26%),radial-gradient(circle at 76% 68%,rgba(176,132,127,.11),transparent 25%)}
+html[data-template="wedding-silk"] .v18-ambient{background:radial-gradient(circle at 25% 24%,rgba(199,165,108,.18),transparent 25%),radial-gradient(circle at 78% 72%,rgba(153,102,87,.10),transparent 25%)}
+html[data-template="love-rose"] .v10-main{background:radial-gradient(circle at 50% 18%,#35131c 0,#1f0d13 42%,#12090c 100%)!important}
+html[data-template="birthday-aurora"] .v10-main{background:radial-gradient(circle at 50% 13%,#fffef9 0,#fbf3e7 48%,#f2e4d8 100%)!important}
+html[data-template="apology-quiet"] .v10-main{background:radial-gradient(circle at 62% 20%,#2b2d2c 0,#191b1b 45%,#0d0f10 100%)!important}
+html[data-template="proposal-pearl"] .v10-main{background:radial-gradient(circle at 50% 14%,#fffdf8 0,#f6ede4 48%,#eaded4 100%)!important}
+html[data-template="wedding-silk"] .v10-main{background:radial-gradient(circle at 50% 14%,#fffdf7 0,#f8f1e5 48%,#eee3d3 100%)!important}
+html[data-group] .v10-main>section.v11-stage-active:after{content:"";position:absolute;inset:10px;border-radius:30px;border:1px solid rgba(255,255,255,.07);pointer-events:none;z-index:0}
+html[data-template="birthday-aurora"] .v10-main>section.v11-stage-active:after,html[data-template="proposal-pearl"] .v10-main>section.v11-stage-active:after,html[data-template="wedding-silk"] .v10-main>section.v11-stage-active:after{border-color:rgba(96,72,60,.08)}
+html[data-group] .v10-story-cover-inner,html[data-group] .v10-scene-inner{position:relative;z-index:2}
+html[data-group] .v10-video-box{border-radius:22px!important;overflow:hidden!important;box-shadow:0 28px 65px rgba(0,0,0,.18)!important;border:1px solid rgba(255,255,255,.12)!important}
+html[data-group] .v10-memory-card{border-radius:12px!important;box-shadow:0 26px 70px rgba(0,0,0,.18)!important}
+html[data-group] .v10-letter-panel{border-radius:26px!important;box-shadow:0 32px 85px rgba(0,0,0,.15)!important}
+html[data-group] .v11-ritual-cue{bottom:54px!important;background:rgba(18,15,16,.28)!important;color:#fff!important;border-color:rgba(255,255,255,.12)!important}
+html[data-template="birthday-aurora"] .v11-ritual-cue,html[data-template="proposal-pearl"] .v11-ritual-cue,html[data-template="wedding-silk"] .v11-ritual-cue{background:rgba(255,251,245,.7)!important;color:#594b48!important;border-color:rgba(92,68,60,.12)!important}
+body.v18-pressing .v10-main>section.v11-stage-active{filter:saturate(1.02) brightness(.995)}
+@media(max-width:700px){html[data-group] .v10-main>section{padding-top:56px!important;padding-bottom:10px!important}.v18-ritual-progress{bottom:max(8px,env(safe-area-inset-bottom));padding:6px 9px}.v18-ritual-progress i{width:4px;height:4px}.v18-ritual-progress i.active{width:18px}html[data-group] .v11-ritual-cue{bottom:40px!important}html[data-group] .v10-main>section.v11-stage-active:after{inset:6px;border-radius:22px}}
+@media(max-height:720px){html[data-group] .v10-scene-title{font-size:clamp(34px,7vw,58px)!important}.v18-ritual-progress{display:none}html[data-group] .v11-ritual-cue{bottom:8px!important}}
+@media(prefers-reduced-motion:reduce){.v18-ambient{display:none}.v18-ritual-progress i{transition:none}}
