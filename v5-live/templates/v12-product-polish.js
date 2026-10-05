@@ -24,7 +24,7 @@ function replaceMarketingCopy(){
   n=n.replace(/15 ta original/gi,'5 ta flagship');
   if(n!==v)node.nodeValue=n;
  }
- document.querySelectorAll('.category-count').forEach(n=>n.textContent='1 FLAGSHIP');
+ document.querySelectorAll('.category-count').forEach(n=>{if(n.textContent?.trim()!=='1 FLAGSHIP')n.textContent='1 FLAGSHIP'});
 }
 function addProofStrip(){
  const actions=document.querySelector('.hero .actions');
