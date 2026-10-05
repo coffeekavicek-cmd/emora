@@ -8,6 +8,7 @@ on:
       - v5-live/templates/v10-proposal-editor.js
       - v5-live/templates/v12-product-polish.js
       - v5-live/templates/v12-flagship-polish.css
+      - v5-live/templates/v12-silk-media.js
       - v5-live/templates/v10-rose-theatre.**
       - v5-live/templates/v10-love-rose.html
       - v5-live/templates/v10-aurora-paper.**
@@ -24,6 +25,7 @@ on:
       - v5-live/templates/v10-motion.css
       - v5-live/templates/v11-stage.css
       - v5-live/tests/v12-product-polish-qa.mjs
+      - v5-live/tests/v12-silk-media-qa.mjs
       - v5-live/tests/v10-five-flagship-editor-qa.mjs
       - v5-live/tests/v10-rose-theatre-qa.mjs
       - v5-live/tests/v10-aurora-paper-qa.mjs
@@ -72,6 +74,8 @@ jobs:
         run: node v5-live/tests/v10-pearl-promise-qa.mjs
       - name: Wedding — Silk Heritage
         run: node v5-live/tests/silk-visual-qa.mjs
+      - name: Wedding — personal film
+        run: node v5-live/tests/v12-silk-media-qa.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
