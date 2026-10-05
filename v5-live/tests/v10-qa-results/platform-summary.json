@@ -1,30 +1,19 @@
 {
   "passed": false,
   "failures": [
-    "love has 1 cards instead of 3",
-    "love has repeated template options",
-    "wedding has 1 cards instead of 3",
-    "wedding has repeated template options",
-    "birthday has 1 cards instead of 3",
-    "birthday has repeated template options",
-    "apology has 1 cards instead of 3",
-    "apology has repeated template options",
-    "proposal has 1 cards instead of 3",
-    "proposal has repeated template options",
-    "Proposal flagship Creator Studio integration failed: locator.selectOption: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#type')\n    - locator resolved to <select id=\"type\">…</select>\n  - attempting select option action\n    2 × waiting for element to be visible and enabled\n      - did not find some options\n    - retrying select option action\n    - waiting 20ms\n    2 × waiting for element to be visible and enabled\n      - did not find some options\n    - retrying select option action\n      - waiting 100ms\n    60 × waiting for element to be visible and enabled\n       - did not find some options\n     - retrying select option action\n       - waiting 500ms\n"
+    "Pearl editor reasons did not round-trip"
   ],
   "checkedGroups": 5,
-  "expectedTemplates": 15,
+  "publicFlagships": 5,
+  "compatibleTemplates": 15,
   "checks": [
-    "category-first",
-    "three independent templates per category",
-    "editor category selection",
-    "live iframe name update",
+    "category-first curated five",
+    "one flagship per category",
+    "editor flagship selection",
+    "live flagship roundtrips",
     "real wedding input",
-    "Pearl Promise editor roundtrip",
-    "Cinema Proposal editor roundtrip",
-    "Sky Promise sky/dreams/promise/final editor roundtrip",
-    "permanent catalog art",
+    "first-party catalog art",
+    "10 hidden compatibility routes",
     "browser exceptions",
     "private upload controls and auth gate"
   ]
