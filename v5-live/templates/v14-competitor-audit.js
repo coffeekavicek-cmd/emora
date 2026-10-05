@@ -43,16 +43,23 @@ function setBadge(id,required){
  if(badges.length===1&&badges[0].classList.contains(cls)&&badges[0].textContent===text)return;
  badges.forEach(n=>n.remove());const badge=document.createElement('span');badge.className=cls;badge.textContent=text;label.append(' ',badge);
 }
+function enforceOptionalSender(slug){
+ const wrap=field('name2');if(!wrap)return;
+ const optional=slug!=='wedding-silk-heritage';wrap.dataset.v14Optional=optional?'true':'false';
+ const label=wrap.querySelector(':scope > label');if(!label)return;
+ let badge=label.querySelector('.v14-authoritative-optional');
+ if(optional){if(!badge){badge=document.createElement('span');badge.className='v14-authoritative-optional';badge.textContent='IXTIYORIY';label.append(' ',badge)}}else badge?.remove();
+}
 function filled(id){const n=$('#'+id);return !!n&&String(n.value||'').trim().length>0}
 function refineCreator(){
  const slug=$('#type')?.value,ids=ESSENTIALS[slug];if(!ids)return;
  const visible=[...document.querySelectorAll('#studio .field')].filter(n=>!n.classList.contains('v13-field-hidden')&&!n.closest('.v13-group-hidden'));
  visible.forEach(w=>{const input=w.querySelector('input,textarea,select');if(input?.id)setBadge(input.id,ids.includes(input.id))});
+ enforceOptionalSender(slug);
  const done=ids.filter(filled).length,pct=Math.round(done/ids.length*100),missing=ids.find(id=>!filled(id));
  const text=$('#v13-completion-text'),bar=$('#v13-progress-bar'),hint=$('#v13-next-hint');if(text&&text.textContent!==pct+'%')text.textContent=pct+'%';if(bar&&bar.style.width!==pct+'%')bar.style.width=pct+'%';const hintText=pct===100?'Asosiy qism tayyor ✓ Previewni ko‘ring; media qo‘shsangiz yanada shaxsiy bo‘ladi.':missing?textLabel(missing)+' — keyingi kerakli qadam.':'Asosiy maydonlarni to‘ldiring.';if(hint&&hint.textContent!==hintText)hint.textContent=hintText;
  document.documentElement.dataset.creatorReady=pct===100?'true':'false';
  const date=$('#dateField');if(date)date.classList.toggle('v13-group-hidden',slug!=='wedding-silk-heritage');
- const name2=field('name2');if(name2&&slug!=='wedding-silk-heritage')name2.dataset.v14Optional='true';
  accessibility();
 }
 function reconcileCreator(){clearTimeout(reconcileTimer);reconcileTimer=setTimeout(refineCreator,90)}
