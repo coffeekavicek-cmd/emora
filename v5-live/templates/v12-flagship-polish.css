@@ -1,0 +1,65 @@
+/* EMORA V12 · flagship polish after competitor + artifact review.
+   Goal: stronger finale composition, contrast, tap targets and replay-level polish
+   without changing the persisted content schema. */
+
+/* Shared interaction quality */
+.v10-app button,.v10-app .v10-cta{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.v10-app .v10-cta{min-height:48px}
+
+/* ROSE THEATRE — reduce dead curtain area on phones and make the decision feel like the stage finale. */
+.v10-love-rose .rt-finale .v10-scene-inner{padding-inline:clamp(12px,3vw,28px)}
+.v10-love-rose .rt-question{position:relative;z-index:8;margin-inline:auto;text-align:center}
+.v10-love-rose .rt-question .v10-final-actions{justify-content:center}
+.v10-love-rose .rt-question .v10-final-actions button{min-height:50px}
+@media(max-width:760px){
+ .v10-love-rose .rt-final-curtain{height:min(46svh,360px)!important;min-height:292px!important;margin:0 auto 8px!important}
+ .v10-love-rose .rt-question{width:min(100%,370px);padding:2px 8px 18px}
+ .v10-love-rose .rt-final-title{font-size:clamp(38px,11vw,54px)!important;line-height:.96!important;text-wrap:balance}
+ .v10-love-rose .rt-question .v10-final-actions{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important;width:100%!important}
+ .v10-love-rose .rt-question .v10-final-actions button{width:100%!important;padding-inline:10px!important}
+}
+
+/* AURORA PAPER — keep the photographs present in the payoff instead of blurring the whole memory mosaic away. */
+.v10-birthday-aurora .ap-final-stage .v10-scene-inner{isolation:isolate}
+.v10-birthday-aurora .ap-final-stage.is-revealed .ap-mosaic{filter:blur(1.25px) saturate(.92) brightness(.82)!important;transform:scale(1.035) rotate(0)!important;opacity:.94}
+.v10-birthday-aurora .ap-final-copy{border:1px solid rgba(166,119,104,.18)!important;background:linear-gradient(160deg,rgba(255,251,244,.94),rgba(249,234,220,.9))!important;box-shadow:0 28px 90px rgba(83,54,54,.26)!important;backdrop-filter:blur(12px)!important}
+.v10-birthday-aurora .ap-final-copy h2{text-wrap:balance}
+@media(max-width:760px){
+ .v10-birthday-aurora .ap-mosaic{width:calc(100vw - 28px)!important;height:min(62svh,500px)!important;max-width:520px!important;gap:6px!important}
+ .v10-birthday-aurora .ap-final-stage.is-revealed .ap-mosaic{filter:blur(.7px) saturate(.95) brightness(.8)!important;transform:scale(1.02)!important}
+ .v10-birthday-aurora .ap-final-copy{width:calc(100% - 42px)!important;max-width:350px!important;padding:25px 19px!important;border-radius:24px!important}
+ .v10-birthday-aurora .ap-final-copy h2{font-size:clamp(36px,10.5vw,47px)!important;line-height:.94!important;margin:10px 0 12px!important}
+ .v10-birthday-aurora .ap-final-note{font-size:13px!important;line-height:1.6!important}
+}
+
+/* QUIET ROOM — preserve the no-pressure product distinction, but make choices feel intentional and tactile. */
+.v10-apology-quiet .qr-response{min-height:52px;transition:transform .2s ease,background .25s ease,color .25s ease,border-color .25s ease}
+.v10-apology-quiet .qr-response:active{transform:scale(.985)}
+.v10-apology-quiet .qr-response.is-selected{background:#ead8bd!important;color:#211713!important;border-color:#d7b77f!important;box-shadow:0 10px 30px #0003}
+.v10-apology-quiet .qr-response-feedback{min-height:2.4em}
+
+/* PEARL PROMISE — the previous final question sat visually underneath the jewellery box.
+   Once the box is opened, the question now becomes the foreground and passes a real contrast check. */
+.v10-proposal-pearl .pp-proposal-finale .v10-scene-inner{isolation:isolate}
+.v10-proposal-pearl .pp-final-ring{transition:opacity .55s ease,transform .7s cubic-bezier(.2,.8,.2,1),filter .55s ease}
+.v10-proposal-pearl .pp-final-ring.is-question{opacity:.28!important;transform:translateY(-12%) scale(.86)!important;filter:blur(1.5px) brightness(1.14)!important;pointer-events:none}
+.v10-proposal-pearl .pp-question-wrap{z-index:20!important;color:#fff8ef!important;text-align:center!important}
+.v10-proposal-pearl .pp-question-wrap.is-visible{position:absolute!important;inset:72px 16px 20px!important;display:grid!important;align-content:center!important;justify-items:center!important;padding:28px 20px!important;border:1px solid rgba(236,204,151,.26)!important;border-radius:28px!important;background:radial-gradient(circle at 50% 18%,rgba(111,63,85,.44),transparent 34%),linear-gradient(160deg,rgba(29,15,25,.94),rgba(17,10,16,.97))!important;box-shadow:0 28px 90px #05030599,inset 0 1px 0 rgba(255,255,255,.08)!important;backdrop-filter:blur(15px)!important}
+.v10-proposal-pearl .pp-question-title{color:#fff8ef!important;opacity:1!important;filter:none!important;text-shadow:0 5px 30px #000!important;text-wrap:balance}
+.v10-proposal-pearl .pp-question-copy{color:#e5d3db!important;opacity:1!important;filter:none!important;max-width:560px!important}
+.v10-proposal-pearl .pp-question-actions{position:relative!important;z-index:22!important;display:flex!important;gap:10px!important;justify-content:center!important;opacity:1!important;visibility:visible!important;filter:none!important}
+.v10-proposal-pearl .pp-question-actions button{min-height:52px!important;opacity:1!important;visibility:visible!important}
+.v10-proposal-pearl .pp-question-actions .v10-cta{background:#fff1df!important;color:#28141f!important;border-color:#fff1df!important;box-shadow:0 14px 35px #0005!important}
+@media(max-width:760px){
+ .v10-proposal-pearl .pp-question-wrap.is-visible{inset:82px 14px 18px!important;padding:24px 17px!important;border-radius:24px!important}
+ .v10-proposal-pearl .pp-question-title{font-size:clamp(38px,11.3vw,54px)!important;line-height:.96!important}
+ .v10-proposal-pearl .pp-question-actions{width:100%!important;display:grid!important;grid-template-columns:1fr 1fr!important}
+ .v10-proposal-pearl .pp-question-actions button{width:100%!important;padding-inline:10px!important}
+}
+
+/* SILK HERITAGE — stronger touch affordance while keeping its editorial look. */
+.silk-editorial-intro .silk-intro-cta,#silkExperience .btn,.silk-stage-next{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.silk-editorial-intro .silk-intro-cta:focus-visible,#silkExperience .btn:focus-visible,.silk-stage-next:focus-visible{outline:2px solid #b99a6a;outline-offset:4px}
+@media(max-width:760px){
+ .silk-editorial-intro .silk-intro-cta,#silkExperience .btn,.silk-stage-next{min-height:50px}
+}
