@@ -19,15 +19,16 @@ for(const name of cssFiles){const css=await fs.readFile(path.join(ROOT,'template
 console.log('EMORA V13 boot passed: 5 curated flagships, guided creator, private public links, JS and CSS verified');
 
 function localizeHomeArtwork(html){
- const map=[
+ const artMap=[
   ['Romantic_Bouquet','/assets/love-rose.png'],
   ['22%2C_Bridal_bouquet','/assets/silk-heritage-original.jpg'],
+  ['Bridal_bouquet','/assets/silk-heritage-original.jpg'],
   ['Tiny_bouquets_at_a_birthday_party','/assets/birthday-aurora.png'],
   ['Rainy_Window','/assets/apology-quiet.png'],
   ['Engagement_ring_display','/assets/proposal-pearl.png']
  ];
- return html.replace(/https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\/[^"\n]+/gi,url=>{
-  const hit=map.find(([needle])=>url.includes(needle));
+ return html.replace(/https:\/\/commons\.wikimedia\.org\/wiki\/Special:(?:FilePath\/|Redirect\/file\/)[^"\n]+/gi,url=>{
+  const hit=artMap.find(([needle])=>url.includes(needle));
   return hit?hit[1]:'/assets/site-hero.png';
  });
 }
