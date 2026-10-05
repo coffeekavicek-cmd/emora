@@ -4,6 +4,9 @@ on:
     branches: [emora-v10-fifteen-experiences]
     paths:
       - .github/workflows/flagship-five-qa.yml
+      - supabase/functions/emora-checkout/**
+      - supabase/functions/emora-click/**
+      - supabase/functions/emora-payme/**
       - v5-live/server.mjs
       - v5-live/templates/v10-proposal-editor.js
       - v5-live/templates/v15-product-system.js
@@ -30,6 +33,7 @@ on:
       - v5-live/templates/v11-stage.css
       - v5-live/tests/v15-product-system-qa.mjs
       - v5-live/tests/v16-payment-ui-qa.mjs
+      - v5-live/tests/v16-payment-backend-static-qa.mjs
       - v5-live/tests/v12-silk-media-qa.mjs
       - v5-live/tests/v10-five-flagship-editor-qa.mjs
       - v5-live/tests/v10-rose-theatre-qa.mjs
@@ -69,6 +73,8 @@ jobs:
         run: node v5-live/tests/v15-product-system-qa.mjs
       - name: Product — gated Click/Payme V16 checkout
         run: node v5-live/tests/v16-payment-ui-qa.mjs
+      - name: Payments — backend callback security contract
+        run: node v5-live/tests/v16-payment-backend-static-qa.mjs
       - name: Creator Studio — flagship field adapters
         run: node v5-live/tests/v10-five-flagship-editor-qa.mjs
       - name: Love — Rose Theatre
