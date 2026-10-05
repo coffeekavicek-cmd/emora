@@ -67,9 +67,14 @@
  .v10-proposal-pearl .pp-question-actions button{width:100%!important;padding-inline:10px!important}
 }
 
-/* SILK HERITAGE — stronger touch affordance while keeping its editorial look. */
+/* SILK HERITAGE — editorial interaction plus optional personal film. */
 .silk-editorial-intro .silk-intro-cta,#silkExperience .btn,.silk-stage-next{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 .silk-editorial-intro .silk-intro-cta:focus-visible,#silkExperience .btn:focus-visible,.silk-stage-next:focus-visible{outline:2px solid #b99a6a;outline-offset:4px}
+.v12-silk-video{margin:20px 0 0;padding:14px;border:1px solid rgba(181,154,112,.28);border-radius:24px;background:linear-gradient(150deg,rgba(255,252,246,.92),rgba(245,236,223,.9));box-shadow:0 18px 50px rgba(69,53,39,.12);display:grid;grid-template-columns:minmax(180px,.65fr) minmax(0,1.35fr);gap:16px;align-items:center}
+.v12-silk-video-meta{padding:8px 5px}.v12-silk-video-meta small{display:block;color:#9b7d52;font-size:9px;letter-spacing:.17em;font-weight:800}.v12-silk-video-meta strong{display:block;margin:9px 0 7px;font:400 clamp(25px,3vw,38px)/1 Georgia,serif;color:#473a31}.v12-silk-video-meta p{margin:0;color:#7f7065;font-size:12px;line-height:1.55}
+.v12-silk-video-player{display:block;width:100%;height:min(31vh,280px);min-height:190px;object-fit:cover;border-radius:17px;background:#171210;box-shadow:0 16px 38px rgba(30,22,18,.18)}
 @media(max-width:760px){
  .silk-editorial-intro .silk-intro-cta,#silkExperience .btn,.silk-stage-next{min-height:50px}
+ .v12-silk-video{grid-template-columns:1fr;gap:10px;padding:11px;border-radius:18px;margin-top:12px}
+ .v12-silk-video-meta{padding:5px 3px}.v12-silk-video-meta strong{font-size:25px;margin:6px 0}.v12-silk-video-player{height:190px;min-height:190px;border-radius:13px}
 }
