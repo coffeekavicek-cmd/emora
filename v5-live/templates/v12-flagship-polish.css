@@ -6,12 +6,22 @@
 .v10-app button,.v10-app .v10-cta{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 .v10-app .v10-cta{min-height:48px}
 
-/* ROSE THEATRE — reduce dead curtain area on phones and make the decision feel like the stage finale. */
+/* ROSE THEATRE — real photos inside each act, denser mobile finale. */
+.v10-love-rose .rt-act{overflow:hidden!important;padding:0!important;display:grid!important;grid-template-rows:minmax(120px,1fr) auto!important;text-align:left!important}
+.v10-love-rose .rt-act-media{position:relative;display:block;min-height:150px;overflow:hidden;background:#26121a}
+.v10-love-rose .rt-act-image{width:100%;height:100%;min-height:150px;object-fit:cover;display:block;filter:saturate(.72) brightness(.72);transform:scale(1.04);transition:filter .5s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.v10-love-rose .rt-act-shade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 25%,rgba(25,7,13,.78) 100%)}
+.v10-love-rose .rt-act-meta{display:grid;gap:8px;padding:14px 15px 16px;min-height:116px;align-content:start}
+.v10-love-rose .rt-act.is-open .rt-act-image{filter:saturate(.92) brightness(.92);transform:scale(1.01)}
+.v10-love-rose .rt-act.is-open .rt-act-media:after{content:'✦';position:absolute;right:12px;top:10px;width:28px;height:28px;display:grid;place-items:center;border:1px solid #f0d6b855;border-radius:50%;background:#26121acc;color:#f8e4c7}
 .v10-love-rose .rt-finale .v10-scene-inner{padding-inline:clamp(12px,3vw,28px)}
 .v10-love-rose .rt-question{position:relative;z-index:8;margin-inline:auto;text-align:center}
 .v10-love-rose .rt-question .v10-final-actions{justify-content:center}
 .v10-love-rose .rt-question .v10-final-actions button{min-height:50px}
 @media(max-width:760px){
+ .v10-love-rose .rt-act-board{gap:7px!important}
+ .v10-love-rose .rt-act-media,.v10-love-rose .rt-act-image{min-height:112px!important}
+ .v10-love-rose .rt-act-meta{padding:10px!important;min-height:96px!important;gap:5px!important}
  .v10-love-rose .rt-final-curtain{height:min(46svh,360px)!important;min-height:292px!important;margin:0 auto 8px!important}
  .v10-love-rose .rt-question{width:min(100%,370px);padding:2px 8px 18px}
  .v10-love-rose .rt-final-title{font-size:clamp(38px,11vw,54px)!important;line-height:.96!important;text-wrap:balance}
