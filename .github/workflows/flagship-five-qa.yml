@@ -9,6 +9,8 @@ on:
       - v5-live/templates/v15-product-system.js
       - v5-live/templates/v15-runtime-fixes.js
       - v5-live/templates/v15-product-system.css
+      - v5-live/templates/v16-payment.js
+      - v5-live/templates/v16-payment.css
       - v5-live/templates/v12-flagship-polish.css
       - v5-live/templates/v12-silk-media.js
       - v5-live/templates/v10-rose-theatre.**
@@ -27,6 +29,7 @@ on:
       - v5-live/templates/v10-motion.css
       - v5-live/templates/v11-stage.css
       - v5-live/tests/v15-product-system-qa.mjs
+      - v5-live/tests/v16-payment-ui-qa.mjs
       - v5-live/tests/v12-silk-media-qa.mjs
       - v5-live/tests/v10-five-flagship-editor-qa.mjs
       - v5-live/tests/v10-rose-theatre-qa.mjs
@@ -64,6 +67,8 @@ jobs:
           curl --fail --silent --show-error http://127.0.0.1:3000/health
       - name: Product — unified competitor-informed V15 funnel
         run: node v5-live/tests/v15-product-system-qa.mjs
+      - name: Product — gated Click/Payme V16 checkout
+        run: node v5-live/tests/v16-payment-ui-qa.mjs
       - name: Creator Studio — flagship field adapters
         run: node v5-live/tests/v10-five-flagship-editor-qa.mjs
       - name: Love — Rose Theatre
