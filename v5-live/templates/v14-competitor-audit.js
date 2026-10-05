@@ -17,62 +17,17 @@ const ESSENTIALS={
 const $=s=>document.querySelector(s);
 const field=id=>$('#'+id)?.closest('.field');
 let decorateQueued=false,reconcileTimer=0;
-function clickAfterCategory(card,selector){
- card.click();
- let tries=0;const timer=setInterval(()=>{const target=$(selector);if(target){clearInterval(timer);target.click()}else if(++tries>20)clearInterval(timer)},25);
-}
-function decorateCategoryCards(){
- document.querySelectorAll('.category-card').forEach(card=>{
-  const item=FLAGSHIPS[card.dataset.category];if(!item)return;
-  card.setAttribute('role','group');card.setAttribute('aria-label',item.label+' flagship experience');
-  const body=card.querySelector('.category-body');if(!body||body.querySelector('.v14-category-actions'))return;
-  const actions=document.createElement('div');actions.className='v14-category-actions';
-  const preview=document.createElement('button');preview.type='button';preview.className='v14-preview';preview.textContent='Ko‘rish';preview.setAttribute('aria-label',item.label+' ni to‘liq ko‘rish');
-  const create=document.createElement('button');create.type='button';create.className='v14-create';create.textContent='Yaratish →';create.setAttribute('aria-label',item.label+' bilan yaratishni boshlash');
-  preview.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();clickAfterCategory(card,'#templateCards [data-preview="'+item.slug+'"]')});
-  create.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();clickAfterCategory(card,'#templateCards [data-use="'+item.slug+'"]')});
-  actions.append(preview,create);body.append(actions);
- });
-}
+function clickAfterCategory(card,selector){card.click();let tries=0;const timer=setInterval(()=>{const target=$(selector);if(target){clearInterval(timer);target.click()}else if(++tries>20)clearInterval(timer)},25)}
+function decorateCategoryCards(){document.querySelectorAll('.category-card').forEach(card=>{const item=FLAGSHIPS[card.dataset.category];if(!item)return;card.setAttribute('role','group');card.setAttribute('aria-label',item.label+' flagship experience');const body=card.querySelector('.category-body');if(!body||body.querySelector('.v14-category-actions'))return;const actions=document.createElement('div');actions.className='v14-category-actions';const preview=document.createElement('button');preview.type='button';preview.className='v14-preview';preview.textContent='Ko‘rish';preview.setAttribute('aria-label',item.label+' ni to‘liq ko‘rish');const create=document.createElement('button');create.type='button';create.className='v14-create';create.textContent='Yaratish →';create.setAttribute('aria-label',item.label+' bilan yaratishni boshlash');preview.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();clickAfterCategory(card,'#templateCards [data-preview="'+item.slug+'"]')});create.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();clickAfterCategory(card,'#templateCards [data-use="'+item.slug+'"]')});actions.append(preview,create);body.append(actions)})}
 function textLabel(id){const wrap=field(id),label=wrap?.querySelector(':scope > label');if(!label)return id;return [...label.childNodes].filter(n=>n.nodeType===Node.TEXT_NODE).map(n=>n.textContent).join(' ').trim()||id}
-function setBadge(id,required){
- if(id==='type'||id==='slug')return;
- const wrap=field(id),label=wrap?.querySelector(':scope > label');if(!label||wrap.classList.contains('v13-field-hidden'))return;
- const cls=required?'v13-required-badge':'v13-optional-badge',text=required?'KERAK':'IXTIYORIY';
- const badges=[...label.querySelectorAll('.v13-required-badge,.v13-optional-badge')];
- if(badges.length===1&&badges[0].classList.contains(cls)&&badges[0].textContent===text)return;
- badges.forEach(n=>n.remove());const badge=document.createElement('span');badge.className=cls;badge.textContent=text;label.append(' ',badge);
-}
-function enforceOptionalSender(slug){
- const wrap=field('name2');if(!wrap)return;
- const optional=slug!=='wedding-silk-heritage';wrap.dataset.v14Optional=optional?'true':'false';
- const label=wrap.querySelector(':scope > label');if(!label)return;
- let badge=label.querySelector('.v14-authoritative-optional');
- if(optional){if(!badge){badge=document.createElement('span');badge.className='v14-authoritative-optional';badge.textContent='IXTIYORIY';label.append(' ',badge)}}else badge?.remove();
-}
+function setBadge(id,required){if(id==='type'||id==='slug')return;const wrap=field(id),label=wrap?.querySelector(':scope > label');if(!label||wrap.classList.contains('v13-field-hidden'))return;const cls=required?'v13-required-badge':'v13-optional-badge',text=required?'KERAK':'IXTIYORIY';const badges=[...label.querySelectorAll('.v13-required-badge,.v13-optional-badge')];if(badges.length===1&&badges[0].classList.contains(cls)&&badges[0].textContent===text)return;badges.forEach(n=>n.remove());const badge=document.createElement('span');badge.className=cls;badge.textContent=text;label.append(' ',badge)}
+function enforceOptionalSender(slug){const wrap=field('name2');if(!wrap)return;const optional=slug!=='wedding-silk-heritage';wrap.dataset.v14Optional=optional?'true':'false';const label=wrap.querySelector(':scope > label');if(!label)return;let badge=label.querySelector('.v14-authoritative-optional');if(optional){if(!badge){badge=document.createElement('span');badge.className='v14-authoritative-optional';badge.textContent='IXTIYORIY';label.append(' ',badge)}}else badge?.remove()}
 function filled(id){const n=$('#'+id);return !!n&&String(n.value||'').trim().length>0}
-function refineCreator(){
- const slug=$('#type')?.value,ids=ESSENTIALS[slug];if(!ids)return;
- const visible=[...document.querySelectorAll('#studio .field')].filter(n=>!n.classList.contains('v13-field-hidden')&&!n.closest('.v13-group-hidden'));
- visible.forEach(w=>{const input=w.querySelector('input,textarea,select');if(input?.id)setBadge(input.id,ids.includes(input.id))});
- enforceOptionalSender(slug);
- const done=ids.filter(filled).length,pct=Math.round(done/ids.length*100),missing=ids.find(id=>!filled(id));
- const text=$('#v13-completion-text'),bar=$('#v13-progress-bar'),hint=$('#v13-next-hint');if(text&&text.textContent!==pct+'%')text.textContent=pct+'%';if(bar&&bar.style.width!==pct+'%')bar.style.width=pct+'%';const hintText=pct===100?'Asosiy qism tayyor ✓ Previewni ko‘ring; media qo‘shsangiz yanada shaxsiy bo‘ladi.':missing?textLabel(missing)+' — keyingi kerakli qadam.':'Asosiy maydonlarni to‘ldiring.';if(hint&&hint.textContent!==hintText)hint.textContent=hintText;
- document.documentElement.dataset.creatorReady=pct===100?'true':'false';
- const date=$('#dateField');if(date)date.classList.toggle('v13-group-hidden',slug!=='wedding-silk-heritage');
- accessibility();
-}
+function addEssentialProgress(){const anchor=$('#v14-creator-promise')||$('#v13-fast-path');if(!anchor||$('#v14-completion'))return;const box=document.createElement('div');box.id='v14-completion';box.className='v14-completion';box.innerHTML='<div class="v14-completion-head"><strong>Asosiy qism tayyorligi</strong><span id="v14-completion-text">0%</span></div><div class="v14-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="v14-progress-bar"></i></div><small id="v14-next-hint">Asosiy maydonlarni to‘ldiring — preview real vaqtda yangilanadi.</small>';anchor.insertAdjacentElement('afterend',box)}
+function refineCreator(){const slug=$('#type')?.value,ids=ESSENTIALS[slug];if(!ids)return;addEssentialProgress();const visible=[...document.querySelectorAll('#studio .field')].filter(n=>!n.classList.contains('v13-field-hidden')&&!n.closest('.v13-group-hidden'));visible.forEach(w=>{const input=w.querySelector('input,textarea,select');if(input?.id)setBadge(input.id,ids.includes(input.id))});enforceOptionalSender(slug);const done=ids.filter(filled).length,pct=Math.round(done/ids.length*100),missing=ids.find(id=>!filled(id));const text=$('#v14-completion-text'),bar=$('#v14-progress-bar'),hint=$('#v14-next-hint'),progress=$('.v14-progress');if(text&&text.textContent!==pct+'%')text.textContent=pct+'%';if(bar&&bar.style.width!==pct+'%')bar.style.width=pct+'%';const hintText=pct===100?'Asosiy qism tayyor ✓ Previewni ko‘ring; media qo‘shsangiz yanada shaxsiy bo‘ladi.':missing?textLabel(missing)+' — keyingi kerakli qadam.':'Asosiy maydonlarni to‘ldiring.';if(hint&&hint.textContent!==hintText)hint.textContent=hintText;if(progress&&progress.getAttribute('aria-valuenow')!==String(pct))progress.setAttribute('aria-valuenow',String(pct));document.documentElement.dataset.creatorReady=pct===100?'true':'false';const date=$('#dateField');if(date)date.classList.toggle('v13-group-hidden',slug!=='wedding-silk-heritage');accessibility()}
 function reconcileCreator(){clearTimeout(reconcileTimer);reconcileTimer=setTimeout(refineCreator,90)}
-function addCreatorPromise(){
- const fast=$('#v13-fast-path');if(!fast||$('#v14-creator-promise'))return;const note=document.createElement('div');note.id='v14-creator-promise';note.className='v14-creator-promise';note.innerHTML='<strong>Avval preview.</strong><span>Asosiy gaplarni kiriting → experience darrov yangilanadi. Surat, video va musiqa ixtiyoriy; recipientga editor yoki login ko‘rinmaydi.</span>';fast.insertAdjacentElement('afterend',note);
-}
-function accessibility(){
- const status=$('#status');if(status){status.setAttribute('role','status');status.setAttribute('aria-live','polite')}
- const auto=$('#v13-autosave-state');if(auto)auto.setAttribute('aria-live','polite');
- const progress=$('#v13-progress-bar');if(progress?.parentElement){const box=progress.parentElement,value=parseInt($('#v13-completion-text')?.textContent||'0',10);if(box.getAttribute('role')!=='progressbar')box.setAttribute('role','progressbar');if(box.getAttribute('aria-valuemin')!=='0')box.setAttribute('aria-valuemin','0');if(box.getAttribute('aria-valuemax')!=='100')box.setAttribute('aria-valuemax','100');const now=String(Number.isFinite(value)?value:0);if(box.getAttribute('aria-valuenow')!==now)box.setAttribute('aria-valuenow',now)}
-}
-function decorate(){decorateCategoryCards();addCreatorPromise();refineCreator();accessibility()}
+function addCreatorPromise(){const fast=$('#v13-fast-path');if(!fast||$('#v14-creator-promise'))return;const note=document.createElement('div');note.id='v14-creator-promise';note.className='v14-creator-promise';note.innerHTML='<strong>Avval preview.</strong><span>Asosiy gaplarni kiriting → experience darrov yangilanadi. Surat, video va musiqa ixtiyoriy; recipientga editor yoki login ko‘rinmaydi.</span>';fast.insertAdjacentElement('afterend',note)}
+function accessibility(){const status=$('#status');if(status){status.setAttribute('role','status');status.setAttribute('aria-live','polite')}const auto=$('#v13-autosave-state');if(auto)auto.setAttribute('aria-live','polite')}
+function decorate(){decorateCategoryCards();addCreatorPromise();addEssentialProgress();refineCreator();accessibility()}
 function schedule(){if(decorateQueued)return;decorateQueued=true;setTimeout(()=>{decorateQueued=false;decorate()},0)}
-new MutationObserver(schedule).observe(document.documentElement,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['class']});
-document.addEventListener('input',()=>{schedule();reconcileCreator()},true);document.addEventListener('change',()=>{schedule();reconcileCreator()},true);document.addEventListener('DOMContentLoaded',()=>{schedule();reconcileCreator()},{once:true});schedule();reconcileCreator();
-window.__EMORA_V14_AUDIT__={version:14,flagships:Object.values(FLAGSHIPS).map(x=>x.slug),essentials:ESSENTIALS};
+new MutationObserver(schedule).observe(document.documentElement,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['class']});document.addEventListener('input',()=>{schedule();reconcileCreator()},true);document.addEventListener('change',()=>{schedule();reconcileCreator()},true);document.addEventListener('DOMContentLoaded',()=>{schedule();reconcileCreator()},{once:true});schedule();reconcileCreator();window.__EMORA_V14_AUDIT__={version:14,flagships:Object.values(FLAGSHIPS).map(x=>x.slug),essentials:ESSENTIALS};
