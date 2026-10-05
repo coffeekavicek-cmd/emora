@@ -7,6 +7,7 @@ on:
       - v5-live/server.mjs
       - v5-live/templates/v10-proposal-editor.js
       - v5-live/templates/v15-product-system.js
+      - v5-live/templates/v15-runtime-fixes.js
       - v5-live/templates/v15-product-system.css
       - v5-live/templates/v12-flagship-polish.css
       - v5-live/templates/v12-silk-media.js
