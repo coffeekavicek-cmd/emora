@@ -19,16 +19,17 @@ for(const name of cssFiles){const css=await fs.readFile(path.join(ROOT,'template
 console.log('EMORA V13 boot passed: 5 curated flagships, guided creator, private public links, JS and CSS verified');
 
 function localizeHomeArtwork(html){
- const replacements=[
-  [/https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\/Romantic_Bouquet_[^"')\\]+/gi,'/assets/love-rose.png'],
-  [/https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\/22%2C_Bridal_bouquet_[^"')\\]+/gi,'/assets/silk-heritage-original.jpg'],
-  [/https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\/Tiny_bouquets_at_a_birthday_party_[^"')\\]+/gi,'/assets/birthday-aurora.png'],
-  [/https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\/Rainy_Window_[^"')\\]+/gi,'/assets/apology-quiet.png'],
-  [/https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\/Engagement_ring_display_[^"')\\]+/gi,'/assets/proposal-pearl.png']
+ const map=[
+  ['Romantic_Bouquet','/assets/love-rose.png'],
+  ['22%2C_Bridal_bouquet','/assets/silk-heritage-original.jpg'],
+  ['Tiny_bouquets_at_a_birthday_party','/assets/birthday-aurora.png'],
+  ['Rainy_Window','/assets/apology-quiet.png'],
+  ['Engagement_ring_display','/assets/proposal-pearl.png']
  ];
- for(const [pattern,local] of replacements)html=html.replace(pattern,local);
- html=html.replace(/https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\/[^"')\\]+/gi,'/assets/site-hero.png');
- return html;
+ return html.replace(/https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\/[^"\n]+/gi,url=>{
+  const hit=map.find(([needle])=>url.includes(needle));
+  return hit?hit[1]:'/assets/site-hero.png';
+ });
 }
 
 http.createServer(async(req,res)=>{let url;try{url=new URL(req.url,'http://localhost')}catch{res.writeHead(400);return res.end('Bad URL')}const pathname=url.pathname;const headers={'x-content-type-options':'nosniff','referrer-policy':'strict-origin-when-cross-origin'};if(pathname==='/health'){res.writeHead(200,{'content-type':'application/json','cache-control':'no-store',...headers});return res.end(JSON.stringify({ok:true,version:13,mode:'single-screen',categories:5,templates:15,flagships:5,catalog:'curated-five',creator:'guided-autosave',publicLinks:'noindex',flagshipMedia:'photos-video-music',localOriginalMedia:16}))}if(req.method!=='GET'&&req.method!=='HEAD'){res.writeHead(405,{'allow':'GET, HEAD',...headers});return res.end('Method not allowed')}let target=path.join(ROOT,'index.html'),cache='no-cache',robots='index,follow',mime='text/html; charset=utf-8';const isPublicGift=/^\/s\/[a-z0-9-]{1,60}$/.test(pathname);if(isPublicGift){cache='no-store';robots='noindex,nofollow'}const template=pathname.match(/^\/templates\/(v10-[a-z0-9-]+|wedding-silk)\.html$/);const file=template?.[1]+'.html';if(templateFiles.includes(file)){target=path.join(ROOT,'templates',file);cache='public,max-age=120';robots='noindex,nofollow'}else{const old=pathname.match(/^\/templates\/(love-rose|love-pearl|wedding-garden|birthday-aurora|apology-rain|proposal-pearl)\.html$/);if(old&&legacy[old[1]]){res.writeHead(302,{location:'/templates/v10-'+legacy[old[1]]+'.html'+url.search,'cache-control':'no-cache',...headers});return res.end()}const jsOrCss=pathname.match(/^\/templates\/([a-z0-9-]+\.(?:js|css))$/);if(jsOrCss&&(jsFiles.includes(jsOrCss[1])||cssFiles.includes(jsOrCss[1]))){target=path.join(ROOT,'templates',jsOrCss[1]);mime=pathname.endsWith('.js')?'application/javascript; charset=utf-8':'text/css; charset=utf-8';cache='public,max-age=3600';robots='noindex,nofollow'}else{const asset=pathname.match(/^\/assets\/([a-z0-9-]+)\.png$/);if(asset&&mediaNames.has(asset[1])){target=path.join(ROOT,'assets',asset[1]+'.png');mime='image/png';cache='public,max-age=86400';robots='noindex,nofollow'}else if(pathname==='/assets/silk-heritage-original.jpg'){target=path.join(ROOT,'assets','silk-heritage-original.jpg');mime='image/jpeg';cache='public,max-age=86400';robots='noindex,nofollow'}else if(pathname!=='/'&&!isPublicGift){res.writeHead(404,headers);return res.end('Not found')}}}try{let data=await fs.readFile(target);if(target===path.join(ROOT,'index.html')){let html=localizeHomeArtwork(data.toString('utf8'));if(!html.includes('/templates/v10-proposal-editor.js'))html=html.replace('</body>','<script type="module" src="/templates/v10-proposal-editor.js?v=4"></script></body>');if(!html.includes('/templates/v12-product-polish.js'))html=html.replace('</body>','<script type="module" src="/templates/v12-product-polish.js?v=4"></script></body>');data=Buffer.from(html)}else if(mime.startsWith('text/html')&&flagshipFiles.has(file)){let html=data.toString('utf8');if(!html.includes('/templates/v12-flagship-polish.css'))html=html.replace('</head>','<link rel="stylesheet" href="/templates/v12-flagship-polish.css?v=2"></head>');if(file==='wedding-silk.html'&&!html.includes('/templates/v12-silk-media.js'))html=html.replace('</body>','<script type="module" src="/templates/v12-silk-media.js?v=1"></script></body>');data=Buffer.from(html)}res.writeHead(200,{'content-type':mime,'cache-control':cache,'x-robots-tag':robots,...headers});return res.end(req.method==='HEAD'?undefined:data)}catch(e){console.error('EMORA missing route '+pathname+' '+e.code);res.writeHead(e.code==='ENOENT'?404:500,headers);res.end('Unavailable')}}).listen(PORT,()=>console.log('EMORA V13 listening on '+PORT));
