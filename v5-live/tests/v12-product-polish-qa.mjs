@@ -27,7 +27,7 @@ try{
   const options=await page.locator('#type option').allTextContents();if(options.length!==1)failures.push(group+' Creator Studio has '+options.length+' visible template options instead of 1');
   await page.locator('#changeCategory').click();await page.waitForTimeout(120);
  }
- await choose('love-rose-theatre');if(await visible('photo1'))failures.push('Rose exposes unused photo1 in fast path');if(!await visible('caption1')||!await visible('videoUrl'))failures.push('Rose hides required act/video fields');
+ await choose('love-rose-theatre');for(const id of ['photo1','photo2','photo3','caption1','videoUrl'])if(!await visible(id))failures.push('Rose hides required '+id);
  await choose('birthday-aurora-paper');for(const id of ['photo1','photo2','photo3','videoUrl'])if(!await visible(id))failures.push('Aurora hides required '+id);
  await choose('apology-quiet-room');if(!await visible('mistake')||!await visible('repair')||!await visible('photo1'))failures.push('Quiet Room hides required apology fields');if(await visible('photo2')||await visible('photo3'))failures.push('Quiet Room exposes unnecessary extra photos');
  await choose('proposal-pearl-promise');for(const id of ['mistake','repair','venue','photo1','photo2','photo3'])if(!await visible(id))failures.push('Pearl hides required '+id);if(await visible('memoryTitle'))failures.push('Pearl exposes unused memory title in fast path');
