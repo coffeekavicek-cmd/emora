@@ -1,12 +1,6 @@
 {
-  "passed": false,
-  "failures": [
-    "love catalog visual is not a first-party asset",
-    "wedding catalog visual is not a first-party asset",
-    "birthday catalog visual is not a first-party asset",
-    "apology catalog visual is not a first-party asset",
-    "proposal catalog visual is not a first-party asset"
-  ],
+  "passed": true,
+  "failures": [],
   "checkedGroups": 5,
   "publicFlagships": 5,
   "compatibleTemplates": 15,
