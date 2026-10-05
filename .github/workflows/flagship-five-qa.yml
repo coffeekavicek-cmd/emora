@@ -84,8 +84,6 @@ jobs:
         run: node v5-live/tests/v16-payment-ui-qa.mjs
       - name: Payments — backend callback security contract
         run: node v5-live/tests/v16-payment-backend-static-qa.mjs
-      - name: Owner — V17 analytics dashboard
-        run: node v5-live/tests/v17-admin-qa.mjs
       - name: Product — V18 reported preview + ritual regression
         run: node v5-live/tests/v18-studio-ritual-qa.mjs
       - name: Creator Studio — flagship field adapters
@@ -102,6 +100,8 @@ jobs:
         run: node v5-live/tests/silk-visual-qa.mjs
       - name: Wedding — personal film
         run: node v5-live/tests/v12-silk-media-qa.mjs
+      - name: Owner — V17 analytics dashboard
+        run: node v5-live/tests/v17-admin-qa.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
