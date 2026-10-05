@@ -8,8 +8,10 @@ const page=await browser.newPage({viewport:{width:1440,height:1000}});const fail
 const expected={love:'Rose Theatre',wedding:'Silk Heritage',birthday:'Aurora Paper',apology:'Quiet Room',proposal:'Pearl Promise'};
 try{
  const r=await page.goto(base+'/',{waitUntil:'domcontentloaded',timeout:45000});if(r.status()!==200)failures.push('Home HTTP '+r.status());
- await page.waitForFunction(()=>document.documentElement.dataset.emoraCatalog==='five-flagships',null,{timeout:12000});await page.waitForTimeout(250);
- const body=await page.locator('body').innerText();if(!/5 flagship/i.test(body))failures.push('Five-flagship positioning copy missing');if(/15 shablonni ko‘rish/i.test(body))failures.push('Old 15-template CTA still visible');
+ await page.waitForFunction(()=>document.documentElement.dataset.emoraCatalog==='five-flagships',null,{timeout:12000});await page.waitForTimeout(300);
+ const body=await page.locator('body').innerText();if(!/5 flagship/i.test(body))failures.push('Five-flagship positioning copy missing');if(/15 shablonni ko‘rish/i.test(body))failures.push('Old 15-template CTA still visible');if(/Supabase/i.test(body))failures.push('Backend implementation name leaked into customer copy');if(/Click\/Payme keyin/i.test(body))failures.push('Work-in-progress payment copy still visible');if(await page.locator('.competitor-note').count())failures.push('Internal competitor note is still visible');
+ const typeLabel=(await page.locator('#type').locator('xpath=ancestor::*[contains(@class,"field")][1]/label[1]').textContent())?.trim();if(typeLabel!=='EXPERIENCE')failures.push('Creator primary selector label is not EXPERIENCE: '+typeLabel);
+ for(const id of ['v12-translations','v12-media']){const d=page.locator('#'+id);if(await d.count()!==1)failures.push('Missing progressive editor section '+id);else if(await d.evaluate(n=>n.open))failures.push(id+' should be collapsed on first load')}
  const chips=await page.locator('.v12-proof-strip span').allTextContents();for(const copy of ['Preview bepul','Preview uchun akkaunt shart emas','Recipient login qilmaydi','Mobile-first'])if(!chips.includes(copy))failures.push('Missing proof chip: '+copy);
  const badges=await page.locator('.category-count').allTextContents();if(badges.length!==5||badges.some(x=>x.trim()!=='1 FLAGSHIP'))failures.push('Category badges are not five curated flagships: '+JSON.stringify(badges));
  for(const [group,name] of Object.entries(expected)){
