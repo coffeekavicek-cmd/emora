@@ -2,19 +2,25 @@
   {
     "name": "mobile",
     "viewport": "390x844",
-    "passed": true,
-    "failures": []
+    "passed": false,
+    "failures": [
+      "Test exception: locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#chapter-3 .pp-reason-button').nth(2)\n    - locator resolved to <button type=\"button\" aria-expanded=\"false\" class=\"pp-reason-button\">…</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div data-kind=\"cards\" aria-hidden=\"true\" class=\"v11-ritual-cue\">3 xotirani oching</div> intercepts pointer events\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div data-kind=\"cards\" aria-hidden=\"true\" class=\"v11-ritual-cue\">3 xotirani oching</div> intercepts pointer events\n    - retrying click action\n      - waiting 100ms\n    56 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - <div data-kind=\"cards\" aria-hidden=\"true\" class=\"v11-ritual-cue\">3 xotirani oching</div> intercepts pointer events\n     - retrying click action\n       - waiting 500ms\n"
+    ]
   },
   {
     "name": "small",
     "viewport": "360x740",
-    "passed": true,
-    "failures": []
+    "passed": false,
+    "failures": [
+      "Test exception: locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#chapter-3 .pp-reason-button').nth(2)\n    - locator resolved to <button type=\"button\" aria-expanded=\"false\" class=\"pp-reason-button\">…</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div data-kind=\"cards\" aria-hidden=\"true\" class=\"v11-ritual-cue\">3 xotirani oching</div> intercepts pointer events\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div data-kind=\"cards\" aria-hidden=\"true\" class=\"v11-ritual-cue\">3 xotirani oching</div> intercepts pointer events\n    - retrying click action\n      - waiting 100ms\n    56 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - <div data-kind=\"cards\" aria-hidden=\"true\" class=\"v11-ritual-cue\">3 xotirani oching</div> intercepts pointer events\n     - retrying click action\n       - waiting 500ms\n"
+    ]
   },
   {
     "name": "desktop",
     "viewport": "1440x900",
-    "passed": true,
-    "failures": []
+    "passed": false,
+    "failures": [
+      "Test exception: locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('#chapter-3 .pp-story-continue')\n    - locator resolved to <button type=\"button\" class=\"v10-cta pp-story-continue is-visible\">Va’damni eshitish  →</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div data-kind=\"cards\" aria-hidden=\"true\" class=\"v11-ritual-cue\">3 xotirani oching</div> intercepts pointer events\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - <div data-kind=\"cards\" aria-hidden=\"true\" class=\"v11-ritual-cue\">3 xotirani oching</div> intercepts pointer events\n    - retrying click action\n      - waiting 100ms\n    56 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - <div data-kind=\"cards\" aria-hidden=\"true\" class=\"v11-ritual-cue\">3 xotirani oching</div> intercepts pointer events\n     - retrying click action\n       - waiting 500ms\n"
+    ]
   }
 ]
