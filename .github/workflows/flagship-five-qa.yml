@@ -6,11 +6,10 @@ on:
       - .github/workflows/flagship-five-qa.yml
       - v5-live/server.mjs
       - v5-live/templates/v10-proposal-editor.js
-      - v5-live/templates/v12-product-polish.js
+      - v5-live/templates/v15-product-system.js
+      - v5-live/templates/v15-product-system.css
       - v5-live/templates/v12-flagship-polish.css
       - v5-live/templates/v12-silk-media.js
-      - v5-live/templates/v14-competitor-audit.js
-      - v5-live/templates/v14-competitor-audit.css
       - v5-live/templates/v10-rose-theatre.**
       - v5-live/templates/v10-love-rose.html
       - v5-live/templates/v10-aurora-paper.**
@@ -26,8 +25,7 @@ on:
       - v5-live/templates/v10-core.css
       - v5-live/templates/v10-motion.css
       - v5-live/templates/v11-stage.css
-      - v5-live/tests/v12-product-polish-qa.mjs
-      - v5-live/tests/v14-competitor-audit-qa.mjs
+      - v5-live/tests/v15-product-system-qa.mjs
       - v5-live/tests/v12-silk-media-qa.mjs
       - v5-live/tests/v10-five-flagship-editor-qa.mjs
       - v5-live/tests/v10-rose-theatre-qa.mjs
@@ -63,10 +61,8 @@ jobs:
           done
           cat /tmp/emora-five.log
           curl --fail --silent --show-error http://127.0.0.1:3000/health
-      - name: Product — curated five catalog
-        run: node v5-live/tests/v12-product-polish-qa.mjs
-      - name: Product — competitor-audited direct funnel
-        run: node v5-live/tests/v14-competitor-audit-qa.mjs
+      - name: Product — unified competitor-informed V15 funnel
+        run: node v5-live/tests/v15-product-system-qa.mjs
       - name: Creator Studio — flagship field adapters
         run: node v5-live/tests/v10-five-flagship-editor-qa.mjs
       - name: Love — Rose Theatre
