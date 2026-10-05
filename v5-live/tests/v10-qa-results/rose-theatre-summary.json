@@ -1,0 +1,20 @@
+[
+  {
+    "name": "mobile",
+    "viewport": "390x844",
+    "passed": true,
+    "failures": []
+  },
+  {
+    "name": "small",
+    "viewport": "360x740",
+    "passed": true,
+    "failures": []
+  },
+  {
+    "name": "desktop",
+    "viewport": "1440x900",
+    "passed": true,
+    "failures": []
+  }
+]

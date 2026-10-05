@@ -1,11 +1,9 @@
 {
-  "passed": false,
-  "failures": [
-    "Mistake text did not round-trip: {\"editor\":{\"mistake\":\"\",\"repair\":\"QA amalda tinglayman\",\"letter\":\"QA yozilmay qolgan gaplar\",\"template\":\"apology-quiet-room\"},\"iframe\":{\"title\":\"QA PRIVATE ROOM\",\"recipient\":\"QA DILNOZA\",\"mistake\":\"QA yozilmay qolgan gaplar\",\"repair\":\"QA amalda tinglayman\",\"letter\":\"QA yozilmay qolgan gaplar\",\"final\":\"QA qaroring muhim\",\"listening\":[\"QA hislaringni inkor qilmayman\",\"QA shoshilishing shart emas\",\"QA qaroringni hurmat qilaman\"]}}"
-  ],
+  "passed": true,
+  "failures": [],
   "diagnostics": {
     "editor": {
-      "mistake": "",
+      "mistake": "QA xatoni bahonasiz tan olaman",
       "repair": "QA amalda tinglayman",
       "letter": "QA yozilmay qolgan gaplar",
       "template": "apology-quiet-room"
@@ -13,7 +11,7 @@
     "iframe": {
       "title": "QA PRIVATE ROOM",
       "recipient": "QA DILNOZA",
-      "mistake": "QA yozilmay qolgan gaplar",
+      "mistake": "QA xatoni bahonasiz tan olaman",
       "repair": "QA amalda tinglayman",
       "letter": "QA yozilmay qolgan gaplar",
       "final": "QA qaroring muhim",
