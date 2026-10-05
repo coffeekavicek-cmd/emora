@@ -27,8 +27,20 @@ if(type&&storyExtras&&apology&&wedding&&mistake&&repair&&venue&&letter&&finalQue
  function restoreExtras(){home(mistakeField,mistakeMarker);home(repairField,repairMarker);home(venueField,venueMarker);[mistake,repair,venue].forEach(resetField);pearl.classList.add('hidden')}
  function sync(){
   const value=type.value,proposal=value.startsWith('proposal-');
-  resetCommon();restoreExtras();cinema.classList.add('hidden');sky.classList.add('hidden');quiet.classList.add('hidden');
+  resetCommon();cinema.classList.add('hidden');sky.classList.add('hidden');quiet.classList.add('hidden');
   if(dateField)dateField.classList.toggle('hidden',value.startsWith('apology-')||proposal);
+  if(value==='proposal-pearl-promise'){
+   pearl.classList.remove('hidden');
+   if(mistakeField.parentNode!==pearl)pearl.append(mistakeField);
+   if(repairField.parentNode!==pearl)pearl.append(repairField);
+   if(venueField.parentNode!==pearl)pearl.append(venueField);
+   setField(mistake,'NEGA SEN? · 1-SABAB','Masalan: Sen bilan oddiy kun ham xotiraga aylanadi.');
+   setField(repair,'NEGA SEN? · 2-SABAB','Masalan: Yonimda o‘zim bo‘la oladigan inson — sensan.');
+   setField(venue,'NEGA SEN? · 3-SABAB','Masalan: Kelajagimni tasavvur qilganimda, unda doim sen borsan.');
+   setField(letter,'MENING VA’DAM · UZ','Unga aytmoqchi bo‘lgan haqiqiy va’dangizni yozing...');
+   setField(finalQuestion,'ENG MUHIM SAVOL','Masalan: Dilnoza, menga turmushga chiqasanmi?');return;
+  }
+  restoreExtras();
   if(value==='love-rose-theatre'){
    setField(memoryTitle,'SPEKTAKL / HIKOYA NOMI','Masalan: Bizning hikoyamiz');
    setField(captions[0],'ACT I · BIRINCHI KADR','Masalan: Birinchi uchrashuv — hammasi oddiy boshlangan edi.');
@@ -42,10 +54,6 @@ if(type&&storyExtras&&apology&&wedding&&mistake&&repair&&venue&&letter&&finalQue
    setField(memoryTitle,'MEMORY CONTACT SHEET · NOMI','Masalan: Sening eng chiroyli kadrlaring');
    setField(captions[0],'01-TILAK','Birinchi haqiqiy tilak...');setField(captions[1],'02-TILAK','Ikkinchi haqiqiy tilak...');setField(captions[2],'03-TILAK','Uchinchi haqiqiy tilak...');
    setField(videoUrl,'PRIVATE BIRTHDAY FILM · VIDEO','https://...mp4');setField(letter,'BIRTHDAY LETTER · UZ','Template gap emas — aynan shu odamga yozilgan tabrik...');setField(finalQuestion,'FINAL WISH · OXIRGI SATR','Masalan: Bugun hamma nur seniki.');return;
-  }
-  if(value==='proposal-pearl-promise'){
-   pearl.classList.remove('hidden');pearl.append(mistakeField,repairField,venueField);
-   setField(mistake,'NEGA SEN? · 1-SABAB','Masalan: Sen bilan oddiy kun ham xotiraga aylanadi.');setField(repair,'NEGA SEN? · 2-SABAB','Masalan: Yonimda o‘zim bo‘la oladigan inson — sensan.');setField(venue,'NEGA SEN? · 3-SABAB','Masalan: Kelajagimni tasavvur qilganimda, unda doim sen borsan.');setField(letter,'MENING VA’DAM · UZ','Unga aytmoqchi bo‘lgan haqiqiy va’dangizni yozing...');setField(finalQuestion,'ENG MUHIM SAVOL','Masalan: Dilnoza, menga turmushga chiqasanmi?');return;
   }
   if(value==='apology-quiet-room'){
    quiet.classList.remove('hidden');setField(memoryTitle,'XONA / KIRISH SATRI','Masalan: Shovqinsiz bir suhbat');setField(mistake,'ANIQ TAN OLISH · BAHONASIZ','Nimani noto‘g‘ri qilganingizni bitta aniq fikr bilan yozing.');setField(repair,'MEN BOSHQA NIMA QILAMAN','Keyingi safar amalda nimani boshqacha qilishingizni yozing.');setField(captions[0],'TINGLASH SATRI · 01','Masalan: Sening hislaringni inkor qilmayman.');setField(captions[1],'TINGLASH SATRI · 02','Masalan: Javobni hozir berishing shart emas.');setField(captions[2],'TINGLASH SATRI · 03','Masalan: Chegaralaringni hurmat qilaman.');setField(letter,'YOZILMAY QOLGAN GAPLAR · UZ','Ko‘ndirish emas — aytilishi kerak bo‘lgan samimiy gaplarni yozing...');setField(videoUrl,'IXTIYORIY VIDEO · AUTOPLAY YO‘Q','https://...mp4');setField(finalQuestion,'FINAL · HURMATLI YAKUN','Masalan: Sening vaqting va qaroring muhim.');return;
