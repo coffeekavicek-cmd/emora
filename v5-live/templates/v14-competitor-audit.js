@@ -36,6 +36,7 @@ function decorateCategoryCards(){
 }
 function textLabel(id){const wrap=field(id),label=wrap?.querySelector(':scope > label');if(!label)return id;return [...label.childNodes].filter(n=>n.nodeType===Node.TEXT_NODE).map(n=>n.textContent).join(' ').trim()||id}
 function setBadge(id,required){
+ if(id==='type'||id==='slug')return;
  const wrap=field(id),label=wrap?.querySelector(':scope > label');if(!label||wrap.classList.contains('v13-field-hidden'))return;
  label.querySelectorAll('.v13-required-badge,.v13-optional-badge').forEach(n=>n.remove());
  const badge=document.createElement('span');badge.className=required?'v13-required-badge':'v13-optional-badge';badge.textContent=required?'KERAK':'IXTIYORIY';label.append(' ',badge);
