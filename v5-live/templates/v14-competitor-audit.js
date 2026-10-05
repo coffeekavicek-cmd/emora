@@ -16,7 +16,7 @@ const ESSENTIALS={
 };
 const $=s=>document.querySelector(s);
 const field=id=>$('#'+id)?.closest('.field');
-let decorateQueued=false;
+let decorateQueued=false,reconcileTimer=0;
 function clickAfterCategory(card,selector){
  card.click();
  let tries=0;const timer=setInterval(()=>{const target=$(selector);if(target){clearInterval(timer);target.click()}else if(++tries>20)clearInterval(timer)},25);
@@ -53,7 +53,9 @@ function refineCreator(){
  document.documentElement.dataset.creatorReady=pct===100?'true':'false';
  const date=$('#dateField');if(date)date.classList.toggle('v13-group-hidden',slug!=='wedding-silk-heritage');
  const name2=field('name2');if(name2&&slug!=='wedding-silk-heritage')name2.dataset.v14Optional='true';
+ accessibility();
 }
+function reconcileCreator(){clearTimeout(reconcileTimer);reconcileTimer=setTimeout(refineCreator,90)}
 function addCreatorPromise(){
  const fast=$('#v13-fast-path');if(!fast||$('#v14-creator-promise'))return;const note=document.createElement('div');note.id='v14-creator-promise';note.className='v14-creator-promise';note.innerHTML='<strong>Avval preview.</strong><span>Asosiy gaplarni kiriting → experience darrov yangilanadi. Surat, video va musiqa ixtiyoriy; recipientga editor yoki login ko‘rinmaydi.</span>';fast.insertAdjacentElement('afterend',note);
 }
@@ -64,6 +66,6 @@ function accessibility(){
 }
 function decorate(){decorateCategoryCards();addCreatorPromise();refineCreator();accessibility()}
 function schedule(){if(decorateQueued)return;decorateQueued=true;setTimeout(()=>{decorateQueued=false;decorate()},0)}
-new MutationObserver(schedule).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});
-document.addEventListener('input',schedule,true);document.addEventListener('change',schedule,true);document.addEventListener('DOMContentLoaded',schedule,{once:true});schedule();
+new MutationObserver(schedule).observe(document.documentElement,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['class']});
+document.addEventListener('input',()=>{schedule();reconcileCreator()},true);document.addEventListener('change',()=>{schedule();reconcileCreator()},true);document.addEventListener('DOMContentLoaded',()=>{schedule();reconcileCreator()},{once:true});schedule();reconcileCreator();
 window.__EMORA_V14_AUDIT__={version:14,flagships:Object.values(FLAGSHIPS).map(x=>x.slug),essentials:ESSENTIALS};
