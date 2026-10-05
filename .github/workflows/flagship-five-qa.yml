@@ -17,6 +17,10 @@ on:
       - v5-live/templates/v16-payment.css
       - v5-live/templates/v17-admin.js
       - v5-live/templates/v17-admin.css
+      - v5-live/templates/v18-studio-rebuild.js
+      - v5-live/templates/v18-studio-rebuild.css
+      - v5-live/templates/v18-flagship-polish.js
+      - v5-live/templates/v18-flagship-polish.css
       - v5-live/templates/v12-flagship-polish.css
       - v5-live/templates/v12-silk-media.js
       - v5-live/templates/v10-rose-theatre.**
@@ -38,6 +42,7 @@ on:
       - v5-live/tests/v16-payment-ui-qa.mjs
       - v5-live/tests/v16-payment-backend-static-qa.mjs
       - v5-live/tests/v17-admin-qa.mjs
+      - v5-live/tests/v18-studio-ritual-qa.mjs
       - v5-live/tests/v12-silk-media-qa.mjs
       - v5-live/tests/v10-five-flagship-editor-qa.mjs
       - v5-live/tests/v10-rose-theatre-qa.mjs
@@ -81,6 +86,8 @@ jobs:
         run: node v5-live/tests/v16-payment-backend-static-qa.mjs
       - name: Owner — V17 analytics dashboard
         run: node v5-live/tests/v17-admin-qa.mjs
+      - name: Product — V18 reported preview + ritual regression
+        run: node v5-live/tests/v18-studio-ritual-qa.mjs
       - name: Creator Studio — flagship field adapters
         run: node v5-live/tests/v10-five-flagship-editor-qa.mjs
       - name: Love — Rose Theatre
