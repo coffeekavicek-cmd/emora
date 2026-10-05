@@ -6,7 +6,8 @@
 .v10-app button,.v10-app .v10-cta{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 .v10-app .v10-cta{min-height:48px}
 
-/* ROSE THEATRE — real photos inside each act, denser mobile finale. */
+/* ROSE THEATRE — real photos inside each act, safe chrome spacing, denser mobile finale. */
+.v10-love-rose .rt-acts .v10-scene-inner{box-sizing:border-box!important;padding-top:78px!important;padding-bottom:18px!important}
 .v10-love-rose .rt-act{overflow:hidden!important;padding:0!important;display:grid!important;grid-template-rows:minmax(120px,1fr) auto!important;text-align:left!important}
 .v10-love-rose .rt-act-media{position:relative;display:block;min-height:150px;overflow:hidden;background:#26121a}
 .v10-love-rose .rt-act-image{width:100%;height:100%;min-height:150px;object-fit:cover;display:block;filter:saturate(.72) brightness(.72);transform:scale(1.04);transition:filter .5s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
@@ -19,9 +20,18 @@
 .v10-love-rose .rt-question .v10-final-actions{justify-content:center}
 .v10-love-rose .rt-question .v10-final-actions button{min-height:50px}
 @media(max-width:760px){
- .v10-love-rose .rt-act-board{gap:7px!important}
- .v10-love-rose .rt-act-media,.v10-love-rose .rt-act-image{min-height:112px!important}
- .v10-love-rose .rt-act-meta{padding:10px!important;min-height:96px!important;gap:5px!important}
+ .v10-love-rose .rt-acts .v10-scene-inner{padding:66px 12px 12px!important;justify-content:center!important}
+ .v10-love-rose .rt-acts .v10-scene-title{font-size:clamp(27px,7.4vw,36px)!important;line-height:1!important;margin:2px 0 4px!important}
+ .v10-love-rose .rt-acts .v10-scene-intro{font-size:11px!important;line-height:1.45!important;margin:0 0 4px!important;max-width:330px!important}
+ .v10-love-rose .rt-act-board{gap:7px!important;width:min(350px,94vw)!important;margin:2px auto!important}
+ .v10-love-rose .rt-act{grid-template-columns:88px minmax(0,1fr)!important;grid-template-rows:96px!important;min-height:96px!important;max-height:96px!important;border-radius:16px!important}
+ .v10-love-rose .rt-act-media,.v10-love-rose .rt-act-image{width:88px!important;height:96px!important;min-height:96px!important}
+ .v10-love-rose .rt-act-meta{padding:9px 11px!important;min-height:96px!important;height:96px!important;gap:3px!important;align-content:center!important}
+ .v10-love-rose .rt-act .rt-act-meta small{font-size:8px!important;margin:0!important}
+ .v10-love-rose .rt-act .rt-act-meta strong{font-size:14px!important;line-height:1.22!important;margin:2px 0!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important}
+ .v10-love-rose .rt-act .rt-act-meta>span{font-size:7px!important;margin:1px 0 0!important}
+ .v10-love-rose .rt-act.is-open .rt-act-media:after{right:7px;top:7px;width:22px;height:22px;font-size:9px}
+ .v10-love-rose .rt-acts-next{min-height:42px!important;padding:10px 18px!important;font-size:10px!important;margin-top:2px!important}
  .v10-love-rose .rt-final-curtain{height:min(46svh,360px)!important;min-height:292px!important;margin:0 auto 8px!important}
  .v10-love-rose .rt-question{width:min(100%,370px);padding:2px 8px 18px}
  .v10-love-rose .rt-final-title{font-size:clamp(38px,11vw,54px)!important;line-height:.96!important;text-wrap:balance}
