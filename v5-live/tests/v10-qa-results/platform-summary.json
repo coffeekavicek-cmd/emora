@@ -1,6 +1,8 @@
 {
-  "passed": true,
-  "failures": [],
+  "passed": false,
+  "failures": [
+    "Curated five catalog did not render"
+  ],
   "checkedGroups": 5,
   "publicFlagships": 5,
   "compatibleTemplates": 15,
