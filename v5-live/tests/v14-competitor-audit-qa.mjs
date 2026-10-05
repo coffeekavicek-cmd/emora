@@ -16,7 +16,8 @@ try{
  const opts=await page.locator('#type option').evaluateAll(ns=>ns.map(n=>n.value));const expected=['love-rose-theatre','wedding-silk-heritage','birthday-aurora-paper','apology-quiet-room','proposal-pearl-promise'];if(opts.length!==5||expected.some(x=>!opts.includes(x)))failures.push('Experience select is not curated five: '+opts.join(','));
  // Direct preview must skip the redundant one-template browsing step.
  await page.locator('.category-card[data-category="love"] .v14-preview').click();await page.waitForSelector('#templateModal:not(.hidden)',{timeout:5000});const previewSrc=await page.locator('#templateIframe').getAttribute('src');if(!String(previewSrc).includes('v10-love-rose.html'))failures.push('Love direct preview opened wrong experience: '+previewSrc);await page.locator('#templateClose').click();
- // Direct create for birthday, sender is optional and date is irrelevant/hidden.
+ // Return to category choice, then start Birthday directly.
+ await page.locator('#changeCategory').click();await page.waitForSelector('#categoryGrid:not(.hidden)',{timeout:3000});
  await page.locator('.category-card[data-category="birthday"] .v14-create').click();await page.waitForFunction(()=>document.querySelector('#type')?.value==='birthday-aurora-paper',null,{timeout:5000});await wait(350);
  if(!(await page.locator('#dateField').evaluate(n=>n.classList.contains('v13-group-hidden')||n.classList.contains('hidden'))))failures.push('Birthday date field should be hidden');
  await fill('name1','QA DILNOZA');await fill('headline','QA birthday intro');await fill('letter','QA birthday letter');await fill('finalQuestion','QA final wish');await wait(200);
