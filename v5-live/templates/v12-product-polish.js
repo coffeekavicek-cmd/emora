@@ -13,103 +13,24 @@ const allowedNames=new Set(Object.values(FLAGSHIPS).map(x=>x.name));
 let scheduled=false;
 const $=s=>document.querySelector(s);
 const field=id=>$('#'+id)?.closest('.field');
-
-function replaceMarketingCopy(){
- const root=document.body;if(!root)return;
- const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
- for(const node of nodes){let v=node.nodeValue||'',n=v;
-  n=n.replace(/5 yo‘nalishda 15 ta original cinematic shablon/gi,'5 yo‘nalishda 5 ta flagship cinematic experience');
-  n=n.replace(/15 shablonni ko‘rish/gi,'5 flagshipni ko‘rish');
-  n=n.replace(/15 SIGNATURE EXPERIENCES/g,'5 CURATED FLAGSHIPS');
-  n=n.replace(/15 ta original/gi,'5 ta flagship');
-  n=n.replace(/premium shablonlar ochiladi/gi,'shu voqea uchun yaratilgan flagship experience ochiladi');
-  n=n.replace(/Shablonni haqiqiy loyihaga aylantiring\./g,"Experience'ni o‘zingizniki qiling.");
-  n=n.replace(/Akkauntga kirgach draft Supabase’da saqlanadi, Publish esa public havola yaratadi\./g,'Preview darhol ishlaydi. Akkaunt faqat saqlash va publish uchun kerak. Recipient esa login qilmaydi.');
-  n=n.replace(/Draft Supabase’da saqlandi ✓/g,'Draft saqlandi ✓');
-  n=n.replace(/uchun shablonlar/g,'uchun flagship experience');
-  n=n.replace(/Shu uslubda yaratish/g,'Shu experience bilan yaratish');
-  n=n.replace(/Photo sources: Wikimedia Commons \/ CC0 Unsplash archives · Click\/Payme keyin/g,'EMORA · 5 curated flagship experiences');
-  if(n!==v)node.nodeValue=n;
- }
- document.querySelectorAll('.category-count').forEach(n=>n.textContent='1 FLAGSHIP');
- const templateLabel=$('#type')?.closest('.field')?.querySelector(':scope > label');if(templateLabel)templateLabel.textContent='EXPERIENCE';
- $('.competitor-note')?.remove();
-}
-
-function localizeCategoryCards(){
- document.querySelectorAll('.category-card').forEach(card=>{
-  const item=FLAGSHIPS[card.dataset.category];if(!item)return;
-  const visual=card.querySelector('.category-visual');if(visual){visual.style.backgroundImage=`linear-gradient(180deg,rgba(255,255,255,.04),rgba(24,15,16,.46)),url("${item.art}")`;visual.dataset.localArt='true'}
-  const copy=card.querySelector('.category-body p');if(copy)copy.textContent=item.copy;
-  const badge=card.querySelector('.category-count');if(badge)badge.textContent='1 FLAGSHIP';
- });
-}
-
-function addProofStrip(){
- const actions=$('.hero .actions');if(!actions||$('.v12-proof-strip'))return;
- const strip=document.createElement('div');strip.className='v12-proof-strip';
- ['Preview bepul','Akkauntsiz yaratishni boshlash','Recipient login qilmaydi','Mobile-first','Shaxsiy link + QR'].forEach(text=>{const span=document.createElement('span');span.textContent=text;strip.append(span)});actions.insertAdjacentElement('afterend',strip);
-}
-function addFastPath(){
- const panel=$('#studio .panel');if(!panel||$('#v12-fast-path'))return;
- const selector=$('#type')?.closest('.field');if(!selector)return;
- const box=document.createElement('div');box.id='v12-fast-path';box.className='v12-fast-path';box.innerHTML='<strong>FAST CREATOR</strong><span>1 · Ismlar</span><span>2 · Asosiy gap</span><span>3 · Media ixtiyoriy</span><span>4 · Preview → publish</span>';
- selector.insertAdjacentElement('beforebegin',box);
-}
-function filterCards(){
- document.querySelectorAll('#templateCards .card').forEach(card=>{const name=card.querySelector('h3')?.textContent?.trim();if(name&&!allowedNames.has(name))card.remove()});
- const visible=[...document.querySelectorAll('#templateCards .card')];if(visible.length===1){const p=$('#selectedCategoryCopy');const group=$('#type')?.value?.split('-')[0];if(p&&group&&FLAGSHIPS[group])p.textContent=FLAGSHIPS[group].copy;if(p&&!p.nextElementSibling?.classList.contains('v12-curated-note'))p.insertAdjacentHTML('afterend','<p class="v12-curated-note">Bitta yo‘nalish — bitta eng kuchli experience. Variant ko‘paytirish emas, sifatga fokus.</p>')}
-}
+function replaceMarketingCopy(){const root=document.body;if(!root)return;const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);for(const node of nodes){let v=node.nodeValue||'',n=v;n=n.replace(/5 yo‘nalishda 15 ta original cinematic shablon/gi,'5 yo‘nalishda 5 ta flagship cinematic experience');n=n.replace(/15 shablonni ko‘rish/gi,'5 flagshipni ko‘rish');n=n.replace(/15 SIGNATURE EXPERIENCES/g,'5 CURATED FLAGSHIPS');n=n.replace(/15 ta original/gi,'5 ta flagship');n=n.replace(/premium shablonlar ochiladi/gi,'shu voqea uchun yaratilgan flagship experience ochiladi');n=n.replace(/Shablonni haqiqiy loyihaga aylantiring\./g,"Experience'ni o‘zingizniki qiling.");n=n.replace(/Akkauntga kirgach draft Supabase’da saqlanadi, Publish esa public havola yaratadi\./g,'Preview darhol ishlaydi. Akkaunt faqat saqlash va publish uchun kerak. Recipient esa login qilmaydi.');n=n.replace(/Draft Supabase’da saqlandi ✓/g,'Draft saqlandi ✓');n=n.replace(/uchun shablonlar/g,'uchun flagship experience');n=n.replace(/Shu uslubda yaratish/g,'Shu experience bilan yaratish');n=n.replace(/Photo sources: Wikimedia Commons \/ CC0 Unsplash archives · Click\/Payme keyin/g,'EMORA · 5 curated flagship experiences');if(n!==v)node.nodeValue=n}document.querySelectorAll('.category-count').forEach(n=>n.textContent='1 FLAGSHIP');const templateLabel=$('#type')?.closest('.field')?.querySelector(':scope > label');if(templateLabel)templateLabel.textContent='EXPERIENCE';$('.competitor-note')?.remove()}
+function localizeCategoryCards(){document.querySelectorAll('.category-card').forEach(card=>{const item=FLAGSHIPS[card.dataset.category];if(!item)return;const visual=card.querySelector('.category-visual');if(visual){visual.style.backgroundImage=`linear-gradient(180deg,rgba(255,255,255,.04),rgba(24,15,16,.46)),url("${item.art}")`;visual.dataset.localArt='true'}const copy=card.querySelector('.category-body p');if(copy)copy.textContent=item.copy;const badge=card.querySelector('.category-count');if(badge)badge.textContent='1 FLAGSHIP'})}
+function addProofStrip(){const actions=$('.hero .actions');if(!actions||$('.v12-proof-strip'))return;const strip=document.createElement('div');strip.className='v12-proof-strip';['Preview bepul','Akkauntsiz yaratishni boshlash','Recipient login qilmaydi','Mobile-first','Shaxsiy link + QR'].forEach(text=>{const span=document.createElement('span');span.textContent=text;strip.append(span)});actions.insertAdjacentElement('afterend',strip)}
+function addFastPath(){const panel=$('#studio .panel');if(!panel||$('#v12-fast-path'))return;const selector=$('#type')?.closest('.field');if(!selector)return;const box=document.createElement('div');box.id='v12-fast-path';box.className='v12-fast-path';box.innerHTML='<strong>FAST CREATOR</strong><span>1 · Ismlar</span><span>2 · Asosiy gap</span><span>3 · Media ixtiyoriy</span><span>4 · Preview → publish</span>';selector.insertAdjacentElement('beforebegin',box)}
+function filterCards(){document.querySelectorAll('#templateCards .card').forEach(card=>{const name=card.querySelector('h3')?.textContent?.trim();if(name&&!allowedNames.has(name))card.remove()});const visible=[...document.querySelectorAll('#templateCards .card')];if(visible.length===1){const p=$('#selectedCategoryCopy');const group=$('#type')?.value?.split('-')[0];if(p&&group&&FLAGSHIPS[group])p.textContent=FLAGSHIPS[group].copy;if(p&&!p.nextElementSibling?.classList.contains('v12-curated-note'))p.insertAdjacentHTML('afterend','<p class="v12-curated-note">Bitta yo‘nalish — bitta eng kuchli experience. Variant ko‘paytirish emas, sifatga fokus.</p>')}}
 function filterType(){const select=$('#type');if(!select)return;[...select.options].forEach(opt=>{if(!allowedSlugs.has(opt.value))opt.remove()})}
-
-function progressiveEditor(){
- const studio=$('#studio .panel');if(!studio)return;
- if(!$('#v12-translations')){
-  const h=$('#headlineRu')?.closest('.panel-row'),l=$('#letterRu')?.closest('.panel-row');
-  if(h&&l){const details=document.createElement('details');details.id='v12-translations';details.className='v12-editor-details';const summary=document.createElement('summary');summary.innerHTML='<strong>Tarjimalar</strong><span>RU / EN · ixtiyoriy</span>';const note=h.previousElementSibling?.classList.contains('lang-note')?h.previousElementSibling:null;h.before(details);details.append(summary);if(note)details.append(note);details.append(h,l)}
- }
- if(!$('#v12-media')){
-  const p1=field('photo1'),p2=field('photo2'),p3=field('photo3'),vm=$('#videoUrl')?.closest('.panel-row');
-  if(p1&&p2&&p3&&vm){const details=document.createElement('details');details.id='v12-media';details.className='v12-editor-details v12-media-details';const summary=document.createElement('summary');summary.innerHTML='<strong>Shaxsiy media</strong><span>surat · video · musiqa</span>';const note=p1.previousElementSibling?.classList.contains('lang-note')?p1.previousElementSibling:null;p1.before(details);details.append(summary);if(note)details.append(note);details.append(p1,p2,p3,vm)}
- }
-}
-
+function progressiveEditor(){const studio=$('#studio .panel');if(!studio)return;if(!$('#v12-translations')){const h=$('#headlineRu')?.closest('.panel-row'),l=$('#letterRu')?.closest('.panel-row');if(h&&l){const details=document.createElement('details');details.id='v12-translations';details.className='v12-editor-details';const summary=document.createElement('summary');summary.innerHTML='<strong>Tarjimalar</strong><span>RU / EN · ixtiyoriy</span>';const note=h.previousElementSibling?.classList.contains('lang-note')?h.previousElementSibling:null;h.before(details);details.append(summary);if(note)details.append(note);details.append(h,l)}}if(!$('#v12-media')){const p1=field('photo1'),p2=field('photo2'),p3=field('photo3'),vm=$('#videoUrl')?.closest('.panel-row');if(p1&&p2&&p3&&vm){const details=document.createElement('details');details.id='v12-media';details.className='v12-editor-details v12-media-details';const summary=document.createElement('summary');summary.innerHTML='<strong>Shaxsiy media</strong><span>surat · video · musiqa</span>';const note=p1.previousElementSibling?.classList.contains('lang-note')?p1.previousElementSibling:null;p1.before(details);details.append(summary);if(note)details.append(note);details.append(p1,p2,p3,vm)}}}
 const COMMON=['name1','name2','headline','letter','finalQuestion','musicUrl'];
 const PER_TEMPLATE={
- 'love-rose-theatre':['memoryTitle','caption1','caption2','caption3','videoUrl'],
+ 'love-rose-theatre':['memoryTitle','caption1','caption2','caption3','photo1','photo2','photo3','videoUrl'],
  'birthday-aurora-paper':['memoryTitle','caption1','caption2','caption3','photo1','photo2','photo3','videoUrl'],
  'apology-quiet-room':['memoryTitle','caption1','caption2','caption3','photo1','videoUrl','mistake','repair'],
  'proposal-pearl-promise':['caption1','caption2','caption3','photo1','photo2','photo3','videoUrl','mistake','repair','venue'],
  'wedding-silk-heritage':['memoryTitle','caption1','caption2','caption3','photo1','photo2','photo3','videoUrl','venue','venueMap','programInput','date','eventClock']
 };
 function setVisible(id,on){const n=field(id);if(n)n.classList.toggle('v12-field-hidden',!on)}
-function templateSpecificEditor(){
- const slug=$('#type')?.value;if(!slug||!allowedSlugs.has(slug))return;
- const show=new Set([...COMMON,...(PER_TEMPLATE[slug]||[])]);
- const managed=['name1','name2','headline','letter','finalQuestion','memoryTitle','caption1','caption2','caption3','photo1','photo2','photo3','videoUrl','musicUrl','mistake','repair','venue','venueMap','programInput','date','eventClock'];
- managed.forEach(id=>setVisible(id,show.has(id)));
- const apology=$('#apologyExtra');if(apology)apology.classList.toggle('v12-group-hidden',slug!=='apology-quiet-room');
- const wedding=$('#weddingExtra');if(wedding)wedding.classList.toggle('v12-group-hidden',slug!=='wedding-silk-heritage');
- const date=$('#dateField');if(date)date.classList.toggle('v12-group-hidden',slug!=='wedding-silk-heritage');
- const media=$('#v12-media');if(media){const visible=[...media.querySelectorAll('.field')].some(n=>!n.classList.contains('v12-field-hidden'));media.classList.toggle('v12-group-hidden',!visible)}
- const title=$('#previewLabel');if(title){const item=Object.values(FLAGSHIPS).find(x=>x.slug===slug);if(item)title.textContent=item.name.toUpperCase()+' / LIVE EXPERIENCE'}
-}
-
-function addPrivacyCue(){
- const status=$('#status');if(!status||$('#v12-privacy-cue'))return;
- const p=document.createElement('p');p.id='v12-privacy-cue';p.className='v12-privacy-cue';p.textContent='Preview — bepul. Media draft holatida private. Recipient linkni akkauntsiz ochadi.';status.insertAdjacentElement('beforebegin',p);
-}
-
-function decorate(){
- replaceMarketingCopy();localizeCategoryCards();addProofStrip();addFastPath();filterCards();filterType();progressiveEditor();templateSpecificEditor();addPrivacyCue();document.documentElement.dataset.emoraCatalog='five-flagships';
- if(!$('#v12-product-style')){const style=document.createElement('style');style.id='v12-product-style';style.textContent=`
-  .v12-proof-strip{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;max-width:800px}.v12-proof-strip span{border:1px solid var(--line,#e6d9cc);background:#fffdf9;padding:8px 11px;border-radius:999px;font-size:9px;letter-spacing:.08em;color:var(--sage,#647a6d);font-weight:800}.v12-curated-note{margin:8px 0 0;color:var(--rose,#b77d78);font-size:11px;letter-spacing:.04em}
-  .v12-fast-path{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 16px;padding:12px;border:1px solid var(--line,#e7ddd2);border-radius:16px;background:linear-gradient(135deg,#fff,#faf4eb)}.v12-fast-path strong{width:100%;font-size:9px;letter-spacing:.16em;color:var(--rose,#b77d78)}.v12-fast-path span{font-size:9px;color:var(--sage,#647a6d);font-weight:700}.v12-fast-path span+span:before{content:'→';margin-right:7px;color:var(--gold,#b69868)}
-  .v12-editor-details{margin:13px 0;border:1px solid var(--line,#e7ddd2);border-radius:18px;background:#fffdf9;overflow:hidden}.v12-editor-details>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 15px;cursor:pointer;user-select:none}.v12-editor-details>summary::-webkit-details-marker{display:none}.v12-editor-details>summary strong{font:600 12px/1.2 system-ui;letter-spacing:.04em;color:var(--ink,#34433c)}.v12-editor-details>summary span{font-size:9px;letter-spacing:.08em;color:var(--rose,#b77d78);font-weight:800}.v12-editor-details[open]>summary{border-bottom:1px solid var(--line,#e7ddd2);background:var(--ivory,#faf4eb)}.v12-editor-details>.field,.v12-editor-details>.panel-row,.v12-editor-details>.lang-note{margin-left:14px!important;margin-right:14px!important}.v12-editor-details>:last-child{margin-bottom:14px!important}.v12-field-hidden,.v12-group-hidden{display:none!important}.v12-privacy-cue{margin:12px 0 0;padding:10px 12px;border-radius:13px;background:#f7f1e8;color:var(--sage,#647a6d);font-size:10px;line-height:1.5;text-align:center}
-  @media(max-width:720px){.v12-proof-strip{gap:6px}.v12-proof-strip span{font-size:8px;padding:7px 9px}.v12-editor-details>summary{padding:13px}.v12-fast-path{gap:5px}.v12-fast-path span{font-size:8px}}
- `;document.head.append(style)}
-}
+function templateSpecificEditor(){const slug=$('#type')?.value;if(!slug||!allowedSlugs.has(slug))return;const show=new Set([...COMMON,...(PER_TEMPLATE[slug]||[])]);const managed=['name1','name2','headline','letter','finalQuestion','memoryTitle','caption1','caption2','caption3','photo1','photo2','photo3','videoUrl','musicUrl','mistake','repair','venue','venueMap','programInput','date','eventClock'];managed.forEach(id=>setVisible(id,show.has(id)));const apology=$('#apologyExtra');if(apology)apology.classList.toggle('v12-group-hidden',slug!=='apology-quiet-room');const wedding=$('#weddingExtra');if(wedding)wedding.classList.toggle('v12-group-hidden',slug!=='wedding-silk-heritage');const date=$('#dateField');if(date)date.classList.toggle('v12-group-hidden',slug!=='wedding-silk-heritage');const media=$('#v12-media');if(media){const visible=[...media.querySelectorAll('.field')].some(n=>!n.classList.contains('v12-field-hidden'));media.classList.toggle('v12-group-hidden',!visible)}const title=$('#previewLabel');if(title){const item=Object.values(FLAGSHIPS).find(x=>x.slug===slug);if(item)title.textContent=item.name.toUpperCase()+' / LIVE EXPERIENCE'}}
+function addPrivacyCue(){const status=$('#status');if(!status||$('#v12-privacy-cue'))return;const p=document.createElement('p');p.id='v12-privacy-cue';p.className='v12-privacy-cue';p.textContent='Preview — bepul. Media draft holatida private. Recipient linkni akkauntsiz ochadi.';status.insertAdjacentElement('beforebegin',p)}
+function decorate(){replaceMarketingCopy();localizeCategoryCards();addProofStrip();addFastPath();filterCards();filterType();progressiveEditor();templateSpecificEditor();addPrivacyCue();document.documentElement.dataset.emoraCatalog='five-flagships';if(!$('#v12-product-style')){const style=document.createElement('style');style.id='v12-product-style';style.textContent=`.v12-proof-strip{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;max-width:800px}.v12-proof-strip span{border:1px solid var(--line,#e6d9cc);background:#fffdf9;padding:8px 11px;border-radius:999px;font-size:9px;letter-spacing:.08em;color:var(--sage,#647a6d);font-weight:800}.v12-curated-note{margin:8px 0 0;color:var(--rose,#b77d78);font-size:11px;letter-spacing:.04em}.v12-fast-path{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 16px;padding:12px;border:1px solid var(--line,#e7ddd2);border-radius:16px;background:linear-gradient(135deg,#fff,#faf4eb)}.v12-fast-path strong{width:100%;font-size:9px;letter-spacing:.16em;color:var(--rose,#b77d78)}.v12-fast-path span{font-size:9px;color:var(--sage,#647a6d);font-weight:700}.v12-fast-path span+span:before{content:'→';margin-right:7px;color:var(--gold,#b69868)}.v12-editor-details{margin:13px 0;border:1px solid var(--line,#e7ddd2);border-radius:18px;background:#fffdf9;overflow:hidden}.v12-editor-details>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 15px;cursor:pointer;user-select:none}.v12-editor-details>summary::-webkit-details-marker{display:none}.v12-editor-details>summary strong{font:600 12px/1.2 system-ui;letter-spacing:.04em;color:var(--ink,#34433c)}.v12-editor-details>summary span{font-size:9px;letter-spacing:.08em;color:var(--rose,#b77d78);font-weight:800}.v12-editor-details[open]>summary{border-bottom:1px solid var(--line,#e7ddd2);background:var(--ivory,#faf4eb)}.v12-editor-details>.field,.v12-editor-details>.panel-row,.v12-editor-details>.lang-note{margin-left:14px!important;margin-right:14px!important}.v12-editor-details>:last-child{margin-bottom:14px!important}.v12-field-hidden,.v12-group-hidden{display:none!important}.v12-privacy-cue{margin:12px 0 0;padding:10px 12px;border-radius:13px;background:#f7f1e8;color:var(--sage,#647a6d);font-size:10px;line-height:1.5;text-align:center}@media(max-width:720px){.v12-proof-strip{gap:6px}.v12-proof-strip span{font-size:8px;padding:7px 9px}.v12-editor-details>summary{padding:13px}.v12-fast-path{gap:5px}.v12-fast-path span{font-size:8px}}`;document.head.append(style)}}
 function schedule(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;decorate()})}
-new MutationObserver(schedule).observe(document.documentElement,{childList:true,subtree:true});
-addEventListener('input',schedule,true);addEventListener('change',schedule,true);
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule,{once:true});else schedule();
+new MutationObserver(schedule).observe(document.documentElement,{childList:true,subtree:true});addEventListener('input',schedule,true);addEventListener('change',schedule,true);if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule,{once:true});else schedule();
