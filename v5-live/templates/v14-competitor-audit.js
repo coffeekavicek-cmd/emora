@@ -38,8 +38,10 @@ function textLabel(id){const wrap=field(id),label=wrap?.querySelector(':scope > 
 function setBadge(id,required){
  if(id==='type'||id==='slug')return;
  const wrap=field(id),label=wrap?.querySelector(':scope > label');if(!label||wrap.classList.contains('v13-field-hidden'))return;
- label.querySelectorAll('.v13-required-badge,.v13-optional-badge').forEach(n=>n.remove());
- const badge=document.createElement('span');badge.className=required?'v13-required-badge':'v13-optional-badge';badge.textContent=required?'KERAK':'IXTIYORIY';label.append(' ',badge);
+ const cls=required?'v13-required-badge':'v13-optional-badge',text=required?'KERAK':'IXTIYORIY';
+ const badges=[...label.querySelectorAll('.v13-required-badge,.v13-optional-badge')];
+ if(badges.length===1&&badges[0].classList.contains(cls)&&badges[0].textContent===text)return;
+ badges.forEach(n=>n.remove());const badge=document.createElement('span');badge.className=cls;badge.textContent=text;label.append(' ',badge);
 }
 function filled(id){const n=$('#'+id);return !!n&&String(n.value||'').trim().length>0}
 function refineCreator(){
@@ -47,7 +49,7 @@ function refineCreator(){
  const visible=[...document.querySelectorAll('#studio .field')].filter(n=>!n.classList.contains('v13-field-hidden')&&!n.closest('.v13-group-hidden'));
  visible.forEach(w=>{const input=w.querySelector('input,textarea,select');if(input?.id)setBadge(input.id,ids.includes(input.id))});
  const done=ids.filter(filled).length,pct=Math.round(done/ids.length*100),missing=ids.find(id=>!filled(id));
- const text=$('#v13-completion-text'),bar=$('#v13-progress-bar'),hint=$('#v13-next-hint');if(text)text.textContent=pct+'%';if(bar)bar.style.width=pct+'%';if(hint)hint.textContent=pct===100?'Asosiy qism tayyor ✓ Previewni ko‘ring; media qo‘shsangiz yanada shaxsiy bo‘ladi.':missing?textLabel(missing)+' — keyingi kerakli qadam.':'Asosiy maydonlarni to‘ldiring.';
+ const text=$('#v13-completion-text'),bar=$('#v13-progress-bar'),hint=$('#v13-next-hint');if(text&&text.textContent!==pct+'%')text.textContent=pct+'%';if(bar&&bar.style.width!==pct+'%')bar.style.width=pct+'%';const hintText=pct===100?'Asosiy qism tayyor ✓ Previewni ko‘ring; media qo‘shsangiz yanada shaxsiy bo‘ladi.':missing?textLabel(missing)+' — keyingi kerakli qadam.':'Asosiy maydonlarni to‘ldiring.';if(hint&&hint.textContent!==hintText)hint.textContent=hintText;
  document.documentElement.dataset.creatorReady=pct===100?'true':'false';
  const date=$('#dateField');if(date)date.classList.toggle('v13-group-hidden',slug!=='wedding-silk-heritage');
  const name2=field('name2');if(name2&&slug!=='wedding-silk-heritage')name2.dataset.v14Optional='true';
@@ -58,7 +60,7 @@ function addCreatorPromise(){
 function accessibility(){
  const status=$('#status');if(status){status.setAttribute('role','status');status.setAttribute('aria-live','polite')}
  const auto=$('#v13-autosave-state');if(auto)auto.setAttribute('aria-live','polite');
- const progress=$('#v13-progress-bar');if(progress?.parentElement){progress.parentElement.setAttribute('role','progressbar');progress.parentElement.setAttribute('aria-valuemin','0');progress.parentElement.setAttribute('aria-valuemax','100');const value=parseInt($('#v13-completion-text')?.textContent||'0',10);progress.parentElement.setAttribute('aria-valuenow',String(Number.isFinite(value)?value:0))}
+ const progress=$('#v13-progress-bar');if(progress?.parentElement){const box=progress.parentElement,value=parseInt($('#v13-completion-text')?.textContent||'0',10);if(box.getAttribute('role')!=='progressbar')box.setAttribute('role','progressbar');if(box.getAttribute('aria-valuemin')!=='0')box.setAttribute('aria-valuemin','0');if(box.getAttribute('aria-valuemax')!=='100')box.setAttribute('aria-valuemax','100');const now=String(Number.isFinite(value)?value:0);if(box.getAttribute('aria-valuenow')!==now)box.setAttribute('aria-valuenow',now)}
 }
 function decorate(){decorateCategoryCards();addCreatorPromise();refineCreator();accessibility()}
 function schedule(){if(decorateQueued)return;decorateQueued=true;setTimeout(()=>{decorateQueued=false;decorate()},0)}
