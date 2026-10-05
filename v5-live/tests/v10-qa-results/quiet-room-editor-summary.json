@@ -1,12 +1,13 @@
 {
   "passed": false,
   "failures": [
-    "Mistake text did not round-trip: {\"editor\":{\"mistake\":\"\",\"repair\":\"QA amalda tinglayman\",\"letter\":\"QA yozilmay qolgan gaplar\",\"template\":\"apology-quiet-room\"},\"iframe\":{\"title\":\"QA PRIVATE ROOM\",\"recipient\":\"QA DILNOZA\",\"mistake\":\"QA yozilmay qolgan gaplar\",\"repair\":\"QA amalda tinglayman\",\"letter\":\"QA yozilmay qolgan gaplar\",\"final\":\"QA qaroring muhim\",\"listening\":[\"QA hislaringni inkor qilmayman\",\"QA shoshilishing shart emas\",\"QA qaroringni hurmat qilaman\"]}}"
+    "Mistake text did not round-trip: {\"editor\":{\"mistake\":\"\",\"repair\":\"\",\"letter\":\"QA yozilmay qolgan gaplar\",\"template\":\"apology-quiet-room\"},\"iframe\":{\"title\":\"QA PRIVATE ROOM\",\"recipient\":\"QA DILNOZA\",\"mistake\":\"QA yozilmay qolgan gaplar\",\"repair\":\"Keyingi safar gapirishdan oldin tinglayman va chegaralaringni hurmat qilaman.\",\"letter\":\"QA yozilmay qolgan gaplar\",\"final\":\"QA qaroring muhim\",\"listening\":[\"QA hislaringni inkor qilmayman\",\"QA shoshilishing shart emas\",\"QA qaroringni hurmat qilaman\"]}}",
+    "Repair text did not round-trip: {\"editor\":{\"mistake\":\"\",\"repair\":\"\",\"letter\":\"QA yozilmay qolgan gaplar\",\"template\":\"apology-quiet-room\"},\"iframe\":{\"title\":\"QA PRIVATE ROOM\",\"recipient\":\"QA DILNOZA\",\"mistake\":\"QA yozilmay qolgan gaplar\",\"repair\":\"Keyingi safar gapirishdan oldin tinglayman va chegaralaringni hurmat qilaman.\",\"letter\":\"QA yozilmay qolgan gaplar\",\"final\":\"QA qaroring muhim\",\"listening\":[\"QA hislaringni inkor qilmayman\",\"QA shoshilishing shart emas\",\"QA qaroringni hurmat qilaman\"]}}"
   ],
   "diagnostics": {
     "editor": {
       "mistake": "",
-      "repair": "QA amalda tinglayman",
+      "repair": "",
       "letter": "QA yozilmay qolgan gaplar",
       "template": "apology-quiet-room"
     },
@@ -14,7 +15,7 @@
       "title": "QA PRIVATE ROOM",
       "recipient": "QA DILNOZA",
       "mistake": "QA yozilmay qolgan gaplar",
-      "repair": "QA amalda tinglayman",
+      "repair": "Keyingi safar gapirishdan oldin tinglayman va chegaralaringni hurmat qilaman.",
       "letter": "QA yozilmay qolgan gaplar",
       "final": "QA qaroring muhim",
       "listening": [
