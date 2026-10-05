@@ -1,8 +1,6 @@
 {
-  "passed": false,
-  "failures": [
-    "Pearl editor reasons did not round-trip"
-  ],
+  "passed": true,
+  "failures": [],
   "checkedGroups": 5,
   "publicFlagships": 5,
   "compatibleTemplates": 15,
