@@ -22,7 +22,7 @@ if(type&&storyExtras&&apology&&wedding&&mistake&&repair&&venue&&letter&&finalQue
  remember(mistake,'XATONI TAN OLISH');remember(repair,'AMALIY TUZATISH REJASI');remember(venue,'TO‘Y MANZILI');remember(letter,'MAKTUB / ASOSIY HIKOYA · UZ');remember(finalQuestion,'YAKUNIY SAVOL / TABRIK');remember(memoryTitle,'XOTIRALAR BO‘LIMI NOMI');captions.forEach((f,i)=>remember(f,(i+1)+'-XOTIRA MATNI'));remember(videoUrl,'VIDEO URL · IXTIYORIY');
  function setField(field,label,placeholder){if(!field)return;const l=field.closest('.field')?.querySelector('label');if(l)l.textContent=label;if(placeholder!==undefined)field.placeholder=placeholder}
  function resetField(field){const o=originals.get(field);if(o)setField(field,o.label,o.placeholder)}
- function home(field,marker){if(marker.parentNode)marker.parentNode.insertBefore(field,marker.nextSibling)}
+ function home(field,marker){if(marker.parentNode&&field.parentNode!==marker.parentNode)marker.parentNode.insertBefore(field,marker.nextSibling)}
  function resetCommon(){[letter,finalQuestion,memoryTitle,...captions,videoUrl].forEach(resetField)}
  function restoreExtras(){home(mistakeField,mistakeMarker);home(repairField,repairMarker);home(venueField,venueMarker);[mistake,repair,venue].forEach(resetField);pearl.classList.add('hidden')}
  function sync(){
@@ -40,57 +40,24 @@ if(type&&storyExtras&&apology&&wedding&&mistake&&repair&&venue&&letter&&finalQue
   }
   if(value==='birthday-aurora-paper'){
    setField(memoryTitle,'MEMORY CONTACT SHEET · NOMI','Masalan: Sening eng chiroyli kadrlaring');
-   setField(captions[0],'01-TILAK','Birinchi haqiqiy tilak...');
-   setField(captions[1],'02-TILAK','Ikkinchi haqiqiy tilak...');
-   setField(captions[2],'03-TILAK','Uchinchi haqiqiy tilak...');
-   setField(videoUrl,'PRIVATE BIRTHDAY FILM · VIDEO','https://...mp4');
-   setField(letter,'BIRTHDAY LETTER · UZ','Template gap emas — aynan shu odamga yozilgan tabrik...');
-   setField(finalQuestion,'FINAL WISH · OXIRGI SATR','Masalan: Bugun hamma nur seniki.');return;
+   setField(captions[0],'01-TILAK','Birinchi haqiqiy tilak...');setField(captions[1],'02-TILAK','Ikkinchi haqiqiy tilak...');setField(captions[2],'03-TILAK','Uchinchi haqiqiy tilak...');
+   setField(videoUrl,'PRIVATE BIRTHDAY FILM · VIDEO','https://...mp4');setField(letter,'BIRTHDAY LETTER · UZ','Template gap emas — aynan shu odamga yozilgan tabrik...');setField(finalQuestion,'FINAL WISH · OXIRGI SATR','Masalan: Bugun hamma nur seniki.');return;
   }
   if(value==='proposal-pearl-promise'){
    pearl.classList.remove('hidden');pearl.append(mistakeField,repairField,venueField);
-   setField(mistake,'NEGA SEN? · 1-SABAB','Masalan: Sen bilan oddiy kun ham xotiraga aylanadi.');
-   setField(repair,'NEGA SEN? · 2-SABAB','Masalan: Yonimda o‘zim bo‘la oladigan inson — sensan.');
-   setField(venue,'NEGA SEN? · 3-SABAB','Masalan: Kelajagimni tasavvur qilganimda, unda doim sen borsan.');
-   setField(letter,'MENING VA’DAM · UZ','Unga aytmoqchi bo‘lgan haqiqiy va’dangizni yozing...');
-   setField(finalQuestion,'ENG MUHIM SAVOL','Masalan: Dilnoza, menga turmushga chiqasanmi?');return;
+   setField(mistake,'NEGA SEN? · 1-SABAB','Masalan: Sen bilan oddiy kun ham xotiraga aylanadi.');setField(repair,'NEGA SEN? · 2-SABAB','Masalan: Yonimda o‘zim bo‘la oladigan inson — sensan.');setField(venue,'NEGA SEN? · 3-SABAB','Masalan: Kelajagimni tasavvur qilganimda, unda doim sen borsan.');setField(letter,'MENING VA’DAM · UZ','Unga aytmoqchi bo‘lgan haqiqiy va’dangizni yozing...');setField(finalQuestion,'ENG MUHIM SAVOL','Masalan: Dilnoza, menga turmushga chiqasanmi?');return;
   }
   if(value==='apology-quiet-room'){
-   quiet.classList.remove('hidden');
-   setField(memoryTitle,'XONA / KIRISH SATRI','Masalan: Shovqinsiz bir suhbat');
-   setField(mistake,'ANIQ TAN OLISH · BAHONASIZ','Nimani noto‘g‘ri qilganingizni bitta aniq fikr bilan yozing.');
-   setField(repair,'MEN BOSHQA NIMA QILAMAN','Keyingi safar amalda nimani boshqacha qilishingizni yozing.');
-   setField(captions[0],'TINGLASH SATRI · 01','Masalan: Sening hislaringni inkor qilmayman.');
-   setField(captions[1],'TINGLASH SATRI · 02','Masalan: Javobni hozir berishing shart emas.');
-   setField(captions[2],'TINGLASH SATRI · 03','Masalan: Chegaralaringni hurmat qilaman.');
-   setField(letter,'YOZILMAY QOLGAN GAPLAR · UZ','Ko‘ndirish emas — aytilishi kerak bo‘lgan samimiy gaplarni yozing...');
-   setField(videoUrl,'IXTIYORIY VIDEO · AUTOPLAY YO‘Q','https://...mp4');
-   setField(finalQuestion,'FINAL · HURMATLI YAKUN','Masalan: Sening vaqting va qaroring muhim.');return;
+   quiet.classList.remove('hidden');setField(memoryTitle,'XONA / KIRISH SATRI','Masalan: Shovqinsiz bir suhbat');setField(mistake,'ANIQ TAN OLISH · BAHONASIZ','Nimani noto‘g‘ri qilganingizni bitta aniq fikr bilan yozing.');setField(repair,'MEN BOSHQA NIMA QILAMAN','Keyingi safar amalda nimani boshqacha qilishingizni yozing.');setField(captions[0],'TINGLASH SATRI · 01','Masalan: Sening hislaringni inkor qilmayman.');setField(captions[1],'TINGLASH SATRI · 02','Masalan: Javobni hozir berishing shart emas.');setField(captions[2],'TINGLASH SATRI · 03','Masalan: Chegaralaringni hurmat qilaman.');setField(letter,'YOZILMAY QOLGAN GAPLAR · UZ','Ko‘ndirish emas — aytilishi kerak bo‘lgan samimiy gaplarni yozing...');setField(videoUrl,'IXTIYORIY VIDEO · AUTOPLAY YO‘Q','https://...mp4');setField(finalQuestion,'FINAL · HURMATLI YAKUN','Masalan: Sening vaqting va qaroring muhim.');return;
   }
   if(value==='wedding-silk-heritage'){
-   setField(memoryTitle,'LOVE STORY / BO‘LIM NOMI','Masalan: Bizning hikoyamiz');
-   setField(captions[0],'01-XOTIRA','Birinchi uchrashuv yoki muhim sana...');
-   setField(captions[1],'02-XOTIRA','Ikkinchi muhim lahza...');
-   setField(captions[2],'03-XOTIRA','To‘ygacha olib kelgan lahza...');
-   setField(videoUrl,'LOVE STORY VIDEO · IXTIYORIY','https://...mp4');
-   setField(letter,'MEHMON UCHUN SHAXSIY TAKLIF · UZ','Mehmoningizga atalgan samimiy taklif matni...');
-   setField(finalQuestion,'OILA DUOSI / YAKUNIY SATR','Masalan: Quvonchimizga sherik bo‘ling.');return;
+   setField(memoryTitle,'LOVE STORY / BO‘LIM NOMI','Masalan: Bizning hikoyamiz');setField(captions[0],'01-XOTIRA','Birinchi uchrashuv yoki muhim sana...');setField(captions[1],'02-XOTIRA','Ikkinchi muhim lahza...');setField(captions[2],'03-XOTIRA','To‘ygacha olib kelgan lahza...');setField(videoUrl,'LOVE STORY VIDEO · IXTIYORIY','https://...mp4');setField(letter,'MEHMON UCHUN SHAXSIY TAKLIF · UZ','Mehmoningizga atalgan samimiy taklif matni...');setField(finalQuestion,'OILA DUOSI / YAKUNIY SATR','Masalan: Quvonchimizga sherik bo‘ling.');return;
   }
   if(value==='proposal-cinema'){
-   cinema.classList.remove('hidden');
-   setField(memoryTitle,'FILM NOMI / TAGLINE','Masalan: Bizning filmimiz');
-   setField(captions[0],'01-KADR NOMI','Masalan: Birinchi uchrashuv');setField(captions[1],'02-KADR NOMI','Masalan: Sevimli sahnam');setField(captions[2],'03-KADR NOMI','Masalan: Men tanlagan kelajak');
-   setField(videoUrl,'PERSONAL TRAILER / VIDEO · IXTIYORIY','https://...mp4');
-   setField(letter,'VOICE-OVER / SHAXSIY MONOLOG · UZ','Final sahnadan oldin aytiladigan eng shaxsiy gaplaringiz...');
-   setField(finalQuestion,'FINAL SCENE · ENG MUHIM SAVOL','Masalan: Dilnoza, menga turmushga chiqasanmi?');return;
+   cinema.classList.remove('hidden');setField(memoryTitle,'FILM NOMI / TAGLINE','Masalan: Bizning filmimiz');setField(captions[0],'01-KADR NOMI','Masalan: Birinchi uchrashuv');setField(captions[1],'02-KADR NOMI','Masalan: Sevimli sahnam');setField(captions[2],'03-KADR NOMI','Masalan: Men tanlagan kelajak');setField(videoUrl,'PERSONAL TRAILER / VIDEO · IXTIYORIY','https://...mp4');setField(letter,'VOICE-OVER / SHAXSIY MONOLOG · UZ','Final sahnadan oldin aytiladigan eng shaxsiy gaplaringiz...');setField(finalQuestion,'FINAL SCENE · ENG MUHIM SAVOL','Masalan: Dilnoza, menga turmushga chiqasanmi?');return;
   }
   if(value==='proposal-sky-promise'){
-   sky.classList.remove('hidden');
-   setField(memoryTitle,'OSMON / CONSTELLATION NOMI','Masalan: Bizning osmonimiz');
-   setField(captions[0],'01-KELAJAK ORZUSI','Masalan: Birga uyg‘onadigan oddiy tonglar.');setField(captions[1],'02-KELAJAK ORZUSI','Masalan: Birga ko‘radigan yangi shaharlar.');setField(captions[2],'03-KELAJAK ORZUSI','Masalan: Birga qarib boradigan sokin uy.');
-   setField(videoUrl,'SKY MEMORY / VIDEO · IXTIYORIY','https://...mp4');
-   setField(letter,'CONSTELLATION VA’DA · UZ','Birga qurmoqchi bo‘lgan hayotingiz haqidagi eng samimiy va’dani yozing...');
-   setField(finalQuestion,'OXIRGI YULDUZ · ENG MUHIM SAVOL','Masalan: Dilnoza, kelajagimizni birga quramizmi?');
+   sky.classList.remove('hidden');setField(memoryTitle,'OSMON / CONSTELLATION NOMI','Masalan: Bizning osmonimiz');setField(captions[0],'01-KELAJAK ORZUSI','Masalan: Birga uyg‘onadigan oddiy tonglar.');setField(captions[1],'02-KELAJAK ORZUSI','Masalan: Birga ko‘radigan yangi shaharlar.');setField(captions[2],'03-KELAJAK ORZUSI','Masalan: Birga qarib boradigan sokin uy.');setField(videoUrl,'SKY MEMORY / VIDEO · IXTIYORIY','https://...mp4');setField(letter,'CONSTELLATION VA’DA · UZ','Birga qurmoqchi bo‘lgan hayotingiz haqidagi eng samimiy va’dani yozing...');setField(finalQuestion,'OXIRGI YULDUZ · ENG MUHIM SAVOL','Masalan: Dilnoza, kelajagimizni birga quramizmi?');
   }
  }
  const schedule=()=>queueMicrotask(sync);
