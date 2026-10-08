@@ -13,6 +13,7 @@ try{
  await page.locator('#name2').fill('Aziz');
  await page.locator('#memoryTitle').fill('My private riddle');
  await page.locator('#letter').fill('Private apology from the Studio');
+ await page.locator('#v15-translations summary').click();
  await page.locator('#letterRu').fill('Личное извинение из Студии');
  await page.locator('#letterEn').fill('A personal apology from the Studio');
  const frame=page.frameLocator('#studioIframe');
