@@ -1,4 +1,5 @@
 /* EMORA V18 · experience-first studio rebuild after live screenshot review */
+#studio #dateField.v20-birthday-date>label:nth-of-type(2),#studio #dateField.v20-birthday-date>#eventClock{display:none!important}
 :root{--v18-shadow:0 28px 90px rgba(66,45,38,.12)}
 #studio{background:radial-gradient(circle at 78% 18%,rgba(183,125,120,.07),transparent 32%),linear-gradient(180deg,#fbf6ef,#fffdf9 44%,#f8f1e9);position:relative}
 #studio:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.10;background-image:radial-gradient(#7d665d .5px,transparent .5px);background-size:9px 9px;mask-image:linear-gradient(to bottom,transparent,#000 12%,#000 86%,transparent)}
