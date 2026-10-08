@@ -1,7 +1,7 @@
 /* EMORA V18 · experience-first creator + authoritative full-screen demo. */
 const PATHS={
  'love-rose-theatre':'/templates/v10-love-rose.html',
- 'birthday-aurora-paper':'/templates/v10-birthday-aurora.html',
+ 'birthday-aurora-paper':'/templates/v19-birthday-cake.html',
  'apology-quiet-room':'/templates/v10-apology-quiet.html',
  'proposal-pearl-promise':'/templates/v10-proposal-pearl.html',
  'wedding-silk-heritage':'/templates/wedding-silk.html'

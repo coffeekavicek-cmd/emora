@@ -1,13 +1,14 @@
 name: EMORA — 5 flagship experiences QA
 on:
   push:
-    branches: [emora-v10-fifteen-experiences, emora-v18-studio-preview-layout-fix, emora-v19-birthday-ritual]
+    branches: [emora-v10-fifteen-experiences, emora-v18-studio-preview-layout-fix, emora-v19-birthday-ritual, emora-v20-birthday-studio-integration]
     paths:
       - .github/workflows/flagship-five-qa.yml
       - supabase/functions/emora-checkout/**
       - supabase/functions/emora-click/**
       - supabase/functions/emora-payme/**
       - supabase/migrations/20261005_emora_v17_admin_analytics_hardening.sql
+      - v5-live/index.html
       - v5-live/server.mjs
       - v5-live/templates/v10-proposal-editor.js
       - v5-live/templates/v15-product-system.js
@@ -45,6 +46,7 @@ on:
       - v5-live/tests/v17-admin-qa.mjs
       - v5-live/tests/v18-studio-ritual-qa.mjs
       - v5-live/tests/v19-birthday-ritual-qa.mjs
+      - v5-live/tests/v20-birthday-studio-qa.mjs
       - v5-live/tests/v12-silk-media-qa.mjs
       - v5-live/tests/v10-five-flagship-editor-qa.mjs
       - v5-live/tests/v10-rose-theatre-qa.mjs
@@ -80,6 +82,8 @@ jobs:
           done
           cat /tmp/emora-five.log
           curl --fail --silent --show-error http://127.0.0.1:3000/health
+      - name: Birthday — V20 Studio to recipient live data
+        run: node v5-live/tests/v20-birthday-studio-qa.mjs
       - name: Product — unified competitor-informed V15 funnel
         run: node v5-live/tests/v15-product-system-qa.mjs
       - name: Product — gated Click/Payme V16 checkout

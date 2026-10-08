@@ -52,7 +52,7 @@ if(type&&storyExtras&&apology&&wedding&&mistake&&repair&&venue&&letter&&finalQue
   }
   if(value==='birthday-aurora-paper'){
    setField(memoryTitle,'MEMORY CONTACT SHEET · NOMI','Masalan: Sening eng chiroyli kadrlaring');
-   setField(captions[0],'01-TILAK','Birinchi haqiqiy tilak...');setField(captions[1],'02-TILAK','Ikkinchi haqiqiy tilak...');setField(captions[2],'03-TILAK','Uchinchi haqiqiy tilak...');
+   setField(captions[0],'01-SURAT · FLIRT','Bu rasm yoniga tabiiy, shirin gap yozing…');setField(captions[1],'02-SURAT · FLIRT','Masalan: Kulgingni ko‘rgan odam chalg‘ib qoladi.');setField(captions[2],'03-SURAT · FLIRT','Masalan: Bu kadrda ham asosiy qahramon — sen.');
    setField(videoUrl,'PRIVATE BIRTHDAY FILM · VIDEO','https://...mp4');setField(letter,'BIRTHDAY LETTER · UZ','Template gap emas — aynan shu odamga yozilgan tabrik...');setField(finalQuestion,'FINAL WISH · OXIRGI SATR','Masalan: Bugun hamma nur seniki.');return;
   }
   if(value==='apology-quiet-room'){
