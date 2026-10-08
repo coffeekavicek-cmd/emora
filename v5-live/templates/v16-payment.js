@@ -30,14 +30,33 @@ function buildModal(){
  wrap.querySelectorAll('[data-provider]').forEach(b=>b.addEventListener('click',()=>beginCheckout(b.dataset.provider)));
 }
 function openModal(project){currentProject=project;buildModal();$('#v16-order-note').textContent=`${project.template_slug} · /s/${project.slug}`;$('#v16-payment-status').textContent='';$('#v16-payment-modal').classList.remove('hidden');}
-function waitForSave(){return new Promise(resolve=>{const n=$('#status');if(!n)return resolve(false);let done=false;const finish=v=>{if(done)return;done=true;obs.disconnect();clearTimeout(timer);resolve(v)};const check=()=>{const t=n.textContent||'';if(t.includes('Draft Supabase’da saqlandi'))finish(true);else if(/xato|error|noto‘g‘ri|kiring/i.test(t))finish(false)};const obs=new MutationObserver(check);obs.observe(n,{childList:true,subtree:true,characterData:true});const timer=setTimeout(()=>finish((n.textContent||'').includes('Draft Supabase’da saqlandi')),8000);check()})}
 async function resolveProject(){
- if(document.documentElement.dataset.creatorReady!=='true'){status('Avval KERAK maydonlarni 100% to‘ldiring.',true);return null}
- const {data:{user}}=await supabase.auth.getUser();if(!user){$('#accountBtn')?.click();status('To‘lov va Publish uchun akkauntga kiring.',true);return null}
- const save=$('#saveBtn');if(!save||save.disabled){status('Media yuklanishi tugamagan yoki Save vaqtincha bloklangan.',true);return null}
- const before=$('#status')?.textContent||'';save.click();const ok=await waitForSave();if(!ok&&($('#status')?.textContent||'')===before){status('Draft serverga saqlanmadi. Qayta urinib ko‘ring.',true);return null}
- const slug=String($('#slug')?.value||'').trim(),template=String($('#type')?.value||'');if(!slug||!template)return null;
- const {data,error}=await supabase.from('projects').select('id,slug,template_slug,status,updated_at').eq('slug',slug).eq('template_slug',template).order('updated_at',{ascending:false}).limit(1);if(error||!data?.length){status(error?.message||'Saqlangan project topilmadi.',true);return null}return data[0]
+ if(document.documentElement.dataset.creatorReady!=='true'){
+  status('Avval KERAK maydonlarni 100% to‘ldiring.',true);return null
+ }
+ const {data:{user},error:userError}=await supabase.auth.getUser();
+ if(userError||!user){$('#accountBtn')?.click();status('To‘lov va Publish uchun akkauntga kiring.',true);return null}
+ const save=$('#saveBtn');
+ if(!save||save.disabled){status('Media yuklanishi tugamagan yoki Save vaqtincha bloklangan.',true);return null}
+ if(typeof window.__EMORA_SAVE_PROJECT__!=='function'){
+  status('Draft saqlash tizimi tayyor emas. Sahifani yangilang.',true);return null
+ }
+ let savedId;
+ try{savedId=await window.__EMORA_SAVE_PROJECT__()}catch(e){
+  status(e?.message||'Draft serverga saqlanmadi.',true);return null
+ }
+ if(typeof savedId!=='string'||!/^[0-9a-f-]{36}$/i.test(savedId)){
+  status('Draft saqlanmadi — to‘lov boshlanmaydi.',true);return null
+ }
+ const slug=String($('#slug')?.value||'').trim(),template=String($('#type')?.value||'');
+ if(!slug||!template){status('Draft ma’lumotлари тўлиқ эмас.',true);return null}
+ const {data,error}=await supabase.from('projects')
+  .select('id,slug,template_slug,status,owner_id,updated_at')
+  .eq('id',savedId).eq('owner_id',user.id).eq('template_slug',template).eq('status','draft').maybeSingle();
+ if(error||!data||data.slug!==slug){
+  status(error?.message||'Oxirgi draft serverda topilmadi. To‘lov boshlanmadi.',true);return null
+ }
+ return data
 }
 async function checkoutFlow(){if(busy)return;busy=true;try{const project=await resolveProject();if(project)openModal(project)}finally{busy=false}}
 async function beginCheckout(provider){

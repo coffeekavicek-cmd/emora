@@ -1,7 +1,7 @@
 name: EMORA — 5 flagship experiences QA
 on:
   push:
-    branches: [emora-v10-fifteen-experiences, emora-v18-studio-preview-layout-fix, emora-v19-birthday-ritual, emora-v20-birthday-studio-integration, emora-v21-qa-preview-release]
+    branches: [emora-v10-fifteen-experiences, emora-v18-studio-preview-layout-fix, emora-v19-birthday-ritual, emora-v20-birthday-studio-integration, emora-v21-qa-preview-release, emora-v22-checkout-media-safety]
     paths:
       - .github/workflows/flagship-five-qa.yml
       - supabase/functions/emora-checkout/**
@@ -47,6 +47,8 @@ on:
       - v5-live/tests/v18-studio-ritual-qa.mjs
       - v5-live/tests/v19-birthday-ritual-qa.mjs
       - v5-live/tests/v20-birthday-studio-qa.mjs
+      - v5-live/tests/v22-checkout-save-qa.mjs
+      - v5-live/tests/v22-birthday-media-slots-qa.mjs
       - v5-live/tests/v12-silk-media-qa.mjs
       - v5-live/tests/v10-five-flagship-editor-qa.mjs
       - v5-live/tests/v10-rose-theatre-qa.mjs
@@ -84,6 +86,10 @@ jobs:
           curl --fail --silent --show-error http://127.0.0.1:3000/health
       - name: Owner — V17 analytics dashboard
         run: node v5-live/tests/v17-admin-qa.mjs
+      - name: V22 — Last saved owner draft required before checkout
+        run: node v5-live/tests/v22-checkout-save-qa.mjs
+      - name: V22 — Sparse photo and caption alignment
+        run: node v5-live/tests/v22-birthday-media-slots-qa.mjs
       - name: Birthday — V20 Studio to recipient live data
         run: node v5-live/tests/v20-birthday-studio-qa.mjs
       - name: Product — unified competitor-informed V15 funnel
