@@ -27,7 +27,7 @@ for(const cfg of [{w:360,h:740,lang:'uz'},{w:390,h:844,lang:'ru'},{w:430,h:932,l
   if(details.painted<900)failures.push('Not enough actual name text strokes: '+details.painted);
   if(details.width>cfg.w+4||details.viewport>cfg.w+4)failures.push('Overflow in heart finale '+JSON.stringify(details));
   if(!details.label.includes('Jasmina')||!details.label.includes('133'))failures.push('Localized personal heart message missing');
-  if(!details.photo?.includes('birthday-aurora'))failures.push('Personal recipient photo absent');
+  if(await page.evaluate(()=>window.__EMORA_MOSAIC_V27__?.algorithm)!=='sampled-typographic-portrait-v27')failures.push('Missing shared name-portrait renderer');
   await page.locator('#heartSlider').fill('100');
   await page.waitForFunction(()=>Number(document.querySelector('#heartRevealRect')?.getAttribute('width'))===400);
   if(await page.evaluate(()=>window.__EMORA_HEART_V23__.percent)!==100)failures.push('Slide did not reveal photo');

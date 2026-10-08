@@ -1,0 +1,42 @@
+name: EMORA V27 — Photo-derived Typography Visual QA
+on:
+  push:
+    branches: [emora-v26-typographic-portrait-fix]
+    paths:
+      - .github/workflows/v27-typographic-portrait.yml
+      - v5-live/templates/v27-name-portrait.js
+      - v5-live/templates/v26-love-confession.html
+      - v5-live/templates/v19-birthday-cake.html
+      - v5-live/tests/v27-portrait-visual-qa.mjs
+      - v5-live/server.mjs
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check renderer syntax
+        run: |
+          node --check v5-live/templates/v27-name-portrait.js
+          node --check v5-live/server.mjs
+      - name: Install Chromium
+        run: |
+          npm install --prefix v5-live --no-save playwright@1.55.0
+          cd v5-live && npx playwright install --with-deps chromium
+      - name: Start validated Emora
+        run: |
+          PORT=3000 node v5-live/server.mjs >/tmp/emora-v27.log 2>&1 &
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:3000/health >/dev/null && break; sleep 1; done
+          curl -fsS http://127.0.0.1:3000/health
+      - name: Compare actual rendered Canvas portraits before after slider
+        run: node v5-live/tests/v27-portrait-visual-qa.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: emora-v27-portrait-before-after
+          path: v5-live/qa-v10-results/v27-*
+          retention-days: 7
