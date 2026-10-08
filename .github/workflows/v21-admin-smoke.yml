@@ -1,0 +1,39 @@
+name: EMORA V21 — Mobile owner dashboard smoke
+on:
+  push:
+    branches: [emora-v21-qa-preview-release]
+    paths:
+      - .github/workflows/v21-admin-smoke.yml
+      - v5-live/templates/v17-admin.js
+      - v5-live/templates/v17-admin.css
+      - v5-live/tests/v17-admin-qa.mjs
+  workflow_dispatch:
+jobs:
+  owner-mobile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright Chromium
+        run: |
+          npm install --prefix v5-live --no-save playwright@1.55.0
+          cd v5-live && npx playwright install --with-deps chromium
+      - name: Launch preview server
+        run: |
+          PORT=3000 node v5-live/server.mjs > /tmp/emora-admin-smoke.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3000/health >/dev/null; then break; fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:3000/health
+      - name: Mobile owner launcher hit-test
+        run: node v5-live/tests/v17-admin-qa.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: emora-v21-mobile-admin
+          path: v5-live/qa-v10-results/v17-admin-*
+          retention-days: 5
