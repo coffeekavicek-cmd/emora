@@ -1,7 +1,7 @@
 name: EMORA — 5 flagship experiences QA
 on:
   push:
-    branches: [emora-v10-fifteen-experiences, emora-v18-studio-preview-layout-fix, emora-v19-birthday-ritual]
+    branches: [emora-v10-fifteen-experiences, emora-v18-studio-preview-layout-fix, emora-v19-birthday-ritual, emora-v20-birthday-studio-integration]
     paths:
       - .github/workflows/flagship-five-qa.yml
       - supabase/functions/emora-checkout/**
@@ -45,6 +45,7 @@ on:
       - v5-live/tests/v17-admin-qa.mjs
       - v5-live/tests/v18-studio-ritual-qa.mjs
       - v5-live/tests/v19-birthday-ritual-qa.mjs
+      - v5-live/tests/v20-birthday-studio-qa.mjs
       - v5-live/tests/v12-silk-media-qa.mjs
       - v5-live/tests/v10-five-flagship-editor-qa.mjs
       - v5-live/tests/v10-rose-theatre-qa.mjs
@@ -96,6 +97,8 @@ jobs:
         run: node v5-live/tests/v10-aurora-paper-qa.mjs
       - name: Birthday — V19 date, candles, portraits, private film and envelope
         run: node v5-live/tests/v19-birthday-ritual-qa.mjs
+      - name: Birthday — V20 Studio to recipient live data
+        run: node v5-live/tests/v20-birthday-studio-qa.mjs
       - name: Apology — Quiet Room
         run: node v5-live/tests/v10-quiet-room-qa.mjs
       - name: Proposal — Pearl Promise
