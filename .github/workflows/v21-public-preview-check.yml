@@ -1,0 +1,26 @@
+name: EMORA V21 — External preview route verification
+on:
+  push:
+    branches: [emora-v21-qa-preview-release]
+    paths:
+      - .github/workflows/v21-public-preview-check.yml
+  workflow_dispatch:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Verify Railway preview endpoints
+        run: |
+          set -euo pipefail
+          base="https://emora-v21-private-preview-production.up.railway.app"
+          for path in /health / /templates/v19-birthday-cake.html; do
+            url="${base}${path}"
+            code="$(curl -fsSL --retry 4 --retry-delay 3 --connect-timeout 12 --max-time 30 -o /tmp/emora-preview-response -w '%{http_code}' "$url")"
+            printf '%s -> HTTP %s\n' "$path" "$code"
+            test "$code" = 200
+            if [ "$path" = /health ]; then grep -q '"ok":true' /tmp/emora-preview-response; fi
+            if [ "$path" = / ]; then grep -q 'EMORA · Signature Studio' /tmp/emora-preview-response; fi
+            if [ "$path" = /templates/v19-birthday-cake.html ]; then grep -q 'birthday-cake-v19' /tmp/emora-preview-response; fi
+          done
+          echo 'Public preview routes: PASS'
