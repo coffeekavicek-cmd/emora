@@ -215,7 +215,7 @@ function configFor(c,override){
  const dateIso=c.date?c.date+'T'+clock+':00+05:00':'';
  const base={template:t,recipient:c.name1||'',sender:c.name2||'',intro:c.headline||template.opening,letter:c.letter||'',final:c.finalQuestion||'',memoryTitle:c.memoryTitle||'',captions:Array.isArray(c.captions)?c.captions.slice(0,3):[],photos,video:c.video||'',music:c.music||'',birthday:c.date||'',headlineRu:c.headlineRu||'',headlineEn:c.headlineEn||'',letterRu:c.letterRu||'',letterEn:c.letterEn||'',eventAt:dateIso,metAt:dateIso,venue:c.venue||'',venueMap:c.venueMap||'',program:Array.isArray(c.program)?c.program:[],mistake:c.mistake||'',repair:c.repair||''};
  if(group==='wedding')return {...base,bride:c.name1||'Malika',groom:c.name2||'Aziz',invitation:c.letter||'',cover:photos[0]||'',allowRsvp:!override,blessing:c.finalQuestion||''};
- if(group==='apology')return {...base,mistake:c.mistake||c.letter||'',repair:c.repair||'',secretHint:c.memoryTitle||''};
+ if(group==='apology')return {...base,mistake:c.mistake||c.letter||'',repair:c.repair||'',secretHint:c.memoryTitle||'',pageSlug:override?state.publicSlug||'':''};
  return base;
 }
 function sendToExperience(frame,c,override=false){if(!frame?.contentWindow)return;const t=c.template||'love-rose-theatre';const type=t.startsWith('love-')?'emora:preview':t.startsWith('wedding-')?'emora:wedding-preview':'emora:moment-preview';frame.contentWindow.postMessage({type,config:configFor(c,override)},location.origin)}
