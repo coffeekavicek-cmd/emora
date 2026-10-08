@@ -1,0 +1,29 @@
+name: EMORA V23 — Mobile hero layout probe
+on:
+  push:
+    branches: [emora-v23-mobile-hero-fix]
+    paths:
+      - .github/workflows/v23-mobile-hero.yml
+      - v5-live/index.html
+      - v5-live/templates/v23-mobile-layout.css
+      - v5-live/tests/v23-mobile-layout-qa.mjs
+  workflow_dispatch:
+jobs:
+  layout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: |
+          npm install --prefix v5-live --no-save playwright@1.55.0
+          cd v5-live && npx playwright install --with-deps chromium
+      - name: Start EMORA
+        run: |
+          PORT=3000 node v5-live/server.mjs >/tmp/emora-layout.log 2>&1 &
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:3000/health && break; sleep 1; done
+      - name: Print layout diagnostics
+        run: node v5-live/tests/v23-mobile-layout-qa.mjs
