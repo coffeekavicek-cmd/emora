@@ -28,7 +28,8 @@ export function createMeetingBotHandler({env=process.env,fetcher=fetch,logger=co
   if(req.method!=='POST')return respond(res,405,{ok:false,error:'method'});
   const origin=String(req.headers.origin||'');
   const publicOrigin=String(env.EMORA_PUBLIC_ORIGIN||'').replace(/\/$/,'');
-  if(!publicOrigin||origin!==publicOrigin)return respond(res,403,{ok:false,error:'origin'});
+  if(!publicOrigin)return respond(res,503,{ok:false,error:'bot_not_configured'});
+  if(origin!==publicOrigin)return respond(res,403,{ok:false,error:'origin'});
   if(!env.EMORA_SUPABASE_URL||!env.EMORA_SUPABASE_SERVICE_ROLE_KEY||!env.EMORA_TELEGRAM_BOT_TOKEN||!env.EMORA_TELEGRAM_OWNER_CHAT_MAP||env.EMORA_BOT_DELIVERY_MODE!=='enabled')
    return respond(res,503,{ok:false,error:'bot_not_configured'});
   const ct=String(req.headers['content-type']||'');if(!ct.startsWith('application/json'))return respond(res,415,{ok:false,error:'content_type'});
