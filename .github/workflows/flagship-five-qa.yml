@@ -8,6 +8,7 @@ on:
       - supabase/functions/emora-click/**
       - supabase/functions/emora-payme/**
       - supabase/migrations/20261005_emora_v17_admin_analytics_hardening.sql
+      - v5-live/index.html
       - v5-live/server.mjs
       - v5-live/templates/v10-proposal-editor.js
       - v5-live/templates/v15-product-system.js
