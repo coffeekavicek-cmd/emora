@@ -7,6 +7,7 @@ try {
  await page.locator('#type').selectOption('birthday-aurora-paper');
  await page.waitForFunction(()=>document.querySelector('#studioIframe')?.getAttribute('src')?.includes('v19-birthday-cake.html'));
  await page.locator('#name1').fill('DILNOZA');
+ const dateDiagnostic=await page.locator('#date').evaluate(el=>{let n=el,items=[];while(n&&items.length<7){const c=getComputedStyle(n);items.push({tag:n.tagName,id:n.id,classes:n.className,display:c.display,visibility:c.visibility,opacity:c.opacity,rect:n.getBoundingClientRect().width+'x'+n.getBoundingClientRect().height});n=n.parentElement}return items});console.log('DATE FIELD DIAGNOSTIC',JSON.stringify(dateDiagnostic));
  await page.locator('#date').fill('2005-08-15');
  await page.locator('#letter').fill('UZ MATN');
  await page.locator('#v15-translations summary').click();
