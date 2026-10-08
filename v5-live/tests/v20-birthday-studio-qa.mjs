@@ -14,7 +14,7 @@ try {
  await page.locator('#letterRu').fill('RU TEXT');
  await page.locator('#letterEn').fill('EN TEXT');
  const frame=page.frameLocator('#studioIframe');
- await frame.locator('#letterGreeting').waitFor();
+ await frame.locator('#letterGreeting').waitFor({state:'attached'});
  await page.waitForTimeout(700);
  if(!(await frame.locator('#letterGreeting').textContent()).includes('DILNOZA'))failures.push('name');
  if(await frame.locator('#birthday').inputValue()!=='2005-08-15')failures.push('date');
