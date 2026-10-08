@@ -1,0 +1,35 @@
+import {chromium} from 'playwright';
+const base=process.env.EMORA_QA_BASE||'http://127.0.0.1:3000';
+const browser=await chromium.launch({headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
+const failures=[],errors=[];
+const page=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+page.on('pageerror',e=>errors.push(e.message));
+try{
+ await page.goto(base+'/',{waitUntil:'domcontentloaded',timeout:45000});
+ await page.waitForFunction(()=>window.__EMORA_V18_STUDIO__?.authoritativePreview===true,null,{timeout:12000});
+ await page.selectOption('#type','apology-quiet-room');
+ await page.waitForFunction(()=>document.querySelector('#studioIframe')?.getAttribute('src')?.includes('v24-apology-secret.html'),null,{timeout:7000});
+ await page.locator('#name1').fill('Jasmina');
+ await page.locator('#name2').fill('Aziz');
+ await page.locator('#memoryTitle').fill('My private riddle');
+ await page.locator('#letter').fill('Private apology from the Studio');
+ await page.locator('#letterRu').fill('Личное извинение из Студии');
+ await page.locator('#letterEn').fill('A personal apology from the Studio');
+ const frame=page.frameLocator('#studioIframe');
+ await frame.locator('#secretAnswer').waitFor();
+ await page.waitForFunction(()=>document.querySelector('#studioIframe')?.contentWindow?.__EMORA_APOLOGY_V24__?.recipient==='Jasmina',null,{timeout:9000});
+ if((await frame.locator('#secret .sub').textContent())!=='My private riddle')failures.push('Secret clue not passed from creator');
+ await frame.locator('#secretAnswer').fill('Jasmina');await frame.locator('#secretForm button').click();
+ await frame.locator('#yesBtn').click();await frame.locator('#envelopeBtn').click();
+ if(!(await frame.locator('#letterBody').textContent()).includes('Private apology from the Studio'))failures.push('UZ custom letter missing');
+ await frame.locator('[data-lang=ru]').click();
+ if(!(await frame.locator('#letterBody').textContent()).includes('Личное извинение из Студии'))failures.push('Russian custom letter missing');
+ await frame.locator('[data-lang=en]').click();
+ if(!(await frame.locator('#letterBody').textContent()).includes('A personal apology from the Studio'))failures.push('English custom letter missing');
+ const widths=await page.evaluate(()=>({doc:document.documentElement.scrollWidth,window:innerWidth}));
+ if(widths.doc>widths.window+3)failures.push('Studio mobile overflow '+JSON.stringify(widths));
+}catch(e){failures.push('Studio exception: '+e.message)}
+if(errors.length)failures.push('Home JS errors: '+errors.join('|'));
+await browser.close();
+console.log(JSON.stringify({passed:!failures.length,failures},null,2));
+if(failures.length)process.exitCode=1;
