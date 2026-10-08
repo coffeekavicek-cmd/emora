@@ -1,0 +1,32 @@
+import {chromium} from 'playwright';
+const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+const page=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+const failures=[];
+try {
+ await page.goto('http://127.0.0.1:3000/',{waitUntil:'domcontentloaded'});
+ await page.locator('#type').selectOption('birthday-aurora-paper');
+ await page.waitForFunction(()=>document.querySelector('#studioIframe')?.getAttribute('src')?.includes('v19-birthday-cake.html'));
+ await page.locator('#name1').fill('DILNOZA');
+ await page.locator('#date').fill('2005-08-15');
+ await page.locator('#letter').fill('UZ MATN');
+ await page.locator('#letterRu').fill('RU TEXT');
+ await page.locator('#letterEn').fill('EN TEXT');
+ const frame=page.frameLocator('#studioIframe');
+ await frame.locator('#letterGreeting').waitFor();
+ await page.waitForTimeout(700);
+ if(!(await frame.locator('#letterGreeting').textContent()).includes('DILNOZA'))failures.push('name');
+ if(await frame.locator('#birthday').inputValue()!=='2005-08-15')failures.push('date');
+ if(await frame.locator('#letterText').textContent()!=='UZ MATN')failures.push('UZ');
+ await frame.locator('[data-lang=ru]').click();
+ if(await frame.locator('#letterText').textContent()!=='RU TEXT')failures.push('RU');
+ await frame.locator('[data-lang=en]').click();
+ if(await frame.locator('#letterText').textContent()!=='EN TEXT')failures.push('EN');
+ await frame.locator('#dateForm button[type=submit]').click();
+ for(let i=0;i<5;i++)await frame.locator('#cake .candle').nth(i).click();
+ if(await frame.locator('#cakeNext').isHidden())failures.push('candles');
+ await frame.locator('#cakeNext').click();
+ if(await frame.locator('#gallery .photo-card').count()!==3)failures.push('photos');
+}catch(e){failures.push(String(e))}
+await browser.close();
+console.log(JSON.stringify({passed:failures.length===0,failures}));
+if(failures.length)process.exitCode=1;
