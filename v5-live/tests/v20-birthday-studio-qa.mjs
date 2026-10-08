@@ -7,9 +7,11 @@ try {
  await page.locator('#type').selectOption('birthday-aurora-paper');
  await page.waitForFunction(()=>document.querySelector('#studioIframe')?.getAttribute('src')?.includes('v19-birthday-cake.html'));
  await page.locator('#name1').fill('DILNOZA');
- const dateDiagnostic=await page.locator('#date').evaluate(el=>{let n=el,items=[];while(n&&items.length<7){const c=getComputedStyle(n);items.push({tag:n.tagName,id:n.id,classes:n.className,display:c.display,visibility:c.visibility,opacity:c.opacity,rect:n.getBoundingClientRect().width+'x'+n.getBoundingClientRect().height});n=n.parentElement}return items});console.log('DATE FIELD DIAGNOSTIC',JSON.stringify(dateDiagnostic));
+ if(await page.locator('#date').isHidden())failures.push('Birthday date input is hidden');
  await page.locator('#date').fill('2005-08-15');
  await page.locator('#letter').fill('UZ MATN');
+ await page.locator('#caption1').fill('OUR FIRST MEMORY');
+ await page.locator('#finalQuestion').fill('MY PRIVATE FINALE');
  await page.locator('#v15-translations summary').click();
  await page.locator('#letterRu').fill('RU TEXT');
  await page.locator('#letterEn').fill('EN TEXT');
@@ -28,6 +30,17 @@ try {
  if(await frame.locator('#cakeNext').isHidden())failures.push('candles');
  await frame.locator('#cakeNext').click();
  if(await frame.locator('#gallery .photo-card').count()!==3)failures.push('photos');
+ if((await frame.locator('#gallery .photo-card p').first().textContent())!=='OUR FIRST MEMORY')failures.push('photo caption mismatch');
+ await frame.locator('[data-next=film]').click();
+ if(await frame.locator('#filmVideo').isVisible())failures.push('empty video player leaked');
+ await frame.locator('[data-next=letter]').click();
+ if(await frame.locator('#letterNext').isVisible())failures.push('locked letter next revealed early');
+ await frame.locator('#openLetter').click();
+ await frame.locator('#letterNext').waitFor({state:'visible',timeout:3000});
+ await frame.locator('#letterNext').click();
+ if((await frame.locator('#finalTitle').textContent())!=='MY PRIVATE FINALE')failures.push('final title mismatch');
+ const dims=await page.evaluate(()=>({width:document.documentElement.scrollWidth,viewport:innerWidth}));
+ if(dims.width>dims.viewport+4)failures.push('mobile horizontal overflow '+JSON.stringify(dims));
 }catch(e){failures.push(String(e))}
 await browser.close();
 console.log(JSON.stringify({passed:failures.length===0,failures}));
