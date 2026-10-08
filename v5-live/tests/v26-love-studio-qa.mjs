@@ -11,6 +11,10 @@ try{
  await page.locator('#name1').fill('Jasmina');
  await page.locator('#name2').fill('Aziz');
  await page.locator('#caption1').fill('First happy photo ♡');
+ await page.locator('#v15-media summary').click();
+ await page.locator('#photo1').fill('');
+ await page.locator('#photo2').fill(base+'/assets/love-rose.png');
+ await page.locator('#caption2').fill('Photo TWO remains paired with caption TWO');
  await page.locator('#letter').fill('UZ letter from Studio');
  await page.locator('#v15-translations summary').click();
  await page.locator('#letterRu').fill('RU letter from Studio');
@@ -20,6 +24,8 @@ try{
  await page.waitForFunction(()=>document.querySelector('#studioIframe')?.contentWindow?.__EMORA_LOVE_V26__?.recipient==='Jasmina',null,{timeout:10000});
  await f.locator('[data-answer=nobody]').click();
  if(!(await f.locator('#photoGallery .memory p').first().textContent()).includes('First happy photo ♡'))fails.push('Studio caption not visible next to photo');
+ if(!(await f.locator('#photoGallery .memory p').nth(1).textContent()).includes('Photo TWO remains paired with caption TWO'))fails.push('Second caption shifted from photo slot TWO');
+ const secondImage=await f.locator('#photoGallery .memory img').nth(1).getAttribute('src');if(!secondImage?.includes('/assets/love-rose.png'))fails.push('Second photo missing or shifted: '+secondImage);
  await f.locator('#galleryNext').click();
  await f.locator('#filmNext').click();
  await f.locator('#envelopeBtn').click();
