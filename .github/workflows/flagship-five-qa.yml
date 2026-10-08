@@ -1,7 +1,7 @@
 name: EMORA — 5 flagship experiences QA
 on:
   push:
-    branches: [emora-v10-fifteen-experiences, emora-v18-studio-preview-layout-fix, emora-v19-birthday-ritual, emora-v20-birthday-studio-integration]
+    branches: [emora-v10-fifteen-experiences, emora-v18-studio-preview-layout-fix, emora-v19-birthday-ritual, emora-v20-birthday-studio-integration, emora-v21-qa-preview-release]
     paths:
       - .github/workflows/flagship-five-qa.yml
       - supabase/functions/emora-checkout/**
