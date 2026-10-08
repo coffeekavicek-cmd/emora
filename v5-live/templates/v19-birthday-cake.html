@@ -87,7 +87,7 @@ body{overflow:hidden;min-height:100svh}#experience{height:100svh;min-height:430p
  let scene='date',lit=5,read=false;
  let custom={recipient:'',sender:'',birthday:'',headline:'',headlineRu:'',headlineEn:'',photos:[],captions:[],video:'',music:'',letter:'',letterRu:'',letterEn:'',finalQuestion:''};
  const audio=new Audio();audio.loop=true;audio.preload='none';
- function safeUrl(v){if(typeof v!=='string')return '';try{const u=new URL(v,location.origin);if(u.protocol!=='https:'&&u.protocol!=='http:')return '';if(u.username||u.password)return '';return u.href}catch{return ''}}
+ function safeUrl(v){if(typeof v!=='string'||!v.trim())return '';try{const u=new URL(v,location.origin);if(u.protocol!=='https:'&&u.protocol!=='http:')return '';if(u.username||u.password)return '';return u.href}catch{return ''}}
  function copy(){return STRINGS[lang]}
  function img(i){const src=safeUrl(custom.photos[i]||'')||'/assets/birthday-aurora.png';const node=document.createElement('img');node.alt='Memory '+(i+1);node.loading='eager';node.src=src;node.onerror=()=>{node.onerror=null;node.src='/assets/birthday-aurora.png'};return node}
  function personalize(){const c=copy();$('#cakeTitle').textContent=(lang==='ru'?custom.headlineRu:lang==='en'?custom.headlineEn:custom.headline)||custom.headline||c.cakeTitle;$('#letterGreeting').textContent=c.greeting+(custom.recipient||'♡');$('#letterText').textContent=(lang==='ru'?custom.letterRu:lang==='en'?custom.letterEn:custom.letter)||custom.letter||c.letterDefault;$('#letterSignature').textContent=custom.sender||c.letterFrom;$('#finalTitle').textContent=custom.finalQuestion||c.finalTitle+(custom.recipient||'♡')+'!';$('#finalCopy').textContent=c.finalCopy}
