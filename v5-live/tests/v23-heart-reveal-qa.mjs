@@ -13,8 +13,7 @@ for(const cfg of [{w:360,h:740,lang:'uz'},{w:390,h:844,lang:'ru'},{w:430,h:932,l
   await page.waitForFunction(()=>window.__EMORA_HEART_V23__?.ready===true,null,{timeout:10000});
   const box=await page.locator('#heartSlider').count();
   if(box!==1)failures.push('Heart slider missing');
-  await page.evaluate(()=>window.postMessage({type:'emora:moment-preview',config:{recipient:'Jasmina',birthday:'2005-08-15',photos:[baseUnusedPhoto(),'', ''],letter:'Just for you ♡'}},location.origin));
-  function baseUnusedPhoto(){return location.origin+'/assets/birthday-aurora.png'}
+  await page.evaluate(()=>window.postMessage({type:'emora:moment-preview',config:{recipient:'Jasmina',birthday:'2005-08-15',photos:[location.origin+'/assets/birthday-aurora.png','',''],letter:'Just for you ♡'}},location.origin));
   await page.waitForFunction(()=>window.__EMORA_HEART_V23__?.recipient==='Jasmina');
   await page.locator('#dateForm button').click();
   for(let i=0;i<5;i++)await page.locator('#candles .candle').nth(i).click();
