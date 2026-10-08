@@ -47,18 +47,20 @@ function makeBase(){
  g.restore();base=o.can
 }
 function makePortrait(img){
- const scaled=make(),p=scaled.g,ratio=Math.max(400/img.naturalWidth,380/img.naturalHeight);
+ const scaled=make(),p=scaled.g,ratio=Math.max(400/img.naturalWidth,380/img.naturalHeight)*1.42;
  const w=img.naturalWidth*ratio,h=img.naturalHeight*ratio;
  p.drawImage(img,(400-w)/2,(380-h)/2,w,h);
  const pixels=p.getImageData(0,0,scaled.can.width,scaled.can.height).data;
  const layer=make(),g=layer.g;g.save();g.clip(heart);g.fillStyle='#f9e8e1';g.fill(heart);
+ // A gentle 38% underpainting retains recognizable facial anatomy; glyphs remain the main rendered portrait.
+ g.save();g.globalAlpha=.38;g.drawImage(scaled.can,0,0,400,380);g.restore();
  textGrid(g,(x,y)=>{
   const px=Math.max(0,Math.min(scaled.can.width-1,Math.round(x*dpr)));
   const py=Math.max(0,Math.min(scaled.can.height-1,Math.round(y*dpr)));
   const idx=(py*scaled.can.width+px)*4;
   if(pixels[idx+3]<8)return '#d3adc0';
   const lum=(pixels[idx]*.299+pixels[idx+1]*.587+pixels[idx+2]*.114)/255;
-  const c=Math.max(0,Math.min(1,(lum-.12)/.82));
+  const c=Math.max(0,Math.min(1,(lum-.09)/.87));
   return 'rgb('+Math.round(27+c*198)+','+Math.round(13+c*168)+','+Math.round(31+c*166)+')';
  });
  g.restore();portrait=layer.can
