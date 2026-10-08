@@ -9,6 +9,7 @@ try {
  await page.locator('#name1').fill('DILNOZA');
  await page.locator('#date').fill('2005-08-15');
  await page.locator('#letter').fill('UZ MATN');
+ await page.locator('#v15-translations summary').click();
  await page.locator('#letterRu').fill('RU TEXT');
  await page.locator('#letterEn').fill('EN TEXT');
  const frame=page.frameLocator('#studioIframe');
