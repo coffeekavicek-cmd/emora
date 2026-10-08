@@ -10,7 +10,7 @@ const love=!!window.__EMORA_LOVE_V26__;
 const api=()=>love?window.__EMORA_LOVE_V26__:window.__EMORA_BIRTHDAY_V19__;
 const heart=new Path2D('M200 344 C171 318 43 240 27 149 C9 47 122 13 200 94 C278 13 391 47 373 149 C357 240 229 318 200 344 Z');
 const dict={
- uz:{slide:'CHIZIQNI O‘NGGA SUR →',done:'Ana, yuragimdagi eng chiroyli inson ♡',sample:'Намунавий портрет. Ҳақиқий расмни Studio’да юкла.',birthday:n=>'“'+n+'” ismini 133 848 383 marta yozsam ham, sanga aytadigan gaplarim tugamaydi ♡',love:n=>'“'+n+'” ismini ming marta yozsam ham, sanga aytadigan gaplarim tugamaydi ♡'},
+ uz:{slide:'CHIZIQNI O‘NGGA SUR →',done:'Ana, yuragimdagi eng chiroyli inson ♡',sample:'Demo portret. Haqiqiy rasmingni Studio’da yukla ♡',birthday:n=>'“'+n+'” ismini 133 848 383 marta yozsam ham, sanga aytadigan gaplarim tugamaydi ♡',love:n=>'“'+n+'” ismini ming marta yozsam ham, sanga aytadigan gaplarim tugamaydi ♡'},
  ru:{slide:'ВЕДИ ПОЛЗУНОК ВПРАВО →',done:'Вот кто у меня в сердце ♡',sample:'Демо-портрет. Загрузить своё фото можно в Studio.',birthday:n=>'Имя «'+n+'» можно написать 133 848 383 раза… и всё равно не хватит слов ♡',love:n=>'Имя «'+n+'» можно написать тысячи раз… и всё равно не хватит слов ♡'},
  en:{slide:'SLIDE RIGHT TO REVEAL →',done:'And there you are — in my heart ♡',sample:'Sample portrait. Upload the real photo in Studio.',birthday:n=>'I could write “'+n+'” 133,848,383 times and still have more to say ♡',love:n=>'I could write “'+n+'” thousands of times and still have more to say ♡'}
 };
@@ -49,13 +49,13 @@ function makeBase(){
  g.restore();base=o.can
 }
 function makePortrait(img){
- const scaled=make(),p=scaled.g,ratio=Math.max(400/img.naturalWidth,380/img.naturalHeight)*1.42;
+ const scaled=make(),p=scaled.g,ratio=Math.max(400/img.naturalWidth,380/img.naturalHeight)*1.56;
  const w=img.naturalWidth*ratio,h=img.naturalHeight*ratio;
  p.drawImage(img,(400-w)/2,(380-h)/2,w,h);
  const pixels=p.getImageData(0,0,scaled.can.width,scaled.can.height).data;
  const layer=make(),g=layer.g;g.save();g.clip(heart);g.fillStyle='#f9e8e1';g.fill(heart);
  // A gentle 38% underpainting retains recognizable facial anatomy; glyphs remain the main rendered portrait.
- g.save();g.globalAlpha=.38;g.drawImage(scaled.can,0,0,400,380);g.restore();
+ g.save();g.globalAlpha=.68;g.drawImage(scaled.can,0,0,400,380);g.restore();
  textGrid(g,(x,y)=>{
   const px=Math.max(0,Math.min(scaled.can.width-1,Math.round(x*dpr)));
   const py=Math.max(0,Math.min(scaled.can.height-1,Math.round(y*dpr)));
