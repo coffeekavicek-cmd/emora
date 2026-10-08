@@ -1,0 +1,28 @@
+name: EMORA V27 — Verify deployed cinematic portrait
+on:
+  push:
+    branches: [emora-v26-typographic-portrait-fix]
+    paths: [.github/workflows/v27-live-portrait.yml]
+  workflow_dispatch:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Confirm public Railway demo uses true typography
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="https://emora-v21-private-preview-production.up.railway.app"
+          for route in "/health" "/templates/v26-love-confession.html?v=27" "/templates/v19-birthday-cake.html?v=27" "/templates/v27-name-portrait.js?v=27"; do
+            code="$(curl -LfsS --retry 4 --retry-delay 2 --connect-timeout 12 --max-time 25 -o /tmp/emora-v27-live -w '%{http_code}' "${base}${route}")"
+            echo "${route} -> HTTP ${code}"
+            test "${code}" = "200"
+            case "${route}" in
+              /health) grep -q '"ok":true' /tmp/emora-v27-live;;
+              /templates/v26-love-confession.html*) grep -q '/templates/v27-name-portrait.js' /tmp/emora-v27-live;;
+              /templates/v19-birthday-cake.html*) grep -q '/templates/v27-name-portrait.js' /tmp/emora-v27-live;;
+              /templates/v27-name-portrait.js*) grep -q "sampled-typographic-portrait-v27" /tmp/emora-v27-live;;
+            esac
+          done
+          echo "PASS — V27 live photo-derived name mosaic in birthday and love"
