@@ -1,7 +1,7 @@
 name: EMORA — 5 flagship experiences QA
 on:
   push:
-    branches: [emora-v10-fifteen-experiences]
+    branches: [emora-v10-fifteen-experiences, emora-v18-studio-preview-layout-fix]
     paths:
       - .github/workflows/flagship-five-qa.yml
       - supabase/functions/emora-checkout/**
