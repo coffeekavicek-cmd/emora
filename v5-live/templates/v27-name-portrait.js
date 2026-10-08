@@ -16,6 +16,8 @@ const dict={
 };
 const example='<svg xmlns="http://www.w3.org/2000/svg" width="600" height="660" viewBox="0 0 600 660"><defs><linearGradient id="g" x2=".7" y2="1"><stop stop-color="#fff1e5"/><stop offset="1" stop-color="#dca4b5"/></linearGradient><linearGradient id="h" x2="1" y2="1"><stop stop-color="#25102a"/><stop offset="1" stop-color="#693450"/></linearGradient><linearGradient id="s" x2="1" y2=".7"><stop stop-color="#ffddc2"/><stop offset="1" stop-color="#c68985"/></linearGradient></defs><rect width="600" height="660" fill="url(#g)"/><circle cx="300" cy="270" r="250" fill="#f7d9d2"/><path d="M68 660Q85 418 139 227Q178 91 293 84Q450 60 480 222Q522 436 542 660Z" fill="url(#h)"/><path d="M50 660Q110 501 231 488H369Q491 507 558 660Z" fill="#6d3152"/><path d="M234 443L225 529Q291 571 372 521L357 445Z" fill="url(#s)"/><path d="M179 250Q172 132 299 115Q424 125 418 252Q409 427 300 489Q195 431 179 250" fill="url(#s)"/><path d="M165 339Q130 176 214 102Q311 55 398 133Q435 180 427 340Q405 228 369 172Q290 237 194 204Z" fill="url(#h)"/><path d="M222 297Q244 283 275 298M327 298Q349 280 379 297" stroke="#734452" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M223 308Q246 299 266 309M335 310Q356 299 379 309" stroke="#27192e" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M300 314Q291 352 297 367Q305 375 316 370" stroke="#b77776" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M266 406Q299 389 331 406Q301 437 266 406" fill="#a9556e"/><path d="M149 224Q116 369 171 463M427 205Q500 401 440 477" stroke="#53223e" stroke-width="46" fill="none" stroke-linecap="round"/><circle cx="181" cy="356" r="12" fill="#e2a870"/><circle cx="421" cy="352" r="12" fill="#e2a870"/></svg>';
 const exampleUrl='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(example);
+// Freely usable demo photograph: https://unsplash.com/photos/hwWUaNNHqdU . Studio photos always take priority.
+const demoPhoto='https://images.unsplash.com/photo-1640360937402-edd310a8f5f4?w=640&h=680&fit=crop&crop=faces&auto=format&q=82';
 const help=document.createElement('p');help.id='portraitSourceNote';help.style.cssText='margin:0;font-size:10px;text-align:center;line-height:1.4;color:#e6c3d2;max-width:340px';
 slider.closest('.heart-controls,.heart-reveal-controls')?.append(help);
 if(svg)svg.style.display='none';
@@ -76,7 +78,7 @@ function repaint(){
 }
 async function prepare(src){
  const id=++version;let img,gotPersonal=!!validImage(src);
- try{img=await load(gotPersonal?validImage(src):exampleUrl);if(id!==version)return;makePortrait(img)}
+ try{img=await load(gotPersonal?validImage(src):demoPhoto);if(id!==version)return;makePortrait(img)}
  catch{if(id!==version)return;gotPersonal=false;img=await load(exampleUrl);if(id!==version)return;makePortrait(img)}
  if(id!==version)return;source=gotPersonal?'personal':'demo';help.textContent=source==='demo'?labels().sample:'';repaint()
 }
