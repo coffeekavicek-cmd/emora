@@ -12,7 +12,11 @@ for(const cfg of cases){
   const res=await page.goto(base+'/templates/v24-apology-secret.html?lang='+cfg.lang,{waitUntil:'domcontentloaded',timeout:45000});if(res.status()!==200)failures.push('Route HTTP '+res.status());
   await page.waitForFunction(()=>window.__EMORA_APOLOGY_V24__?.version===24);
   if(await page.evaluate(()=>window.__EMORA_APOLOGY_V24__.lang)!==cfg.lang)failures.push('Language not selected');
-  await page.evaluate(()=>{window.__emoraOpenUrl='';window.open=(u)=>{window.__emoraOpenUrl=u;return {closed:false}};window.postMessage({type:'emora:moment-preview',config:{recipient:'Jasmina',sender:'Aziz',secretHint:'SECRET QA RIDDLE',photos:['/assets/apology-quiet.png'],video:'',letter:'QA UZ private letter',letterRu:'QA RU private letter',letterEn:'QA EN private letter'}},location.origin)});
+  if(await page.locator('#secret .heart-orb').count()>0)failures.push('Broken rotated-square heart still rendered');
+  if(cfg.lang==='uz'&&(await page.locator('#secretTitle').textContent()).trim()!=='Mening eng sevimli desertim?')failures.push('Uzbek prompt must read Mening eng sevimli desertim?');
+
+  await page.route('**/api/apology-meeting',async(route)=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,delivery:'sent'})}));
+  await page.evaluate(()=>{window.postMessage({type:'emora:moment-preview',config:{pageSlug:'qa-v25-page',recipient:'Jasmina',sender:'Aziz',secretHint:'SECRET QA RIDDLE',photos:['/assets/apology-quiet.png'],video:'',letter:'QA UZ private letter',letterRu:'QA RU private letter',letterEn:'QA EN private letter'}},location.origin)});
   await page.waitForFunction(()=>window.__EMORA_APOLOGY_V24__?.recipient==='Jasmina');
   const hint=await page.locator('#secret .sub').textContent();if(cfg.lang==='uz'&&hint!=='SECRET QA RIDDLE')failures.push('Creator riddle missing in UZ');if(cfg.lang!=='uz'&&(hint==='SECRET QA RIDDLE'||!hint?.trim()))failures.push('Foreign-language riddle leaked UZ hint / empty');
   await page.locator('#secretAnswer').fill('not-your-name');
@@ -21,10 +25,11 @@ for(const cfg of cases){
   await page.locator('#secretAnswer').fill('  JASMINA  ');
   await page.locator('#secretForm button').click();
   await page.waitForFunction(()=>window.__EMORA_APOLOGY_V24__?.active==='question');
-  await page.locator('#noBtn').click({force:true});
-  if(await page.evaluate(()=>window.__EMORA_APOLOGY_V24__.teases)<1)failures.push('No button not playful');
-  if(await page.evaluate(()=>window.__EMORA_APOLOGY_V24__.active)!=='question')failures.push('No button bypassed letter');
-  await page.locator('#yesBtn').click();
+  await page.locator('#yesBtn').click({force:true});
+  if(await page.evaluate(()=>window.__EMORA_APOLOGY_V24__.teases)<1)failures.push('Yes button does not escape');
+  if(await page.locator('#declineBtn').count()!==0)failures.push('Unwanted decline option still visible');
+  if(await page.evaluate(()=>window.__EMORA_APOLOGY_V24__.active)!=='question')failures.push('Escaping Yes advanced improperly');
+  await page.locator('#noBtn').click();
   await page.waitForFunction(()=>window.__EMORA_APOLOGY_V24__?.active==='letter');
   await page.locator('#envelopeBtn').click();
   if(!(await page.locator('#letterWrap').getAttribute('class')).includes('opened'))failures.push('Envelope did not open');
@@ -33,23 +38,23 @@ for(const cfg of cases){
   if(await page.locator('#memories img').count()!==1)failures.push('Creator photo missing');
   await page.locator('#letterContinue').click();
   await page.waitForFunction(()=>window.__EMORA_APOLOGY_V24__?.active==='meeting');
+  const hitboxes=await page.evaluate(()=>{const r=sel=>[...document.querySelectorAll(sel)].map(el=>{const b=el.getBoundingClientRect();return {x:b.x,y:b.y,w:b.width,h:b.height,right:b.right,bottom:b.bottom}});return {dates:r('#meeting .when label'),places:r('#meetingOptions button'),viewport:innerWidth}});
+  if(cfg.w<700){
+   const dates=hitboxes.dates;if(dates.length!==2||dates[0].bottom>dates[1].y+2)failures.push('Date/time fields overlap or are not stacked: '+JSON.stringify(dates));
+   if(dates.some(d=>d.x<0||d.right>hitboxes.viewport+3||d.w<220))failures.push('Meeting selectors leave visible phone bounds: '+JSON.stringify(dates));
+   if(hitboxes.places.length!==3||hitboxes.places.some(p=>p.x<0||p.right>hitboxes.viewport+3))failures.push('Meeting options overflow phone: '+JSON.stringify(hitboxes.places));
+  }
   await page.locator('[data-choice=coffee]').click();
   await page.locator('#meetDate').fill(await page.locator('#meetDate').getAttribute('min'));
   await page.locator('#meetTime').fill('19:30');
   await page.locator('#sendMeeting').click();
-  const share=await page.evaluate(()=>window.__emoraOpenUrl);
-  if(!share.startsWith('https://t.me/share/url?'))failures.push('No Telegram opt-in share composer');
-  const decode=new URL(share||'https://invalid.example/');
-  const msg=decode.searchParams.get('text')||'';
-  if(!msg.includes('19:30')||!/coffee|kof|коф/i.test(msg))failures.push('Shared meeting text missing time/choice');
+  await page.locator('#meetingResult:visible').waitFor();
+  const sentText=await page.locator('#meetingResult').textContent();if(!sentText.includes('19:30')||!sentText.includes('202'))failures.push('Emora Bot confirmation missing booking details');
+  if(!(await page.locator('#meetingRecap').textContent()).includes('19:30'))failures.push('Live meeting summary missing selected time');
   const dim=await page.evaluate(()=>({sw:document.documentElement.scrollWidth,iw:innerWidth}));
   if(dim.sw>dim.iw+4)failures.push('Horizontal scroll on '+cfg.w+'px '+JSON.stringify(dim));
   await page.screenshot({path:path.join(outDir,'v24-apology-'+cfg.name+'.png'),fullPage:false});
-  await page.locator('#replay').count(); // Exit is a separate user-controlled path; test below.
-  await page.reload({waitUntil:'domcontentloaded'});
-  await page.locator('#secretAnswer').fill('Jasmina');
-  await page.locator('#secretForm button').click(); await page.locator('#declineBtn').click();
-  await page.waitForFunction(()=>window.__EMORA_APOLOGY_V24__?.active==='exit');
+  if(await page.locator('#exit').count()!==0)failures.push('Unwanted exit stage still present');
  }catch(e){failures.push('Browser exception: '+e.message)}
  if(errors.length)failures.push('Page exceptions: '+errors.join(' | '));
  results.push({viewport:cfg.w+'x'+cfg.h,lang:cfg.lang,passed:!failures.length,failures});

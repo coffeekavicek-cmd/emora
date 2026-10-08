@@ -1,0 +1,46 @@
+name: EMORA V25 — Apology fixes & Emora bot contract
+on:
+  push:
+    branches: [emora-v25-apology-corrected-meeting-bot]
+    paths:
+      - .github/workflows/v25-apology-bot.yml
+      - v5-live/server.mjs
+      - v5-live/meeting-bot.mjs
+      - v5-live/templates/v24-apology-secret.html
+      - v5-live/tests/v25-meeting-bot-qa.mjs
+      - v5-live/tests/v24-apology-qa.mjs
+      - v5-live/tests/v24-apology-studio-qa.mjs
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 11
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate backend code
+        run: |
+          node --check v5-live/server.mjs
+          node --check v5-live/meeting-bot.mjs
+          node v5-live/tests/v25-meeting-bot-qa.mjs
+      - name: Install Chromium
+        run: |
+          npm install --prefix v5-live --no-save playwright@1.55.0
+          cd v5-live && npx playwright install --with-deps chromium
+      - name: Start preview
+        run: |
+          PORT=3000 node v5-live/server.mjs >/tmp/v25.log 2>&1 &
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:3000/health >/dev/null && break; sleep 1; done
+          curl -fsS http://127.0.0.1:3000/health
+      - name: Verify mobile UZ RU EN interactions
+        run: node v5-live/tests/v24-apology-qa.mjs
+      - name: Verify Studio creator preview
+        run: node v5-live/tests/v24-apology-studio-qa.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: emora-v25-apology-screenshots
+          path: v5-live/qa-v10-results/v24-*
+          retention-days: 7

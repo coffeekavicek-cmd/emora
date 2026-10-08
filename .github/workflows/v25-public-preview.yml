@@ -1,0 +1,37 @@
+name: EMORA V25 — Verify external preview
+on:
+  push:
+    branches: [emora-v25-apology-corrected-meeting-bot]
+    paths: [.github/workflows/v25-public-preview.yml]
+  workflow_dispatch:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Verify deployed apology fix and safe bot fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="https://emora-v21-private-preview-production.up.railway.app"
+          for path in /health / /templates/v24-apology-secret.html; do
+            code="$(curl -fsSL --retry 3 --retry-delay 2 -o /tmp/emora-preview-v25 -w '%{http_code}' "${base}${path}")"
+            echo "${path} -> HTTP ${code}"
+            test "$code" = 200
+            if [ "$path" = "/templates/v24-apology-secret.html" ]; then
+              grep -Fq "secretTitle:'Mening eng sevimli desertim?'" /tmp/emora-preview-v25
+              if grep -Fq 'Mening eng sevimli desertim kim?' /tmp/emora-preview-v25; then echo 'Old Uzbek question still deployed'; exit 1; fi
+              if grep -q 'class="heart-orb"' /tmp/emora-preview-v25; then echo 'Broken pink diamond remains'; exit 1; fi
+              grep -q 'id="yesBtn"' /tmp/emora-preview-v25
+              grep -q 'btn dodger' /tmp/emora-preview-v25
+              grep -q 'id="noBtn"' /tmp/emora-preview-v25
+              grep -q 'id="meetingRecap"' /tmp/emora-preview-v25
+              grep -q '/api/apology-meeting' /tmp/emora-preview-v25
+              if grep -q 'id="declineBtn"' /tmp/emora-preview-v25; then echo 'Old decline button still found'; exit 1; fi
+            fi
+          done
+          code="$(curl -sS -o /tmp/emora-bot-disabled -w '%{http_code}' -X POST "${base}/api/apology-meeting" -H "Origin: ${base}" -H 'Content-Type: application/json' --data '{"slug":"qa-v25-demo","choice":"coffee","date":"2026-10-14","time":"19:30"}')"
+          echo "/api/apology-meeting (no bot credentials) -> HTTP $code"
+          test "$code" = 503
+          grep -q '"error":"bot_not_configured"' /tmp/emora-bot-disabled
+          echo 'PASS: correct UI deployed; no fake Telegram sending.'
