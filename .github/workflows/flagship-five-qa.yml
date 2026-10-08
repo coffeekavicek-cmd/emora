@@ -82,6 +82,8 @@ jobs:
           done
           cat /tmp/emora-five.log
           curl --fail --silent --show-error http://127.0.0.1:3000/health
+      - name: Birthday — V20 Studio to recipient live data
+        run: node v5-live/tests/v20-birthday-studio-qa.mjs
       - name: Product — unified competitor-informed V15 funnel
         run: node v5-live/tests/v15-product-system-qa.mjs
       - name: Product — gated Click/Payme V16 checkout
@@ -98,8 +100,6 @@ jobs:
         run: node v5-live/tests/v10-aurora-paper-qa.mjs
       - name: Birthday — V19 date, candles, portraits, private film and envelope
         run: node v5-live/tests/v19-birthday-ritual-qa.mjs
-      - name: Birthday — V20 Studio to recipient live data
-        run: node v5-live/tests/v20-birthday-studio-qa.mjs
       - name: Apology — Quiet Room
         run: node v5-live/tests/v10-quiet-room-qa.mjs
       - name: Proposal — Pearl Promise
