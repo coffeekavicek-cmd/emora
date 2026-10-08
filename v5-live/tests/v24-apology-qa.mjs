@@ -35,6 +35,12 @@ for(const cfg of cases){
   if(await page.locator('#memories img').count()!==1)failures.push('Creator photo missing');
   await page.locator('#letterContinue').click();
   await page.waitForFunction(()=>window.__EMORA_APOLOGY_V24__?.active==='meeting');
+  const hitboxes=await page.evaluate(()=>{const r=sel=>[...document.querySelectorAll(sel)].map(el=>{const b=el.getBoundingClientRect();return {x:b.x,y:b.y,w:b.width,h:b.height,right:b.right,bottom:b.bottom}});return {dates:r('#meeting .when label'),places:r('#meetingOptions button'),viewport:innerWidth}});
+  if(cfg.w<700){
+   const dates=hitboxes.dates;if(dates.length!==2||dates[0].bottom>dates[1].y+2)failures.push('Date/time fields overlap or are not stacked: '+JSON.stringify(dates));
+   if(dates.some(d=>d.x<0||d.right>hitboxes.viewport+3||d.w<220))failures.push('Meeting selectors leave visible phone bounds: '+JSON.stringify(dates));
+   if(hitboxes.places.length!==3||hitboxes.places.some(p=>p.x<0||p.right>hitboxes.viewport+3))failures.push('Meeting options overflow phone: '+JSON.stringify(hitboxes.places));
+  }
   await page.locator('[data-choice=coffee]').click();
   await page.locator('#meetDate').fill(await page.locator('#meetDate').getAttribute('min'));
   await page.locator('#meetTime').fill('19:30');
