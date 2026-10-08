@@ -33,6 +33,7 @@ body{overflow:hidden;min-height:100svh}#experience{height:100svh;min-height:430p
 @media(max-height:650px){.stage{gap:7px;padding-top:75px;padding-bottom:16px}.cake-world{height:185px}.film-frame{height:205px}.letter-world{height:215px}.gallery img{height:108px}.mosaic{height:160px}.display{font-size:36px}.desc{font-size:11px}.date-box{padding:10px}.progress{top:60px}.foot{display:none}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
+<link rel="stylesheet" href="/templates/v23-heart-reveal.css?v=1">
 </head>
 <body>
 <main id="experience">
@@ -68,7 +69,12 @@ body{overflow:hidden;min-height:100svh}#experience{height:100svh;min-height:430p
  </section>
  <section class="stage" id="finale" aria-labelledby="finalTitle" inert>
   <span class="eyebrow" data-t="chapter6"></span><div class="mosaic" id="mosaic" aria-hidden="true"></div>
-  <div class="final-message"><h2 id="finalTitle"></h2><p id="finalCopy"></p><button class="btn ghost" id="replay" type="button" data-t="replay"></button></div>
+  <div class="names-heart" id="namesHeartWrap" aria-label="Ismlardan yurak va surat animatsiyasi">
+   <canvas id="namesHeartCanvas" width="400" height="380" role="img" aria-label="Ismlardan tuzilgan yurak"></canvas>
+   <svg id="namesHeartPhoto" viewBox="0 0 400 380" aria-hidden="true" preserveAspectRatio="xMidYMid meet"><defs><clipPath id="v23PhotoHeart"><path d="M200 344 C171 318 43 240 27 149 C9 47 122 13 200 94 C278 13 391 47 373 149 C357 240 229 318 200 344 Z"/></clipPath><clipPath id="v23PhotoReveal"><rect id="heartRevealRect" x="0" y="0" width="0" height="380"/></clipPath></defs><g clip-path="url(#v23PhotoHeart)"><g clip-path="url(#v23PhotoReveal)"><image id="heartRecipientPhoto" href="/assets/birthday-aurora.png" x="0" y="0" width="400" height="380" preserveAspectRatio="xMidYMid slice"/></g></g></svg>
+  </div>
+  <div class="heart-reveal-controls"><label for="heartSlider" id="heartSliderLabel">CHIZIQNI O‘NGGA SUR →</label><input id="heartSlider" type="range" min="0" max="100" step="1" value="0" aria-label="Ismlardan qiz suratini ochish"><output id="heartSliderValue" for="heartSlider" aria-live="polite">0%</output></div>
+  <div class="final-message"><h2 id="finalTitle"></h2><p id="namesHeartNote"></p><p id="finalCopy"></p><button class="btn ghost" id="replay" type="button" data-t="replay"></button></div>
  </section>
  <div class="foot">A LITTLE MAGIC, MADE PERSONAL — EMORA</div>
 </main>
@@ -90,12 +96,12 @@ body{overflow:hidden;min-height:100svh}#experience{height:100svh;min-height:430p
  function safeUrl(v){if(typeof v!=='string'||!v.trim())return '';try{const u=new URL(v,location.origin);if(u.protocol!=='https:'&&u.protocol!=='http:')return '';if(u.username||u.password)return '';return u.href}catch{return ''}}
  function copy(){return STRINGS[lang]}
  function img(i){const src=safeUrl(custom.photos[i]||'')||'/assets/birthday-aurora.png';const node=document.createElement('img');node.alt='Memory '+(i+1);node.loading='eager';node.src=src;node.onerror=()=>{node.onerror=null;node.src='/assets/birthday-aurora.png'};return node}
- function personalize(){const c=copy();$('#cakeTitle').textContent=(lang==='ru'?custom.headlineRu:lang==='en'?custom.headlineEn:custom.headline)||custom.headline||c.cakeTitle;$('#letterGreeting').textContent=c.greeting+(custom.recipient||'♡');$('#letterText').textContent=(lang==='ru'?custom.letterRu:lang==='en'?custom.letterEn:custom.letter)||custom.letter||c.letterDefault;$('#letterSignature').textContent=custom.sender||c.letterFrom;$('#finalTitle').textContent=custom.finalQuestion||c.finalTitle+(custom.recipient||'♡')+'!';$('#finalCopy').textContent=c.finalCopy}
+ function personalize(){const c=copy();$('#cakeTitle').textContent=(lang==='ru'?custom.headlineRu:lang==='en'?custom.headlineEn:custom.headline)||custom.headline||c.cakeTitle;$('#letterGreeting').textContent=c.greeting+(custom.recipient||'♡');$('#letterText').textContent=(lang==='ru'?custom.letterRu:lang==='en'?custom.letterEn:custom.letter)||custom.letter||c.letterDefault;$('#letterSignature').textContent=custom.sender||c.letterFrom;$('#finalTitle').textContent=custom.finalQuestion||c.finalTitle+(custom.recipient||'♡')+'!';$('#finalCopy').textContent=c.finalCopy;window.dispatchEvent(new Event('emora:birthday-update'))}
  function renderPhotos(){const gallery=$('#gallery'),mosaic=$('#mosaic');gallery.replaceChildren();mosaic.replaceChildren();for(let i=0;i<3;i++){const card=document.createElement('article');card.className='photo-card';const label=document.createElement('p');label.textContent=custom.captions[i]||copy().flirts[i];card.append(img(i),label);gallery.append(card)}for(let i=0;i<6;i++)mosaic.append(img(i%3))}
  function renderVideo(){const src=safeUrl(custom.video),v=$('#filmVideo'),wrap=$('#filmFrame');if(src){if(v.src!==src)v.src=src;v.hidden=false;wrap.classList.add('has-video')}else{v.pause();v.removeAttribute('src');v.load();v.hidden=true;wrap.classList.remove('has-video')}}
  function renderMusic(){const src=safeUrl(custom.music);if(!src){audio.pause();audio.removeAttribute('src');$('#musicBtn').hidden=true;return}$('#musicBtn').hidden=false;if(audio.src!==src){audio.pause();audio.src=src;$('#musicBtn').setAttribute('aria-pressed','false')}$('#musicBtn').textContent=copy()[$('#musicBtn').getAttribute('aria-pressed')==='true'?'musicOn':'musicOff']}
  function i18n(){document.documentElement.lang=lang;for(const el of $$('[data-t]')){const k=el.dataset.t;if(k==='askDate')el.textContent=copy()[k].replace('<3','♡');else if(k==='openLetter')el.setAttribute('aria-label',copy()[k]);else el.textContent=copy()[k]||''}$$('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lang===lang)));renderPhotos();personalize();renderMusic();updateCounter()}
- function go(id){if(!SCENES.includes(id))return;$('#filmVideo').pause();scene=id;for(const k of SCENES){const section=$('#'+k),on=k===id;section.classList.toggle('active',on);section.inert=!on;section.setAttribute('aria-hidden',String(!on))}$('#progress').style.width=String((SCENES.indexOf(id)+1)/SCENES.length*100)+'%';}
+ function go(id){if(!SCENES.includes(id))return;$('#filmVideo').pause();scene=id;for(const k of SCENES){const section=$('#'+k),on=k===id;section.classList.toggle('active',on);section.inert=!on;section.setAttribute('aria-hidden',String(!on))}$('#progress').style.width=String((SCENES.indexOf(id)+1)/SCENES.length*100)+'%';if(id==='finale')window.dispatchEvent(new Event('emora:birthday-finale'));}
  function updateCounter(){$('#candleCount').textContent=copy().candleCount+(5-lit)+'/5';$('#cakeNext').hidden=lit!==0}
  function resetCandles(){lit=5;$('#candles').replaceChildren();for(let i=1;i<=5;i++){const candle=document.createElement('button');candle.type='button';candle.className='candle';candle.dataset.index=String(i);candle.setAttribute('aria-pressed','false');candle.setAttribute('aria-label',copy().candleLabel+' '+i);candle.innerHTML='<span class="flame" aria-hidden="true"></span><span class="smoke" aria-hidden="true"></span><span class="stick" aria-hidden="true"></span>';candle.onclick=()=>{if(candle.classList.contains('extinguished'))return;candle.classList.add('extinguished');candle.setAttribute('aria-pressed','true');lit-=1;updateCounter();if(lit===0)$('#cakeTitle').textContent=copy().cakeTitle};$('#candles').append(candle)}updateCounter()}
  function setupMusic(){const b=$('#musicBtn');b.onclick=async()=>{if(b.getAttribute('aria-pressed')==='true'){audio.pause();b.setAttribute('aria-pressed','false')}else{try{await audio.play();b.setAttribute('aria-pressed','true')}catch(e){b.setAttribute('aria-pressed','false')}}renderMusic()}}
@@ -105,12 +111,13 @@ body{overflow:hidden;min-height:100svh}#experience{height:100svh;min-height:430p
  $$('[data-lang]').forEach(b=>b.onclick=()=>{lang=b.dataset.lang;i18n();if(custom.birthday&&scene==='cake'){$('#dateForm').requestSubmit();}});
  $('#cakeNext').onclick=()=>go('photos');
  $('#openLetter').onclick=()=>{if(read)return;read=true;$('#letterWorld').classList.add('opened');$('#openLetter').setAttribute('aria-expanded','true');setTimeout(()=>{$('#letterNext').hidden=false},matchMedia('(prefers-reduced-motion: reduce)').matches?10:650)};
- $('#replay').onclick=()=>{read=false;$('#letterWorld').classList.remove('opened');$('#openLetter').setAttribute('aria-expanded','false');$('#letterNext').hidden=true;resetCandles();go('date')};
+ $('#replay').onclick=()=>{read=false;$('#letterWorld').classList.remove('opened');$('#openLetter').setAttribute('aria-expanded','false');$('#letterNext').hidden=true;resetCandles();go('date');window.dispatchEvent(new Event('emora:birthday-replay'))};
  window.addEventListener('message',e=>{if(e.origin!==location.origin)return;if(e.data?.type==='emora:moment-preview'||e.data?.type==='emora:moment-published'||e.data?.type==='emora:preview')ingest(e.data)});
  for(let i=0;i<42;i++){const dot=document.createElement('i');dot.style.left=(3+(i*59%93))+'%';dot.style.top=(8+(i*37%83))+'%';dot.style.animationDelay=(-i*.23)+'s';$('#sparks').append(dot)}
  setupMusic();resetCandles();i18n();renderVideo();go('date');
- window.__EMORA_BIRTHDAY_V19__={version:19,stages:SCENES.slice(),get active(){return scene},get candlesOut(){return 5-lit},get lang(){return lang},ingest:ingest};
+ window.__EMORA_BIRTHDAY_V19__={version:19,stages:SCENES.slice(),get active(){return scene},get candlesOut(){return 5-lit},get lang(){return lang},get recipient(){return custom.recipient},get photos(){return custom.photos.slice()},ingest:ingest};
 })();
 </script>
+<script src="/templates/v23-heart-reveal.js?v=1"></script>
 </body>
 </html>
