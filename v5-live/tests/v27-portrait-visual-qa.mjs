@@ -21,6 +21,7 @@ for(const a of scenarios){
    await page.locator('[data-answer=nobody]').click();
    await page.locator('#galleryNext').click();await page.locator('#filmNext').click();await page.locator('#envelopeBtn').click();await page.locator('#letterNext').click()
   }else{
+   await page.locator('#birthday').fill('2005-08-15');
    await page.locator('#dateForm button').click();
    for(let i=0;i<5;i++)await page.locator('#candles .candle').nth(i).click();
    await page.locator('#cakeNext').click();
