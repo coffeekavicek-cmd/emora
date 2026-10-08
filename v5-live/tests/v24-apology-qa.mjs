@@ -14,7 +14,7 @@ for(const cfg of cases){
   if(await page.evaluate(()=>window.__EMORA_APOLOGY_V24__.lang)!==cfg.lang)failures.push('Language not selected');
   await page.evaluate(()=>{window.__emoraOpenUrl='';window.open=(u)=>{window.__emoraOpenUrl=u;return {closed:false}};window.postMessage({type:'emora:moment-preview',config:{recipient:'Jasmina',sender:'Aziz',secretHint:'SECRET QA RIDDLE',photos:['/assets/apology-quiet.png'],video:'',letter:'QA UZ private letter',letterRu:'QA RU private letter',letterEn:'QA EN private letter'}},location.origin)});
   await page.waitForFunction(()=>window.__EMORA_APOLOGY_V24__?.recipient==='Jasmina');
-  if(await page.locator('#secret .sub').textContent()!=='SECRET QA RIDDLE')failures.push('Secret riddle missing');
+  const hint=await page.locator('#secret .sub').textContent();if(cfg.lang==='uz'&&hint!=='SECRET QA RIDDLE')failures.push('Creator riddle missing in UZ');if(cfg.lang!=='uz'&&(hint==='SECRET QA RIDDLE'||!hint?.trim()))failures.push('Foreign-language riddle leaked UZ hint / empty');
   await page.locator('#secretAnswer').fill('not-your-name');
   await page.locator('#secretForm button').click();
   if(await page.evaluate(()=>window.__EMORA_APOLOGY_V24__.active)!=='secret')failures.push('Wrong name unlocked');
