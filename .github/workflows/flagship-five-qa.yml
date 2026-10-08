@@ -56,6 +56,7 @@ on:
       - v5-live/tests/v23-heart-reveal-qa.mjs
       - v5-live/tests/v23-mobile-layout-qa.mjs
       - v5-live/tests/v24-apology-qa.mjs
+      - v5-live/tests/v24-apology-studio-qa.mjs
       - v5-live/tests/v12-silk-media-qa.mjs
       - v5-live/tests/v10-five-flagship-editor-qa.mjs
       - v5-live/tests/v10-rose-theatre-qa.mjs
@@ -121,6 +122,8 @@ jobs:
         run: node v5-live/tests/v19-birthday-ritual-qa.mjs
       - name: V24 — cinematic apology owner script (UZ/RU/EN)
         run: node v5-live/tests/v24-apology-qa.mjs
+      - name: V24 — Creator apology language preview
+        run: node v5-live/tests/v24-apology-studio-qa.mjs
       - name: Apology — Quiet Room
         run: node v5-live/tests/v10-quiet-room-qa.mjs
       - name: Proposal — Pearl Promise
