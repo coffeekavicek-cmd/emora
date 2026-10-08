@@ -2,13 +2,13 @@
 const PATHS={
  'love-rose-theatre':'/templates/v10-love-rose.html',
  'birthday-aurora-paper':'/templates/v19-birthday-cake.html',
- 'apology-quiet-room':'/templates/v10-apology-quiet.html',
+ 'apology-quiet-room':'/templates/v24-apology-secret.html',
  'proposal-pearl-promise':'/templates/v10-proposal-pearl.html',
  'wedding-silk-heritage':'/templates/wedding-silk.html'
 };
 const BY_CATEGORY={love:PATHS['love-rose-theatre'],birthday:PATHS['birthday-aurora-paper'],apology:PATHS['apology-quiet-room'],proposal:PATHS['proposal-pearl-promise'],wedding:PATHS['wedding-silk-heritage']};
 const NAMES={
- 'love-rose-theatre':'Rose Theatre','birthday-aurora-paper':'Aurora Paper','apology-quiet-room':'Quiet Room','proposal-pearl-promise':'Pearl Promise','wedding-silk-heritage':'Silk Heritage'
+ 'love-rose-theatre':'Rose Theatre','birthday-aurora-paper':'Aurora Paper','apology-quiet-room':'Secret Apology','proposal-pearl-promise':'Pearl Promise','wedding-silk-heritage':'Silk Heritage'
 };
 const $=s=>document.querySelector(s);const type=$('#type'),frame=$('#studioIframe'),label=$('#previewLabel');let syncing=false,last='',labelRepairing=false;
 function wanted(){const slug=type?.value;return PATHS[slug]?slug:'love-rose-theatre'}

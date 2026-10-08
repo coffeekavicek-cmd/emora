@@ -1,0 +1,44 @@
+name: EMORA V24 — Original apology cinema QA
+on:
+  push:
+    branches: [emora-v24-five-rituals-apology]
+    paths:
+      - .github/workflows/v24-apology-cinema.yml
+      - v5-live/templates/v24-apology-secret.html
+      - v5-live/tests/v24-apology-qa.mjs
+      - v5-live/tests/v24-apology-studio-qa.mjs
+      - v5-live/server.mjs
+      - v5-live/index.html
+      - v5-live/templates/v18-studio-rebuild.js
+  workflow_dispatch:
+jobs:
+  apology:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Chromium for scenarios
+        run: |
+          npm install --prefix v5-live --no-save playwright@1.55.0
+          cd v5-live && npx playwright install --with-deps chromium
+      - name: Boot Emora
+        run: |
+          PORT=3000 node v5-live/server.mjs >/tmp/emora-v24.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3000/health >/dev/null; then break; fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:3000/health
+      - name: Three languages + full apology journey
+        run: node v5-live/tests/v24-apology-qa.mjs
+      - name: Creator-to-recipient apology preview
+        run: node v5-live/tests/v24-apology-studio-qa.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: emora-v24-apology-qa
+          path: v5-live/qa-v10-results/v24-*
+          retention-days: 7
