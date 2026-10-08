@@ -41,7 +41,7 @@ for(const cfg of cases){
   if(!share.startsWith('https://t.me/share/url?'))failures.push('No Telegram opt-in share composer');
   const decode=new URL(share||'https://invalid.example/');
   const msg=decode.searchParams.get('text')||'';
-  if(!msg.includes('19:30')||!msg.includes('coffee')&&!msg.toLowerCase().includes('kof')&&!msg.toLowerCase().includes('коф'))failures.push('Shared meeting text missing time/choice');
+  if(!msg.includes('19:30')||!/coffee|kof|коф/i.test(msg))failures.push('Shared meeting text missing time/choice');
   const dim=await page.evaluate(()=>({sw:document.documentElement.scrollWidth,iw:innerWidth}));
   if(dim.sw>dim.iw+4)failures.push('Horizontal scroll on '+cfg.w+'px '+JSON.stringify(dim));
   await page.screenshot({path:path.join(outDir,'v24-apology-'+cfg.name+'.png'),fullPage:false});
