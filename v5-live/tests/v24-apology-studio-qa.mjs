@@ -21,7 +21,7 @@ try{
  await page.waitForFunction(()=>document.querySelector('#studioIframe')?.contentWindow?.__EMORA_APOLOGY_V24__?.recipient==='Jasmina',null,{timeout:9000});
  if((await frame.locator('#secret .sub').textContent())!=='My private riddle')failures.push('Secret clue not passed from creator');
  await frame.locator('#secretAnswer').fill('Jasmina');await frame.locator('#secretForm button').click();
- await frame.locator('#yesBtn').click();await frame.locator('#envelopeBtn').click();
+ await frame.locator('#noBtn').click();await frame.locator('#envelopeBtn').click();
  if(!(await frame.locator('#letterBody').textContent()).includes('Private apology from the Studio'))failures.push('UZ custom letter missing');
  await frame.locator('[data-lang=ru]').click();
  if(!(await frame.locator('#letterBody').textContent()).includes('Личное извинение из Студии'))failures.push('Russian custom letter missing');
