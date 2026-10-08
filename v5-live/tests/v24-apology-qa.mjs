@@ -12,6 +12,9 @@ for(const cfg of cases){
   const res=await page.goto(base+'/templates/v24-apology-secret.html?lang='+cfg.lang,{waitUntil:'domcontentloaded',timeout:45000});if(res.status()!==200)failures.push('Route HTTP '+res.status());
   await page.waitForFunction(()=>window.__EMORA_APOLOGY_V24__?.version===24);
   if(await page.evaluate(()=>window.__EMORA_APOLOGY_V24__.lang)!==cfg.lang)failures.push('Language not selected');
+  if(await page.locator('#secret .heart-orb').count()>0)failures.push('Broken rotated-square heart still rendered');
+  if(cfg.lang==='uz'&&(await page.locator('#secretTitle').textContent()).trim()!=='Mening eng sevimli desertim?')failures.push('Uzbek prompt must read Mening eng sevimli desertim?');
+
   await page.route('**/api/apology-meeting',async(route)=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({ok:true,delivery:'sent'})}));
   await page.evaluate(()=>{window.postMessage({type:'emora:moment-preview',config:{pageSlug:'qa-v25-page',recipient:'Jasmina',sender:'Aziz',secretHint:'SECRET QA RIDDLE',photos:['/assets/apology-quiet.png'],video:'',letter:'QA UZ private letter',letterRu:'QA RU private letter',letterEn:'QA EN private letter'}},location.origin)});
   await page.waitForFunction(()=>window.__EMORA_APOLOGY_V24__?.recipient==='Jasmina');
