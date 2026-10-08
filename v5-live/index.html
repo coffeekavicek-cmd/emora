@@ -209,7 +209,7 @@ function openTemplate(slug){const t=templates.find(x=>x.slug===slug);if(!t)retur
 function useTemplate(slug){if(state.uploadsInFlight){showStatus('Fayl yuklanishi tugashini kuting.',true);return}const t=templates.find(x=>x.slug===slug);if(!t)return;if(state.projectId){state.projectId=null;state.publishedSlug=null;state.privateMedia={};$('#slug').value='';showStatus('Yangi shablon uchun alohida loyiha boshlandi.')}state.category=t.group;renderTypeOptions(t.group,slug);$('#type').value=slug;if(!$('#headline').dataset.edited)$('#headline').value=t.opening||'';render();$('#templateModal').classList.add('hidden');$('#studio').scrollIntoView({behavior:'smooth'})}
 function configFor(c,override){
  const template=templates.find(t=>t.slug===(c.template||'love-rose-theatre'))||templates[0];
- const t=template.slug, group=template.group, photos=Array.isArray(c.photos)?c.photos.filter(s=>typeof s==='string'&&s.trim()).slice(0,3):[];
+ const t=template.slug, group=template.group, slots=Array.isArray(c.photos)?c.photos.slice(0,3).map(s=>typeof s==='string'?s.trim():''):[], photos=t==='birthday-aurora-paper'?slots:slots.filter(Boolean);
  const clock=/^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/.test(c.clock||'')?c.clock:'18:00';
  const dateIso=c.date?c.date+'T'+clock+':00+05:00':'';
  const base={template:t,recipient:c.name1||'',sender:c.name2||'',intro:c.headline||template.opening,letter:c.letter||'',final:c.finalQuestion||'',memoryTitle:c.memoryTitle||'',captions:Array.isArray(c.captions)?c.captions.slice(0,3):[],photos,video:c.video||'',music:c.music||'',birthday:c.date||'',headlineRu:c.headlineRu||'',headlineEn:c.headlineEn||'',letterRu:c.letterRu||'',letterEn:c.letterEn||'',eventAt:dateIso,metAt:dateIso,venue:c.venue||'',venueMap:c.venueMap||'',program:Array.isArray(c.program)?c.program:[],mistake:c.mistake||'',repair:c.repair||''};
@@ -239,6 +239,7 @@ async function saveProject(){
  let result=state.projectId?await supabase.from('projects').update({...payload,updated_at:new Date().toISOString()}).eq('id',state.projectId).select('id').single():await supabase.from('projects').insert(payload).select('id').single();
  if(result.error){showStatus(result.error.message,true);return null}state.projectId=result.data.id;showStatus('Draft Supabase’da saqlandi ✓');await loadProjects();return state.projectId;
 }
+window.__EMORA_SAVE_PROJECT__=saveProject;
 function tName(){return currentTemplate().name}
 async function publishProject(){
  if(state.publishing)return;
