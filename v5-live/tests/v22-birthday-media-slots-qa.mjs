@@ -11,6 +11,7 @@ for(const c of cases){
   if(resp.status()!==200)failures.push('Root HTTP '+resp.status());
   await page.selectOption('#type','birthday-aurora-paper');
   await page.waitForFunction(()=>document.querySelector('#studioIframe')?.contentWindow?.__EMORA_BIRTHDAY_V19__?.version===19,null,{timeout:10000});
+  await page.locator('#v15-media summary').click();
   await page.locator('#photo1').fill('');
   await page.locator('#photo2').fill(base+'/assets/love-rose.png');
   await page.locator('#photo3').fill(base+'/assets/birthday-aurora.png');
