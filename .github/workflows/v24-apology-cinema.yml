@@ -6,6 +6,7 @@ on:
       - .github/workflows/v24-apology-cinema.yml
       - v5-live/templates/v24-apology-secret.html
       - v5-live/tests/v24-apology-qa.mjs
+      - v5-live/tests/v24-apology-studio-qa.mjs
       - v5-live/server.mjs
       - v5-live/index.html
   workflow_dispatch:
@@ -32,6 +33,8 @@ jobs:
           curl -fsS http://127.0.0.1:3000/health
       - name: Three languages + full apology journey
         run: node v5-live/tests/v24-apology-qa.mjs
+      - name: Creator-to-recipient apology preview
+        run: node v5-live/tests/v24-apology-studio-qa.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
