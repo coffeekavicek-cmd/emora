@@ -1,0 +1,28 @@
+name: EMORA V24 — Public demo route check
+on:
+  push:
+    branches: [emora-v24-five-rituals-apology]
+    paths: [.github/workflows/v24-public-route-check.yml]
+  workflow_dispatch:
+jobs:
+  verify-live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check live Railway V24 routes
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="https://emora-v21-private-preview-production.up.railway.app"
+          for path in "/health" "/" "/templates/v19-birthday-cake.html" "/templates/v24-apology-secret.html"; do
+            code="$(curl -fsSL --retry 3 --retry-delay 2 --connect-timeout 12 --max-time 30 -o /tmp/emora-v24-response -w '%{http_code}' "${base}${path}")"
+            echo "${path} HTTP ${code}"
+            test "${code}" = "200"
+            case "$path" in
+              /health) grep -q '"ok":true' /tmp/emora-v24-response;;
+              /templates/v24-apology-secret.html) grep -q 'data-emora-experience="apology-v24"' /tmp/emora-v24-response;;
+              /templates/v19-birthday-cake.html) grep -q 'birthday-cake-v19' /tmp/emora-v24-response;;
+              /) grep -q 'EMORA · Signature Studio' /tmp/emora-v24-response;;
+            esac
+          done
+          echo "PASS: Public V24 routes"
