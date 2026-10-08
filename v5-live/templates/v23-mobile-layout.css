@@ -1,0 +1,46 @@
+/* EMORA V23 — iPhone/iOS layout integrity. Must load after all prior CSS. */
+:root{--emora-mobile-gutter:clamp(16px,4.5vw,26px)}
+@media (max-width:1050px){
+  #siteApp .hero{grid-template-columns:minmax(0,1fr)!important;gap:clamp(26px,5vw,46px)!important;min-height:0!important;align-items:start!important}
+  #siteApp .hero>div:first-child{width:100%!important;min-width:0!important;max-width:100%!important}
+  #siteApp .hero .eyebrow{max-width:100%;overflow-wrap:normal}
+  #siteApp .hero h1{max-width:100%;overflow-wrap:normal;word-break:normal}
+  #siteApp .hero-copy{max-width:62ch;overflow-wrap:normal;word-break:normal}
+  #siteApp .hero-art{width:100%!important;min-width:0!important;max-width:100%!important;justify-self:stretch!important}
+  #siteApp .hero-art .arch{inset:0 7% 0 7%}
+  #siteApp .hero-art .note{right:0;max-width:calc(100% - 20px)}
+}
+@media (max-width:640px){
+  #siteApp{max-width:100%}
+  #siteApp .shell{width:calc(100% - 2*var(--emora-mobile-gutter));max-width:100%}
+  #siteApp .hero{padding:31px 0 38px!important;gap:26px!important}
+  #siteApp .hero h1{font-size:clamp(43px,12vw,62px)!important;line-height:.98!important;letter-spacing:-.055em!important;margin:20px 0 16px!important;text-wrap:balance}
+  #siteApp .hero h1 em{display:block;font-size:.95em}
+  #siteApp .hero .eyebrow{font-size:9px!important;line-height:1.6!important;letter-spacing:.16em!important;max-width:36ch}
+  #siteApp .hero-copy{font-size:14px!important;line-height:1.65!important;margin:0!important}
+  #siteApp .hero .actions{display:grid!important;grid-template-columns:1fr!important;gap:10px!important;margin-top:23px!important}
+  #siteApp .hero .actions button{width:100%;min-height:49px;white-space:normal;padding:12px 18px}
+  #siteApp .hero .metrics{margin-top:21px!important;gap:8px!important;font-size:8px!important;letter-spacing:.08em!important;flex-wrap:wrap!important}
+  #siteApp .hero .metrics span{padding:7px 9px;border:1px solid var(--line);border-radius:999px}
+  #siteApp .hero-art{height:clamp(310px,95vw,440px)!important;margin-top:1px}
+  #siteApp .hero-art .arch{inset:0 8% 0 2%;border-radius:45% 45% 30px 30px}
+  #siteApp .hero-art .note{top:auto;bottom:15px!important;right:0!important;width:min(232px,72%)!important;padding:14px 16px!important;border-radius:16px!important}
+  #siteApp .hero-art .note strong{font-size:26px!important;line-height:1.12}
+  #siteApp .hero-art .note span{font-size:11px;line-height:1.35}
+  #siteApp .section-head{display:block!important}
+  #siteApp .section-head h2{font-size:clamp(32px,9vw,46px)!important}
+  #siteApp .section-head p{font-size:13px;line-height:1.6}
+  #siteApp .competitor-note{font-size:12px;padding:16px;overflow-wrap:anywhere}
+  #siteApp .category-card{max-width:100%}
+  #siteApp .category-body h3{font-size:26px!important}
+  #siteApp .top{gap:8px!important;min-width:0}
+  #siteApp .top .brand{font-size:clamp(30px,9vw,41px);flex-shrink:0}
+  #siteApp .top #accountBtn{padding:10px 12px;font-size:11px}
+  #siteApp .v17-admin-mobile-btn{font-size:9px}
+  #siteApp .footer .shell{gap:12px}
+}
+@media (max-width:360px){
+  #siteApp .hero h1{font-size:clamp(40px,11.4vw,46px)!important}
+  #siteApp .hero-art{height:310px!important}
+  #siteApp .hero-art .note{width:70%!important}
+}
