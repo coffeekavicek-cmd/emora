@@ -19,6 +19,9 @@ jobs:
             echo "${path} -> HTTP ${code}"
             test "$code" = 200
             if [ "$path" = "/templates/v24-apology-secret.html" ]; then
+              grep -Fq "secretTitle:'Mening eng sevimli desertim?'" /tmp/emora-preview-v25
+              if grep -Fq 'Mening eng sevimli desertim kim?' /tmp/emora-preview-v25; then echo 'Old Uzbek question still deployed'; exit 1; fi
+              if grep -q 'class="heart-orb"' /tmp/emora-preview-v25; then echo 'Broken pink diamond remains'; exit 1; fi
               grep -q 'id="yesBtn"' /tmp/emora-preview-v25
               grep -q 'btn dodger' /tmp/emora-preview-v25
               grep -q 'id="noBtn"' /tmp/emora-preview-v25
