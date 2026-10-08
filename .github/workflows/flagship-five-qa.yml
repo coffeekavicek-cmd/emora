@@ -61,6 +61,7 @@ on:
       - v5-live/tests/v23-mobile-layout-qa.mjs
       - v5-live/tests/v24-apology-qa.mjs
       - v5-live/tests/v26-love-qa.mjs
+      - v5-live/tests/v15-product-system-qa.mjs
       - v5-live/tests/v26-love-studio-qa.mjs
       - v5-live/tests/v24-apology-studio-qa.mjs
       - v5-live/tests/v12-silk-media-qa.mjs
