@@ -1,0 +1,31 @@
+name: EMORA V26 — External confession preview
+on:
+  push:
+    branches: [emora-v26-love-confession-cinema]
+    paths: [.github/workflows/v26-public-route.yml]
+  workflow_dispatch:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Verify public Railway preview routes
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="https://emora-v21-private-preview-production.up.railway.app"
+          for path in /health / /templates/v26-love-confession.html /templates/v26-love-heart.js /templates/v24-apology-secret.html /templates/v10-love-rose.html; do
+            code="$(curl --retry 3 --retry-delay 2 -fsSL --max-time 25 -o /tmp/emora-v26-response -w '%{http_code}' "${base}${path}")"
+            echo "${path} HTTP ${code}"
+            test "${code}" = 200
+            case "$path" in
+              /health) grep -q '"ok":true' /tmp/emora-v26-response;;
+              /templates/v26-love-confession.html)
+                grep -q 'data-emora-experience="love-v26"' /tmp/emora-v26-response
+                grep -q 'id="heartSlider"' /tmp/emora-v26-response
+                grep -q 'id="envelopeBtn"' /tmp/emora-v26-response;;
+              /templates/v26-love-heart.js) grep -q '__EMORA_HEART_V26__' /tmp/emora-v26-response;;
+              /) grep -q '/templates/v26-love-confession.html' /tmp/emora-v26-response;;
+            esac
+          done
+          echo "SUCCESS — V26 and legacy URLs available on isolated demo"

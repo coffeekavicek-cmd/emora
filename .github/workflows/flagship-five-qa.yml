@@ -1,7 +1,7 @@
 name: EMORA — 5 flagship experiences QA
 on:
   push:
-    branches: [emora-v10-fifteen-experiences, emora-v18-studio-preview-layout-fix, emora-v19-birthday-ritual, emora-v20-birthday-studio-integration, emora-v21-qa-preview-release, emora-v22-checkout-media-safety, emora-v23-mobile-hero-fix, emora-v24-five-rituals-apology, emora-v25-apology-corrected-meeting-bot]
+    branches: [emora-v10-fifteen-experiences, emora-v18-studio-preview-layout-fix, emora-v19-birthday-ritual, emora-v20-birthday-studio-integration, emora-v21-qa-preview-release, emora-v22-checkout-media-safety, emora-v23-mobile-hero-fix, emora-v24-five-rituals-apology, emora-v25-apology-corrected-meeting-bot, emora-v26-love-confession-cinema]
     paths:
       - .github/workflows/flagship-five-qa.yml
       - supabase/functions/emora-checkout/**
@@ -24,6 +24,8 @@ on:
       - v5-live/templates/v18-flagship-polish.css
       - v5-live/templates/v19-birthday-cake.html
       - v5-live/templates/v24-apology-secret.html
+      - v5-live/templates/v26-love-confession.html
+      - v5-live/templates/v26-love-heart.js
       - v5-live/meeting-bot.mjs
       - v5-live/tests/v25-meeting-bot-qa.mjs
       - v5-live/templates/v23-heart-reveal.js
@@ -58,6 +60,9 @@ on:
       - v5-live/tests/v23-heart-reveal-qa.mjs
       - v5-live/tests/v23-mobile-layout-qa.mjs
       - v5-live/tests/v24-apology-qa.mjs
+      - v5-live/tests/v26-love-qa.mjs
+      - v5-live/tests/v15-product-system-qa.mjs
+      - v5-live/tests/v26-love-studio-qa.mjs
       - v5-live/tests/v24-apology-studio-qa.mjs
       - v5-live/tests/v12-silk-media-qa.mjs
       - v5-live/tests/v10-five-flagship-editor-qa.mjs
@@ -124,6 +129,10 @@ jobs:
         run: node v5-live/tests/v19-birthday-ritual-qa.mjs
       - name: V25 — Bot delivery contract, sender authorization and replay
         run: node v5-live/tests/v25-meeting-bot-qa.mjs
+      - name: V26 — original love confession journey and name-heart (UZ/RU/EN)
+        run: node v5-live/tests/v26-love-qa.mjs
+      - name: V26 — creator Studio and personal confession content
+        run: node v5-live/tests/v26-love-studio-qa.mjs
       - name: V24 — cinematic apology owner script (UZ/RU/EN)
         run: node v5-live/tests/v24-apology-qa.mjs
       - name: V24 — Creator apology language preview

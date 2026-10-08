@@ -1,0 +1,46 @@
+name: EMORA V26 — Confession Cinema QA
+on:
+  push:
+    branches: [emora-v26-love-confession-cinema]
+    paths:
+      - .github/workflows/v26-love-cinema.yml
+      - v5-live/templates/v26-love-confession.html
+      - v5-live/templates/v26-love-heart.js
+      - v5-live/tests/v26-love-qa.mjs
+      - v5-live/tests/v26-love-studio-qa.mjs
+      - v5-live/index.html
+      - v5-live/server.mjs
+      - v5-live/templates/v18-studio-rebuild.js
+  workflow_dispatch:
+jobs:
+  love:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate V26 JS
+        run: |
+          node --check v5-live/templates/v26-love-heart.js
+          node --check v5-live/server.mjs
+      - name: Install Chromium
+        run: |
+          npm install --prefix v5-live --no-save playwright@1.55.0
+          cd v5-live && npx playwright install --with-deps chromium
+      - name: Start Emora
+        run: |
+          PORT=3000 node v5-live/server.mjs >/tmp/emora-v26.log 2>&1 &
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:3000/health >/dev/null && break; sleep 1; done
+          curl -fsS http://127.0.0.1:3000/health
+      - name: UZ RU EN cinematic recipient journey
+        run: node v5-live/tests/v26-love-qa.mjs
+      - name: Studio creator-to-recipient personal content
+        run: node v5-live/tests/v26-love-studio-qa.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: emora-v26-love-qa-screenshots
+          path: v5-live/qa-v10-results/v26-*
+          retention-days: 7

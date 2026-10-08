@@ -1,0 +1,58 @@
+import {chromium} from 'playwright';
+import fs from 'node:fs/promises';import path from 'node:path';
+const base=process.env.EMORA_QA_BASE||'http://127.0.0.1:3000';
+const out=path.resolve('v5-live/qa-v10-results');await fs.mkdir(out,{recursive:true});
+const browser=await chromium.launch({headless:true,args:['--no-sandbox','--disable-dev-shm-usage']});
+const cases=[{w:390,h:844,lang:'uz',answer:'nobody'},{w:360,h:740,lang:'ru',answer:'friend'},{w:1440,h:900,lang:'en',answer:'nobody'}];
+const results=[];
+for(const c of cases){
+ const page=await browser.newPage({viewport:{width:c.w,height:c.h},isMobile:c.w<700,hasTouch:c.w<700});
+ const errors=[],fail=[];
+ page.on('pageerror',e=>errors.push(e.message));
+ try{
+  const response=await page.goto(base+'/templates/v26-love-confession.html?lang='+c.lang,{waitUntil:'domcontentloaded',timeout:45000});
+  if(response.status()!==200)fail.push('Route HTTP '+response.status());
+  await page.waitForFunction(()=>window.__EMORA_LOVE_V26__?.version===26&&window.__EMORA_HEART_V26__?.ready===true,null,{timeout:14000});
+  await page.evaluate(()=>window.postMessage({type:'emora:preview',config:{recipient:'Jasmina',sender:'Aziz',photos:[location.origin+'/assets/love-rose.png','',''],captions:['My first little secret','Second photo flirty text','Third photo flirty text'],video:'',letter:'UZ private letter ♡',letterRu:'RU personal love letter ♡',letterEn:'EN personal love letter ♡'}},location.origin));
+  await page.waitForFunction(()=>window.__EMORA_LOVE_V26__?.recipient==='Jasmina');
+  if((await page.locator('#choiceTitle').textContent())!==(c.lang==='uz'?'Man san uchun kimman?':c.lang==='ru'?'Кто я для тебя?':'Who am I to you?'))fail.push('Localized opening not correct');
+  await page.locator('[data-answer='+c.answer+']').click();
+  await page.waitForFunction(()=>window.__EMORA_LOVE_V26__?.active==='gallery');
+  const captions=await page.locator('#photoGallery .memory p').allTextContents();
+  if(captions.join('|')!=='My first little secret|Second photo flirty text|Third photo flirty text')fail.push('Photo-to-caption positions shifted '+captions.join('|'));
+  const pics=await page.locator('#photoGallery .memory img').count();
+  if(pics!==3)fail.push('Need three portrait slots');
+  await page.locator('#galleryNext').click();
+  await page.waitForFunction(()=>window.__EMORA_LOVE_V26__?.active==='film');
+  if(!(await page.locator('#privateVideo').isHidden()))fail.push('Missing video should not autoplay or be rendered');
+  await page.locator('#filmNext').click();
+  await page.waitForFunction(()=>window.__EMORA_LOVE_V26__?.active==='letter');
+  if(await page.locator('#letterNext').isVisible())fail.push('Letter bypassed without opening');
+  await page.locator('#envelopeBtn').click();
+  if(!(await page.locator('#letterWrap').getAttribute('class')).includes('unsealed'))fail.push('Letter does not unseal');
+  const letter=await page.locator('#letterBody').textContent();
+  if(!letter.includes(c.lang==='uz'?'UZ private letter ♡':c.lang==='ru'?'RU personal love letter ♡':'EN personal love letter ♡'))fail.push('Custom localized letter not delivered');
+  if(c.answer==='friend'&&!/friend|do‘st|друг/i.test(letter))fail.push('Letter does not reflect selected Friend answer');
+  if(c.answer==='nobody'&&!/nobody|hech kim|никто/i.test(letter))fail.push('Letter does not reflect Nobody answer');
+  await page.locator('#letterNext').click();
+  await page.waitForFunction(()=>window.__EMORA_LOVE_V26__?.active==='finale');
+  const heart=await page.evaluate(()=>({ready:window.__EMORA_HEART_V26__?.ready,names:window.__EMORA_HEART_V26__?.namesPainted,recipient:window.__EMORA_HEART_V26__?.recipient}));
+  if(!heart.ready||heart.names<900||heart.recipient!=='Jasmina')fail.push('Canvas did not draw real personalized name heart '+JSON.stringify(heart));
+  await page.locator('#heartSlider').fill('100');
+  await page.waitForFunction(()=>Number(document.querySelector('#heartRevealRect')?.getAttribute('width'))===400);
+  const bounds=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,viewport:innerWidth,slider:document.querySelector('#heartSlider')?.getBoundingClientRect().toJSON()}));
+  if(bounds.scroll>bounds.viewport+4||bounds.slider.left<0||bounds.slider.right>bounds.viewport+3)fail.push('Horizontal overflow '+JSON.stringify(bounds));
+  await page.screenshot({path:path.join(out,'v26-love-'+c.lang+'-'+c.w+'.png'),fullPage:false});
+  await page.locator('#replay').click();
+  if(await page.evaluate(()=>window.__EMORA_LOVE_V26__?.active)!=='choice'||await page.evaluate(()=>window.__EMORA_HEART_V26__?.percent)!==0)fail.push('Replay did not restart');
+  await page.locator('[data-lang=ru]').click();
+  if((await page.locator('#choiceTitle').textContent())!=='Кто я для тебя?')fail.push('Language toggle ignored');
+ }catch(e){fail.push('Browser error: '+e.message)}
+ if(errors.length)fail.push('Page JS errors: '+errors.join(' | '));
+ results.push({language:c.lang,width:c.w,passed:fail.length===0,fail});
+ await page.close();
+}
+await browser.close();
+const result={passed:results.every(r=>r.passed),results};
+console.log(JSON.stringify(result,null,2));
+await fs.writeFile(path.join(out,'v26-love-summary.json'),JSON.stringify(result,null,2));if(!result.passed)process.exitCode=1;
