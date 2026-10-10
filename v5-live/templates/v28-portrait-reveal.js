@@ -27,7 +27,7 @@ uz:{instruction:'CHIZIQNI SEKIN SUR ♡',complete:'Mana, yuragimdagi inson ♡',
 ru:{instruction:'ПЛАВНО ПРОВЕДИ ВПРАВО ♡',complete:'Вот кто у меня в сердце ♡',sample:'Пример',error:'Фото не открылось. Выбери другое в Studio.',love:n=>'Даже тысяча повторений имени «'+n+'» не заменит одну встречу с тобой ♡',birthday:n=>'Даже если написать «'+n+'» 133 848 383 раза — мало ♡'},
 en:{instruction:'SLIDE GENTLY TO REVEAL ♡',complete:'You are the one in my heart ♡',sample:'Example',error:'Photo could not load. Choose another in Studio.',love:n=>'I could write “'+n+'” a thousand times and still have more to say ♡',birthday:n=>'Even 133,848,383 times writing “'+n+'” would not be enough ♡'}
 };
-let name='Jasmina',targetUrl='',source='loading',letters=0;
+let name='Jasmina',targetUrl='',source='loading',sampleKind='unknown',letters=0;
 let baseline=null,photoCanvas=null,inkCanvas=null,started='',requestId=0;
 const helper=document.createElement('span');
 helper.id='portraitSourceNote';
@@ -133,11 +133,11 @@ function draw(){
 async function loadPhoto(url){
  const id=++requestId;source='loading';let img,origin='demo';
  try{
-  if(url){img=await canvasImage(url);origin='personal'}
-  else {img=await canvasImage(demoPhoto)}
+  if(url){img=await canvasImage(url);origin='personal';sampleKind='personal'}
+  else {img=await canvasImage(demoPhoto);sampleKind='remote-photo'}
  }catch{
-  if(url){origin='unavailable';img=await canvasImage(fallbackData)}
-  else{origin='demo';img=await canvasImage(fallbackData)}
+  if(url){origin='unavailable';img=await canvasImage(fallbackData);sampleKind='fallback'}
+  else{origin='demo';img=await canvasImage(fallbackData);sampleKind='fallback'}
  }
  if(id!==requestId)return;
  portraitLayers(img);source=origin;
@@ -158,7 +158,7 @@ window.addEventListener('emora:'+kind+'-update',update);
 window.addEventListener('emora:'+kind+'-finale',()=>{slider.value='0';update()});
 window.addEventListener('emora:'+kind+'-replay',()=>{slider.value='0';draw()});
 window.addEventListener('resize',draw,{passive:true});
-const state={get ready(){return letters>1000&&!!photoCanvas},get namesPainted(){return letters},get portraitSource(){return source},get percent(){return Number(slider.value)},get recipient(){return name},get algorithm(){return 'smooth-photo-typography-v28'}};
+const state={get ready(){return letters>1000&&!!photoCanvas},get namesPainted(){return letters},get portraitSource(){return source},get percent(){return Number(slider.value)},get recipient(){return name},get algorithm(){return 'smooth-photo-typography-v28'},get sampleKind(){return sampleKind}};
 window.__EMORA_MOSAIC_V28__=state;
 window.__EMORA_MOSAIC_V27__=state;
 window[isLove?'__EMORA_HEART_V26__':'__EMORA_HEART_V23__']=state;
