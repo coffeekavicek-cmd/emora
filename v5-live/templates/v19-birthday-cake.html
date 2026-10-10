@@ -32,6 +32,9 @@ body{overflow:hidden;min-height:100svh}#experience{height:100svh;min-height:430p
 @media(max-width:620px){.top{top:calc(env(safe-area-inset-top) + 12px)}.top-right{gap:6px}.wordmark{font-size:22px}.music{padding:8px;font-size:10px}.langs button{padding:7px 8px}.progress{top:calc(env(safe-area-inset-top) + 57px)}.stage{padding:calc(env(safe-area-inset-top) + 82px) 13px calc(env(safe-area-inset-bottom) + 32px);gap:10px}.display{font-size:clamp(37px,10vw,52px)}.desc{font-size:12px}.gallery{gap:6px}.photo-card{padding:5px;border-radius:8px}.photo-card img{height:clamp(112px,21vh,185px);border-radius:5px}.photo-card p{font-size:11px;margin:8px 3px 5px;line-height:1.25}.cake-world{height:clamp(210px,30vh,280px)}.candles{height:80px}.candle{width:27px;height:75px}.candle .stick{width:11px;height:48px}.candle .flame{left:8px}.date-box{padding:16px}.envelope{height:195px}.letter-world{height:clamp(230px,41vh,320px)}.final-message{inset:auto 5% 15%;padding:16px}.final-message h2{font-size:clamp(32px,8vw,47px)}}
 @media(max-height:650px){.stage{gap:7px;padding-top:75px;padding-bottom:16px}.cake-world{height:185px}.film-frame{height:205px}.letter-world{height:215px}.gallery img{height:108px}.mosaic{height:160px}.display{font-size:36px}.desc{font-size:11px}.date-box{padding:10px}.progress{top:60px}.foot{display:none}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* V28 heart-letter portrait composition */
+@media(max-width:640px){#finale .names-heart{width:min(370px,92vw,42svh)}#finale .heart-controls{gap:6px}#finale{padding-bottom:calc(env(safe-area-inset-bottom) + 48px)}}
 </style>
 <link rel="stylesheet" href="/templates/v23-heart-reveal.css?v=1">
 </head>
@@ -118,6 +121,6 @@ body{overflow:hidden;min-height:100svh}#experience{height:100svh;min-height:430p
  window.__EMORA_BIRTHDAY_V19__={version:19,stages:SCENES.slice(),get active(){return scene},get candlesOut(){return 5-lit},get lang(){return lang},get recipient(){return custom.recipient},get photos(){return custom.photos.slice()},ingest:ingest};
 })();
 </script>
-<script src="/templates/v27-name-portrait.js?v=1"></script>
+<script src="/templates/v28-portrait-reveal.js?v=1"></script>
 </body>
 </html>

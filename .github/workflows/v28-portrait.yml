@@ -1,0 +1,41 @@
+name: EMORA V28 — Cinematic portrait QA
+on:
+  push:
+    branches: [emora-v28-portrait-rebuild]
+    paths:
+      - .github/workflows/v28-portrait.yml
+      - v5-live/templates/v28-portrait-reveal.js
+      - v5-live/templates/v26-love-confession.html
+      - v5-live/templates/v19-birthday-cake.html
+      - v5-live/server.mjs
+      - v5-live/tests/v28-portrait-qa.mjs
+  workflow_dispatch:
+jobs:
+  verify-portrait:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Static syntax
+        run: |
+          node --check v5-live/templates/v28-portrait-reveal.js
+          node --check v5-live/server.mjs
+      - name: Playwright Chromium
+        run: |
+          npm install --prefix v5-live --no-save playwright@1.55.0
+          cd v5-live && npx playwright install --with-deps chromium
+      - name: Start local server
+        run: |
+          PORT=3000 node v5-live/server.mjs >/tmp/v28-server.log 2>&1 &
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:3000/health >/dev/null && break; sleep 1; done
+          curl -fsS http://127.0.0.1:3000/health
+      - name: Five-stage love and birthday portrait screenshots
+        run: node v5-live/tests/v28-portrait-qa.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: emora-v28-visual-before-after
+          path: v5-live/qa-v10-results/v28-*
+          retention-days: 7
