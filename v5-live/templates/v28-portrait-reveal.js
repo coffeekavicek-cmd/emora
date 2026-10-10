@@ -9,6 +9,7 @@ const slider=document.getElementById('heartSlider');
 const label=document.getElementById('heartSliderLabel');
 const output=document.getElementById('heartSliderValue');
 const caption=document.getElementById('namesHeartNote');
+const finalTitle=document.getElementById('finalTitle');
 const staleSvg=document.getElementById('namesHeartPhoto');
 const legacyRect=document.getElementById('heartRevealRect');
 if(!canvas||!slider||!label||!output||!caption)return;
@@ -23,9 +24,9 @@ const fallbackData='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(fallba
 // A known-valid Unsplash photo, optional demo only. Custom uploaded photos always win.
 const demoPhoto='https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=640&h=720&fit=crop&auto=format&q=82';
 const words={
-uz:{instruction:'CHIZIQNI SEKIN SUR ♡',complete:'Mana, yuragimdagi inson ♡',sample:'Namuna',error:'Rasm ochilmadi. Studio’da boshqa suratni tanla.',love:n=>'“'+n+'” ismini ming marta yozsam ham, sanga aytadigan gapim tugamaydi ♡',birthday:n=>'“'+n+'” ismini 133 848 383 marta yozsam ham, baribir kam ♡'},
-ru:{instruction:'ПЛАВНО ПРОВЕДИ ВПРАВО ♡',complete:'Вот кто у меня в сердце ♡',sample:'Пример',error:'Фото не открылось. Выбери другое в Studio.',love:n=>'Даже тысяча повторений имени «'+n+'» не заменит одну встречу с тобой ♡',birthday:n=>'Даже если написать «'+n+'» 133 848 383 раза — мало ♡'},
-en:{instruction:'SLIDE GENTLY TO REVEAL ♡',complete:'You are the one in my heart ♡',sample:'Example',error:'Photo could not load. Choose another in Studio.',love:n=>'I could write “'+n+'” a thousand times and still have more to say ♡',birthday:n=>'Even 133,848,383 times writing “'+n+'” would not be enough ♡'}
+uz:{instruction:'CHIZIQNI SEKIN SUR ♡',complete:'Mana, yuragimdagi inson ♡',sample:'Namuna',revealTitle:n=>n+', yuragimdagi inson — san ♡',error:'Rasm ochilmadi. Studio’da boshqa suratni tanla.',love:n=>'“'+n+'” ismini ming marta yozsam ham, sanga aytadigan gapim tugamaydi ♡',birthday:n=>'“'+n+'” ismini 133 848 383 marta yozsam ham, baribir kam ♡'},
+ru:{instruction:'ПЛАВНО ПРОВЕДИ ВПРАВО ♡',complete:'Вот кто у меня в сердце ♡',sample:'Пример',revealTitle:n=>n+', ты у меня в сердце ♡',error:'Фото не открылось. Выбери другое в Studio.',love:n=>'Даже тысяча повторений имени «'+n+'» не заменит одну встречу с тобой ♡',birthday:n=>'Даже если написать «'+n+'» 133 848 383 раза — мало ♡'},
+en:{instruction:'SLIDE GENTLY TO REVEAL ♡',complete:'You are the one in my heart ♡',sample:'Example',revealTitle:n=>n+', you’re the one in my heart ♡',error:'Photo could not load. Choose another in Studio.',love:n=>'I could write “'+n+'” a thousand times and still have more to say ♡',birthday:n=>'Even 133,848,383 times writing “'+n+'” would not be enough ♡'}
 };
 let name='Jasmina',targetUrl='',source='loading',sampleKind='unknown',letters=0;
 let baseline=null,photoCanvas=null,inkCanvas=null,started='',requestId=0;
@@ -122,11 +123,12 @@ function draw(){
   // Crossfade over the ENTIRE heart — no sharp vertical line at 30 or 50%.
   const fade=p*p*(3-2*p); // smoothstep
   ctx.save();ctx.globalAlpha=fade*.98;ctx.drawImage(photoCanvas,0,0);ctx.restore();
-  if(inkCanvas){ctx.save();ctx.globalAlpha=fade*.52;ctx.drawImage(inkCanvas,0,0);ctx.restore()}
+  if(inkCanvas){ctx.save();ctx.globalAlpha=fade*.24;ctx.drawImage(inkCanvas,0,0);ctx.restore()}
  }
  if(legacyRect)legacyRect.setAttribute('width',String(p*W));
  label.textContent=locale().instruction;
  output.textContent=p===1?locale().complete:Math.round(p*100)+'%';
+ if(isLove&&finalTitle)finalTitle.textContent=p===1?locale().revealTitle(name):(scene()?.lang==='ru'?'Кто у меня в сердце? ♡':scene()?.lang==='en'?'Who is in my heart? ♡':'Yuragimda kim bor? ♡');
  slider.setAttribute('aria-valuetext',Math.round(p*100)+'%');
  canvas.setAttribute('aria-label',name+' — '+letters+' letters, smooth photo portrait reveal');
 }
