@@ -91,9 +91,9 @@
 <div id="siteApp">
 <header class="shell top"><a class="brand" href="#templates" aria-label="Emora">emora.</a><nav class="nav"><a href="#templates">Подарки</a><a href="#dashboard">Мои подарки</a></nav><span class="user-chip" id="userChip"></span></header>
 <main>
-<section class="shell hero"><div class="hero-main"><h1>Для неё.<br><em>От тебя.</em></h1><p class="hero-copy">Твои слова, ваши фото и музыка.<br>В подарке, который хочется пересмотреть.</p><button class="pill" type="button" onclick="document.querySelector('#templates').scrollIntoView({behavior:'smooth'})">Выбрать подарок <span aria-hidden="true">↗</span></button><p class="hero-caption">Сначала посмотри. Потом сделай своим.</p></div><div class="hero-art"><img src="/assets/site-hero-fast.webp" alt="Письмо и личный подарок" width="840" height="1024" fetchpriority="high" decoding="async"></div></section>
+<section class="shell hero"><div class="hero-main"><h1>Для неё.<br><em>От тебя.</em></h1><p class="hero-copy">Твои слова, ваши фото и музыка.<br>В подарке, который хочется пересмотреть.</p><button class="pill" type="button" onclick="document.querySelector('#templates').scrollIntoView({behavior:'smooth'})">Выбрать подарок <span aria-hidden="true">↗</span></button><p class="hero-caption">Сначала посмотри. Потом сделай своим.</p></div><div class="hero-art"><img src="/assets/demo-proposal-3-v31.webp" alt="Нежный портрет девушки — пример личного подарка" width="840" height="1024" fetchpriority="high" decoding="async"></div></section>
 
-<section id="templates" class="section"><div class="shell"><div class="section-head"><h2>Что хочешь ей сказать?</h2><p>Четыре истории. Выбери свою.</p></div>
+<section id="templates" class="section"><div class="shell"><div class="section-head"><h2>Что хочешь ей сказать?</h2><p>Четыре истории. Выбери свою. Фото в примерах — для образца; в подарке будут ваши.</p></div>
 <div class="category-flow">
  
  <div class="category-grid" id="categoryGrid"></div>
@@ -210,7 +210,7 @@ function selectCategory(key,scroll=true){
 }
 function buildCatalog(){
  const art={love:'love-rose',birthday:'birthday-aurora',apology:'apology-quiet',proposal:'proposal-pearl'};
- $('#categoryGrid').innerHTML=categories.map(c=>{const t=templates.find(t=>t.group===c.key);return '<article class="category-card" data-category="'+c.key+'"><div class="category-visual"><img src="/assets/'+art[c.key]+'-fast.webp" alt="" width="840" height="1024" loading="lazy" decoding="async"></div><div class="category-body"><h3>'+c.title+'</h3><p>'+c.copy+'</p><div class="gift-actions"><button type="button" data-preview="'+t.slug+'">Посмотреть</button><button type="button" data-use="'+t.slug+'">Создать ↗</button></div></div></article>';}).join('');
+ $('#categoryGrid').innerHTML=categories.map(c=>{const t=templates.find(t=>t.group===c.key);return '<article class="category-card" data-category="'+c.key+'"><div class="category-visual"><img src="/assets/demo-'+c.key+'-1-v31.webp" alt="'+esc(c.title)+' — пример с фотографией" width="700" height="840" loading="lazy" decoding="async"></div><div class="category-body"><h3>'+c.title+'</h3><p>'+c.copy+'</p><div class="gift-actions"><button type="button" data-preview="'+t.slug+'">Посмотреть</button><button type="button" data-use="'+t.slug+'">Создать ↗</button></div></div></article>';}).join('');
  document.querySelectorAll('#categoryGrid [data-preview]').forEach(b=>b.onclick=()=>openTemplate(b.dataset.preview));
  document.querySelectorAll('#categoryGrid [data-use]').forEach(b=>b.onclick=()=>useTemplate(b.dataset.use));
  renderTypeOptions(null,'love-rose-theatre');
