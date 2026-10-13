@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+import {readFile} from 'node:fs/promises';
 const json=(res,status,data)=>{res.writeHead(status,{'content-type':'application/json; charset=utf-8','cache-control':'no-store','x-content-type-options':'nosniff'});res.end(JSON.stringify(data));};
 export function createTelegramIntegration({env=process.env,fetcher=fetch,logger=console,clock=Date.now}={}){
  const origin=String(env.EMORA_PUBLIC_ORIGIN||'').replace(/\/$/,'');
@@ -6,10 +7,10 @@ export function createTelegramIntegration({env=process.env,fetcher=fetch,logger=
  const base=String(env.EMORA_SUPABASE_URL||'').replace(/\/$/,'');
  const key=env.EMORA_SUPABASE_PUBLISHABLE_KEY;
  const secret=env.EMORA_BOT_BRIDGE_SECRET;
- let username='',ready=false,stopped=false,abort=null;
+ let username='',displayName='',profilePhotoReady=false,ready=false,stopped=false,abort=null;
  const limits=new Map();
- async function telegram(method,data={}){
-  const r=await fetcher('https://api.telegram.org/bot'+token+'/'+method,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(data),signal:AbortSignal.timeout(method==='getUpdates'?40000:12000)});
+ async function telegram(method,data={},multipart=null){
+  const r=await fetcher('https://api.telegram.org/bot'+token+'/'+method,{method:'POST',headers:multipart?{}:{'content-type':'application/json'},body:multipart||JSON.stringify(data),signal:AbortSignal.timeout(method==='getUpdates'?40000:12000)});
   const body=await r.json();
   if(!r.ok||!body.ok){const e=new Error('telegram_'+(body.error_code||r.status));e.definite=true;throw e;}
   return body.result;
@@ -52,7 +53,16 @@ export function createTelegramIntegration({env=process.env,fetcher=fetch,logger=
   try{
    const me=await telegram('getMe');username=me.username;
    const webhook=await telegram('getWebhookInfo');if(webhook.url)throw new Error('existing_webhook');
-   await telegram('setMyName',{name:'Emora · подарки с чувством'});
+   await telegram('setMyName',{name:'Подарки с чувством'});
+   displayName=(await telegram('getMyName')).name;
+   try{
+    const logo=new FormData();
+    logo.set('photo',JSON.stringify({type:'static',photo:'attach://logo'}));
+    logo.set('logo',new Blob([await readFile(new URL('./assets/emora-bot-logo.jpg',import.meta.url))],{type:'image/jpeg'}),'emora-bot-logo.jpg');
+    await telegram('setMyProfilePhoto',{},logo);
+    const currentPhoto=await telegram('getUserProfilePhotos',{user_id:me.id,limit:1});
+    profilePhotoReady=currentPhoto.total_count>0;
+   }catch{logger.error('EMORA Telegram avatar update unavailable');}
    await telegram('setMyDescription',{description:'Личный подарок для неё: день рождения, извинение, признание или предложение. Добавь ваши фото, музыку и слова от себя. Ответы о встрече — прямо сюда.'});
    await telegram('setMyShortDescription',{short_description:'Личные подарки и ответы о встрече ♡'});
    await telegram('setMyCommands',{commands:[{command:'start',description:'Открыть Emora'},{command:'help',description:'Как всё работает'}]});
@@ -108,5 +118,5 @@ export function createTelegramIntegration({env=process.env,fetcher=fetch,logger=
   try{await rpc('meeting_complete',{event_id:claim.event_id,status,message_id:sent?.message_id||null});}catch{logger.error('EMORA meeting delivery state could not be saved');}
   return status==='sent'?json(res,200,{ok:true,delivery:'sent',meeting:{choice,date,time}}):json(res,502,{ok:false,error:'telegram_delivery_failed'});
  }
- return {start,handleUpdate,meeting,connection,get status(){return {ready,username};},stop(){stopped=true;if(abort)clearTimeout(abort);}};
+ return {start,handleUpdate,meeting,connection,get status(){return {ready,username,displayName,profilePhotoReady};},stop(){stopped=true;if(abort)clearTimeout(abort);}};
 }
