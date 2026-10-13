@@ -305,6 +305,37 @@ document.querySelectorAll('.rsvp-actions button').forEach(b=>b.onclick=()=>{stat
 document.querySelectorAll('#publicLang button').forEach(b=>b.onclick=()=>{state.publicLang=b.dataset.lang;document.querySelectorAll('#publicLang button').forEach(x=>x.classList.toggle('active',x===b));if(state.publicContent)sendToExperience($('#publicIframe'),localized(state.publicContent,state.publicLang),true)});
 $('#rsvpSubmit').onclick=async()=>{const token=$('#rsvpSubmit').dataset.token;if(!token||!state.rsvpAnswer){$('#rsvpStatus').textContent='Javobni tanlang.';return}const {error}=await supabase.rpc('submit_guest_rsvp',{p_token:token,p_answer:state.rsvpAnswer,p_attendees:Number($('#rsvpCount').value||0),p_message:$('#rsvpMessage').value});$('#rsvpStatus').textContent=error?error.message:'Rahmat, javobingiz saqlandi ✓'};
 await handlePublic();await refreshUser();supabase.auth.onAuthStateChange(()=>refreshUser());
+
+if(!location.pathname.startsWith('/s/')){
+ const host=document.querySelector('#studio .panel');
+ const box=document.createElement('div');box.id='emora-telegram-link';box.style.cssText='margin:18px 0;padding:16px;border:1px solid #b9a4ad66;border-radius:16px;display:grid;gap:10px';
+ const title=document.createElement('strong');title.textContent='Ответы о встрече — в Telegram';
+ const description=document.createElement('p');description.textContent='Подключи бота один раз. Когда она выберет место и время, её ответ придёт тебе.';description.style.cssText='margin:0;font-size:14px;line-height:1.5';
+ const button=document.createElement('button');button.type='button';button.textContent='Подключить Telegram';
+ const notice=document.createElement('span');notice.setAttribute('role','status');notice.style.cssText='font-size:13px;line-height:1.5';
+ const open=document.createElement('a');open.textContent='Открыть бота →';open.target='_blank';open.rel='noopener';open.hidden=true;
+ const disconnect=document.createElement('button');disconnect.type='button';disconnect.textContent='Отключить Telegram';disconnect.hidden=true;
+ box.append(title,description,button,open,disconnect,notice);host?.append(box);
+ async function botRequest(path,method='GET'){
+  const {data:{session}}=await supabase.auth.getSession();
+  if(!session?.access_token){$('#accountModal').classList.remove('hidden');throw Error('login_required');}
+  const response=await fetch(path,{method,headers:{Authorization:'Bearer '+session.access_token},credentials:'same-origin'});
+  const result=await response.json();if(!response.ok||!result.ok)throw Error(result.error||'unavailable');return result;
+ }
+ async function refreshBot(){
+  const {data:{session}}=await supabase.auth.getSession();if(!session){button.hidden=false;disconnect.hidden=true;return;}
+  try{const s=await botRequest('/api/telegram/status');button.hidden=s.connected;disconnect.hidden=!s.connected;if(s.connected){open.hidden=true;notice.textContent='Telegram подключён ♡';}}catch{}
+ }
+ button.onclick=async()=>{button.disabled=true;notice.textContent='Готовим ссылку…';open.hidden=true;
+  try{const r=await botRequest('/api/telegram/connect','POST');open.href=r.url;open.hidden=false;notice.textContent='Открой бота и нажми «Начать». Ссылка действует 10 минут.';open.focus();}
+  catch(e){notice.textContent=e.message==='login_required'?'Сначала войди в свой аккаунт. Потом подключим Telegram.':'Не получилось подключить. Попробуй ещё раз чуть позже.';}
+  finally{button.disabled=false;}
+ };
+ disconnect.onclick=async()=>{disconnect.disabled=true;try{await botRequest('/api/telegram/disconnect','POST');notice.textContent='Telegram отключён. Можно подключить его снова.';button.hidden=false;disconnect.hidden=true;}catch{notice.textContent='Не получилось отключить. Попробуй ещё раз.';}finally{disconnect.disabled=false;}};
+ window.addEventListener('focus',refreshBot);supabase.auth.onAuthStateChange(()=>setTimeout(refreshBot,0));await refreshBot();
+ if(new URLSearchParams(location.search).get('telegram')==='connect'){box.scrollIntoView({block:'center',behavior:'smooth'});notice.textContent='Нажми «Подключить Telegram», затем открой бота.';}
+}
+
 </script>
 </body>
 </html>
