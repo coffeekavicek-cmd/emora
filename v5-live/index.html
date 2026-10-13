@@ -75,6 +75,17 @@
 #weddingExtra,#guestBox,#publicLang,.eyebrow,.metrics,.category-count,.category-body>small{display:none!important}.category-body p{font-size:14px;line-height:1.6}.field label{font-size:14px;letter-spacing:0;font-weight:600;color:var(--ink)}.field input,.field select,.field textarea{font-size:16px}.hero h1{font-size:clamp(52px,6vw,88px);line-height:1.04;letter-spacing:-.035em}.brand{letter-spacing:-.04em}.panel>p{font-size:16px}.top .nav a{font-size:14px}.category-card{border-radius:16px}.panel{border-radius:16px;box-shadow:none}.hero-art .note{border-radius:16px}::selection{background:#edd0c8;color:#34433c}button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid #80524d;outline-offset:4px}button:disabled{opacity:.6;cursor:wait}@media(max-width:720px){.hero{min-height:auto}.hero-copy{font-size:16px}.studio-grid{gap:24px}.flow-rail{font-size:14px;letter-spacing:0}.category-grid{grid-template-columns:1fr 1fr}.category-body h3{font-size:25px}}@media(max-width:460px){.category-grid{grid-template-columns:1fr}.top{gap:8px}.top .pill{padding:12px 14px}.user-chip{display:none}}
 </style>
 <link rel="stylesheet" href="/templates/v23-mobile-layout.css?v=1">
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script>
+(()=>{const app=window.Telegram?.WebApp;if(!app?.initData)return;
+ app.ready();app.expand();document.documentElement.classList.add('telegram-mini-app');
+ app.setHeaderColor?.('#fffdf9');app.setBackgroundColor?.('#fffdf9');
+ function insets(){const safe=app.contentSafeAreaInset||{};for(const key of ['top','bottom','left','right'])document.documentElement.style.setProperty('--emora-safe-'+key,(safe[key]||0)+'px');}
+ insets();app.onEvent?.('contentSafeAreaChanged',insets);
+ document.addEventListener('click',e=>{const link=e.target.closest?.('a[href]');if(!link)return;try{const u=new URL(link.href);if(u.hostname==='t.me'){e.preventDefault();app.openTelegramLink(u.href);}}catch{}});
+})();</script>
+<style>.telegram-mini-app body{padding-top:var(--emora-safe-top,0px);padding-bottom:var(--emora-safe-bottom,0px)}.telegram-mini-app .top{padding-inline:max(12px,var(--emora-safe-left,0px)) max(12px,var(--emora-safe-right,0px))}</style>
 </head>
 <body>
 <div id="siteApp">

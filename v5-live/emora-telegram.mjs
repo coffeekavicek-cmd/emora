@@ -7,7 +7,7 @@ export function createTelegramIntegration({env=process.env,fetcher=fetch,logger=
  const base=String(env.EMORA_SUPABASE_URL||'').replace(/\/$/,'');
  const key=env.EMORA_SUPABASE_PUBLISHABLE_KEY;
  const secret=env.EMORA_BOT_BRIDGE_SECRET;
- let username='',displayName='',profilePhotoReady=false,startupError='',ready=false,stopped=false,abort=null;
+ let username='',displayName='',profilePhotoReady=false,miniAppReady=false,startupError='',ready=false,stopped=false,abort=null;
  const limits=new Map();
  async function telegram(method,data={},multipart=null){
   const r=await fetcher('https://api.telegram.org/bot'+token+'/'+method,{method:'POST',headers:multipart?{}:{'content-type':'application/json'},body:multipart||JSON.stringify(data),signal:AbortSignal.timeout(method==='getUpdates'?40000:12000)});
@@ -25,7 +25,7 @@ export function createTelegramIntegration({env=process.env,fetcher=fetch,logger=
   const now=clock();for(const [id,v]of limits)if(now-v.at>60000)limits.delete(id);
   const v=limits.get(k)||{at:now,count:0};v.count++;limits.set(k,v);return v.count<=max;
  }
- function keyboard(){return {inline_keyboard:[[{text:'Создать подарок',url:origin+'/#studio'}],[{text:'Подключить уведомления',url:origin+'/?telegram=connect#studio'}],[{text:'Как это работает',callback_data:'help'}]]};}
+ function keyboard(){return {inline_keyboard:[[{text:'Создать подарок',web_app:{url:origin+'/?miniapp=1#studio'}}],[{text:'Подключить уведомления',web_app:{url:origin+'/?miniapp=1&telegram=connect#studio'}}],[{text:'Как это работает',callback_data:'help'}]]};}
  const welcome='Привет, это Emora ♡\n\nЗдесь можно сделать личный подарок: на день рождения, чтобы извиниться, признаться в любви или предложить выйти замуж.\n\nВыбери шаблон на сайте, добавь ваши фото, видео и пару слов от себя. Перед отправкой всё можно посмотреть.\n\nХочешь получать ответы сюда? Нажми «Подключить уведомления».';
  const help='Всё просто:\n\n1. Открой сайт и выбери подарок.\n2. Добавь имя, фото, видео и музыку.\n3. Посмотри, что получилось.\n\nСам сайт на русском. Язык подарка выбираешь отдельно: русский, узбекский или английский.\n\nВ шаблоне с извинением она сможет выбрать место и время встречи. После подключения Telegram её ответ придёт сюда.';
  async function handleUpdate(update){
@@ -66,7 +66,9 @@ export function createTelegramIntegration({env=process.env,fetcher=fetch,logger=
    await telegram('setMyDescription',{description:'Личный подарок для неё: день рождения, извинение, признание или предложение. Добавь ваши фото, музыку и слова от себя. Ответы о встрече — прямо сюда.'});
    await telegram('setMyShortDescription',{short_description:'Личные подарки и ответы о встрече ♡'});
    await telegram('setMyCommands',{commands:[{command:'start',description:'Открыть Emora'},{command:'help',description:'Как всё работает'}]});
-   await telegram('setChatMenuButton',{menu_button:{type:'commands'}});
+   await telegram('setChatMenuButton',{menu_button:{type:'web_app',text:'Создать подарок',web_app:{url:origin+'/?miniapp=1'}}});
+   const menu=await telegram('getChatMenuButton');
+   miniAppReady=menu.type==='web_app'&&menu.web_app?.url===origin+'/?miniapp=1';
    let offset=Number((await rpc('offset_get')).offset)||0;
    ready=true;logger.log('EMORA Telegram ready @'+username);
    while(!stopped){
@@ -118,5 +120,5 @@ export function createTelegramIntegration({env=process.env,fetcher=fetch,logger=
   try{await rpc('meeting_complete',{event_id:claim.event_id,status,message_id:sent?.message_id||null});}catch{logger.error('EMORA meeting delivery state could not be saved');}
   return status==='sent'?json(res,200,{ok:true,delivery:'sent',meeting:{choice,date,time}}):json(res,502,{ok:false,error:'telegram_delivery_failed'});
  }
- return {start,handleUpdate,meeting,connection,get status(){return {ready,username,displayName,profilePhotoReady,startupError};},stop(){stopped=true;if(abort)clearTimeout(abort);}};
+ return {start,handleUpdate,meeting,connection,get status(){return {ready,username,displayName,profilePhotoReady,miniAppReady,startupError};},stop(){stopped=true;if(abort)clearTimeout(abort);}};
 }
