@@ -14,3 +14,28 @@ html[data-creator-tab=preview] .preview-zone{display:block!important}html[data-c
 /* Each cover uses a face-safe crop; wide screens and narrow screens share the same frame. */
 .category-visual{height:auto!important;aspect-ratio:5/6}.category-visual img{object-position:center 40%}.hero-art img{object-position:center top}.hero-art{height:340px}.memory img,.memories img,.v10-memory-image,.pp-memory-image{object-fit:cover;object-position:center 38%}
 @media(max-width:760px){.hero-art{height:220px}.hero-art img{object-position:center top}.category-visual{height:auto!important;aspect-ratio:5/6}}
+
+/* V33: the gift fills the preview viewport rather than a scaled phone mockup. */
+#studio:before,#studio .phone:before{display:none!important}
+#studio .phone{transform:none!important}
+html[data-view=creator][data-creator-tab=preview] body{overflow:hidden}
+html[data-view=creator][data-creator-tab=preview] .top,html[data-view=creator][data-creator-tab=preview] .footer{display:none!important}
+html[data-view=creator][data-creator-tab=preview] #studio{position:fixed;inset:0;z-index:70;margin:0!important;padding:0!important}
+html[data-view=creator][data-creator-tab=preview] #studio .studio-grid{width:100%!important;max-width:none!important;margin:0!important}
+html[data-view=creator][data-creator-tab=preview] #studio .panel{position:fixed;top:0;left:0;right:0;height:56px;z-index:72;background:#fffdf9!important;overflow:hidden!important;border-bottom:1px solid #e6ddd2!important}
+html[data-view=creator][data-creator-tab=preview] .creator-head{position:absolute;left:16px;top:0;margin:0;display:flex;align-items:center;height:56px}
+html[data-view=creator][data-creator-tab=preview] .creator-head button{padding:12px 0;min-height:44px;font-size:13px}
+html[data-view=creator][data-creator-tab=preview] .creator-head h1,html[data-view=creator][data-creator-tab=preview] .creator-head p{display:none}
+html[data-view=creator][data-creator-tab=preview] .creator-tabs{position:absolute;right:12px;top:0;width:210px;margin:0;height:56px;border:0}
+html[data-view=creator][data-creator-tab=preview] .creator-tabs button{font-size:13px;padding:16px 12px}
+html[data-view=creator][data-creator-tab=preview] #studio .preview-zone{position:fixed!important;inset:56px 0 0!important;z-index:71;padding:0!important;margin:0!important;display:block!important;background:#251321}
+html[data-view=creator][data-creator-tab=preview] #studio #previewLabel{display:none!important}
+html[data-view=creator][data-creator-tab=preview] #studio .phone{width:100%!important;max-width:none!important;height:100%!important;max-height:none!important;min-height:0!important;border:0!important;padding:0!important;border-radius:0!important;box-shadow:none!important;aspect-ratio:auto!important}
+html[data-view=creator][data-creator-tab=preview] #studio .phone iframe{border-radius:0!important}
+#templateModal{padding:0;background:#211721}
+#templateModal .template-box{width:100%;height:100svh;max-height:none;border-radius:0;box-shadow:none;overflow:hidden}
+#templateModal .live-stage{padding:0;gap:0;min-height:0;background:#211721}
+#templateModal .live-controls{height:56px;min-height:56px;padding:0 18px;background:#fffdf9;font-size:13px}
+#templateModal .live-view,#templateModal .live-view.mobile{height:calc(100% - 56px);width:100%!important;max-width:none;border:0;border-radius:0;box-shadow:none;transform:none}
+#templateModal .live-view iframe{display:block;border-radius:0}
+@media(max-width:740px){#templateModal .template-box.live-template{display:grid;grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) 68px;height:100svh;overflow:hidden}#templateModal .live-stage{height:100%;min-height:0}#templateModal .template-info{padding:10px 16px!important;background:#fffdf9}#templateModal .template-info>*:not(.modal-actions){display:none!important}#templateModal .modal-actions{grid-template-columns:minmax(0,1fr) 90px;gap:10px}#templateModal .modal-actions button{min-height:46px;border-radius:10px;font-size:13px;padding:10px}#templateModal #deviceToggle,#templateModal #templateFullscreen{display:none}#templateModal .live-controls{height:44px;min-height:44px;justify-content:center;font-size:12px}#templateModal .live-view{height:calc(100% - 44px)}}
