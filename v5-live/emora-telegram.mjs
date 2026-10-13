@@ -7,7 +7,7 @@ export function createTelegramIntegration({env=process.env,fetcher=fetch,logger=
  const base=String(env.EMORA_SUPABASE_URL||'').replace(/\/$/,'');
  const key=env.EMORA_SUPABASE_PUBLISHABLE_KEY;
  const secret=env.EMORA_BOT_BRIDGE_SECRET;
- let username='',displayName='',profilePhotoReady=false,ready=false,stopped=false,abort=null;
+ let username='',displayName='',profilePhotoReady=false,startupError='',ready=false,stopped=false,abort=null;
  const limits=new Map();
  async function telegram(method,data={},multipart=null){
   const r=await fetcher('https://api.telegram.org/bot'+token+'/'+method,{method:'POST',headers:multipart?{}:{'content-type':'application/json'},body:multipart||JSON.stringify(data),signal:AbortSignal.timeout(method==='getUpdates'?40000:12000)});
@@ -75,7 +75,7 @@ export function createTelegramIntegration({env=process.env,fetcher=fetch,logger=
      for(const update of updates){await handleUpdate(update);offset=update.update_id+1;await rpc('offset_set',{offset});}
     }catch(e){logger.error('EMORA Telegram polling: '+(/telegram_\d+/.test(e.message)?e.message:'temporary_failure'));await new Promise(r=>{abort=setTimeout(r,5000);});}
    }
-  }catch(e){ready=false;logger.error('EMORA Telegram startup: '+(['existing_webhook'].includes(e.message)||/^telegram_\d+$/.test(e.message)?e.message:'configuration_or_network_failure'));}
+  }catch(e){ready=false;startupError=(e.cause?.code||e.name||'error');logger.error('EMORA Telegram startup: '+startupError);if(!stopped)abort=setTimeout(()=>void start(),5000);}
  }
  async function authenticated(req){
   const jwt=String(req.headers.authorization||'').match(/^Bearer (.{1,8192})$/)?.[1];if(!jwt)return null;
@@ -118,5 +118,5 @@ export function createTelegramIntegration({env=process.env,fetcher=fetch,logger=
   try{await rpc('meeting_complete',{event_id:claim.event_id,status,message_id:sent?.message_id||null});}catch{logger.error('EMORA meeting delivery state could not be saved');}
   return status==='sent'?json(res,200,{ok:true,delivery:'sent',meeting:{choice,date,time}}):json(res,502,{ok:false,error:'telegram_delivery_failed'});
  }
- return {start,handleUpdate,meeting,connection,get status(){return {ready,username,displayName,profilePhotoReady};},stop(){stopped=true;if(abort)clearTimeout(abort);}};
+ return {start,handleUpdate,meeting,connection,get status(){return {ready,username,displayName,profilePhotoReady,startupError};},stop(){stopped=true;if(abort)clearTimeout(abort);}};
 }
