@@ -6,21 +6,21 @@ function secureId(v){return typeof v==='string'&&/^[0-9a-f]{8}-[0-9a-f-]{27,40}$
 function entry(v){return v&&typeof v==='object'&&typeof v.path==='string'&&typeof v.mime==='string'}
 export function validateFile(file,field){
  const rule=MEDIA_FIELDS[field];
- if(!rule)throw Error('Bu turdagi fayl qo‘llanmaydi.');
- if(!file||!rule.types.includes(file.type))throw Error('Fayl formati mos emas: JPEG, PNG, WebP, MP3, M4A yoki MP4 tanlang.');
- if(!file.size||file.size>rule.max)throw Error(field.startsWith('photo')?'Surat hajmi 8 MB dan oshmasin.':field==='videoUrl'?'Video hajmi 40 MB dan oshmasin.':'Musiqa hajmi 15 MB dan oshmasin.');
+ if(!rule)throw Error('Этот тип файла не поддерживается.');
+ if(!file||!rule.types.includes(file.type))throw Error('Выбери фото JPG, PNG или WebP, видео MP4 либо музыку MP3 или M4A.');
+ if(!file.size||file.size>rule.max)throw Error(field.startsWith('photo')?'Фото слишком большое. Выбери файл до 8 МБ.':field==='videoUrl'?'Видео слишком большое. Выбери файл до 40 МБ.':'Музыка слишком большая. Выбери файл до 15 МБ.');
  return rule.ext[file.type];
 }
 export async function uploadPrivate(supabase,userId,field,file){
  const ext=validateFile(file,field);
- if(!secureId(userId))throw Error('Faylni yuklash uchun qayta kiring.');
+ if(!secureId(userId))throw Error('Открой приложение через Telegram, чтобы добавить файл.');
  const id=globalThis.crypto?.randomUUID?.();
- if(!id)throw Error('Brauzer xavfsiz fayl identifikatorini yarata olmadi.');
+ if(!id)throw Error('Не удалось подготовить файл. Обнови приложение и попробуй ещё раз.');
  const path=userId+'/'+id+'.'+ext;
  const upload=await supabase.storage.from(privateBucket).upload(path,file,{contentType:file.type,upsert:false,cacheControl:'3600'});
  if(upload.error)throw Error(upload.error.message);
  const signed=await supabase.storage.from(privateBucket).createSignedUrl(path,60*60);
- if(signed.error||!signed.data?.signedUrl)throw Error('Yuklangan faylga vaqtinchalik preview havolasi yaratilmadi.');
+ if(signed.error||!signed.data?.signedUrl)throw Error('Файл загрузился, но просмотр не открылся. Попробуй добавить его ещё раз.');
  return {record:{path,mime:file.type,size:file.size,filename:String(file.name||'media').slice(0,160)},url:signed.data.signedUrl};
 }
 export async function refreshPrivate(supabase,userId,records){
