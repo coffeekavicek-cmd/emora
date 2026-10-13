@@ -48,27 +48,34 @@ export function createTelegramIntegration({env=process.env,fetcher=fetch,logger=
   }
   await telegram('sendMessage',{chat_id:chat,text:command==='/help'?help:'Я помогу открыть Emora и подключить ответы о встрече. Выбери кнопку ниже ♡',reply_markup:keyboard()});
  }
+
+ async function setupAppearance(me){
+  try{
+   if(me.first_name!=='Подарки с чувством')await telegram('setMyName',{name:'Подарки с чувством'});
+   displayName='Подарки с чувством';
+   const current=await telegram('getUserProfilePhotos',{user_id:me.id,limit:1});
+   if(current.total_count===0){
+    const logo=new FormData();logo.set('photo',JSON.stringify({type:'static',photo:'attach://logo'}));
+    logo.set('logo',new Blob([await readFile(new URL('./assets/emora-bot-logo.jpg',import.meta.url))],{type:'image/jpeg'}),'emora-bot-logo.jpg');
+    await telegram('setMyProfilePhoto',{},logo);
+   }
+   profilePhotoReady=true;
+   let menu=await telegram('getChatMenuButton');
+   if(menu.type!=='web_app'||menu.web_app?.url!==origin+'/?miniapp=1'){
+    await telegram('setChatMenuButton',{menu_button:{type:'web_app',text:'Создать подарок',web_app:{url:origin+'/?miniapp=1'}}});
+    menu=await telegram('getChatMenuButton');
+   }
+   miniAppReady=menu.type==='web_app'&&menu.web_app?.url===origin+'/?miniapp=1';
+  }catch{logger.error('EMORA Telegram appearance check deferred; bot remains active');}
+ }
+
  async function start(){
   if(!token||!origin||!base||!key||!secret){logger.error('EMORA Telegram: configuration incomplete');return;}
   try{
    const me=await telegram('getMe');username=me.username;
    const webhook=await telegram('getWebhookInfo');if(webhook.url)throw new Error('existing_webhook');
-   await telegram('setMyName',{name:'Подарки с чувством'});
-   displayName=(await telegram('getMyName')).name;
-   try{
-    const logo=new FormData();
-    logo.set('photo',JSON.stringify({type:'static',photo:'attach://logo'}));
-    logo.set('logo',new Blob([await readFile(new URL('./assets/emora-bot-logo.jpg',import.meta.url))],{type:'image/jpeg'}),'emora-bot-logo.jpg');
-    await telegram('setMyProfilePhoto',{},logo);
-    const currentPhoto=await telegram('getUserProfilePhotos',{user_id:me.id,limit:1});
-    profilePhotoReady=currentPhoto.total_count>0;
-   }catch{logger.error('EMORA Telegram avatar update unavailable');}
-   await telegram('setMyDescription',{description:'Личный подарок для неё: день рождения, извинение, признание или предложение. Добавь ваши фото, музыку и слова от себя. Ответы о встрече — прямо сюда.'});
-   await telegram('setMyShortDescription',{short_description:'Личные подарки и ответы о встрече ♡'});
-   await telegram('setMyCommands',{commands:[{command:'start',description:'Открыть Emora'},{command:'help',description:'Как всё работает'}]});
-   await telegram('setChatMenuButton',{menu_button:{type:'web_app',text:'Создать подарок',web_app:{url:origin+'/?miniapp=1'}}});
-   const menu=await telegram('getChatMenuButton');
-   miniAppReady=menu.type==='web_app'&&menu.web_app?.url===origin+'/?miniapp=1';
+   displayName=me.first_name||'';
+   void setupAppearance(me);
    let offset=Number((await rpc('offset_get')).offset)||0;
    ready=true;logger.log('EMORA Telegram ready @'+username);
    while(!stopped){
