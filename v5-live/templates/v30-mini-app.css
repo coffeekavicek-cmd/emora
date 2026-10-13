@@ -12,5 +12,5 @@ html[data-creator-tab=preview] .preview-zone{display:block!important}html[data-c
 @media(max-width:760px){.nav .v17-admin-nav-launcher{display:none!important}.v17-admin-mobile-btn{margin-left:auto}}
 
 /* Each cover uses a face-safe crop; wide screens and narrow screens share the same frame. */
-.category-visual{height:auto!important;aspect-ratio:5/6}.category-visual img{object-position:center 40%}.hero-art img{object-position:center 35%}.hero-art{height:340px}.memory img,.memories img,.v10-memory-image,.pp-memory-image{object-fit:cover;object-position:center 38%}
-@media(max-width:760px){.hero-art{height:220px}.hero-art img{object-position:center 30%}.category-visual{height:auto!important;aspect-ratio:5/6}}
+.category-visual{height:auto!important;aspect-ratio:5/6}.category-visual img{object-position:center 40%}.hero-art img{object-position:center top}.hero-art{height:340px}.memory img,.memories img,.v10-memory-image,.pp-memory-image{object-fit:cover;object-position:center 38%}
+@media(max-width:760px){.hero-art{height:220px}.hero-art img{object-position:center top}.category-visual{height:auto!important;aspect-ratio:5/6}}
