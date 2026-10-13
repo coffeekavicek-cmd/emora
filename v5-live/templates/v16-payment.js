@@ -32,7 +32,7 @@ async function resolveProject(){
  if(document.documentElement.dataset.creatorReady!=='true'){
   status('Добавь её имя и свои слова.',true);return null
  }
- if(typeof window.__EMORA_ENSURE_TELEGRAM__==='function'&&!await window.__EMORA_ENSURE_TELEGRAM__())return null;
+ if(typeof window.__EMORA_ENSURE_TELEGRAM__!=='function'||!await window.__EMORA_ENSURE_TELEGRAM__())return null;
  const {data:{user},error:userError}=await supabase.auth.getUser();
  if(userError||!user){status('Открой подарок в Telegram, чтобы продолжить.',true);return null}
  const save=$('#saveBtn');
