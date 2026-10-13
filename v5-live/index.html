@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-view="catalog" data-creator-tab="details">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -74,7 +74,7 @@
 
 #weddingExtra,#guestBox,#publicLang,.eyebrow,.metrics,.category-count,.category-body>small{display:none!important}.category-body p{font-size:14px;line-height:1.6}.field label{font-size:14px;letter-spacing:0;font-weight:600;color:var(--ink)}.field input,.field select,.field textarea{font-size:16px}.hero h1{font-size:clamp(52px,6vw,88px);line-height:1.04;letter-spacing:-.035em}.brand{letter-spacing:-.04em}.panel>p{font-size:16px}.top .nav a{font-size:14px}.category-card{border-radius:16px}.panel{border-radius:16px;box-shadow:none}.hero-art .note{border-radius:16px}::selection{background:#edd0c8;color:#34433c}button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid #80524d;outline-offset:4px}button:disabled{opacity:.6;cursor:wait}@media(max-width:720px){.hero{min-height:auto}.hero-copy{font-size:16px}.studio-grid{gap:24px}.flow-rail{font-size:14px;letter-spacing:0}.category-grid{grid-template-columns:1fr 1fr}.category-body h3{font-size:25px}}@media(max-width:460px){.category-grid{grid-template-columns:1fr}.top{gap:8px}.top .pill{padding:12px 14px}.user-chip{display:none}}
 </style>
-<link rel="stylesheet" href="/templates/v23-mobile-layout.css?v=1">
+
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
@@ -89,13 +89,13 @@
 </head>
 <body>
 <div id="siteApp">
-<header class="shell top"><div class="brand">emora</div><nav class="nav"><a href="#templates">Подарки</a><a href="#studio">Редактор</a><a href="#dashboard">Мои подарки</a></nav><span class="user-chip" id="userChip">Без входа</span><button class="outline" id="accountBtn">Войти</button><button class="pill" onclick="document.querySelector('#templates').scrollIntoView()">Создать подарок</button></header>
+<header class="shell top"><a class="brand" href="#templates" aria-label="Emora">emora.</a><nav class="nav"><a href="#templates">Подарки</a><a href="#dashboard">Мои подарки</a></nav><span class="user-chip" id="userChip"></span></header>
 <main>
-<section class="shell hero"><div><div class="eyebrow"></div><h1>Har bir lahza <em>что чувствуешь.</em></h1><p class="hero-copy">Четыре личных подарка для важных слов. Добавь её имя, ваши фото, музыку и пару фраз от себя. Сначала посмотри, что получилось.</p><div class="actions"><button class="pill" onclick="document.querySelector('#templates').scrollIntoView()">Выбрать подарок</button><button class="outline" onclick="document.querySelector('#templates').scrollIntoView()">Посмотреть примеры</button></div><div class="metrics"><span>4 личные истории</span><span>Сразу видно результат</span><span>Подарок по ссылке</span></div></div><div class="hero-art"><div class="arch"></div><div class="note"><small></small><strong>Rose Theatre</strong><span>Её фото, твои слова и музыка, которая всё скажет.</span></div></div></section>
+<section class="shell hero"><div class="hero-main"><h1>Для неё.<br><em>От тебя.</em></h1><p class="hero-copy">Твои слова, ваши фото и музыка.<br>В подарке, который хочется пересмотреть.</p><button class="pill" type="button" onclick="document.querySelector('#templates').scrollIntoView({behavior:'smooth'})">Выбрать подарок <span aria-hidden="true">↗</span></button><p class="hero-caption">Сначала посмотри. Потом сделай своим.</p></div><div class="hero-art"><img src="/assets/site-hero-fast.webp" alt="Письмо и личный подарок" width="840" height="1024" fetchpriority="high" decoding="async"></div></section>
 
-<section id="templates" class="section"><div class="shell"><div class="section-head"><h2>Что хочешь ей сказать?<br>Выбери свой подарок.</h2><p>У каждого подарка своя история. Открой пример или сразу добавь ваши детали.</p></div>
+<section id="templates" class="section"><div class="shell"><div class="section-head"><h2>Что хочешь ей сказать?</h2><p>Четыре истории. Выбери свою.</p></div>
 <div class="category-flow">
- <div class="flow-rail"><span class="active"><b>1</b> YO‘NALISH</span><span>→</span><span><b>2</b> SHABLON</span><span>→</span><span><b>3</b> MOSLASH</span><span>→</span><span><b>4</b> PUBLISH</span></div>
+ 
  <div class="category-grid" id="categoryGrid"></div>
  <div class="template-stage hidden" id="templateStage">
    <div class="template-stage-head"><div><div class="eyebrow" id="selectedCategoryEyebrow"></div><h3 id="selectedCategoryTitle">Подарки</h3><p id="selectedCategoryCopy"></p></div><button class="back-category" id="changeCategory">← Все подарки</button></div>
@@ -104,7 +104,7 @@
 </div>
 </div></section>
 
-<section id="studio" class="section studio"><div class="shell studio-grid"><div class="panel"><div class="eyebrow"></div><h2>Сделай подарок своим.</h2><p>Добавь её имя и свои слова. Всё сразу появится в подарке справа. Сохранить и отправить можно из своего аккаунта.</p>
+<section id="studio" class="section studio"><div class="shell studio-grid"><div class="panel"><div class="creator-head"><button type="button" id="creatorBack">← Все подарки</button><h1 id="creatorTitle">Твой подарок</h1><p>Добавь ваши детали. Потом посмотри, что получилось.</p></div><div class="creator-tabs" role="tablist"><button type="button" role="tab" data-creator-tab="details" aria-selected="true">Настроить</button><button type="button" role="tab" data-creator-tab="preview" aria-selected="false">Посмотреть</button></div>
 <div class="field"><label for="type">Подарок</label><select id="type"></select></div><div class="field"><label for="templateLang">Язык подарка</label><select id="templateLang"><option value="ru">Русский</option><option value="uz">O‘zbekcha</option><option value="en">English</option></select></div>
 <div class="panel-row"><div class="field"><label for="name1">Как её зовут?</label><input id="name1" placeholder="Её имя"></div><div class="field" id="name2Field"><label for="name2">От кого подарок?</label><input id="name2" placeholder="Твоё имя"></div></div>
 <div class="field"><label for="headline">Первая фраза</label><input id="headline" placeholder="Первая фраза для неё"></div>
@@ -124,7 +124,7 @@
  <div class="panel-row"><div class="field"><label for="videoUrl">Ваше видео</label><input type="url" id="videoUrl" placeholder="https://...mp4"><label class="media-file-label">Загрузить видео · до 40 МБ<input type="file" data-media-upload="videoUrl" accept="video/mp4"></label></div><div class="field"><label for="musicUrl">Музыка</label><input type="url" id="musicUrl" placeholder="https://...mp3"><label class="media-file-label">Загрузить музыку · до 15 МБ<input type="file" data-media-upload="musicUrl" accept="audio/mpeg,audio/mp4"></label></div></div>
 </div>
 <div id="apologyExtra" class="hidden"><div class="field"><label for="mistake">За что хочешь извиниться?</label><textarea id="mistake" rows="3" placeholder="Скажи своими словами, за что извиняешься."></textarea></div><div class="field"><label for="repair">Что теперь сделаешь иначе?</label><textarea id="repair" rows="3" placeholder="Что сделаешь иначе?"></textarea></div></div>
-<div id="weddingExtra" class="hidden"><div class="field"><label for="venue">TO‘Y MANZILI</label><input id="venue" placeholder="To‘yxona nomi"></div>
+<div id="weddingExtra" class="hidden"><div class="field"><label for="venue"></label><input id="venue" placeholder="To‘yxona nomi"></div>
 <div class="field"><label for="venueMap">GOOGLE MAPS HAVOLA</label><input id="venueMap" placeholder="https://maps.google.com/..."></div><div class="field"><label for="programInput">MAROSIM DASTURI — HAR QATOR: VAQT | NOM | IZOH</label><textarea id="programInput" rows="4" placeholder="17:00 | Mehmonlarni kutib olish | Iliq uchrashuv&#10;18:00 | Nikoh marosimi | Baxtli kunimiz&#10;19:00 | Bayram oqshomi | Ziyofat va tabriklar"></textarea></div></div>
 <div class="field" id="dateField"><label for="date">Дата</label><input id="date" type="date" value=""><label style="display:block;margin-top:9px">Время · Ташкент</label><input id="eventClock" type="time" value="18:00"></div>
 <div class="field"><label for="slug">Название ссылки</label><input id="slug" placeholder="aziza-va-jasur"></div>
@@ -133,13 +133,13 @@
 <div class="guest-box hidden" id="guestBox"><div class="eyebrow">WEDDING GUEST LINKS</div><div class="panel-row"><div class="field"><label for="guestName">MEHMON ISMI</label><input id="guestName" placeholder="Dilshod"></div><div class="field"><label for="guestParty">ODAMLAR SONI</label><input id="guestParty" type="number" min="1" max="20" value="1"></div></div><button class="outline" style="width:100%" id="guestBtn">Mehmon havolasini yaratish</button><div class="guest-list" id="guestList"></div></div>
 </div>
 <div class="preview-zone"><div id="previewLabel">Твой подарок · просмотр</div>
- <div class="phone"><iframe id="studioIframe" title="Предпросмотр твоего подарка" src="/templates/v10-love-rose.html?editor=1" allow="autoplay"></iframe></div>
+ <div class="phone"><iframe id="studioIframe" title="Предпросмотр твоего подарка" allow="autoplay"></iframe></div>
  <div class="studio-iframe-hint">Попробуй подарок прямо здесь. Музыка начнётся после первого нажатия.</div>
  </div></div></section>
 
-<section id="dashboard" class="dashboard"><div class="shell"><div class="section-head"><h2>Мои подарки.</h2><p>Твои сохранённые и отправленные подарки будут здесь.</p></div><div id="projectGrid" class="project-grid"><div class="project-card"><small></small><h3>Твои подарки будут здесь</h3><p>Войди, чтобы увидеть сохранённые подарки.</p></div></div></div></section>
+<section id="dashboard" class="dashboard"><div class="shell"><div class="section-head"><h2>Мои подарки.</h2><p>Твои сохранённые и отправленные подарки будут здесь.</p></div><div id="projectGrid" class="project-grid"><div class="project-card"><small></small><h3>Твои подарки будут здесь</h3><p>Открой Emora в Telegram — здесь будут твои подарки.</p></div></div></div></section>
 </main>
-<footer class="footer"><div class="shell"><strong>emora · Signature Studio</strong><span>Личные подарки с чувством</span></div></footer>
+<footer class="footer"><div class="shell"><strong>emora.</strong><span>Личные подарки с чувством</span></div></footer>
 </div>
 
 <div id="publicApp" class="published-shell hidden">
@@ -147,17 +147,12 @@
  <aside id="publicGuestFloat" class="public-guest-float hidden">
  <div class="story-mode">EMORA · Ismingiz bilan taklifnoma</div>
  <div class="rsvp-box hidden" id="rsvpBox"><h3 id="guestGreeting">Siz kelasizmi?</h3><p>Javobingiz mezbonlarga yetib boradi.</p>
- <div class="rsvp-actions"><button data-answer="yes">Ha</button><button data-answer="maybe">Balki</button><button data-answer="no">Yo‘q</button></div>
+ <div class="rsvp-actions"><button data-answer="yes">Ha</button><button data-answer="maybe">Balki</button><button data-answer="no">Нет</button></div>
  <div class="field"><label for="rsvpCount">NECHA KISHI</label><input id="rsvpCount" type="number" min="0" max="20" value="1"></div>
  <div class="field"><label for="rsvpMessage">TILAK</label><textarea id="rsvpMessage" placeholder="Qisqa tilak yozing..."></textarea></div>
- <button class="pill" id="rsvpSubmit">Javobni yuborish</button><div class="status" id="rsvpStatus"></div></div>
+ <button class="pill" id="rsvpSubmit">Отправить ответ</button><div class="status" id="rsvpStatus"></div></div>
  </aside><div class="hidden"><span id="publicEdition"></span><h1 id="publicTitle"></h1><p id="publicCopy"></p><div id="publicMeta"></div><div id="publicCover"></div></div>
  </div>
-
-<div class="account-modal hidden" id="accountModal"><div class="account-box"><div class="eyebrow"></div><h3>Давай сохраним твой подарок</h3><p id="authHelp">Укажи почту — отправим ссылку для входа. Пароль не обязателен.</p><div class="auth-tabs"><button class="active" data-tab="password">По паролю</button><button data-tab="magic">Ссылка на почту</button></div>
-<div id="passwordPane"><div class="field"><label for="authEmail">EMAIL</label><input id="authEmail" type="email" placeholder="email@example.com"></div><div class="field"><label for="authPassword">Пароль</label><input id="authPassword" type="password" minlength="6" placeholder="Не меньше 6 символов"></div><div class="modal-actions"><button class="pill" id="loginBtn">Войти</button><button class="outline" id="signupBtn">Создать аккаунт</button></div><button class="soft" style="width:100%;margin-top:10px" id="resendBtn">Отправить письмо ещё раз</button></div>
-<div id="magicPane" class="hidden"><div class="field"><label for="magicEmail">EMAIL</label><input id="magicEmail" type="email" placeholder="email@example.com"></div><button class="pill" style="width:100%" id="magicBtn">Получить ссылку для входа</button><p>Открой ссылку из письма — и ты в аккаунте.</p></div>
-<button class="outline" style="width:100%;margin-top:10px" id="closeAuth">Закрыть</button><div class="status" id="authStatus"></div></div></div>
 
 <div class="template-modal hidden" id="templateModal"><div class="template-box live-template">
  <div class="live-stage">
@@ -194,10 +189,10 @@ function parseWeddingProgram(str){return String(str||"").split(/\r?\n/).map(row=
 function content(){return {language:$('#templateLang').value,template:$('#type').value,experience_version:$('#type').value==='love-rose-theatre'?26:$('#type').value==='birthday-aurora-paper'?19:$('#type').value==='apology-quiet-room'?24:10,name1:$('#name1').value.trim(),name2:$('#name2').value.trim(),headline:$('#headline').value.trim(),headlineRu:$('#headlineRu').value.trim(),headlineEn:$('#headlineEn').value.trim(),letter:$('#letter').value.trim(),letterRu:$('#letterRu').value.trim(),letterEn:$('#letterEn').value.trim(),venue:$('#venue').value.trim(),venueMap:$('#venueMap').value.trim(),program:parseWeddingProgram($('#programInput').value),date:$('#date').value,clock:$('#eventClock').value,memoryTitle:$('#memoryTitle').value.trim(),captions:[$('#caption1').value.trim(),$('#caption2').value.trim(),$('#caption3').value.trim()],photos:[$('#photo1').value.trim(),$('#photo2').value.trim(),$('#photo3').value.trim()],finalQuestion:$('#finalQuestion').value.trim(),music:$('#musicUrl').value.trim(),video:$('#videoUrl').value.trim(),mistake:$('#mistake').value.trim(),repair:$('#repair').value.trim(),media:{...state.privateMedia}}}
 function isWedding(){return $('#type').value.startsWith('wedding-')}
 function localized(c,lang){const out={...c};if(lang==='ru'){out.headline=c.headlineRu||c.headline;out.letter=c.letterRu||c.letter}else if(lang==='en'){out.headline=c.headlineEn||c.headline;out.letter=c.letterEn||c.letter}return out}
-function showStatus(msg,bad=false){$('#status').textContent=msg;$('#status').style.color=bad?'#a33':'var(--sage)'}
+function showStatus(msg,bad=false){const readable=bad&&!/[А-Яа-яЁё]/.test(String(msg))?'Не получилось выполнить действие. Попробуй ещё раз.':msg;$('#status').textContent=readable;$('#status').style.color=bad?'#a33':'var(--sage)'}
 function renderTypeOptions(group,selected){
  const list=group?templates.filter(t=>t.group===group):templates;
- $('#type').innerHTML=list.map(t=>'<option value="'+t.slug+'">'+t.name+' — '+t.category.split('/')[1].trim()+'</option>').join('');
+ $('#type').innerHTML=list.map(t=>'<option value="'+t.slug+'">'+t.name+'</option>').join('');
  if(selected&&list.some(t=>t.slug===selected))$('#type').value=selected;
 }
 function renderTemplateCards(group){
@@ -214,13 +209,15 @@ function selectCategory(key,scroll=true){
  if(scroll)$('#templateStage').scrollIntoView({behavior:'smooth',block:'start'});
 }
 function buildCatalog(){
- $('#categoryGrid').innerHTML=categories.map(c=>'<article class="category-card" data-category="'+c.key+'"><div class="category-count">'+c.count+'</div><div class="category-visual"></div><div class="category-body"><small>'+c.eyebrow+'</small><h3>'+c.title+'</h3><p>'+c.copy+'</p></div></article>').join('');
- document.querySelectorAll('.category-card').forEach(card=>card.onclick=()=>selectCategory(card.dataset.category));
+ const art={love:'love-rose',birthday:'birthday-aurora',apology:'apology-quiet',proposal:'proposal-pearl'};
+ $('#categoryGrid').innerHTML=categories.map(c=>{const t=templates.find(t=>t.group===c.key);return '<article class="category-card" data-category="'+c.key+'"><div class="category-visual"><img src="/assets/'+art[c.key]+'-fast.webp" alt="" width="840" height="1024" loading="lazy" decoding="async"></div><div class="category-body"><h3>'+c.title+'</h3><p>'+c.copy+'</p><div class="gift-actions"><button type="button" data-preview="'+t.slug+'">Посмотреть</button><button type="button" data-use="'+t.slug+'">Создать ↗</button></div></div></article>';}).join('');
+ document.querySelectorAll('#categoryGrid [data-preview]').forEach(b=>b.onclick=()=>openTemplate(b.dataset.preview));
+ document.querySelectorAll('#categoryGrid [data-use]').forEach(b=>b.onclick=()=>useTemplate(b.dataset.use));
  renderTypeOptions(null,'love-rose-theatre');
 }
 
 function openTemplate(slug){const t=templates.find(x=>x.slug===slug);if(!t)return;state.template=t;$('#templateCategory').textContent=t.category;$('#templateName').textContent=t.name;$('#templateDescription').textContent=t.desc;$('#templateFeatures').innerHTML=t.features.map(x=>'<div>✦ '+esc(x)+'</div>').join('');$('#templateIframe').src=previewPath(slug)+'?editor=1';$('#templateFullscreen').href=previewPath(slug)+'?editor=1';$('#liveView').classList.add('mobile');$('#templateModal').classList.remove('hidden')}
-function useTemplate(slug){if(state.uploadsInFlight){showStatus('Подожди, файл ещё загружается.',true);return}const t=templates.find(x=>x.slug===slug);if(!t)return;if(state.projectId){state.projectId=null;state.publishedSlug=null;state.privateMedia={};$('#slug').value='';showStatus('Открыли новый подарок.')}state.category=t.group;renderTypeOptions(t.group,slug);$('#type').value=slug;if(!$('#headline').dataset.edited)$('#headline').value=t.opening||'';render();$('#templateModal').classList.add('hidden');$('#studio').scrollIntoView({behavior:'smooth'})}
+function useTemplate(slug){if(state.uploadsInFlight){showStatus('Подожди, файл ещё загружается.',true);return}const t=templates.find(x=>x.slug===slug);if(!t)return;if(state.projectId){state.projectId=null;state.publishedSlug=null;state.privateMedia={};$('#slug').value='';showStatus('Открыли новый подарок.')}state.category=t.group;renderTypeOptions(t.group,slug);$('#type').value=slug;if(!$('#headline').dataset.edited)$('#headline').value=t.opening||'';showCreator();render();$('#templateModal').classList.add('hidden')}
 function configFor(c,override){
  const template=templates.find(t=>t.slug===(c.template||'love-rose-theatre'))||templates[0];
  const t=template.slug, group=template.group, slots=Array.isArray(c.photos)?c.photos.slice(0,3).map(s=>typeof s==='string'?s.trim():''):[], photos=(t==='birthday-aurora-paper'||t==='love-rose-theatre')?slots:slots.filter(Boolean);
@@ -234,6 +231,7 @@ function configFor(c,override){
 }
 function sendToExperience(frame,c,override=false){if(!frame?.contentWindow)return;const t=c.template||'love-rose-theatre';const type=t.startsWith('love-')?'emora:preview':t.startsWith('wedding-')?'emora:wedding-preview':'emora:moment-preview';frame.contentWindow.postMessage({type,config:configFor(c,override)},location.origin)}
 function render(){
+ if(document.documentElement.dataset.view!=='creator')return;
  const c=content(),t=currentTemplate(),frame=$('#studioIframe');
  $('#guestBox').classList.toggle('hidden',!isWedding());
  $('#weddingExtra').classList.toggle('hidden',!isWedding());
@@ -245,8 +243,8 @@ function render(){
  if(frame.dataset.template!==t.slug||!frame.src.includes('lang='+(c.language||'ru'))){frame.dataset.template=t.slug;frame.onload=()=>sendToExperience(frame,content());frame.src=src}
  else sendToExperience(frame,c);
 }
-async function refreshUser(){const {data:{user}}=await supabase.auth.getUser();state.user=user||null;$('#userChip').textContent=user?user.email:'Без входа';$('#accountBtn').textContent=user?'Выйти':'Войти';await loadProjects()}
-async function requireUser(){if(state.user)return true;$('#accountModal').classList.remove('hidden');$('#authStatus').textContent='Войди, чтобы сохранить и отправить подарок.';return false}
+async function refreshUser(){const {data:{user}}=await supabase.auth.getUser();state.user=user?.app_metadata?.auth_provider==='telegram'?user:null;$('#userChip').textContent=state.user?String(state.user.user_metadata?.display_name||'Твой аккаунт'):'';await loadProjects()}
+async function requireUser(){if(state.user)return true;return ensureTelegramAccount()}
 async function saveProject(){
  if(state.uploadsInFlight){showStatus('Подожди, файл ещё загружается.',true);return null}if(!await requireUser())return null;
  const c=content();let sl=slugify($('#slug').value)||slugify((c.name1||'emora')+'-'+(c.name2||tName()));$('#slug').value=sl;
@@ -254,6 +252,34 @@ async function saveProject(){
  let result=state.projectId?await supabase.from('projects').update({...payload,updated_at:new Date().toISOString()}).eq('id',state.projectId).select('id').single():await supabase.from('projects').insert(payload).select('id').single();
  if(result.error){showStatus(result.error.message,true);return null}state.projectId=result.data.id;showStatus('Подарок сохранён в аккаунте ♡');await loadProjects();return state.projectId;
 }
+
+let telegramLogin=null;
+async function ensureTelegramAccount(){
+ const initData=window.Telegram?.WebApp?.initData;
+ if(!initData){showStatus('Открой подарок через Telegram, чтобы сохранить его.',true);return false;}
+ if(telegramLogin)return telegramLogin;
+ telegramLogin=(async()=>{
+  try{
+   const response=await fetch('/api/telegram/auth',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({initData}),credentials:'same-origin'});
+   const result=await response.json();if(!response.ok||!result.ok)throw Error('auth');
+   const set=await supabase.auth.setSession({access_token:result.access_token,refresh_token:result.refresh_token});if(set.error)throw set.error;
+   await refreshUser();return !!state.user;
+  }catch{showStatus('Не удалось подключить Telegram. Закрой приложение и открой его снова.',true);return false;}
+ })();
+ const ok=await telegramLogin;if(!ok)telegramLogin=null;return ok;
+}
+window.__EMORA_ENSURE_TELEGRAM__=ensureTelegramAccount;
+function showCatalog(){
+ document.documentElement.dataset.view='catalog';window.Telegram?.WebApp?.BackButton?.hide();
+ document.querySelector('#templates')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function showCreator(){
+ document.documentElement.dataset.view='creator';document.documentElement.dataset.creatorTab='details';
+ $('#creatorTitle').textContent=currentTemplate().name;
+ const back=window.Telegram?.WebApp?.BackButton;back?.show();back?.offClick(showCatalog);back?.onClick(showCatalog);
+ document.querySelector('#studio')?.scrollIntoView({block:'start'});document.dispatchEvent(new Event('emora:creator-fields'));
+}
+
 window.__EMORA_SAVE_PROJECT__=saveProject;
 function tName(){return currentTemplate().name}
 async function publishProject(){
@@ -273,8 +299,8 @@ async function publishProject(){
  }finally{state.publishing=false;$('#publishBtn').disabled=false}
 }
 async function addGuest(){if(!await requireUser())return;if(!state.projectId){showStatus('Avval draftni saqlang.',true);return}if(!isWedding()){showStatus('Guest link faqat Wedding uchun.',true);return}const name=$('#guestName').value.trim();const party=Number($('#guestParty').value||1);if(!name)return;const {data,error}=await supabase.from('guests').insert({project_id:state.projectId,owner_id:state.user.id,display_name:name,party_size:party}).select('display_name,token,party_size').single();if(error){showStatus(error.message,true);return}const base=state.publishedSlug||slugify($('#slug').value);const link=location.origin+'/s/'+base+'?g='+data.token;const div=document.createElement('div');div.className='guest-item';div.innerHTML='<strong>'+esc(data.display_name)+'</strong> · '+data.party_size+' kishi<br><a target="_blank" href="'+esc(link)+'">'+esc(link)+'</a>';$('#guestList').prepend(div);$('#guestName').value=''}
-async function loadProjects(){if(!state.user){$('#projectGrid').innerHTML='<div class="project-card"><small></small><h3>Твои подарки будут здесь</h3><p>Войди, чтобы увидеть сохранённые подарки.</p></div>';return}const {data,error}=await supabase.from('projects').select('id,title,status,template_slug,slug,content,updated_at').order('updated_at',{ascending:false}).limit(20);if(error){$('#projectGrid').innerHTML='<div class="project-card"><h3>Не получилось загрузить</h3><p>'+esc(error.message)+'</p></div>';return}if(!data?.length){$('#projectGrid').innerHTML='<div class="project-card"><small>EMPTY</small><h3>Создай свой первый подарок</h3><p>Studio’dan shablon tanlang va Save bosing.</p></div>';return}const analytics=await Promise.all(data.map(async p=>{const {data:a}=await supabase.rpc('project_analytics',{p_project_id:p.id});return a?.[0]||{}}));$('#projectGrid').innerHTML=data.map((p,i)=>{const a=analytics[i]||{};return '<div class="project-card"><small>'+esc(p.status.toUpperCase())+' · '+esc(p.template_slug)+'</small><h3>'+esc(p.title)+'</h3><p>Изменён: '+new Date(p.updated_at).toLocaleString('uz-UZ')+'</p><div class="analytics-row"><div class="metric-box"><b>'+Number(a.total_views||0)+'</b><small>VIEW</small></div><div class="metric-box"><b>'+Number(a.yes_count||0)+'</b><small>HA</small></div><div class="metric-box"><b>'+Number(a.maybe_count||0)+'</b><small>BALKI</small></div><div class="metric-box"><b>'+Number(a.no_count||0)+'</b><small>YO‘Q</small></div></div><p><button data-edit="'+p.id+'">Изменить</button> '+(p.slug?'<button data-open="'+esc(p.slug)+'">Открыть</button>':'')+'</p></div>'}).join('');document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>editProject(b.dataset.edit,data));document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>window.open('/s/'+b.dataset.open,'_blank'))}
-async function editProject(id,data){const p=data.find(x=>x.id===id);if(!p)return;state.projectId=p.id;state.publishedSlug=p.slug||null;const c=p.content||{};$('#templateLang').value=c.language||'ru';state.privateMedia=c.media&&typeof c.media==='object'?{...c.media}:{};const chosen=c.template||p.template_slug;const chosenT=templates.find(t=>t.slug===chosen);if(chosenT){state.category=chosenT.group;renderTypeOptions(chosenT.group,chosen)}$('#type').value=chosen;$('#name1').value=c.name1||'';$('#name2').value=c.name2||'';$('#headline').value=c.headline||'';$('#headlineRu').value=c.headlineRu||'';$('#headlineEn').value=c.headlineEn||'';$('#letter').value=c.letter||'';$('#letterRu').value=c.letterRu||'';$('#letterEn').value=c.letterEn||'';$('#venue').value=c.venue||'';$('#venueMap').value=c.venueMap||'';$('#programInput').value=Array.isArray(c.program)?c.program.map(p=>[p.time,p.title,p.note||''].join(' | ')).join('\n'):'';$('#date').value=c.date||'';$('#eventClock').value=c.clock||'18:00';$('#memoryTitle').value=c.memoryTitle||'';[1,2,3].forEach((i)=>{$('#caption'+i).value=c.captions?.[i-1]||'';$('#photo'+i).value=c.photos?.[i-1]||''});$('#finalQuestion').value=c.finalQuestion||'';$('#musicUrl').value=c.music||'';$('#videoUrl').value=c.video||'';$('#mistake').value=c.mistake||'';$('#repair').value=c.repair||'';$('#headline').dataset.edited='true';$('#slug').value=p.slug||'';render();$('#studio').scrollIntoView({behavior:'smooth'});showStatus('Открыли твой подарок для редактирования.');if(state.user&&Object.keys(state.privateMedia).length){const original=p.id;const signed=await refreshPrivate(supabase,state.user.id,state.privateMedia);if(state.projectId!==original)return;for(const [field,url]of Object.entries(signed)){const input=$('#'+field);if(input)input.value=url}render()}}
+async function loadProjects(){if(!state.user){$('#projectGrid').innerHTML='<div class="project-card"><small></small><h3>Твои подарки будут здесь</h3><p>Открой Emora в Telegram — здесь будут твои подарки.</p></div>';return}const {data,error}=await supabase.from('projects').select('id,title,status,template_slug,slug,content,updated_at').order('updated_at',{ascending:false}).limit(20);if(error){$('#projectGrid').innerHTML='<div class="project-card"><h3>Не получилось загрузить</h3><p>'+esc(error.message)+'</p></div>';return}if(!data?.length){$('#projectGrid').innerHTML='<div class="project-card"><h3>Создай свой первый подарок</h3><p>Выбери подарок и добавь свои слова.</p></div>';return}const analytics=await Promise.all(data.map(async p=>{const {data:a}=await supabase.rpc('project_analytics',{p_project_id:p.id});return a?.[0]||{}}));$('#projectGrid').innerHTML=data.map((p,i)=>{const a=analytics[i]||{};return '<div class="project-card"><small>'+esc(p.status==='published'?'Отправлен':'Сохранён')+'</small><h3>'+esc(p.title)+'</h3><p>Изменён: '+new Date(p.updated_at).toLocaleString('ru-RU')+'</p><div class="analytics-row"><div class="metric-box"><b>'+Number(a.total_views||0)+'</b><small>Просмотры</small></div><div class="metric-box"><b>'+Number(a.yes_count||0)+'</b><small>Да</small></div><div class="metric-box"><b>'+Number(a.maybe_count||0)+'</b><small>Пока думаю</small></div><div class="metric-box"><b>'+Number(a.no_count||0)+'</b><small>Нет</small></div></div><p><button data-edit="'+p.id+'">Изменить</button> '+(p.slug?'<button data-open="'+esc(p.slug)+'">Открыть</button>':'')+'</p></div>'}).join('');document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>editProject(b.dataset.edit,data));document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>window.open('/s/'+b.dataset.open,'_blank'))}
+async function editProject(id,data){const p=data.find(x=>x.id===id);if(!p)return;state.projectId=p.id;state.publishedSlug=p.slug||null;const c=p.content||{};$('#templateLang').value=c.language||'ru';state.privateMedia=c.media&&typeof c.media==='object'?{...c.media}:{};const chosen=c.template||p.template_slug;const chosenT=templates.find(t=>t.slug===chosen);if(chosenT){state.category=chosenT.group;renderTypeOptions(chosenT.group,chosen)}$('#type').value=chosen;$('#name1').value=c.name1||'';$('#name2').value=c.name2||'';$('#headline').value=c.headline||'';$('#headlineRu').value=c.headlineRu||'';$('#headlineEn').value=c.headlineEn||'';$('#letter').value=c.letter||'';$('#letterRu').value=c.letterRu||'';$('#letterEn').value=c.letterEn||'';$('#venue').value=c.venue||'';$('#venueMap').value=c.venueMap||'';$('#programInput').value=Array.isArray(c.program)?c.program.map(p=>[p.time,p.title,p.note||''].join(' | ')).join('\n'):'';$('#date').value=c.date||'';$('#eventClock').value=c.clock||'18:00';$('#memoryTitle').value=c.memoryTitle||'';[1,2,3].forEach((i)=>{$('#caption'+i).value=c.captions?.[i-1]||'';$('#photo'+i).value=c.photos?.[i-1]||''});$('#finalQuestion').value=c.finalQuestion||'';$('#musicUrl').value=c.music||'';$('#videoUrl').value=c.video||'';$('#mistake').value=c.mistake||'';$('#repair').value=c.repair||'';$('#headline').dataset.edited='true';$('#slug').value=p.slug||'';showCreator();render();showStatus('Открыли твой подарок для редактирования.');if(state.user&&Object.keys(state.privateMedia).length){const original=p.id;const signed=await refreshPrivate(supabase,state.user.id,state.privateMedia);if(state.projectId!==original)return;for(const [field,url]of Object.entries(signed)){const input=$('#'+field);if(input)input.value=url}render()}}
 async function handlePublic(){
  const match=location.pathname.match(/^\/s\/([^/]+)/);if(!match)return false;
  $('#siteApp').classList.add('hidden');$('#publicApp').classList.remove('hidden');
@@ -296,29 +322,13 @@ async function handlePublic(){
  return true;
 }
 window.addEventListener('message',e=>{if(e.origin!==location.origin||e.data?.type!=='emora:open-rsvp')return;const box=$('#rsvpBox');if(!box.classList.contains('hidden')){box.scrollIntoView({behavior:'smooth',block:'center'});box.querySelector('button')?.focus()}else{const guest=$('#publicGuestFloat');if(guest&&!guest.classList.contains('hidden'))guest.scrollIntoView({behavior:'smooth',block:'center'})}});
-function setAuthMsg(msg,bad=false){$('#authStatus').textContent=msg;$('#authStatus').style.color=bad?'#a33':'var(--sage)'}
-buildCatalog();$('#type').value='love-rose-theatre';render();$('#headline').addEventListener('input',()=>{$('#headline').dataset.edited='true'});$('#type').addEventListener('change',()=>{if(!$('#headline').dataset.edited)$('#headline').value=currentTemplate().opening||'';render()});$('#changeCategory').onclick=()=>{state.category=null;$('#templateStage').classList.add('hidden');$('#categoryGrid').classList.remove('hidden');$('#categoryGrid').scrollIntoView({behavior:'smooth',block:'start'})};
-document.querySelectorAll('#photo1,#photo2,#photo3,#musicUrl,#videoUrl').forEach(input=>input.addEventListener('input',()=>{delete state.privateMedia[input.id]}));
-document.querySelectorAll('[data-media-upload]').forEach(input=>input.addEventListener('change',async()=>{
- const file=input.files?.[0],field=input.dataset.mediaUpload;if(!file)return;
- if(!await requireUser()){input.value='';return}
- input.disabled=true;state.uploadsInFlight++;$('#saveBtn').disabled=true;$('#publishBtn').disabled=true;showStatus('Fayl shaxsiy draftga yuklanmoqda: '+file.name);
- try{const result=await uploadPrivate(supabase,state.user.id,field,file);state.privateMedia[field]=result.record;$('#'+field).value=result.url;showStatus('Fayl maxfiy saqlandi ✓ Publish qilmaguningizcha ommaga ochilmaydi.');render()}
- catch(error){showStatus(error.message||'Faylni yuklashda xato yuz berdi.',true)}
- finally{input.disabled=false;input.value='';state.uploadsInFlight--;if(state.uploadsInFlight===0){$('#saveBtn').disabled=false;if(!state.publishing)$('#publishBtn').disabled=false}}
-}));
-document.querySelectorAll('#templateLang,#type,#name1,#name2,#headline,#headlineRu,#headlineEn,#letter,#letterRu,#letterEn,#memoryTitle,#caption1,#caption2,#caption3,#photo1,#photo2,#photo3,#finalQuestion,#musicUrl,#videoUrl,#mistake,#repair,#venue,#venueMap,#programInput,#date,#eventClock').forEach(el=>el.addEventListener('input',render));
-$('#saveBtn').onclick=saveProject;$('#copyLinkBtn').onclick=async()=>{const u=$('#publishLink').href;if(!u)return;try{await navigator.clipboard.writeText(u);showStatus('Ссылка скопирована ♡')}catch{}};$('#publishBtn').onclick=publishProject;$('#guestBtn').onclick=addGuest;$('#templateClose').onclick=()=>{$('#templateModal').classList.add('hidden');$('#templateIframe').src='about:blank'};$('#deviceToggle').onclick=()=>$('#liveView').classList.toggle('mobile');$('#templateUse').onclick=()=>state.template&&useTemplate(state.template.slug);
-$('#accountBtn').onclick=async()=>{if(state.user){const {error}=await supabase.auth.signOut();if(error){showStatus('Chiqishda xato: '+error.message,true);return}state.user=null;state.projectId=null;state.privateMedia={};location.assign('/')}else $('#accountModal').classList.remove('hidden')};$('#closeAuth').onclick=()=>$('#accountModal').classList.add('hidden');
-document.querySelectorAll('.auth-tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.auth-tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('#passwordPane').classList.toggle('hidden',b.dataset.tab!=='password');$('#magicPane').classList.toggle('hidden',b.dataset.tab!=='magic')});
-$('#loginBtn').onclick=async()=>{setAuthMsg('Входим…');const {error}=await supabase.auth.signInWithPassword({email:$('#authEmail').value.trim(),password:$('#authPassword').value});if(error){setAuthMsg(error.code==='email_not_confirmed'?'Подтверди почту по ссылке в письме. Если письма нет, отправим ещё раз.':error.message,true);return}setAuthMsg('Ты в аккаунте ♡');await refreshUser();setTimeout(()=>$('#accountModal').classList.add('hidden'),450)};
-$('#signupBtn').onclick=async()=>{const email=$('#authEmail').value.trim(),password=$('#authPassword').value;if(password.length<6){setAuthMsg('Придумай пароль минимум из 6 символов.',true);return}setAuthMsg('Создаём аккаунт…');const {data,error}=await supabase.auth.signUp({email,password,options:{emailRedirectTo:location.origin}});if(error){setAuthMsg(error.message,true);return}if(data.session){setAuthMsg('Аккаунт готов ♡');await refreshUser();setTimeout(()=>$('#accountModal').classList.add('hidden'),450)}else setAuthMsg('Письмо уже отправили. Открой ссылку в нём и вернись к своему подарку.')};
-$('#resendBtn').onclick=async()=>{const email=$('#authEmail').value.trim();if(!email){setAuthMsg('Укажи свою почту.',true);return}const {error}=await supabase.auth.resend({type:'signup',email,options:{emailRedirectTo:location.origin}});setAuthMsg(error?error.message:'Отправили письмо ещё раз.',!!error)};
-$('#magicBtn').onclick=async()=>{const email=$('#magicEmail').value.trim();if(!email){setAuthMsg('Укажи свою почту.',true);return}const {error}=await supabase.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin,shouldCreateUser:true}});setAuthMsg(error?error.message:'Ссылка уже на почте. Открой письмо и нажми на неё.',!!error)};
 document.querySelectorAll('.rsvp-actions button').forEach(b=>b.onclick=()=>{state.rsvpAnswer=b.dataset.answer;document.querySelectorAll('.rsvp-actions button').forEach(x=>x.classList.remove('active'));b.classList.add('active')});
 document.querySelectorAll('#publicLang button').forEach(b=>b.onclick=()=>{state.publicLang=b.dataset.lang;document.querySelectorAll('#publicLang button').forEach(x=>x.classList.toggle('active',x===b));if(state.publicContent)sendToExperience($('#publicIframe'),localized(state.publicContent,state.publicLang),true)});
 $('#rsvpSubmit').onclick=async()=>{const token=$('#rsvpSubmit').dataset.token;if(!token||!state.rsvpAnswer){$('#rsvpStatus').textContent='Javobni tanlang.';return}const {error}=await supabase.rpc('submit_guest_rsvp',{p_token:token,p_answer:state.rsvpAnswer,p_attendees:Number($('#rsvpCount').value||0),p_message:$('#rsvpMessage').value});$('#rsvpStatus').textContent=error?error.message:'Rahmat, javobingiz saqlandi ✓'};
-await handlePublic();await refreshUser();supabase.auth.onAuthStateChange(()=>refreshUser());
+$('#creatorBack').onclick=showCatalog;
+document.querySelector('.top a[href="#templates"]').onclick=e=>{e.preventDefault();showCatalog()};
+document.querySelectorAll('[data-creator-tab]').forEach(button=>button.onclick=()=>{document.documentElement.dataset.creatorTab=button.dataset.creatorTab;document.querySelectorAll('[data-creator-tab]').forEach(x=>x.setAttribute('aria-selected',String(x===button)));if(button.dataset.creatorTab==='preview')render()});
+await handlePublic();if(!location.pathname.startsWith('/s/'))await ensureTelegramAccount();supabase.auth.onAuthStateChange(()=>setTimeout(refreshUser,0));
 
 if(!location.pathname.startsWith('/s/')){
  const host=document.querySelector('#studio .panel');
