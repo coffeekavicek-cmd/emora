@@ -64,7 +64,7 @@ const aliases=new Map();Object.entries(lex).forEach(([original,values])=>{aliase
 let scheduled=false;
 function translate(){scheduled=false;document.documentElement.lang=language;
  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT),nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
- for(const node of nodes){if(['SCRIPT','STYLE'].includes(node.parentElement?.tagName))continue;const raw=node.nodeValue.trim(),key=aliases.get(raw.replace(/\s+/g,' ')),value=key?(language==='uz'?[key,key]:lex[key]):null;if(value)node.nodeValue=node.nodeValue.replace(raw,value[language==='en'?1:0]);else if(raw.endsWith(' · Barcha huquqlar himoyalangan'))node.nodeValue=raw.replace('Barcha huquqlar himoyalangan',language==='en'?'Made for you':'Создано для тебя');}
+ for(const node of nodes){if(['SCRIPT','STYLE'].includes(node.parentElement?.tagName))continue;const raw=node.nodeValue.trim(),key=aliases.get(raw.replace(/\s+/g,' ')),value=key?(language==='uz'?[key,key]:lex[key]):null;if(value){const translated=node.nodeValue.replace(raw,value[language==='en'?1:0]);if(translated!==node.nodeValue)node.nodeValue=translated;}else if(raw.endsWith(' · Barcha huquqlar himoyalangan'))node.nodeValue=raw.replace('Barcha huquqlar himoyalangan',language==='en'?'Made for you':'Создано для тебя');}
  document.querySelectorAll('[aria-label]').forEach(n=>{const s=n.getAttribute('aria-label');if(/^[1-3]-xotirani ochish$/.test(s))n.setAttribute('aria-label',language==='en'?'Open memory '+s[0]:'Открыть фото '+s[0]);});
 }
 const observer=new MutationObserver(()=>{if(!scheduled){scheduled=true;queueMicrotask(translate);}});
