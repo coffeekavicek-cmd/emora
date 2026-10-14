@@ -52,7 +52,7 @@ document.documentElement.lang=['ru','en','uz'].includes(language)?language:'ru';
 let scheduled=false;
 function translate(){scheduled=false;if(language==='uz')return;
  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT),nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
- for(const node of nodes){if(['SCRIPT','STYLE'].includes(node.parentElement?.tagName))continue;const raw=node.nodeValue.trim(),value=lex[raw];if(value)node.nodeValue=node.nodeValue.replace(raw,value[language==='en'?1:0]);else if(raw.endsWith(' · Barcha huquqlar himoyalangan'))node.nodeValue=raw.replace('Barcha huquqlar himoyalangan',language==='en'?'Made for you':'Создано для тебя');}
+ for(const node of nodes){if(['SCRIPT','STYLE'].includes(node.parentElement?.tagName))continue;const raw=node.nodeValue.trim(),value=lex[raw]||lex[raw.replace(/\s+/g,' ')];if(value)node.nodeValue=node.nodeValue.replace(raw,value[language==='en'?1:0]);else if(raw.endsWith(' · Barcha huquqlar himoyalangan'))node.nodeValue=raw.replace('Barcha huquqlar himoyalangan',language==='en'?'Made for you':'Создано для тебя');}
  document.querySelectorAll('[aria-label]').forEach(n=>{const s=n.getAttribute('aria-label');if(/^[1-3]-xotirani ochish$/.test(s))n.setAttribute('aria-label',language==='en'?'Open memory '+s[0]:'Открыть фото '+s[0]);});
 }
 const observer=new MutationObserver(()=>{if(!scheduled){scheduled=true;queueMicrotask(translate);}});
