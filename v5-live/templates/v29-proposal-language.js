@@ -1,6 +1,15 @@
 /* Localize the retained 3D ring experience; authored personal words stay intact. */
 const language=new URLSearchParams(location.search).get('lang')||'ru';
 const lex={
+'SIZ UCHUN ALOHIDA':['Только для тебя','Just for you'],
+'Sen bilan bir umr':['Всю жизнь — рядом с тобой','A lifetime by your side'],
+'Hikoyani ochish ↗':['Открыть нашу историю ↗','Open our story ↗'],
+'FOREVER BEGINS':['Здесь начинается наше «навсегда»','Forever begins'],
+'PEARL PROMISE / FOREVER BEGINS':['Наше «навсегда»','Our forever'],
+'HANDCRAFTED DIGITAL MOMENTS · EMORA':['Подарок с чувством · EMORA','Made with feeling · EMORA'],
+'AN ORIGINAL EMORA EXPERIENCE · 13':['Только для нас · EMORA','Just for us · EMORA'],
+'EMORA · PROPOSAL · 13':['Наш момент · EMORA','Our moment · EMORA'],
+'EMORA ✧ Pearl Promise ✧ A STORY JUST FOR YOU':['EMORA ✧ Наша история','EMORA ✧ Our story'],
 'Mening eng muhim savolim…':['У меня к тебе один важный вопрос…','There’s one thing I really want to ask you…'],
 'Bu savolgacha yetish uchun har bir xotiramiz, har bir va’dam kerak bo‘ldi.':['Все наши моменты привели меня сюда. К тебе.','All our little moments brought me here. To you.'],
 'Hikoyani ochish':['Открыть нашу историю','Open our story'],
