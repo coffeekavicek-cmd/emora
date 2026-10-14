@@ -18,7 +18,7 @@
  document.addEventListener('click',e=>{const link=e.target.closest?.('a[href]');if(!link)return;try{const u=new URL(link.href);if(u.hostname==='t.me'){e.preventDefault();app.openTelegramLink(u.href);}}catch{}});
 })();</script>
 
-<link rel="stylesheet" href="/templates/v34-app.css?v=35"></head>
+<link rel="stylesheet" href="/templates/v34-app.css?v=40"></head>
 <body>
 <div id="siteApp">
 <header class="shell top"><a class="brand" href="#templates" aria-label="Emora">emora.</a><nav class="nav"><a href="#templates">Подарки</a><a href="#dashboard">Мои подарки</a></nav><span class="user-chip" id="userChip"></span></header>
@@ -67,7 +67,7 @@
 
 <section class="preview-screen" id="giftPreview" role="dialog" aria-modal="true" aria-labelledby="previewTitle" hidden><header class="preview-bar"><button type="button" id="previewClose">← Назад</button><strong id="previewTitle">Пример подарка</strong></header><div class="preview-frame"><iframe id="studioIframe" title="Живой пример подарка" allow="autoplay"></iframe><div class="preview-loading" id="previewLoading"><h2 id="previewLoadingTitle">Открываем подарок…</h2><p id="previewLoadingCopy">Фото, письмо и весь сценарий.</p><button type="button" id="previewRetry" hidden>Попробовать ещё раз</button><a id="previewDirect" target="_blank" rel="noopener" hidden>Открыть отдельно</a></div></div><footer class="preview-footer"><button type="button" id="previewReplay" class="secondary">Сначала</button><button type="button" id="previewPrimary">Создать такой подарок</button></footer></section>
 <div class="payment-review" id="paymentReview" hidden><section role="dialog" aria-modal="true" aria-labelledby="paymentReviewTitle"><h2 id="paymentReviewTitle">Подарок сохранён.</h2><p>Твои фото и слова уже в аккаунте. Ссылка выдаётся после подтверждения оплаты через бота. Оплату пока подключаем — черновик можно открыть из «Моих подарков».</p><button type="button" class="pill" id="paymentReviewClose">Вернуться к подарку</button></section></div>
-<script src="/templates/v33-experience.js?v=35"></script><script src="/templates/v34-preview.js?v=35"></script><script src="/templates/v34-supabase.js?v=35"></script>
+<script src="/templates/v33-experience.js?v=40"></script><script src="/templates/v34-preview.js?v=40"></script><script src="/templates/v34-supabase.js?v=40"></script>
 <script type="module">
 import {uploadPrivate,refreshPrivate,publishPrivate} from '/templates/v10-media.js?v=1';
 const {createClient}=window.supabase;
@@ -131,7 +131,7 @@ function configFor(c,override){
  const clock=/^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/.test(c.clock||'')?c.clock:'18:00';
  const dateIso=c.date?c.date+'T'+clock+':00+05:00':'';
  const language=['uz','ru','en'].includes(c.language)?c.language:'ru';
- const base={lang:language,language,template:t,recipient:c.name1||'',sender:c.name2||'',intro:c.headline||template.opening,letter:c.letter||'',final:c.finalQuestion||'',memoryTitle:c.memoryTitle||'',captions:Array.isArray(c.captions)?c.captions.slice(0,3):[],photos,video:c.video||'',music:c.music||'',birthday:c.date||'',headlineRu:language==='ru'?c.headline||'':c.headlineRu||'',headlineEn:language==='en'?c.headline||'':c.headlineEn||'',letterRu:language==='ru'?c.letter||'':c.letterRu||'',letterEn:language==='en'?c.letter||'':c.letterEn||'',eventAt:dateIso,metAt:dateIso,venue:c.venue||'',venueMap:c.venueMap||'',program:Array.isArray(c.program)?c.program:[],mistake:c.mistake||'',repair:c.repair||''};
+ const base={lang:language,language,template:t,recipient:c.name1||'',sender:c.name2||'',intro:c.headline||'',letter:c.letter||'',final:c.finalQuestion||'',memoryTitle:c.memoryTitle||'',captions:Array.isArray(c.captions)?c.captions.slice(0,3):[],photos,video:c.video||'',music:c.music||'',birthday:c.date||'',headlineRu:language==='ru'?c.headline||'':c.headlineRu||'',headlineEn:language==='en'?c.headline||'':c.headlineEn||'',letterRu:language==='ru'?c.letter||'':c.letterRu||'',letterEn:language==='en'?c.letter||'':c.letterEn||'',eventAt:dateIso,metAt:dateIso,venue:c.venue||'',venueMap:c.venueMap||'',program:Array.isArray(c.program)?c.program:[],mistake:c.mistake||'',repair:c.repair||''};
  if(group==='wedding')return {...base,bride:c.name1||'Malika',groom:c.name2||'Aziz',invitation:c.letter||'',cover:photos[0]||'',allowRsvp:!override,blessing:c.finalQuestion||''};
  if(group==='apology')return {...base,mistake:c.mistake||c.letter||'',repair:c.repair||'',secretHint:c.memoryTitle||'',secretHintRu:language==='ru'?c.memoryTitle||'':'',secretHintEn:language==='en'?c.memoryTitle||'':'',pageSlug:override?state.publicSlug||'':''};
  return base;

@@ -1,6 +1,17 @@
 /* Localize the retained 3D ring experience; authored personal words stay intact. */
-const language=new URLSearchParams(location.search).get('lang')||'ru';
+let language=new URLSearchParams(location.search).get('lang')||'ru';
 const lex={
+'3 xotirani oching':['Открой три фото','Open three photos'],
+'3 nuqtani oching':['Коснись трёх огоньков','Tap the three lights'],
+'Davom etish →':['Дальше →','Continue →'],
+'Tuman ortini oching':['Посмотри, что там','See what’s inside'],
+'Tozalash ✦':['Открыть','Reveal'],
+'Chiroqni yoqish ✦':['Включить свет','Turn on the light'],
+'Muhr ostidagi so‘zlar':['Письмо только для тебя','A letter just for you'],
+'Faqat sen uchun yozilgan':['Это всё — для тебя','All of this is for you'],
+'Stoldagi uchta xotira':['Три наших момента','Three moments of us'],
+'Namuna':['Пример','Sample'],
+'SIZ UCHUN ALOHIDA':['Только для тебя','Just for you'],
 'SIZ UCHUN ALOHIDA':['Только для тебя','Just for you'],
 'Sen bilan bir umr':['Всю жизнь — рядом с тобой','A lifetime by your side'],
 'Hikoyani ochish ↗':['Открыть нашу историю ↗','Open our story ↗'],
@@ -49,11 +60,13 @@ const lex={
 'WHY YOU':['Почему ты','Why you'],'THE RING BOX':['Коробочка','The box'],'OUR STORY':['Наша история','Our story'],'A PROMISE':['Моё обещание','My promise'],'THE FINAL MOMENT':['Наш момент','Our moment'],
 };
 document.documentElement.lang=['ru','en','uz'].includes(language)?language:'ru';
+const aliases=new Map();Object.entries(lex).forEach(([original,values])=>{aliases.set(original.replace(/\s+/g,' '),original);values.forEach(v=>aliases.set(v.replace(/\s+/g,' '),original))});
 let scheduled=false;
-function translate(){scheduled=false;if(language==='uz')return;
+function translate(){scheduled=false;document.documentElement.lang=language;
  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT),nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
- for(const node of nodes){if(['SCRIPT','STYLE'].includes(node.parentElement?.tagName))continue;const raw=node.nodeValue.trim(),value=lex[raw]||lex[raw.replace(/\s+/g,' ')];if(value)node.nodeValue=node.nodeValue.replace(raw,value[language==='en'?1:0]);else if(raw.endsWith(' · Barcha huquqlar himoyalangan'))node.nodeValue=raw.replace('Barcha huquqlar himoyalangan',language==='en'?'Made for you':'Создано для тебя');}
+ for(const node of nodes){if(['SCRIPT','STYLE'].includes(node.parentElement?.tagName))continue;const raw=node.nodeValue.trim(),key=aliases.get(raw.replace(/\s+/g,' ')),value=key?(language==='uz'?[key,key]:lex[key]):null;if(value)node.nodeValue=node.nodeValue.replace(raw,value[language==='en'?1:0]);else if(raw.endsWith(' · Barcha huquqlar himoyalangan'))node.nodeValue=raw.replace('Barcha huquqlar himoyalangan',language==='en'?'Made for you':'Создано для тебя');}
  document.querySelectorAll('[aria-label]').forEach(n=>{const s=n.getAttribute('aria-label');if(/^[1-3]-xotirani ochish$/.test(s))n.setAttribute('aria-label',language==='en'?'Open memory '+s[0]:'Открыть фото '+s[0]);});
 }
 const observer=new MutationObserver(()=>{if(!scheduled){scheduled=true;queueMicrotask(translate);}});
+addEventListener('message',e=>{if(e.origin===location.origin&&e.data?.config&&['ru','en','uz'].includes(e.data.config.lang)){language=e.data.config.lang;translate()}});
 if(document.body){observer.observe(document.body,{childList:true,subtree:true,characterData:true});translate();}else document.addEventListener('DOMContentLoaded',()=>{observer.observe(document.body,{childList:true,subtree:true,characterData:true});translate();},{once:true});

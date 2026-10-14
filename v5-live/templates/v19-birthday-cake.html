@@ -92,7 +92,7 @@ body{overflow:hidden;min-height:100svh}#experience{height:100svh;min-height:430p
  const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
  const SCENES=['date','cake','photos','film','letter','finale'];
  let lang=new URLSearchParams(location.search).get('lang')||'ru';
- if(!STRINGS[lang])lang='uz';
+ if(!STRINGS[lang])lang='ru';
  let scene='date',lit=5,read=false;
  let custom={recipient:'',sender:'',birthday:'',headline:'',headlineRu:'',headlineEn:'',photos:[],captions:[],video:'',music:'',letter:'',letterRu:'',letterEn:'',finalQuestion:''};
  const audio=new Audio();audio.loop=true;audio.preload='none';

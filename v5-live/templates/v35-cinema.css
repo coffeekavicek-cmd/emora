@@ -43,3 +43,50 @@ html[data-template="proposal-pearl"] #experience .pp-proposal-finale .pp-final-r
 html[data-template="proposal-pearl"] #experience .pp-proposal-finale .pp-final-ring.is-question .pp-final-box{height:clamp(180px,30svh,300px)!important;margin:0 auto!important}
 html[data-template="proposal-pearl"] #experience .pp-proposal-finale .pp-final-ring.is-question .pp-final-whisper,html[data-template="proposal-pearl"] #experience .pp-proposal-finale .pp-final-ring.is-question .pp-open-ring{display:none!important}
 html[data-template="proposal-pearl"] #experience .pp-proposal-finale .pp-question-wrap.is-visible{position:relative!important;inset:auto!important;height:auto!important;transform:none!important;padding:8px 20px!important;gap:12px!important;width:100%!important;max-width:880px!important;background:none!important;border:none!important;box-shadow:none!important}
+
+/* V36: one photograph at a time; the text and controls have their own space. */
+#experience .v36-photo-deck,#experience .v36-photo-rail{position:relative!important;display:block!important;width:min(100%,420px)!important;max-width:420px!important;height:auto!important;min-height:0!important;margin:10px auto 0!important;padding:0!important;overflow:visible!important;perspective:1200px;scroll-snap-type:none!important}
+#experience .v36-story-photo,#experience .v36-photo-rail>.memory,#experience .v36-photo-rail>.photo-card{position:relative!important;inset:auto!important;display:block!important;width:100%!important;max-width:100%!important;height:auto!important;min-height:0!important;transform:none!important;margin:0!important;padding:8px!important;background:#fbf4e8!important;border:0!important;border-radius:4px!important;color:#352a30!important;box-shadow:0 18px 40px #09050935!important;text-align:left!important;overflow:hidden!important}
+#experience .v36-story-photo[hidden],#experience .v36-photo-rail>[hidden],#experience .v36-photo-controls[hidden],#experience .v36-photo-deck[hidden],#experience .v36-story-reasons[hidden]{display:none!important}
+#experience .v36-story-photo .pp-memory-media{display:block!important;height:clamp(180px,32svh,330px)!important;width:100%!important;overflow:hidden!important}
+#experience .v36-story-photo .pp-memory-image,#experience .v36-photo-rail img{height:clamp(180px,32svh,330px)!important;width:100%!important;display:block!important;object-fit:cover!important;object-position:center 28%!important;transform:none!important;filter:none!important;border-radius:1px!important}
+#experience .v36-story-photo .pp-memory-caption,#experience .v36-photo-rail p{display:block!important;font:500 clamp(21px,3vw,28px)/1.22 var(--e-serif)!important;letter-spacing:-.02em!important;padding:14px 10px 10px!important;margin:0!important;color:#352a30!important;max-width:none!important;min-height:56px!important;text-wrap:balance}
+#experience .v36-story-photo:after{display:none!important}
+#experience .v36-photo-controls{display:grid!important;grid-template-columns:44px 52px minmax(0,1fr)!important;align-items:center!important;gap:10px!important;width:min(100%,420px)!important;margin:12px auto 0!important}
+#experience .v36-photo-controls button{appearance:none;display:flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;min-height:48px!important;padding:12px 14px!important;font:600 13px/1.25 var(--e-sans)!important;border:0!important;border-radius:8px!important;box-shadow:none!important;background:var(--e-button)!important;color:var(--e-button-ink)!important;white-space:normal!important;text-align:center}
+#experience .v36-photo-controls .v36-photo-back{width:44px!important;padding:0!important;font-size:0!important;background:transparent!important;border:1px solid var(--e-line)!important;color:var(--e-text)!important}
+#experience .v36-photo-back:before{content:"";display:block;width:18px;height:18px;background:currentColor;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m14 6-6 6 6 6' fill='none' stroke='black' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+#experience .v36-photo-controls button:disabled{opacity:.35!important;cursor:default}
+#experience .v36-photo-count{font:500 12px/1.2 var(--e-sans)!important;color:var(--e-muted)!important;font-variant-numeric:tabular-nums;white-space:nowrap}
+#experience .v36-photo-story .v10-scene-inner{gap:12px!important;height:auto!important;max-height:none!important;padding:0!important}
+#experience .v36-photo-story .v10-scene-title{font-size:clamp(34px,5vw,58px)!important;max-width:15ch!important;line-height:1.02!important;margin:0!important}
+#experience .v36-photo-story .pp-lead{margin:0!important;font:400 14px/1.5 var(--e-sans)!important}
+#experience .v36-story-reasons{width:min(100%,540px)!important;padding:0!important;margin:12px 0!important}
+#experience .v36-story-reasons .pp-reason-list{display:grid!important;grid-template-columns:1fr!important;gap:12px!important}
+#experience .v36-story-reasons .pp-reason-button{display:grid!important;grid-template-columns:30px 1fr!important;gap:12px!important;align-items:center!important;min-height:76px!important;padding:18px!important;background:var(--e-surface)!important;border:1px solid var(--e-line)!important;border-radius:8px!important}
+#experience .v36-story-reasons .pp-reason-text{font:400 17px/1.5 var(--e-sans)!important;margin:0!important}
+#experience .v36-story-reasons .pp-story-continue{width:100%!important}
+html[data-template="proposal-pearl"] #experience .v11-ritual-cue{display:none!important}
+html[data-template="proposal-pearl"] #experience .v10-chrome{background:var(--e-bg)!important;backdrop-filter:none!important;box-shadow:none!important;border-bottom:1px solid var(--e-line)!important;min-height:52px!important}
+#experience .v36-ink-line{display:block;white-space:pre-line;margin-bottom:1em}
+#experience .v36-ink-line:last-child{margin-bottom:0}
+#experience #letter:has(.opened)>.sub,#experience #letter:has(.unsealed)>.lead{display:none!important}
+#experience .paper,#experience .letter-paper{max-height:54svh!important;scrollbar-width:thin;scrollbar-color:#9d7a68 #f7eedb;overscroll-behavior:contain}
+#experience .paper p,#experience .letter-paper p{font-size:clamp(19px,2.2vw,25px)!important;line-height:1.55!important}
+#experience button:focus-visible{outline:2px solid var(--e-text)!important;outline-offset:4px!important}
+#experience ::selection{background:#be9678;color:#241821}
+@media(max-width:640px){
+ #experience .v36-photo-deck,#experience .v36-photo-rail,#experience .v36-photo-controls{width:min(100%,360px)!important}
+ #experience .v36-story-photo .pp-memory-media,#experience .v36-story-photo .pp-memory-image,#experience .v36-photo-rail img{height:clamp(155px,30svh,280px)!important}
+ #experience .v36-story-photo .pp-memory-caption,#experience .v36-photo-rail p{font-size:22px!important;min-height:58px!important}
+ html[data-template="proposal-pearl"] #experience .v10-intro-layout{display:flex!important;flex-direction:column!important;gap:0!important;min-height:0!important}
+ html[data-template="proposal-pearl"] #experience .v10-intro-copy{padding:22px 24px!important;gap:13px!important}
+ html[data-template="proposal-pearl"] #experience .v10-intro-title{font-size:clamp(34px,9vw,46px)!important;max-width:15ch!important;line-height:1.05!important}
+ html[data-template="proposal-pearl"] #experience .v10-intro-art{width:100%!important;min-height:0!important;height:28svh!important;max-height:240px!important}
+ html[data-template="proposal-pearl"] #experience .v10-intro-script{font-size:25px!important}
+ html[data-template="proposal-pearl"] #experience .v10-intro-footer,html[data-template="proposal-pearl"] #experience .v10-intro-meta{display:none!important}
+ #experience .pp-vow-paper{max-height:48svh!important;overflow:auto!important}
+ #experience .v36-photo-story{padding-top:78px!important;padding-bottom:22px!important}
+}
+@media(max-height:640px){#experience .v36-story-photo .pp-memory-media,#experience .v36-story-photo .pp-memory-image,#experience .v36-photo-rail img{height:26svh!important;min-height:130px!important}#experience .v36-photo-story .v10-scene-title{font-size:32px!important}}
+@media(prefers-reduced-motion:reduce){#experience .v36-story-photo,#experience .v36-photo-rail img,#experience .v36-story-reasons .pp-reason-button{animation:none!important;transition:opacity .12s!important}}
