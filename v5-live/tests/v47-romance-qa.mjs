@@ -29,8 +29,12 @@ await check('Birthday birthday-date → 5 candles → dessert → photo/video/le
  const {page,exceptions}=await pageFor('birthday','/templates/v19-birthday-cake.html?lang=ru',{width:360,height:740});
  await page.waitForFunction(()=>window.__EMORA_BIRTHDAY_V19__?.version===19);
  await page.locator('#birthday').fill('2005-08-15');await page.locator('#dateForm button').click();
- console.log('CANDLE_LAYOUT',JSON.stringify(await page.evaluate(()=>({viewport:[innerWidth,innerHeight],parent:(()=>{const r=document.querySelector('#candles').getBoundingClientRect();return [r.x,r.y,r.width,r.height]})(),candles:[...document.querySelectorAll('#candles button')].map((el,i)=>{const r=el.getBoundingClientRect(),x=r.x+r.width/2,y=r.y+r.height/2,at=document.elementFromPoint(x,y);return {i,rect:[r.x,r.y,r.width,r.height],hit:at?.outerHTML?.slice(0,130),display:getComputedStyle(el).display,position:getComputedStyle(el).position}})}))));
- for(let i=0;i<5;i++)await page.locator('#candles button').nth(i).click();
+ for(let i=0;i<5;i++){
+   const rect=await page.locator('#candles button').nth(i).evaluate(el=>{const r=el.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}});
+   await page.touchscreen.tap(rect.x,rect.y);
+   const n=await page.evaluate(()=>window.__EMORA_BIRTHDAY_V19__.candlesOut);
+   assert(n===i+1,'Candle #'+(i+1)+' did not respond to a real mobile tap; extinguished='+n);
+ }
  assert(await page.evaluate(()=>window.__EMORA_BIRTHDAY_V19__.candlesOut)===5,'candles not extinguished');
  await page.locator('#cakeNext').click();assert(await page.evaluate(()=>window.__EMORA_BIRTHDAY_V19__.active)==='dessert','dessert scene not entered');
  await page.locator('[data-dessert=you]').click();assert((await page.locator('#dessertResult').textContent()).length>12,'dessert reveal missing');
