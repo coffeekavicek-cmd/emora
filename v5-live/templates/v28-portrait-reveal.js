@@ -7,7 +7,7 @@ if(!canvas||!slider||!label||!output||!caption)return;
 const isLove=Boolean(window.__EMORA_LOVE_V26__),kind=isLove?'love':'birthday';
 const scene=()=>isLove?window.__EMORA_LOVE_V26__:window.__EMORA_BIRTHDAY_V19__;
 const ctx=canvas.getContext('2d',{alpha:true});if(!ctx)return;
-const W=400,H=480,DPR=Math.min(window.devicePixelRatio||1,2),demo='/assets/demo-'+kind+'-1-v31.webp';
+const W=400,H=480,DPR=Math.min(window.devicePixelRatio||1,2),demo='/assets/demo-'+kind+'-1-v46.webp';
 canvas.width=W*DPR;canvas.height=H*DPR;canvas.style.cssText='position:relative;inset:auto;display:block;width:100%;height:auto;aspect-ratio:5/6;object-fit:contain;margin-inline:auto;clip-path:none;border-radius:0';
 canvas.parentElement.style.cssText='position:relative;width:min(400px,82vw,35svh);aspect-ratio:5/6;height:auto;max-height:44svh;margin-inline:auto;filter:none;clip-path:none;border-radius:0';
 canvas.setAttribute('role','img');

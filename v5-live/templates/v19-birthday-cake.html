@@ -98,7 +98,7 @@ body{overflow:hidden;min-height:100svh}#experience{height:100svh;min-height:430p
  const audio=window.__EMORA_AUDIO__=new Audio();audio.loop=true;audio.preload='none';
  function safeUrl(v){if(typeof v!=='string'||!v.trim())return '';try{const u=new URL(v,location.origin);if(u.protocol!=='https:'&&u.protocol!=='http:')return '';if(u.username||u.password)return '';return u.href}catch{return ''}}
  function copy(){return STRINGS[lang]}
- function img(i){const src=safeUrl(custom.photos[i]||'')||'/assets/demo-birthday-'+(i%3+1)+'-v31.webp';const node=document.createElement('img');node.alt='Memory '+(i+1);node.loading='eager';node.src=src;node.onerror=()=>{node.onerror=null;node.src='/assets/demo-birthday-1-v31.webp'};return node}
+ function img(i){const src=safeUrl(custom.photos[i]||'')||'/assets/demo-birthday-'+(i%3+1)+'-v46.webp';const node=document.createElement('img');node.alt='Memory '+(i+1);node.loading='eager';node.src=src;node.onerror=()=>{node.onerror=null;node.src='/assets/demo-birthday-1-v46.webp'};return node}
  function personalize(){const c=copy();$('#cakeTitle').textContent=(lang==='ru'?custom.headlineRu:lang==='en'?custom.headlineEn:custom.headline)||custom.headline||c.cakeTitle;$('#letterGreeting').textContent=c.greeting+(custom.recipient||'♡');$('#letterText').textContent=(lang==='ru'?custom.letterRu:lang==='en'?custom.letterEn:custom.letter)||custom.letter||c.letterDefault;$('#letterSignature').textContent=custom.sender||c.letterFrom;$('#finalTitle').textContent=custom.finalQuestion||c.finalTitle+(custom.recipient||'♡')+'!';$('#finalCopy').textContent=c.finalCopy;window.dispatchEvent(new Event('emora:birthday-update'))}
  function renderPhotos(){const gallery=$('#gallery'),mosaic=$('#mosaic');gallery.replaceChildren();mosaic.replaceChildren();for(let i=0;i<3;i++){const card=document.createElement('article');card.className='photo-card';const label=document.createElement('p');label.textContent=custom.captions[i]||copy().flirts[i];card.append(img(i),label);gallery.append(card)}for(let i=0;i<6;i++)mosaic.append(img(i%3))}
  function renderVideo(){const src=safeUrl(custom.video),v=$('#filmVideo'),wrap=$('#filmFrame');if(src){if(v.src!==src)v.src=src;v.hidden=false;wrap.classList.add('has-video')}else{v.pause();v.removeAttribute('src');v.load();v.hidden=true;wrap.classList.remove('has-video')}}
@@ -121,7 +121,7 @@ body{overflow:hidden;min-height:100svh}#experience{height:100svh;min-height:430p
  window.__EMORA_BIRTHDAY_V19__={version:19,stages:SCENES.slice(),get active(){return scene},get candlesOut(){return 5-lit},get lang(){return lang},get recipient(){return custom.recipient},get photos(){return custom.photos.slice()},ingest:ingest};
 })();
 </script>
-<script src="/templates/v28-portrait-reveal.js?v=31"></script>
+<script src="/templates/v28-portrait-reveal.js?v=46"></script>
 </body>
 </html>
 
