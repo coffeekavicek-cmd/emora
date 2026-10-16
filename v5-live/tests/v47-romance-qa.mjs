@@ -29,11 +29,14 @@ await check('Birthday birthday-date → 5 candles → dessert → photo/video/le
  const {page,exceptions}=await pageFor('birthday','/templates/v19-birthday-cake.html?lang=ru',{width:360,height:740});
  await page.waitForFunction(()=>window.__EMORA_BIRTHDAY_V19__?.version===19);
  await page.locator('#birthday').fill('2005-08-15');await page.locator('#dateForm button').click();
+ await page.waitForFunction(()=>window.__EMORA_BIRTHDAY_V19__?.active==='cake');
+ await page.waitForTimeout(950);
+ await page.evaluate(()=>{window.__EMORA_CANDLE_CLICKS__=[];document.querySelector('#cake').addEventListener('click',e=>window.__EMORA_CANDLE_CLICKS__.push({element:e.target?.tagName,index:e.target?.closest?.('button')?.dataset?.index||null}),true)});
  for(let i=0;i<5;i++){
    const rect=await page.locator('#candles button').nth(i).evaluate(el=>{const r=el.getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}});
    await page.touchscreen.tap(rect.x,rect.y);
    const n=await page.evaluate(()=>window.__EMORA_BIRTHDAY_V19__.candlesOut);
-   assert(n===i+1,'Candle #'+(i+1)+' did not respond to a real mobile tap; extinguished='+n);
+   assert(n===i+1,'Candle #'+(i+1)+' did not respond to a real mobile tap; extinguished='+n+'; clicks='+JSON.stringify(await page.evaluate(()=>window.__EMORA_CANDLE_CLICKS__)));
  }
  assert(await page.evaluate(()=>window.__EMORA_BIRTHDAY_V19__.candlesOut)===5,'candles not extinguished');
  await page.locator('#cakeNext').click();assert(await page.evaluate(()=>window.__EMORA_BIRTHDAY_V19__.active)==='dessert','dessert scene not entered');
