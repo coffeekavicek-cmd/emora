@@ -1,0 +1,5 @@
+# V45 photographic covers
+Built-in ImageGen created two original illustrative product photographs (not images of real customer gifts), converted to 768px WebP for delivery.
+Birthday prompt: premium editorial photographic website cover, small ivory buttercream cake, exactly five slender lit champagne-colored candles, porcelain stand, warm cream linen and pale plaster, soft side light, edible texture, no people, lettering, balloons or confetti; central crop-safe portrait, ivory and muted dusty rose.
+Apology prompt: premium photographic cover, warm ivory cotton-paper envelope, deep burgundy wax seal with unlettered botanical embossing, dark chocolate linen, brass fountain pen at edge, dusk window light, no people, letters, logo or sparkles; portrait center composition.
+The catalog preserves the existing local rose and ring artwork for love and proposal. All portrait samples are confined to personal story scenes. Proposal now enters its box scene directly after the intro, without a second start screen. Existing recipient data, letters, languages and choices are preserved. Stage exits pause video playback. Soundtracks remain the credited local V42 tracks.

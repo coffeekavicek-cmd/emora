@@ -118,3 +118,5 @@ html[data-template="proposal-pearl"] #experience .v10-intro-meta,html[data-templ
 html[data-template="proposal-pearl"] #experience .v10-topline,html[data-template="proposal-pearl"] #experience .v10-guest,html[data-template="proposal-pearl"] #experience .ring-glint,html[data-template="proposal-pearl"] #experience .v10-intro-name,html[data-template="proposal-pearl"] #experience .v10-skip{display:none!important}
 html[data-template="proposal-pearl"] #experience .v10-intro-copy{background:none!important;box-shadow:none!important}
 html[data-template="proposal-pearl"] #experience .v10-intro-headline{font-size:clamp(34px,8.3vw,48px)!important;line-height:1.05!important;letter-spacing:-.025em!important;max-width:15ch!important;margin:0 auto!important}
+html[data-template="proposal-pearl"] #experience .v10-story-cover[hidden]{display:none!important}
+.v42-sound:focus-visible,.v42-credit summary:focus-visible{outline:2px solid currentColor;outline-offset:3px}
