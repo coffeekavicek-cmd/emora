@@ -37,3 +37,7 @@
 #cake .cake-world .candle .smoke{left:calc(50% - 3px)}
 #cake .cake-world :is(.cake,.cake-shadow,.plate){pointer-events:none}
 @media(max-width:600px){#cake .cake-world .candles{left:6%;width:88%;height:92px;bottom:53%;gap:3px}#cake .cake-world .candle{height:80px}}
+
+/* Delegate touch hit-testing to candle tray: visual flames cannot steal neighbouring taps. */
+#cake .cake-world .candles{pointer-events:auto;touch-action:manipulation}
+#cake .cake-world .candle,#cake .cake-world .candle *{pointer-events:none}
