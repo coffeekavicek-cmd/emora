@@ -29,3 +29,11 @@
 .v10-proposal-pearl .pp-open-ring{font-weight:700}
 @media(max-width:600px){.v47-dessert-grid{gap:7px}.v47-dessert-choice{min-height:132px;border-radius:16px;padding:12px 4px}.v47-dessert-choice .dessert-art{height:55px;font-size:38px}.v47-dessert-choice .dessert-word{font-size:11px}#dessert .display{font-size:clamp(34px,10vw,49px)!important}}
 @media(prefers-reduced-motion:reduce){#experience .stage.active,#experience .scene.active{animation:none!important}#experience:before{animation:none!important}.v47-dessert-choice{transition:none!important}#experience .btn,#experience .v10-cta{transition:none!important}}
+
+/* Separate generous hit-target for every candle; prevent neighbouring flames/plate stealing touch. */
+#cake .cake-world .candles{left:11%;width:78%;bottom:54%;height:110px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:end;justify-items:center;gap:4px;pointer-events:none}
+#cake .cake-world .candle{width:100%;max-width:60px;min-width:0;height:96px;display:flex;justify-content:center;position:relative;pointer-events:auto;z-index:2;padding:0 2px 6px}
+#cake .cake-world .candle .flame{left:calc(50% - 6px)}
+#cake .cake-world .candle .smoke{left:calc(50% - 3px)}
+#cake .cake-world :is(.cake,.cake-shadow,.plate){pointer-events:none}
+@media(max-width:600px){#cake .cake-world .candles{left:6%;width:88%;height:92px;bottom:53%;gap:3px}#cake .cake-world .candle{height:80px}}
