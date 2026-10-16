@@ -118,7 +118,16 @@ const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(
  $$('[data-lang]').forEach(b=>b.onclick=()=>{lang=b.dataset.lang;i18n();if(custom.birthday&&scene==='cake'){$('#dateForm').requestSubmit();}});
  $$('[data-dessert]').forEach(button=>button.addEventListener('click',()=>{const choice=button.dataset.dessert;$$('[data-dessert]').forEach(b=>{const on=b===button;b.dataset.picked=String(on);b.setAttribute('aria-pressed',String(on))});$('#dessertResult').textContent=choice==='you'?copy().dessertRight:copy().dessertWrong;$('#dessertNext').hidden=false;}));
 $('#dessertNext').addEventListener('click',()=>go('photos'));
-$('#cakeNext').onclick=()=>go('dessert');
+// A single stable touch zone maps taps to the correct candle even on animated mobile layouts.
+ $('#candles').addEventListener('pointerup',event=>{
+  if(event.pointerType==='mouse'&&event.button!==0)return;
+  const tray=event.currentTarget,b=tray.getBoundingClientRect();
+  if(event.clientX<b.left||event.clientX>b.right||event.clientY<b.top||event.clientY>b.bottom)return;
+  const candles=Array.from(tray.querySelectorAll('.candle'));
+  const index=Math.min(candles.length-1,Math.max(0,Math.floor((event.clientX-b.left)/b.width*candles.length)));
+  candles[index]?.click();
+ });
+ $('#cakeNext').onclick=()=>go('dessert');
  $('#openLetter').onclick=()=>{if(read)return;read=true;$('#letterWorld').classList.add('opened');$('#openLetter').setAttribute('aria-expanded','true');setTimeout(()=>{$('#letterNext').hidden=false},matchMedia('(prefers-reduced-motion: reduce)').matches?10:650)};
  $('#replay').onclick=()=>{read=false;$('#letterWorld').classList.remove('opened');$('#openLetter').setAttribute('aria-expanded','false');$('#letterNext').hidden=true;resetCandles();$('#dessertResult').textContent='';$('#dessertNext').hidden=true;$$('[data-dessert]').forEach(b=>{delete b.dataset.picked;b.setAttribute('aria-pressed','false')});go('date');window.dispatchEvent(new Event('emora:birthday-replay'))};
  window.addEventListener('message',e=>{if(e.origin!==location.origin)return;if(e.data?.type==='emora:moment-preview'||e.data?.type==='emora:moment-published'||e.data?.type==='emora:preview')ingest(e.data)});
