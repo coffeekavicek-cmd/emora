@@ -68,7 +68,7 @@ function stagePaint(){
 }
 function stageGo(target,direction='forward'){
  if(!stageSections.length||stageLocked)return;const next=Math.max(0,Math.min(stageSections.length-1,target));if(next===stageIndex)return;
- const old=stageSections[stageIndex],incoming=stageSections[next],token=++stageToken;stageLocked=true;document.body.classList.add('v10-stage-locked');
+ const old=stageSections[stageIndex],incoming=stageSections[next],token=++stageToken;old?.querySelectorAll('video').forEach(v=>v.pause());stageLocked=true;document.body.classList.add('v10-stage-locked');
  if(old){old.classList.remove('v11-stage-active','is-active');old.classList.add(direction==='back'?'v11-stage-out-right':'v11-stage-out-left');old.setAttribute('aria-hidden','true');old.inert=true}
  stageIndex=next;incoming.classList.remove('v11-stage-out-left','v11-stage-out-right');incoming.classList.add('v11-stage-active','is-active');incoming.setAttribute('aria-hidden','false');incoming.inert=false;
  incoming.querySelectorAll('.v10-reveal').forEach(n=>n.classList.add('in'));incoming.querySelector('.v10-letter-body')?.classList.add('v11-ink-reveal');
@@ -79,12 +79,12 @@ function stageNext(){if(stageIndex<stageSections.length-1)stageGo(stageIndex+1,'
 function stagePrev(){if(stageIndex>0)stageGo(stageIndex-1,'back')}
 function installStage(main,fill){
  if(sceneObserver){sceneObserver.disconnect();sceneObserver=null}
- stageSections=[...main.querySelectorAll(':scope > section')];stageIndex=0;stageLocked=false;stagePaint();
+ stageSections=[...main.querySelectorAll(':scope > section')].filter(sec=>{const redundant=T.key==='proposal-pearl'&&sec.classList.contains('v10-story-cover');if(redundant){sec.hidden=true;sec.inert=true;sec.setAttribute('aria-hidden','true')}return !redundant});stageIndex=0;stageLocked=false;stagePaint();
 }
 function publicAsset(v){const raw=safe(v);if(!raw||(!/^https?:\/\//i.test(raw)&&!raw.startsWith('/assets/')))return null;try{const u=new URL(raw,location.origin);return ['https:','http:'].includes(u.protocol)&&(!u.username&&!u.password)?u.href:null}catch{return null}}
 function mapLink(v){const url=publicAsset(v);if(!url)return null;const u=new URL(url);return u.protocol==='https:'&&['google.com','maps.app.goo.gl','maps.apple.com','2gis.uz','2gis.com','yandex.com','yandex.ru','yandex.uz'].some(h=>u.hostname===h||u.hostname.endsWith('.'+h))?url:null}
 function title(){const labels={theatre:'Senga atalgan film',envelope:'Senga yozilgan maktub',galaxy:'Bizning kichik olam',garden:'Aziz mehmonimiz',naqsh:'Qadrli mehmonimiz',gift:'Yorqin kuningga',balloon:'Orzularing uchun',reel:'Sening xotiralaring',rain:'Eshitishingni istayman',ink:'Yurakdan uzr',lamp:'Sokin suhbat',ring:'Sen bilan bir umr',cinema:'Bizning filmimiz',sky:'Bir osmon ostida'};return T.group==='wedding'?((safe(S.bride)||'Malika')+' & '+(safe(S.groom)||'Aziz')):(safe(S.recipient)||labels[T.introType]||'Sen uchun')}
-function picture(i){return publicAsset((Array.isArray(S.photos)&&S.photos[i])||'')||'/assets/'+T.art}
+function picture(i){return publicAsset((Array.isArray(S.photos)&&S.photos[i])||'')||(T.group==='proposal'?'/assets/demo-proposal-'+(i+1)+'-v46.webp':'/assets/'+T.art)}
 function text(id,v){const e=document.getElementById(id);if(e)e.textContent=v}
 function jump(id){const i=stageSections.findIndex(sec=>sec.id===id);if(i>=0)stageGo(i,i<stageIndex?'back':'forward')}
 function setImage(img,url){img.src=url;img.onerror=()=>{img.onerror=null;img.src='/assets/'+T.art}}
@@ -135,10 +135,10 @@ function introMarkup(){
 function dismiss(animate){
  if(opened)return;opened=true;const intro=$('#intro');intro.classList.add('opening');
  const duration=animate&&!reduced?1300:0;
- setTimeout(()=>{intro.classList.add('dismissed');intro.setAttribute('aria-hidden','true');$('#main').inert=false;$('.v10-chrome').inert=false;$('.v10-footer').inert=false;stagePaint();document.querySelector('#chapter-1 h1')?.focus({preventScroll:true});document.body.classList.add('intro-finished')},duration);
+ setTimeout(()=>{intro.classList.add('dismissed');intro.setAttribute('aria-hidden','true');$('#main').inert=false;$('.v10-chrome').inert=false;$('.v10-footer').inert=false;stagePaint();const heading=stageSections[stageIndex]?.querySelector('h1,h2');if(heading){heading.tabIndex=-1;heading.focus({preventScroll:true})}document.body.classList.add('intro-finished')},duration);
 }
 function paintCard(src,caption,n,cls){
- const c=create('div','v10-memory-card '+(cls||''));const real=publicAsset(Array.isArray(S.photos)?S.photos[n-1]:'');if(real){c.append(image(real,'v10-memory-image',caption))}else if(n<3){c.classList.add('editorial-crop-'+n);c.append(image('/assets/'+T.art,'v10-memory-image',T.name+' art detail'))}else{const abstract=create('div','v10-memory-abstract');abstract.append(create('span','v10-memory-symbol',T.group==='love'?'♡':T.group==='wedding'?'❦':T.group==='birthday'?'✦':T.group==='apology'?'✧':'◇'),create('span','v10-memory-art-text',T.motif));c.append(abstract)}
+ const c=create('div','v10-memory-card '+(cls||''));const real=publicAsset(Array.isArray(S.photos)?S.photos[n-1]:'');if(real){c.append(image(real,'v10-memory-image',caption))}else if(T.group==='proposal'){c.append(image('/assets/demo-proposal-'+n+'-v46.webp','v10-memory-image',caption))}else if(n<3){c.classList.add('editorial-crop-'+n);c.append(image('/assets/'+T.art,'v10-memory-image',T.name+' art detail'))}else{const abstract=create('div','v10-memory-abstract');abstract.append(create('span','v10-memory-symbol',T.group==='love'?'♡':T.group==='wedding'?'❦':T.group==='birthday'?'✦':T.group==='apology'?'✧':'◇'),create('span','v10-memory-art-text',T.motif));c.append(abstract)}
  const l=create('span','v10-memory-counter',String(n).padStart(2,'0'));const p=create('p','v10-memory-caption',caption);c.append(l,p);return c;
 }
 function namesFromConfig(cfg){

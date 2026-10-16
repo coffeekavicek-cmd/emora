@@ -14,7 +14,7 @@ for(const a of scenarios){
   if(res.status()!==200)failures.push('Route status '+res.status());
   await page.waitForFunction(()=>window.__EMORA_MOSAIC_V27__?.ready===true,null,{timeout:15000});
   const first=await page.evaluate(()=>({algorithm:window.__EMORA_MOSAIC_V27__.algorithm,source:window.__EMORA_MOSAIC_V27__.portraitSource,names:window.__EMORA_MOSAIC_V27__.namesPainted,href:document.querySelector('#heartRecipientPhoto')?.getAttribute('href'),helper:document.querySelector('#portraitSourceNote')?.textContent}));
-  if(first.algorithm!=='sampled-typographic-portrait-v27'||first.names<1000||first.source!=='demo')failures.push('Unexpected demo mosaic: '+JSON.stringify(first));
+  if(first.algorithm!=='smooth-photo-typography-v28'||first.names<1000||first.source!=='demo')failures.push('Unexpected demo mosaic: '+JSON.stringify(first));
   if(first.href?.includes('rose.png')||first.href?.includes('birthday-aurora.png'))failures.push('Still overlaying floral photo over names');
   if(!first.helper?.trim())failures.push('Illustrated demo portrait not labeled');
   if(a.key==='love'){

@@ -1,0 +1,28 @@
+name: EMORA V28 — Public demo verification
+on:
+  push:
+    branches: [emora-v28-portrait-rebuild]
+    paths: [.github/workflows/v28-live-check.yml]
+  workflow_dispatch:
+jobs:
+  route-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Verify public Railway preview serves V28 cinematic engine
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="https://emora-v21-private-preview-production.up.railway.app"
+          for path in "/health" "/templates/v26-love-confession.html?lang=uz&v=28" "/templates/v19-birthday-cake.html?lang=uz&v=28" "/templates/v28-portrait-reveal.js?v=28" "/templates/v24-apology-secret.html"; do
+            code="$(curl --retry 4 --retry-delay 2 --connect-timeout 12 --max-time 30 -LfsS -o /tmp/emora-v28-check -w '%{http_code}' "${base}${path}")"
+            echo "${path} => HTTP ${code}"
+            test "${code}" = "200"
+            case "$path" in
+              /health) grep -q '"ok":true' /tmp/emora-v28-check;;
+              /templates/v26-love-confession.html*) grep -q '/templates/v28-portrait-reveal.js' /tmp/emora-v28-check;;
+              /templates/v19-birthday-cake.html*) grep -q '/templates/v28-portrait-reveal.js' /tmp/emora-v28-check;;
+              /templates/v28-portrait-reveal.js*) grep -q 'smooth-photo-typography-v28' /tmp/emora-v28-check;;
+            esac
+          done
+          echo 'PASS: public preview updated, previous apology remains online'

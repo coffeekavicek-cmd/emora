@@ -1,7 +1,7 @@
 name: EMORA — 5 flagship experiences QA
 on:
   push:
-    branches: [emora-v10-fifteen-experiences, emora-v18-studio-preview-layout-fix, emora-v19-birthday-ritual, emora-v20-birthday-studio-integration, emora-v21-qa-preview-release, emora-v22-checkout-media-safety, emora-v23-mobile-hero-fix, emora-v24-five-rituals-apology, emora-v25-apology-corrected-meeting-bot, emora-v26-love-confession-cinema, emora-v26-typographic-portrait-fix]
+    branches: [emora-v10-fifteen-experiences, emora-v18-studio-preview-layout-fix, emora-v19-birthday-ritual, emora-v20-birthday-studio-integration, emora-v21-qa-preview-release, emora-v22-checkout-media-safety, emora-v23-mobile-hero-fix, emora-v24-five-rituals-apology, emora-v25-apology-corrected-meeting-bot, emora-v26-love-confession-cinema, emora-v26-typographic-portrait-fix, emora-v28-portrait-rebuild]
     paths:
       - .github/workflows/flagship-five-qa.yml
       - supabase/functions/emora-checkout/**
@@ -27,6 +27,8 @@ on:
       - v5-live/templates/v26-love-confession.html
       - v5-live/templates/v26-love-heart.js
       - v5-live/templates/v27-name-portrait.js
+      - v5-live/templates/v28-portrait-reveal.js
+      - v5-live/tests/v28-portrait-qa.mjs
       - v5-live/meeting-bot.mjs
       - v5-live/tests/v25-meeting-bot-qa.mjs
       - v5-live/templates/v23-heart-reveal.js
@@ -109,6 +111,8 @@ jobs:
         run: node v5-live/tests/v22-birthday-media-slots-qa.mjs
       - name: V23 — iPhone mobile hero one-column
         run: node v5-live/tests/v23-mobile-layout-qa.mjs
+      - name: V28 — photograph-and-glyph full-heart portrait reveal, no sharp seam
+        run: node v5-live/tests/v28-portrait-qa.mjs
       - name: V27 — actual photo-toned typography on love and birthday, screenshots
         run: node v5-live/tests/v27-portrait-visual-qa.mjs
       - name: V23 — names-to-heart-to-photo ritual, 3 languages

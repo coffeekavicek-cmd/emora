@@ -99,35 +99,39 @@ function enhanceMemories(){
  const sec=$('.v10-proposal-pearl .scene-memories'),inner=sec&&$('.v10-scene-inner',sec);
  if(!sec||!inner||sec.dataset.pearlFlagship==='1')return;
  const memories=extractMemories(sec),reasons=reasonTexts(memories);
- sec.dataset.pearlFlagship='1';sec.classList.add('pp-story');
- const {eye,title}=sceneHeading(inner,'Bu savolgacha bosib o‘tgan yo‘limiz','03 / OUR STORY');
- const lead=el('p','v10-scene-intro pp-lead','Har bir suratni och. Uchinchisidan keyin men senga nega aynan seni tanlaganimni aytaman.');
- const deck=el('div','pp-memory-deck');
- const opened=new Set();
+ const lang=document.documentElement.lang||'ru';
+ const labels={
+ ru:{title:'Помнишь нас такими?',lead:'Три момента, которые я хочу сохранить.',next:'Следующее фото',reasons:'Почему именно ты?',reason:'Узнать почему',promise:'А теперь моё обещание →',open:'Открыть фото',back:'Предыдущее фото',count:'из'},
+ en:{title:'Remember us like this?',lead:'Three moments I want to keep.',next:'Next photo',reasons:'Why you?',reason:'Find out why',promise:'And now, my promise →',open:'Open photo',back:'Previous photo',count:'of'},
+ uz:{title:'Bizni shunaqa eslaysanmi?',lead:'Shu uch lahzani doim eslab yuraman.',next:'Keyingi rasm',reasons:'Nega aynan sen?',reason:'Sababini bilish',promise:'Endi va’damni eshit →',open:'Rasmni ochish',back:'Oldingi rasm',count:'/'}
+ }[lang]||null;
+ const l=labels||{title:'Помнишь нас такими?',lead:'Три момента, которые я хочу сохранить.',next:'Следующее фото',reasons:'Почему именно ты?',reason:'Узнать почему',promise:'А теперь моё обещание →',open:'Открыть фото',back:'Предыдущее фото',count:'из'};
+ sec.dataset.pearlFlagship='1';sec.classList.add('pp-story','v36-photo-story');
+ sec.querySelectorAll('.v11-ritual-cue').forEach(n=>n.remove());
+ const title=el('h2','v10-scene-title in',l.title),lead=el('p','v10-scene-intro pp-lead',l.lead);
+ const deck=el('div','pp-memory-deck v36-photo-deck');let index=0;const cards=[];
+ const controls=el('div','v36-photo-controls'),back=el('button','v10-outline v36-photo-back',l.back),count=el('output','v36-photo-count'),next=el('button','v10-cta v36-photo-next',l.next);
+ back.type=next.type='button';count.setAttribute('aria-live','polite');
+ function paint(direction=1){
+  cards.forEach((card,i)=>{card.hidden=i!==index;card.inert=i!==index;card.setAttribute('aria-hidden',String(i!==index));});
+  back.disabled=index===0;count.textContent=(index+1)+' '+l.count+' 3';next.textContent=index===2?l.reasons:l.next;
+  if(!reduced&&cards[index]?.animate)cards[index].animate([{transform:'perspective(1000px) translateX('+direction*55+'px) rotateY('+direction*18+'deg)',clipPath:'inset(0 0 0 18%)',opacity:.35},{transform:'none',clipPath:'inset(0)',opacity:1}],{duration:650,easing:'cubic-bezier(.16,1,.3,1)'});
+ }
  memories.forEach((m,i)=>{
-  const card=el('button','pp-memory-card card-'+(i+1));card.type='button';card.setAttribute('aria-label',(i+1)+'-xotirani ochish');
-  const media=el('span','pp-memory-media'),img=el('img','pp-memory-image');img.src=m.src;img.alt=m.caption;img.loading='lazy';img.onerror=()=>{img.onerror=null;img.src=FALLBACK_ART};media.append(img);
-  const meta=el('span','pp-memory-meta');meta.append(el('small','pp-memory-index','0'+(i+1)),el('strong','pp-memory-caption',m.caption));card.append(media,meta);
-  card.addEventListener('click',()=>{
-   if(opened.has(i)){card.classList.toggle('is-front');return}
-   opened.add(i);card.classList.add('is-open','is-front');deck.dataset.active=String(i);sparkle(card,6);
-   if(opened.size===3){setTimeout(()=>{reasonsPanel.hidden=false;requestAnimationFrame(()=>reasonsPanel.classList.add('is-visible'));$('.pp-reason-button',reasonsPanel)?.focus({preventScroll:true})},reduced?50:650)}
-  });deck.append(card);
+  const card=el('button','pp-memory-card card-'+(i+1)+' v36-story-photo');card.type='button';card.setAttribute('aria-label',l.open+' '+(i+1));
+  const media=el('span','pp-memory-media'),img=el('img','pp-memory-image');img.src=m.src;img.alt=m.caption;img.loading=i===0?'eager':'lazy';img.onerror=()=>{img.onerror=null;img.src=FALLBACK_ART};media.append(img);
+  card.append(media,el('strong','pp-memory-caption',m.caption));
+  card.addEventListener('click',()=>{card.classList.add('is-open');if(!reduced&&img.animate)img.animate([{transform:'scale(1.06)',clipPath:'inset(0 0 100% 0)'},{transform:'scale(1)',clipPath:'inset(0)'}],{duration:750,easing:'cubic-bezier(.16,1,.3,1)'});});
+  cards.push(card);deck.append(card);
  });
- const reasonsPanel=el('div','pp-reasons');reasonsPanel.hidden=true;
- reasonsPanel.append(el('p','v10-eyebrow','WHY YOU'),el('h3','pp-reasons-title','Nega aynan sen?'));
- const reasonList=el('div','pp-reason-list'),reasonOpened=new Set();
- reasons.forEach((reason,i)=>{
-  const item=el('button','pp-reason-button');item.type='button';item.setAttribute('aria-expanded','false');
-  item.append(el('span','pp-reason-num','0'+(i+1)),el('span','pp-reason-label','Sababni ochish'),el('strong','pp-reason-text',reason));
-  item.addEventListener('click',()=>{
-   reasonOpened.add(i);item.classList.add('is-open');item.setAttribute('aria-expanded','true');sparkle(item,5);
-   if(reasonOpened.size===3){continueBtn.hidden=false;requestAnimationFrame(()=>continueBtn.classList.add('is-visible'))}
-  });reasonList.append(item);
- });
- const continueBtn=el('button','v10-cta pp-story-continue','Va’damni eshitish  →');continueBtn.type='button';continueBtn.hidden=true;continueBtn.addEventListener('click',advance);
- reasonsPanel.append(reasonList,continueBtn);
- inner.replaceChildren(eye,title,lead,deck,reasonsPanel);
+ const panel=el('div','pp-reasons v36-story-reasons');panel.hidden=true;
+ const list=el('div','pp-reason-list'),opened=new Set(),continueBtn=el('button','v10-cta pp-story-continue',l.promise);
+ continueBtn.type='button';continueBtn.hidden=true;continueBtn.onclick=advance;
+ reasons.forEach((reason,i)=>{const b=el('button','pp-reason-button');b.type='button';b.setAttribute('aria-expanded','false');b.append(el('span','pp-reason-num','0'+(i+1)),el('span','pp-reason-label',l.reason),el('strong','pp-reason-text',reason));b.onclick=()=>{opened.add(i);b.classList.add('is-open');b.setAttribute('aria-expanded','true');if(opened.size===3){continueBtn.hidden=false;continueBtn.classList.add('is-visible')}};list.append(b)});
+ panel.append(list,continueBtn);
+ back.onclick=()=>{if(index>0){index--;paint(-1)}};
+ next.onclick=()=>{if(index<2){index++;paint(1)}else{deck.hidden=true;controls.hidden=true;panel.hidden=false;panel.classList.add('is-visible');title.textContent=l.reasons;lead.hidden=true;$('.pp-reason-button',panel)?.focus({preventScroll:true});}};
+ controls.append(back,count,next);inner.replaceChildren(title,lead,deck,controls,panel);paint();
 }
 function enhanceVow(){
  const sec=$('.v10-proposal-pearl .scene-vows'),inner=sec&&$('.v10-scene-inner',sec);
