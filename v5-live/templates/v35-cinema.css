@@ -97,7 +97,7 @@ html[data-template="proposal-pearl"] #experience .v10-chrome{background:var(--e-
 #experience .stage:has(.v36-photo-rail)>*,#experience .scene:has(.v36-photo-rail)>*{flex-shrink:0!important}
 #experience .v36-photo-rail,#experience .v36-photo-deck{height:auto!important;min-height:max-content!important;flex:none!important}
 #experience .v36-photo-rail>.photo-card,#experience .v36-photo-rail>.memory{height:auto!important;min-height:max-content!important;overflow:visible!important;padding:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
-#experience .v36-photo-rail img{height:auto!important;aspect-ratio:4/5!important;max-height:42svh!important;object-fit:cover!important;border-radius:2px!important}
+#experience .v36-photo-rail img{height:auto!important;aspect-ratio:4/5!important;max-height:35svh!important;object-fit:cover!important;border-radius:2px!important}
 #experience .v36-photo-rail p{font-size:23px!important;line-height:1.25!important;padding:16px 2px 0!important;min-height:0!important;text-align:left!important;color:var(--e-text)!important}
 #experience .v36-photo-controls{position:relative!important;inset:auto!important;transform:none!important;clear:both!important;margin:4px auto 12px!important;flex:none!important}
 #experience .stage:has(.v36-photo-rail) .heading,#experience .scene:has(.v36-photo-rail) .display{font-size:clamp(32px,8vw,43px)!important;line-height:1.07!important;max-width:17ch!important}
@@ -115,3 +115,6 @@ html[data-template="proposal-pearl"] #experience .v10-intro-meta,html[data-templ
 .v42-credit{position:fixed;z-index:999;bottom:8px;right:14px;color:var(--e-muted,#b6a29a);font:10px/1.5 var(--e-sans,system-ui)}
 .v42-credit summary{cursor:pointer;min-height:24px;padding:4px;text-align:right}.v42-credit p{max-width:280px;padding:12px;background:var(--e-bg,#241f1d);border:1px solid var(--e-line,#826b64);margin:0}.v42-credit a{color:inherit}.v42-credit[hidden]{display:none!important}
 @media(prefers-reduced-motion:reduce){.v42-sound{transition:none}}
+html[data-template="proposal-pearl"] #experience .v10-topline,html[data-template="proposal-pearl"] #experience .v10-guest,html[data-template="proposal-pearl"] #experience .ring-glint,html[data-template="proposal-pearl"] #experience .v10-intro-name,html[data-template="proposal-pearl"] #experience .v10-skip{display:none!important}
+html[data-template="proposal-pearl"] #experience .v10-intro-copy{background:none!important;box-shadow:none!important}
+html[data-template="proposal-pearl"] #experience .v10-intro-headline{font-size:clamp(34px,8.3vw,48px)!important;line-height:1.05!important;letter-spacing:-.025em!important;max-width:15ch!important;margin:0 auto!important}
