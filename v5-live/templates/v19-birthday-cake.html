@@ -95,7 +95,7 @@ body{overflow:hidden;min-height:100svh}#experience{height:100svh;min-height:430p
  if(!STRINGS[lang])lang='ru';
  let scene='date',lit=5,read=false;
  let custom={recipient:'',sender:'',birthday:'',headline:'',headlineRu:'',headlineEn:'',photos:[],captions:[],video:'',music:'',letter:'',letterRu:'',letterEn:'',finalQuestion:''};
- const audio=new Audio();audio.loop=true;audio.preload='none';
+ const audio=window.__EMORA_AUDIO__=new Audio();audio.loop=true;audio.preload='none';
  function safeUrl(v){if(typeof v!=='string'||!v.trim())return '';try{const u=new URL(v,location.origin);if(u.protocol!=='https:'&&u.protocol!=='http:')return '';if(u.username||u.password)return '';return u.href}catch{return ''}}
  function copy(){return STRINGS[lang]}
  function img(i){const src=safeUrl(custom.photos[i]||'')||'/assets/demo-birthday-'+(i%3+1)+'-v31.webp';const node=document.createElement('img');node.alt='Memory '+(i+1);node.loading='eager';node.src=src;node.onerror=()=>{node.onerror=null;node.src='/assets/demo-birthday-1-v31.webp'};return node}
@@ -124,3 +124,4 @@ body{overflow:hidden;min-height:100svh}#experience{height:100svh;min-height:430p
 <script src="/templates/v28-portrait-reveal.js?v=31"></script>
 </body>
 </html>
+

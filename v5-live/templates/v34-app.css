@@ -16,3 +16,8 @@ html[data-view=catalog] #studio{display:none}html[data-view=creator] .hero,html[
 @media(max-width:360px){.category-card{grid-template-columns:96px minmax(0,1fr);gap:14px}.category-visual{height:153px}.category-body h3{font-size:27px}.gift-actions{flex-wrap:wrap}.gift-actions button,.gift-actions a{flex-basis:100%}}
 
 @media(min-width:761px){.preview-frame{background:#171113}.preview-frame iframe{left:50%;right:auto;width:430px;max-width:100%;transform:translateX(-50%)}.preview-bar,.preview-footer{padding-left:max(18px,calc((100vw - 430px)/2));padding-right:max(18px,calc((100vw - 430px)/2))}.preview-footer button{font-size:12px}}
+
+
+/* Subject-led covers instead of sample portraits. */
+.category-visual img{object-position:center 58%}.hero-art img{object-position:center 58%}.category-body h3{letter-spacing:-.025em}.category-visual{height:280px;aspect-ratio:auto}
+@media(max-width:760px){.category-card{display:block;padding-bottom:30px}.category-visual{height:240px;width:100%;margin-bottom:20px}.category-body h3{font-size:34px}.category-body p{font-size:14px;max-width:38ch}.gift-actions button{font-size:13px;min-height:48px}.hero-art{height:240px}.hero{gap:26px}.hero h1{font-size:64px}}
