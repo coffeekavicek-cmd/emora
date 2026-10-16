@@ -1,0 +1,51 @@
+/* EMORA V47 · Romance Director | deliberate luxury, not stock portraits */
+:root{--emora-ivory:#fff8f2;--emora-cream:#f7ede7;--emora-blush:#f5dee0;--emora-rose:#9b5a6c;--emora-plum:#382333;--emora-gold:#cda782;--emora-soft:#755e68}
+body{background:var(--emora-ivory)!important;color:var(--emora-plum)}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 10% 5%,#f3c5cb20,transparent 42%),radial-gradient(ellipse at 90% 60%,#d9b3ad20,transparent 40%);z-index:-1}
+.top.shell{border-color:#7b526d17}
+.brand{letter-spacing:-.075em!important}
+.hero{min-height:min(780px,91svh);position:relative;padding-block:clamp(64px,8vw,130px)!important}
+.hero:before{content:"AN EXPERIENCE, NOT JUST A PAGE";position:absolute;left:0;top:clamp(30px,4vw,64px);font-size:10px;letter-spacing:.26em;color:#94767f;font-weight:700}
+.hero-main h1{font-family:"Cormorant Garamond","Playfair Display",Georgia,serif!important;letter-spacing:-.075em;line-height:.91!important;font-weight:500!important;font-size:clamp(74px,11vw,172px)!important;color:var(--emora-plum)}
+.hero-main h1 em{font-style:italic;font-weight:400;color:#b37889}
+.hero-copy{font-size:clamp(15px,1.7vw,19px)!important;line-height:1.75;max-width:510px;color:#775e6b}
+.hero-art{position:relative;overflow:hidden;border-radius:220px 220px 24px 24px!important;background:linear-gradient(145deg,#e9c9ce,#553449);box-shadow:0 45px 88px #8c526034;border:7px solid #fff7f0}
+.hero-art:after{content:"Слова, которым хочется верить";position:absolute;bottom:23px;left:20px;right:20px;text-align:center;color:#fff1e9;font-family:Georgia,serif;font-style:italic;font-size:clamp(17px,1.7vw,23px);text-shadow:0 3px 15px #17071c80;pointer-events:none}
+.hero-art img{filter:saturate(.85) sepia(.09);object-fit:cover;object-position:center center}
+.pill,.gift-actions button:last-child,.card-actions .use{background:linear-gradient(130deg,#593346,#9c6275)!important;color:#fff5ed!important;border-color:transparent!important;box-shadow:0 11px 32px #703e5125!important;transition:transform .24s ease,box-shadow .24s ease!important}
+.pill:hover,.gift-actions button:last-child:hover,.card-actions .use:hover{transform:translateY(-3px)!important;box-shadow:0 16px 37px #703e5140!important}
+.section-head{margin-bottom:clamp(28px,4vw,58px)!important}.section-head h2{font-family:"Cormorant Garamond",Georgia,serif!important;font-size:clamp(44px,6vw,78px)!important;font-weight:500;letter-spacing:-.055em;line-height:1.02}
+.section-head p{color:#816d75;max-width:710px;line-height:1.6}
+.category-grid{gap:clamp(16px,2.4vw,28px)!important}
+.category-card{position:relative;overflow:hidden!important;background:#fffdfa!important;border:1px solid #e5d4d1!important;border-radius:23px!important;box-shadow:0 15px 35px #5131420b;transition:transform .36s cubic-bezier(.2,.8,.2,1),box-shadow .36s ease}
+.category-card:hover{transform:translateY(-7px)!important;box-shadow:0 28px 56px #51314224}
+.category-visual{position:relative;background:#352135!important;overflow:hidden;aspect-ratio:5/6!important;border-radius:20px 20px 0 0}
+.category-visual:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 50%,#2511244a 100%)}
+.category-visual img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .9s cubic-bezier(.2,.8,.2,1);filter:none!important}
+.category-card:hover .category-visual img{transform:scale(1.055)}
+.category-card:before{position:absolute;z-index:2;top:22px;left:24px;content:"EMORA  /  EXPERIENCE";font-size:9px;letter-spacing:.18em;font-weight:700;color:#fff6ec;text-shadow:0 1px 8px #240e2060}
+.category-body{padding:clamp(18px,2.3vw,27px)!important}
+.category-body h3{font-family:"Cormorant Garamond",Georgia,serif!important;font-size:clamp(28px,3vw,41px)!important;line-height:1.02;letter-spacing:-.036em;font-weight:500;margin-bottom:11px!important}
+.category-body p{font-size:13px!important;line-height:1.6!important;min-height:54px;color:#836e77!important}
+.gift-actions button,.card-actions button{min-height:45px;border-radius:100px!important;font-size:12px!important;font-weight:700}
+.template-stage{scroll-margin-top:50px}
+.card{background:#fffdfa!important;border:1px solid #e8d7d4!important;border-radius:22px!important;box-shadow:0 13px 33px #5131420d;overflow:hidden}
+.card h3{font:500 clamp(25px,2.9vw,38px)/1.02 "Cormorant Garamond",Georgia,serif!important;letter-spacing:-.05em}
+.card .card-art{aspect-ratio:4/4.5;min-height:220px!important;background-position:center!important;background-repeat:no-repeat!important;background-size:cover!important;filter:none!important}
+.photo-v10-love-rose{background-image:url('/assets/cover-love-v47.svg')!important}
+.photo-v10-birthday-aurora{background-image:url('/assets/cover-birthday-v47.svg')!important}
+.photo-v10-apology-quiet{background-image:url('/assets/cover-apology-v47.svg')!important}
+.photo-v10-proposal-pearl{background-image:url('/assets/cover-proposal-v47.svg')!important}
+#studio{background:linear-gradient(140deg,#fbf0eb,#fffaf5)!important;border-top:1px solid #ead6d5}
+#studio .panel{box-shadow:0 15px 40px #643c4b0c}
+#studio input:not([type="file"]),#studio textarea,#studio select{border-radius:13px!important;border:1px solid #dcc8c5!important;background:#fffcfa!important;min-height:46px}
+#studio :is(button,input,select,textarea):focus-visible,.category-card button:focus-visible{outline:3px solid #b17689!important;outline-offset:3px}
+#romancePledge{padding:clamp(65px,10vw,140px) 20px;text-align:center;background:linear-gradient(140deg,#331f2e,#603b4e 55%,#331b31);color:#fbeadf;position:relative;overflow:hidden}
+#romancePledge:before{content:"♡";position:absolute;left:0;right:0;top:-120px;font:430px/1 Georgia,serif;color:#ffdfdf08;pointer-events:none}
+#romancePledge .pledge-eyebrow{font-size:10px;letter-spacing:.3em;color:#e9b5c5}
+#romancePledge h2{font:italic 400 clamp(42px,6vw,82px)/1.06 "Cormorant Garamond",Georgia,serif;max-width:960px;margin:28px auto}
+#romancePledge p{max-width:690px;margin:auto;color:#e6cad2;line-height:1.8}
+#romancePledge .pledge-steps{display:flex;align-items:center;justify-content:center;gap:clamp(12px,3vw,44px);flex-wrap:wrap;margin-top:45px;color:#f4dacf;font-size:12px}
+#romancePledge .pledge-steps span:not(:last-child):after{content:"✧";padding-left:clamp(12px,3vw,44px);color:#ca9ba8}
+@media(max-width:760px){.hero{min-height:auto;gap:32px!important;padding-top:87px!important}.hero-main h1{font-size:clamp(67px,16vw,108px)!important}.hero-art{border-width:4px!important;border-radius:180px 180px 20px 20px!important}.hero:before{top:39px}.category-visual{aspect-ratio:4/4.7!important}.category-body p{min-height:0}}
+@media(prefers-reduced-motion:reduce){.category-card,.category-visual img,.pill,.gift-actions button,.card-actions button{transition:none!important}.category-card:hover,.category-card:hover .category-visual img{transform:none!important}}
