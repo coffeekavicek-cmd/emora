@@ -67,3 +67,12 @@ body>header,body>main,body>footer{position:relative;z-index:1}
 #studio{background:linear-gradient(160deg,#fff7f3,#f7dce3)!important}
 #romancePledge{background:radial-gradient(ellipse at 60% 40%,#9e50764b,transparent 60%),linear-gradient(125deg,#301b32,#62344e 55%,#40213e)!important}
 @media(prefers-reduced-motion:no-preference){.hero-art{animation:emora-v49-breathe 10s ease-in-out infinite alternate}@keyframes emora-v49-breathe{from{box-shadow:0 32px 70px #a75a822e}to{box-shadow:0 42px 94px #a75a8250}}}
+
+/* V50 — one consistent font family across the storefront */
+body,button,input,select,textarea,.hero-main h1,.category-body h3,.section-head h2,.brand,.pill,.hero-copy{font-family:"Cormorant Garamond",Georgia,serif!important}
+body,button,input,select,textarea,.hero-copy,.category-body p,.section-head p{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif!important}
+.hero-main h1,.category-body h3,.section-head h2,.brand{font-family:"Cormorant Garamond",Georgia,serif!important}
+button,input,select,textarea{letter-spacing:normal!important;font-size:inherit}
+.hero-copy{font-size:clamp(16px,1.8vw,19px)!important;line-height:1.6!important}
+.category-body p{line-height:1.6!important;color:#674e60!important}
+button{font-weight:600!important}
