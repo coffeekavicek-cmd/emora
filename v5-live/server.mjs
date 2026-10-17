@@ -32,7 +32,7 @@ http.createServer(async(req,res)=>{let url;try{url=new URL(req.url,'http://local
  let stat;try{stat=await fs.stat(filePath);if(!stat.isFile())throw Error('not a file')}catch{res.writeHead(404,headers);return res.end('Video not uploaded yet')}
  const h={'content-type':'video/mp4','accept-ranges':'bytes','cache-control':'public,max-age=86400',...headers};
  const range=req.headers.range;
- if(range){const m=/^bytes=(\\d*)-(\\d*)$/.exec(range);let start=m&&m[1]?Number(m[1]):0,end=m&&m[2]?Number(m[2]):stat.size-1;
+ if(range){const m=/^bytes=(\d*)-(\d*)$/.exec(range);let start=m&&m[1]?Number(m[1]):0,end=m&&m[2]?Number(m[2]):stat.size-1;
  if(m&&!m[1]&&m[2]){start=Math.max(0,stat.size-Number(m[2]));end=stat.size-1}
  end=Math.min(end,stat.size-1);
  if(!m||(!m[1]&&!m[2])||start>end||start>=stat.size){res.writeHead(416,{...h,'content-range':'bytes */'+stat.size});return res.end()}
