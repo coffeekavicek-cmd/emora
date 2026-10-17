@@ -56,3 +56,11 @@
 .pp-v48-film:before{content:"НАША ИСТОРИЯ · EMORA";display:block;text-align:center;letter-spacing:.2em;font-size:9px;color:#f1d1cb;padding:8px}
 .pp-v48-film video{display:block;width:100%;max-height:30svh;aspect-ratio:16/9;object-fit:contain;border-radius:13px;background:#100913}
 @media(max-height:700px){.pp-v48-film video{max-height:20svh}}
+
+/* V50 — consistent readable typography inside cinematic templates */
+#experience,#experience button,#experience input,#experience textarea,#experience select{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif!important}
+#experience .heading,#experience .display,#experience .v10-scene-title,#experience .paper h3,#experience .letter-paper h3{font-family:Georgia,"Times New Roman",serif!important;letter-spacing:-.035em!important}
+#experience .desc,#experience .lead,#experience .sub,#experience .v10-scene-intro{line-height:1.6!important;letter-spacing:normal!important}
+#experience button{letter-spacing:normal!important;font-weight:600!important}
+#experience .btn,#experience .v10-cta{border-radius:16px!important}
+#experience .stage.active,#experience .scene.active{background-image:radial-gradient(ellipse at 80% 12%,#d779a018,transparent 55%)}
