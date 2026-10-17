@@ -1,0 +1,66 @@
+/* EMORA V47 · scene polish shared by Birthday/Love/Apology/Proposal */
+:root{--v47-light:#ffeddc;--v47-gold:#eac7a2;--v47-blush:#f0b4ca}
+#experience .top{z-index:30}
+#experience .heading,#experience .display,#experience .v10-scene-title{letter-spacing:-.055em!important;text-shadow:0 8px 45px #160b203b}
+#experience:before{animation-duration:28s}
+#experience .btn,#experience .v10-cta{transition:transform .26s cubic-bezier(.2,.7,.3,1),box-shadow .26s ease,filter .26s ease}
+#experience .btn:active,#experience .v10-cta:active{transform:scale(.975)}
+#experience .btn:focus-visible,#experience button:focus-visible,#experience input:focus-visible{outline:3px solid #ffe1b9!important;outline-offset:4px}
+#experience .music,#experience .sound,#experience #musicBtn{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+#experience .stage.active,#experience .scene.active{animation:v47-arrive .65s both}
+@keyframes v47-arrive{from{filter:blur(7px);opacity:0}to{filter:blur(0);opacity:1}}
+#experience #dessert.stage{gap:clamp(13px,2.4vh,24px)}
+.v47-dessert-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,2vw,18px);width:min(620px,94vw)}
+.v47-dessert-choice{border:1px solid #f5d5c581;background:linear-gradient(155deg,#ffffff13,#fff2e307);color:#fbe7e2;min-height:155px;border-radius:24px;display:grid;align-content:center;justify-items:center;gap:14px;box-shadow:0 12px 35px #110a1a50;transition:transform .3s ease,background .3s ease,border .3s ease}
+.v47-dessert-choice:hover,.v47-dessert-choice:focus-visible{transform:translateY(-5px);border-color:#f9d1ca}
+.v47-dessert-choice[data-picked="true"]{border-color:#ffead1;background:#f8dde226;box-shadow:0 0 0 3px #e8b7b228,0 13px 40px #a46a8850}
+.v47-dessert-choice .dessert-art{width:76px;height:80px;display:grid;place-items:center;font-size:50px;filter:drop-shadow(0 12px 14px #10071755)}
+.v47-dessert-choice .dessert-word{font-size:13px;letter-spacing:.02em;font-weight:600}
+#dessertResult{min-height:38px;margin:0;color:#ffdfd9;font:italic clamp(15px,2.7vw,22px)/1.3 Georgia,serif}
+#dessertNext{animation:v47-appear .45s both}
+@keyframes v47-appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+#finale .heart-reveal-controls,#finale .heart-controls{border:1px solid #f3d6d63a;background:#ffffff0b;padding:12px 17px!important;border-radius:17px!important;backdrop-filter:blur(12px)}
+#finale input[type="range"]{accent-color:#efd3bd;min-height:25px;touch-action:pan-x}
+#finale .names-heart{filter:drop-shadow(0 6px 27px #e9a1b24a)}
+#finale:has(input[type="range"][value="100"]) .names-heart{filter:drop-shadow(0 0 28px #ffe1cb8a)}
+#question .question-actions{align-items:center}
+#question #yesBtn.catchable{transform:none!important;border-color:#ffdfc7;box-shadow:0 0 0 3px #f5d1c729}
+#question #teasing{font-style:italic;color:#ffe3d5}
+.v10-proposal-pearl .pp-open-ring{font-weight:700}
+@media(max-width:600px){.v47-dessert-grid{gap:7px}.v47-dessert-choice{min-height:132px;border-radius:16px;padding:12px 4px}.v47-dessert-choice .dessert-art{height:55px;font-size:38px}.v47-dessert-choice .dessert-word{font-size:11px}#dessert .display{font-size:clamp(34px,10vw,49px)!important}}
+@media(prefers-reduced-motion:reduce){#experience .stage.active,#experience .scene.active{animation:none!important}#experience:before{animation:none!important}.v47-dessert-choice{transition:none!important}#experience .btn,#experience .v10-cta{transition:none!important}}
+
+/* Separate generous hit-target for every candle; prevent neighbouring flames/plate stealing touch. */
+#cake .cake-world .candles{left:11%;width:78%;bottom:54%;height:110px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:end;justify-items:center;gap:4px;pointer-events:none}
+#cake .cake-world .candle{width:100%;max-width:60px;min-width:0;height:96px;display:flex;justify-content:center;position:relative;pointer-events:auto;z-index:2;padding:0 2px 6px}
+#cake .cake-world .candle .flame{left:calc(50% - 6px)}
+#cake .cake-world .candle .smoke{left:calc(50% - 3px)}
+#cake .cake-world :is(.cake,.cake-shadow,.plate){pointer-events:none}
+@media(max-width:600px){#cake .cake-world .candles{left:6%;width:88%;height:92px;bottom:53%;gap:3px}#cake .cake-world .candle{height:80px}}
+
+/* Delegate touch hit-testing to candle tray: visual flames cannot steal neighbouring taps. */
+#cake .cake-world .candles{pointer-events:auto;touch-action:manipulation}
+#cake .cake-world .candle,#cake .cake-world .candle *{pointer-events:none}
+
+/* Reliable five-candle controls, outside the perspective-transformed cake artwork. */
+#cake .v47-candle-choice{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:center;gap:clamp(9px,1.5vw,16px);width:min(360px,88vw);z-index:25;position:relative;margin:-4px auto 2px}
+#cake .v47-candle-choice button{appearance:none;display:grid;place-items:center;width:100%;min-height:46px;padding:0;border:1px solid #f2d0c17d;border-radius:14px;background:linear-gradient(140deg,#684159,#38253d);color:#ffeedc;font:600 13px Georgia,serif;box-shadow:0 7px 16px #13091550;touch-action:manipulation;position:relative}
+#cake .v47-candle-choice button:before{content:"";width:4px;height:13px;background:linear-gradient(#ffefe0,#bc8094);position:absolute;top:-12px;left:calc(50% - 2px);border-radius:4px 4px 0 0;pointer-events:none}
+#cake .v47-candle-choice button.spent{background:#dac1be30;color:#dccbc6;opacity:.78;box-shadow:none}
+#cake .v47-candle-choice button:focus-visible{outline:3px solid #f9ead0;outline-offset:3px}
+#cake .v47-candle-choice button:not(:disabled):active{transform:translateY(2px)}
+@media(max-height:650px){#cake .v47-candle-choice button{min-height:38px}#cake .v47-candle-choice{margin-top:-5px}}
+
+/* V48: engagement film lives in the story, never on catalog covers. */
+.pp-v48-film{width:min(510px,89vw);margin:14px auto 8px;position:relative;border:1px solid #f5d2d44d;padding:7px;border-radius:21px;background:linear-gradient(145deg,#a77b8338,#271321);box-shadow:0 18px 48px #0d061d66}
+.pp-v48-film:before{content:"НАША ИСТОРИЯ · EMORA";display:block;text-align:center;letter-spacing:.2em;font-size:9px;color:#f1d1cb;padding:8px}
+.pp-v48-film video{display:block;width:100%;max-height:30svh;aspect-ratio:16/9;object-fit:contain;border-radius:13px;background:#100913}
+@media(max-height:700px){.pp-v48-film video{max-height:20svh}}
+
+/* V50 — consistent readable typography inside cinematic templates */
+#experience,#experience button,#experience input,#experience textarea,#experience select{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif!important}
+#experience .heading,#experience .display,#experience .v10-scene-title,#experience .paper h3,#experience .letter-paper h3{font-family:Georgia,"Times New Roman",serif!important;letter-spacing:-.035em!important}
+#experience .desc,#experience .lead,#experience .sub,#experience .v10-scene-intro{line-height:1.6!important;letter-spacing:normal!important}
+#experience button{letter-spacing:normal!important;font-weight:600!important}
+#experience .btn,#experience .v10-cta{border-radius:16px!important}
+#experience .stage.active,#experience .scene.active{background-image:radial-gradient(ellipse at 80% 12%,#d779a018,transparent 55%)}

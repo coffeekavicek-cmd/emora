@@ -1,0 +1,42 @@
+name: EMORA V47 — Romance Director QA
+on:
+  push:
+    branches:
+      - emora-v47-romance-director
+    paths:
+      - '.github/workflows/v47-romance-qa.yml'
+      - 'v5-live/index.html'
+      - 'v5-live/assets/cover-*-v47.svg'
+      - 'v5-live/templates/v47-**'
+      - 'v5-live/templates/v19-birthday-cake.html'
+      - 'v5-live/templates/v24-apology-secret.html'
+      - 'v5-live/templates/v26-love-confession.html'
+      - 'v5-live/templates/v10-proposal-pearl.html'
+      - 'v5-live/tests/v47-romance-qa.mjs'
+  workflow_dispatch:
+jobs:
+  romance-experiences:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright + Chromium
+        run: |
+          npm install --prefix v5-live --no-save playwright@1.55.0
+          cd v5-live && npx playwright install --with-deps chromium
+      - name: Start Emora v5-live (port 3000)
+        run: |
+          PORT=3000 node v5-live/server.mjs > /tmp/emora-v47.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3000/health >/dev/null; then break; fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:3000/health
+      - name: Verify romance catalog and four cinematic experiences
+        run: node v5-live/tests/v47-romance-qa.mjs
+      - name: Server logs if QA fails
+        if: failure()
+        run: cat /tmp/emora-v47.log
