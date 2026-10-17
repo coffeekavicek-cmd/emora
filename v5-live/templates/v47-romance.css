@@ -49,3 +49,21 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;background:rad
 #romancePledge .pledge-steps span:not(:last-child):after{content:"✧";padding-left:clamp(12px,3vw,44px);color:#ca9ba8}
 @media(max-width:760px){.hero{min-height:auto;gap:32px!important;padding-top:87px!important}.hero-main h1{font-size:clamp(67px,16vw,108px)!important}.hero-art{border-width:4px!important;border-radius:180px 180px 20px 20px!important}.hero:before{top:39px}.category-visual{aspect-ratio:4/4.7!important}.category-body p{min-height:0}}
 @media(prefers-reduced-motion:reduce){.category-card,.category-visual img,.pill,.gift-actions button,.card-actions button{transition:none!important}.category-card:hover,.category-card:hover .category-visual img{transform:none!important}}
+
+/* V49 — Emotional palette: warm first impression, cinematic depth, gentle luminous rose. */
+:root{--emora-ivory:#fff8f4;--emora-cream:#fff0e8;--emora-blush:#f4ccd5;--emora-rose:#a85074;--emora-plum:#3d2039;--emora-gold:#dbad80;--emora-soft:#795667}
+body{background:linear-gradient(145deg,#fffaf7 0%,#fff0ee 42%,#f9e5e9 72%,#fff9f4 100%)!important}
+body:before{background:radial-gradient(ellipse at 10% 12%,#f4bac74b,transparent 42%),radial-gradient(ellipse at 92% 54%,#f7c69b35,transparent 46%),radial-gradient(ellipse at 46% 91%,#b97b9b22,transparent 48%);z-index:0}
+body>header,body>main,body>footer{position:relative;z-index:1}
+.hero{background:radial-gradient(ellipse at 78% 42%,#f6bfc94a,transparent 48%)}
+.hero-main h1{color:#45243f!important;text-shadow:0 16px 54px #e6b4bc48}
+.hero-main h1 em{color:#a44f76!important}
+.hero-copy{color:#684b5d!important}
+.hero-art{background:linear-gradient(145deg,#f1c0cc,#9e597a 55%,#47283e)!important;box-shadow:0 36px 88px #a75a8240!important}
+.category-card{background:linear-gradient(160deg,#fffdfb,#fff4f2)!important;border-color:#edcdd4!important;box-shadow:0 20px 46px #a55e8117!important}
+.category-card:hover{box-shadow:0 31px 66px #a75c8535!important}
+.category-body h3{color:#522b46!important}
+.pill,.gift-actions button:last-child,.card-actions .use{background:linear-gradient(125deg,#6c3558,#b65d80 57%,#8d4369)!important;box-shadow:0 14px 35px #ac557e4d!important}
+#studio{background:linear-gradient(160deg,#fff7f3,#f7dce3)!important}
+#romancePledge{background:radial-gradient(ellipse at 60% 40%,#9e50764b,transparent 60%),linear-gradient(125deg,#301b32,#62344e 55%,#40213e)!important}
+@media(prefers-reduced-motion:no-preference){.hero-art{animation:emora-v49-breathe 10s ease-in-out infinite alternate}@keyframes emora-v49-breathe{from{box-shadow:0 32px 70px #a75a822e}to{box-shadow:0 42px 94px #a75a8250}}}
