@@ -109,6 +109,7 @@ function enhanceMemories(){
  sec.dataset.pearlFlagship='1';sec.classList.add('pp-story','v36-photo-story');
  sec.querySelectorAll('.v11-ritual-cue').forEach(n=>n.remove());
  const title=el('h2','v10-scene-title in',l.title),lead=el('p','v10-scene-intro pp-lead',l.lead);
+ const film=el('div','pp-v48-film');const video=document.createElement('video');video.controls=true;video.playsInline=true;video.preload='metadata';video.src='/assets/emora-proposal-film-v48.mp4';video.setAttribute('aria-label','Our cinematic proposal moment');film.append(video);inner.append(film);
  const deck=el('div','pp-memory-deck v36-photo-deck');let index=0;const cards=[];
  const controls=el('div','v36-photo-controls'),back=el('button','v10-outline v36-photo-back',l.back),count=el('output','v36-photo-count'),next=el('button','v10-cta v36-photo-next',l.next);
  back.type=next.type='button';count.setAttribute('aria-live','polite');
